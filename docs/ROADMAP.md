@@ -34,7 +34,7 @@ Order follows the Founder engineering instructions of 2026-10-28 and 2026-10-29:
 | B-P2-01 | Read-only adapter for an A World Analysis Package | A: SNAP-01, ENGINE-04, SERVE-01/02, REL-00 | **BLOCKED**: re-audit and questions for A in `docs/P2_CONTRACT_COMPATIBILITY.md` |
 | B-P2-02 | Editorial contracts and content store | B-P1-03 | In PR (P2) |
 | B-P2-03 | One data path (provider → contracts → references → gate → public model) for every page; prototype adapter | B-P2-02 | In PR (P2); real World data waits on B-P2-01 |
-| B-P3-01 | Workflow state machine, QA, publication receipts, correction/withdraw, local persistence | B-P2-02 | In PR (P3) |
+| B-P3-01 | Workflow state machine, QA, publication receipts, correction/withdraw, local persistence | B-P2-02 | In PR (P3, stacked on #8); DEMO environment only, ADR-B003 |
 | B-P3-02 | Risk routing and policy cases M-01…M-07 | B-P3-01 | In PR (P3) |
 | B-P3-05 | Internal editor operations prototype (DEMO) | B-P3-01, 02 | In PR (P3) |
 | B-P3-03 | Free official source inventory and one offline parser | B-P3-01 | In PR (P3 sources) |
@@ -50,7 +50,7 @@ Order follows the Founder engineering instructions of 2026-10-28 and 2026-10-29:
 | U-06 | EN / 繁中 / Dark / Mobile → brand fixed, no overflow | e2e matrix |
 | U-07 | No player imagery | e2e image allow-list |
 | Gate | Unapproved major/rumour/sensitive/exclusive never render; stale approvals don't carry over | unit + e2e `bypass`, `staleapproval`, `data-suite` |
-| M-01…M-07 | Media policy cases | `tests/unit/policy-cases.test.js` (P3) |
+| M-01…M-07 | Media policy cases | `tests/unit/policy-cases.test.js`; editor flow `tests/e2e/editor-suite.js` |
 
 ## Open items needing the Founder
 

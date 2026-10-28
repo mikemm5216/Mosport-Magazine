@@ -133,8 +133,10 @@
         rec.__hash = C.contentHash(rec);
         rec.__savedAt = ev.at;
         (s.items[rec.id] = s.items[rec.id] || []).push(rec);
-        if (!s.status[rec.id]) s.status[rec.id] = { publishState: 'DRAFT', revision: rec.revision, publishedRevision: null, publishedAt: null, approvalReceiptRef: null, history: [] };
+        if (!s.status[rec.id]) s.status[rec.id] = { publishState: 'DRAFT', revision: rec.revision, publishedRevision: null, lastPublishedRevision: null, publishedAt: null, approvalReceiptRef: null, history: [], authors: {} };
         else s.status[rec.id].revision = rec.revision;
+        /* Who wrote each revision, so that nobody approves their own work. */
+        s.status[rec.id].authors[rec.revision] = d.authorId || null;
       }
     });
 
@@ -220,15 +222,27 @@
       };
     }
 
+    /**
+     * Run fn(); if it returns a failure (or throws), every event it appended is undone,
+     * so a multi-step command lands whole or not at all.
+     */
+    function transaction(fn) {
+      var savedState = JSON.stringify(state), savedLen = log.length, r;
+      try { r = fn(); } catch (e) { r = fail('EXCEPTION', [], String(e && e.message || e)); }
+      if (!r || !r.ok) { state = JSON.parse(savedState); log.length = savedLen; }
+      return r;
+    }
+
     var store = {
       defineEvent: defineEvent,
       append: append,
+      transaction: transaction,
       now: now,
       state: function () { return state; },
       addSource: function (rec) { return append('SOURCE_ADDED', rec); },
       recordSourceEvent: function (rec) { return append('SOURCE_EVENT', rec); },
       putGames: function (games) { return append('GAMES_SET', { games: games }); },
-      saveItem: function (item, o) { return append('ITEM_REVISION', { item: item, expectedRevision: o && o.expectedRevision != null ? o.expectedRevision : null }); },
+      saveItem: function (item, o) { return append('ITEM_REVISION', { item: item, expectedRevision: o && o.expectedRevision != null ? o.expectedRevision : null, authorId: (o && o.authorId) || null }); },
       addApproval: function (rec) { return append('APPROVAL_ADDED', rec); },
       saveLayout: function (plan, o) { return append('LAYOUT_REVISION', { plan: plan, expectedRevision: o && o.expectedRevision != null ? o.expectedRevision : null }); },
       item: itemRevision,

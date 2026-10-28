@@ -225,6 +225,9 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
   /* B-P2-03: one data path, bad-data states, gate on the DOM, injection, zoom/URL regression */
   await require('./data-suite')(browser, check, open, OUT);
 
+  /* B-P3-05: internal editor prototype (DEMO) */
+  await require('./editor-suite')(browser, check, open, OUT);
+
   /* 10. Side-by-side with the visual master (for human review; not an automated pass/fail) */
   for (const [file, fit, full, mob, label] of [
     ['compare-visual-master.png', 'zoom-1440-fit.png', 'zoom-1440-100.png', 'home-390-zh-light.png', 'placeholder art'],
