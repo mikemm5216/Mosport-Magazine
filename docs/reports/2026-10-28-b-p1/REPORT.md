@@ -9,15 +9,16 @@ As of 2026-10-28 15:40 Asia/Taipei. Day **OPEN**.
 | B-P1-03 | Eligibility gate | Done | `site/js/editorial/eligibility.js`; 18 unit tests |
 | B-P1-04 | Home spread + mobile cover | Done | screenshots below |
 | B-P1-05 | Schedule, Review, Match Detail, Almanac entry | Done | Almanac is a labelled "coming later" button, not a page |
-| B-P1-06 | Browser acceptance | Done | `npm run test:e2e`: 168/168 checks |
+| B-P1-06 | Browser acceptance | Done | `npm run test:e2e`: 172/172 checks |
 
 ## Test results (this commit)
 
 - `npm run test:unit`: 18 pass, 0 fail.
-- `npm run test:e2e`: 168/168 pass. Coverage:
+- `npm run test:e2e`: 172/172 pass. Coverage:
   - home at 1440/1280/390/360 × zh/en × light/dark: no overflow, no script errors, brand strings, exactly one %, spread vs cover-first, English edition has no Chinese text;
   - empty issue (U-01); bypass fixture (human gate) on home and review; DEMO refused in production mode;
   - logo and mark failover (U-05); image allow-list with no athlete kind (U-07);
+  - language and theme kept across Schedule, Review, Today and Match links;
   - navigation (desktop and mobile tabs), theme toggle and persistence, language switch, Almanac and coming-soon notices, lead → Match Detail, internal-only read shows no number;
   - Match / Schedule / Review at 390 and 360 without overflow.
 

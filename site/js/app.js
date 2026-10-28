@@ -16,6 +16,9 @@
     fixture: q.get('fixture') || 'demo',
     note: null
   };
+  /* A language or theme chosen through the URL is a choice too: remember it. */
+  if (q.get('lang') === state.lang) store.set('lang', state.lang);
+  if (q.get('theme') === state.theme) store.set('theme', state.theme);
   /* The issue's own "now" for validity checks; DEMO issues are pinned to their date. */
   var ISSUE_NOW = '2026-11-01T00:00:00Z';
 
@@ -84,6 +87,9 @@
   }
   function keepQuery() {
     var keep = new URLSearchParams();
+    /* Carry the current edition and appearance so links work even where storage is blocked. */
+    keep.set('lang', state.lang);
+    keep.set('theme', state.theme);
     ['fixture', 'slots', 'logoFail', 'mode'].forEach(function (k) { if (q.get(k)) keep.set(k, q.get(k)); });
     var s = keep.toString();
     return s ? '?' + s : '';
@@ -97,7 +103,15 @@
     '</header>';
   }
 
+  /* Keep the address bar in step with a toggled choice, so reload and sharing agree. */
+  function syncUrl() {
+    if (!q.has('lang') && !q.has('theme')) return;
+    q.set('lang', state.lang); q.set('theme', state.theme);
+    try { history.replaceState(null, '', location.pathname + '?' + q.toString() + location.hash); } catch (e) { /* file: or sandboxed */ }
+  }
+
   function render() {
+    syncUrl();
     root.lang = state.lang === 'en' ? 'en' : 'zh-Hant';
     root.dataset.theme = state.theme;
     var F = window.MOSPORT_FIXTURES || {};

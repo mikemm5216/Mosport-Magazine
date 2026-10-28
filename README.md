@@ -28,4 +28,9 @@ Everything shown is **DEMO**: real team names, fictional reads and stories.
 npm test
 ```
 
-Needs Node 18+ and Playwright with Chromium available locally.
+Needs Node 18+. First run:
+
+```
+npm install
+npm run setup:browsers   # downloads Chromium for Playwright (free, local)
+```

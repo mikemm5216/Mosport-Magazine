@@ -167,8 +167,19 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
     check('control: Coming-soon sport explains itself', /即將推出|Coming soon/.test(await page.locator('.note').innerText()));
     await page.click('.lead .cta');
     await page.waitForTimeout(300);
-    check('nav: lead opens Match Detail', /match\.html\?game=DEMO-0041/.test(page.url()));
+    check('nav: lead opens Match Detail', /match\.html\?.*game=DEMO-0041/.test(page.url()));
     check('match: number shown is the World value', /61%/.test(await page.locator('.card-read').innerText()));
+    await ctx.close();
+  }
+  {
+    /* Edition and appearance survive navigation (fresh context, no stored preference). */
+    const { ctx, page } = await open(browser, 'index.html?lang=en&theme=dark', 1440, 900);
+    for (const sel of ['.topbar .tb-nav a[href^="schedule.html"]', '.topbar .tb-nav a[href^="review.html"]', '.topbar .tb-nav a[href^="index.html"]', '.lead .cta']) {
+      await page.click(sel);
+      await page.waitForTimeout(250);
+      const s = await page.evaluate(() => [document.documentElement.lang, document.documentElement.dataset.theme]);
+      check(`nav keeps en + dark: ${sel}`, s[0] === 'en' && s[1] === 'dark', s.join(','));
+    }
     await ctx.close();
   }
   {
