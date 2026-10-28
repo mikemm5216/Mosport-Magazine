@@ -1,6 +1,6 @@
 # MOSPORT-B Roadmap
 
-As of 2026-10-28 (Asia/Taipei). Status: P0 and P1 in progress; P2 and P3 not started.
+As of 2026-10-28 (Asia/Taipei). Status: P0 in PR #1; P1 in PR (stacked on #1); P2 and P3 not started. Issues: #2 (P1), #3 (P2), #4 (P3), #5 (logo files).
 Order follows the Founder engineering instruction of 2026-10-28: P0 → P1 → P2 → P3.
 P3 must not block the P1 frontend MVP.
 

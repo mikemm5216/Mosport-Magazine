@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1300" preserveAspectRatio="xMidYMid slice">
+  <!-- MOSPORT original cover artwork: ball, hoop, arena lights, crowd and court.
+       Vector, made for MOSPORT-B. No athletes, no likenesses, no logos, no text. -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#071433"/>
+      <stop offset=".45" stop-color="#0E2A66"/>
+      <stop offset=".75" stop-color="#0A1C47"/>
+      <stop offset="1" stop-color="#061026"/>
+    </linearGradient>
+    <radialGradient id="flare" cx="72%" cy="38%" r="55%">
+      <stop offset="0" stop-color="#3D7BFF" stop-opacity=".75"/>
+      <stop offset=".4" stop-color="#1D4FC4" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#0E2A66" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ball" cx="38%" cy="32%" r="75%">
+      <stop offset="0" stop-color="#FFB36B"/>
+      <stop offset=".45" stop-color="#E9772A"/>
+      <stop offset="1" stop-color="#8E3A0E"/>
+    </radialGradient>
+    <radialGradient id="lamp" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset=".25" stop-color="#CFE0FF" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#5B8CFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C9893F"/>
+      <stop offset="1" stop-color="#7A4718"/>
+    </linearGradient>
+    <linearGradient id="streak" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#F28A2E" stop-opacity="0"/>
+      <stop offset="1" stop-color="#F28A2E" stop-opacity=".85"/>
+    </linearGradient>
+    <pattern id="crowd" width="14" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2.6" fill="#1C3C82"/>
+      <circle cx="11" cy="9" r="2.4" fill="#122C66"/>
+    </pattern>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
+  </defs>
+
+  <rect width="1000" height="1300" fill="url(#sky)"/>
+  <rect width="1000" height="1300" fill="url(#flare)"/>
+
+  <!-- light beams -->
+  <g opacity=".22">
+    <polygon points="820,0 900,0 520,1300 380,1300" fill="#7FA8FF"/>
+    <polygon points="980,120 1000,180 640,1300 560,1300" fill="#5B8CFF"/>
+    <polygon points="600,0 650,0 180,1300 90,1300" fill="#3F6FE0"/>
+  </g>
+  <!-- diagonal colour bands -->
+  <polygon points="0,760 1000,330 1000,420 0,850" fill="#1A4BB5" opacity=".55"/>
+  <polygon points="0,880 1000,450 1000,466 0,896" fill="#F07A23" opacity=".9"/>
+
+  <!-- arena ring with lamps -->
+  <g>
+    <path d="M-40 760 Q500 610 1040 700 L1040 735 Q500 650 -40 795 Z" fill="#0B1E4C"/>
+    <g fill="url(#lamp)">
+      <circle cx="110" cy="742" r="16"/><circle cx="220" cy="712" r="18"/><circle cx="330" cy="690" r="16"/>
+      <circle cx="440" cy="676" r="20"/><circle cx="560" cy="672" r="17"/><circle cx="680" cy="676" r="21"/>
+      <circle cx="800" cy="688" r="16"/><circle cx="910" cy="704" r="19"/>
+    </g>
+  </g>
+
+  <!-- crowd tiers -->
+  <path d="M-40 795 Q500 650 1040 735 L1040 1010 L-40 1010 Z" fill="url(#crowd)"/>
+  <path d="M-40 795 Q500 650 1040 735 L1040 1010 L-40 1010 Z" fill="#061026" opacity=".35"/>
+  <g fill="#F28A2E" opacity=".7">
+    <circle cx="160" cy="880" r="2.5"/><circle cx="390" cy="840" r="2.5"/><circle cx="610" cy="905" r="2.5"/>
+    <circle cx="770" cy="860" r="2.5"/><circle cx="905" cy="930" r="2.5"/><circle cx="270" cy="960" r="2.5"/>
+  </g>
+  <g fill="#FFFFFF" opacity=".55">
+    <circle cx="210" cy="830" r="1.8"/><circle cx="480" cy="880" r="1.8"/><circle cx="700" cy="820" r="1.8"/>
+    <circle cx="840" cy="960" r="1.8"/><circle cx="90" cy="930" r="1.8"/><circle cx="560" cy="980" r="1.8"/>
+  </g>
+
+  <!-- court -->
+  <polygon points="-60,1300 1060,1300 900,1010 100,1010" fill="url(#floor)"/>
+  <g fill="none" stroke="#F6E7CF" stroke-width="5" opacity=".85">
+    <polygon points="100,1010 900,1010 1060,1300 -60,1300"/>
+    <polygon points="380,1010 620,1010 660,1180 340,1180"/>
+    <path d="M330 1180 Q500 1240 670 1180"/>
+    <path d="M190 1010 Q500 1330 810 1010"/>
+  </g>
+  <rect x="0" y="1010" width="1000" height="12" fill="#061026" opacity=".5"/>
+
+  <!-- hoop: backboard, rim, net -->
+  <g>
+    <polygon points="700,430 960,400 965,600 705,625" fill="#BFD4FF" fill-opacity=".12" stroke="#E9F0FF" stroke-width="7"/>
+    <polygon points="785,520 875,510 878,585 788,595" fill="none" stroke="#E9F0FF" stroke-width="5"/>
+    <rect x="955" y="420" width="45" height="16" fill="#C7D3EA"/>
+    <ellipse cx="800" cy="612" rx="108" ry="26" fill="none" stroke="#F06A1E" stroke-width="12"/>
+    <g fill="none" stroke="#F4F7FF" stroke-width="4" stroke-linecap="round" opacity=".95">
+      <path d="M694 616 L726 760"/><path d="M724 628 L748 768"/><path d="M760 636 L774 774"/>
+      <path d="M800 638 L800 776"/><path d="M840 636 L826 774"/><path d="M876 628 L852 768"/><path d="M906 616 L874 760"/>
+      <path d="M700 660 Q800 700 900 660"/><path d="M712 705 Q800 738 888 705"/><path d="M724 750 Q800 776 876 750"/>
+      <path d="M694 616 L760 680 L726 760"/><path d="M906 616 L840 680 L874 760"/>
+      <path d="M724 628 L800 700 L876 628"/>
+    </g>
+  </g>
+
+  <!-- ball trail and splatter -->
+  <polygon points="80,120 600,320 560,470 40,190" fill="url(#streak)" opacity=".55"/>
+  <polygon points="200,60 620,300 610,340 180,90" fill="url(#streak)" opacity=".4"/>
+  <g fill="#F28A2E">
+    <circle cx="420" cy="230" r="9" opacity=".8"/><circle cx="370" cy="300" r="5"/><circle cx="470" cy="190" r="4"/>
+    <circle cx="300" cy="250" r="6" opacity=".6"/><circle cx="520" cy="250" r="12" opacity=".7"/><circle cx="455" cy="330" r="3"/>
+    <circle cx="560" cy="210" r="5"/><circle cx="250" cy="180" r="4" opacity=".7"/><circle cx="510" cy="420" r="7" opacity=".6"/>
+  </g>
+  <circle cx="660" cy="380" r="210" fill="#F28A2E" opacity=".35" filter="url(#soft)"/>
+
+  <!-- ball -->
+  <g transform="translate(660 380) rotate(-18)">
+    <circle r="175" fill="url(#ball)"/>
+    <g fill="none" stroke="#2A1206" stroke-width="9" stroke-linecap="round">
+      <path d="M0 -175 V175"/><path d="M-175 0 H175"/>
+      <path d="M-118 -129 C-40 -60 -40 60 -118 129"/><path d="M118 -129 C40 -60 40 60 118 129"/>
+    </g>
+    <circle r="175" fill="none" stroke="#2A1206" stroke-width="6" opacity=".6"/>
+    <ellipse cx="-60" cy="-80" rx="60" ry="32" fill="#FFFFFF" opacity=".16" transform="rotate(-30)"/>
+  </g>
+
+  <!-- sparkle lamps over everything -->
+  <g fill="url(#lamp)" opacity=".9">
+    <circle cx="905" cy="250" r="30"/><circle cx="560" cy="560" r="22"/><circle cx="350" cy="620" r="14"/>
+  </g>
+  <rect width="1000" height="1300" fill="#000814" opacity=".08"/>
+</svg>

@@ -1,0 +1,15 @@
+{
+  "name": "mosport-magazine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MOSPORT-B: MOSPORT sports magazine frontend (static, no build step)",
+  "license": "UNLICENSED",
+  "scripts": {
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "node --test tests/unit/*.test.js",
+    "test:e2e": "node tests/e2e/run.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
