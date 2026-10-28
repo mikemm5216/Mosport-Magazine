@@ -109,6 +109,9 @@ module.exports = async function zoomSuite(browser, check, open, OUT) {
     await page.keyboard.press('f');
     const k3 = await zoomOf(page);
     check(`${id}: keyboard + / 0 / F`, k1.mode === 'manual' && k1.pct > fitPct && k2.pct === 100 && k3.mode === 'fit', JSON.stringify([k1, k2, k3]));
+    await page.keyboard.press('w');
+    const k4 = await zoomOf(page);
+    check(`${id}: W switches to Fit Width`, k4.mode === 'width' && k4.pct >= k3.pct && k4.pct <= 100, JSON.stringify(k4));
     await page.focus('[data-zoom="in"]');
     await page.keyboard.press('Enter');
     check(`${id}: buttons operate from the keyboard`, (await zoomOf(page)).mode === 'manual');
