@@ -1,7 +1,7 @@
 'use strict';
 /*
  * Magazine Reader Zoom acceptance (Founder addendum, issue #2).
- * Desktop: Fit / − / + / 100% / bounds / resize / reachability / keyboard / nav unscaled.
+ * Desktop: Fit Width default / Fit Page / − / + / 100% / bounds / resize / reachability / keyboard / nav unscaled.
  * Mobile: native flow, no zoom bar, browser pinch-zoom not disabled. Browser 200% zoom.
  */
 const path = require('node:path');
@@ -18,9 +18,16 @@ module.exports = async function zoomSuite(browser, check, open, OUT) {
     const id = `zoom-${w}x${h}`;
     const { ctx, page, errors } = await open(browser, 'index.html', w, h);
 
-    /* Fit (default) shows the whole spread inside the reader viewport */
+    /* Fit Width is the readable default; the entire spread fits horizontally, scrolls vertically. */
     let z = await zoomOf(page);
     let R = await rects(page);
+    check(`${id}: opens in Fit Width mode`, z.mode === 'width' && z.pct >= 50 && z.pct <= 100, JSON.stringify(z));
+    check(`${id}: Fit Width fits horizontally and preserves readable scale`, R.spread.l >= R.reader.l - 0.5 && R.spread.r <= R.reader.r + 0.5 && z.pct >= (w >= 1280 ? 85 : 65), JSON.stringify(R));
+    check(`${id}: Fit Width pressed`, (await page.getAttribute('[data-zoom="width"]', 'aria-pressed')) === 'true');
+    await page.screenshot({ path: path.join(OUT, `zoom-${w}-width.png`) });
+    await page.click('[data-zoom="fit"]');
+    z = await zoomOf(page);
+    R = await rects(page);
     check(`${id}: opens in Fit Page mode`, z.mode === 'fit' && z.pct >= 50 && z.pct <= 200, JSON.stringify(z));
     check(`${id}: Fit shows the whole spread (width and height)`,
       R.spread.l >= R.reader.l - 0.5 && R.spread.r <= R.reader.r + 0.5 && R.spread.t >= R.reader.t - 0.5 && R.spread.b <= R.reader.b + 0.5, JSON.stringify(R));
@@ -73,7 +80,7 @@ module.exports = async function zoomSuite(browser, check, open, OUT) {
     z = await zoomOf(page);
     check(`${id}: lower bound 50%, − disabled`, z.pct === 50 && (await page.isDisabled('[data-zoom="out"]')));
 
-    /* Resize: Fit recomputes; a manual zoom is kept */
+    /* Resize: Fit Page and Fit Width recompute; a manual zoom is kept */
     await page.click('[data-zoom="fit"]');
     const before = (await zoomOf(page)).pct;
     await page.setViewportSize({ width: w, height: h + 260 });
@@ -82,6 +89,11 @@ module.exports = async function zoomSuite(browser, check, open, OUT) {
     check(`${id}: Fit recomputes on resize`, after.mode === 'fit' && after.pct > before, `${before} → ${after.pct}`);
     R = await rects(page);
     check(`${id}: after resize the spread still fits`, R.spread.b <= R.reader.b + 0.5 && R.spread.r <= R.reader.r + 0.5);
+    await page.click('[data-zoom="width"]');
+    const wBefore = (await zoomOf(page)).pct;
+    await page.setViewportSize({ width: w + 120, height: h + 260 });
+    await page.waitForTimeout(250);
+    check(`${id}: Fit Width recomputes on resize and remains <=100%`, (await zoomOf(page)).mode === 'width' && (await zoomOf(page)).pct >= wBefore && (await zoomOf(page)).pct <= 100);
     await page.click('[data-zoom="reset"]');
     await page.setViewportSize({ width: w, height: h });
     await page.waitForTimeout(250);
@@ -159,8 +171,9 @@ module.exports = async function zoomSuite(browser, check, open, OUT) {
     await page.click('.topbar .tb-nav a[href^="index.html"]');
     await page.waitForTimeout(300);
     check('Fit Page kept across pages', (await zoomOf(page)).mode === 'fit');
+    await page.click('[data-zoom="width"]');
     await page.reload(); await page.waitForTimeout(300);
-    check('zoom kept on reload', (await zoomOf(page)).mode === 'fit');
+    check('Fit Width kept on reload', (await zoomOf(page)).mode === 'width');
     await ctx.close();
   }
 
