@@ -19,6 +19,9 @@
   cfg.forceArtFallback = /[?&]art=fallback\b/.test(q);
   /* ?art=candidate: Founder preview of CANDIDATE art (prototype only; production ignores it). */
   cfg.previewCandidates = /[?&]art=candidate\b/.test(q);
+  /* ?art=candidate:<versionId> previews one named candidate, e.g. candidate:claude-crop-v1 */
+  var pv = q.match(/[?&]art=candidate(?::|%3A)([\w.-]+)/i);
+  cfg.previewVersion = pv ? pv[1] : null;
 
   var clone = function (o) { return JSON.parse(JSON.stringify(o)); };
   var reg = clone(window.MOSPORT_ASSET_REGISTRY || { schemaVersion: 1, slots: {}, logos: {}, teamLogos: {}, renderPolicy: { prototype: { allowRights: [], allowStatus: [] }, production: { allowRights: [], allowStatus: [] } } });

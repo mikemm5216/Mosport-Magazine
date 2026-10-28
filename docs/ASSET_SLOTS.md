@@ -56,7 +56,7 @@ Team-logo entries are empty until rights-cleared files exist (issue #5).
 | `site/assets/art/editorial-card-art.v1.webp` (optional) | `editorial-card-art` |
 | optional `*.v1.dark.webp` | same slot, used in dark mode (`darkFile`) |
 
-Current state: each slot's active version is a `PLACEHOLDER` development vector, which production never shows. The ChatGPT art is registered as `chatgpt-art-v1` with status `CANDIDATE`. Preview it with `?art=candidate`. To approve, set the slot's `activeVersion` to `chatgpt-art-v1`, change its `status` to `ACTIVE`, fill in `approvedBy`/`approvedAt`, then run `npm run registry:build`.
+Current state: each slot's active version is a `PLACEHOLDER` development vector, which production never shows. The ChatGPT art is registered as `chatgpt-art-v1` with status `CANDIDATE`. Preview it with `?art=candidate`. A named candidate can be previewed with `?art=candidate:<versionId>`, and `?zones=1` overlays the safe zones. To approve, set the slot's `activeVersion` to `chatgpt-art-v1`, change its `status` to `ACTIVE`, fill in `approvedBy`/`approvedAt`, then run `npm run registry:build`.
 
 ## How to add or replace art (person, agent or CMS)
 

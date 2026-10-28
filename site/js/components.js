@@ -19,7 +19,7 @@
   var theme = function () { return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'; };
   var MOBILE = '(max-width: 1023px)';
   var variant = function () { return window.matchMedia(MOBILE).matches ? 'mobile' : 'desktop'; };
-  var opts = function () { return { variant: variant(), theme: theme(), mode: cfg().mode, preview: !!cfg().previewCandidates }; };
+  var opts = function () { return { variant: variant(), theme: theme(), mode: cfg().mode, preview: !!cfg().previewCandidates, previewVersion: cfg().previewVersion || null }; };
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function readableOn(hex) {
     var h = (hex || '#000000').replace('#', '');
@@ -57,7 +57,23 @@
         this.querySelector('img').addEventListener('error', function () {
           self.innerHTML = ''; self.dataset.state = 'fallback'; self.dataset.reason = 'LOAD_ERROR';
         }, { once: true });
+        if (/[?&]zones=1\b/.test(location.search)) this.drawZones(slot, res);
       } else this.innerHTML = '';
+    }
+    /* ?zones=1 : draw the slot's safe zones where they land after the cover crop (review aid). */
+    drawZones(slot, res) {
+      var s = REG().slots[slot], v = null;
+      (s.versions || []).forEach(function (x) { if (x.id === res.version) v = x; });
+      if (!v || !s.safeZones) return;
+      var W = this.clientWidth, H = this.clientHeight;
+      var k = Math.max(W / v.width, H / v.height), iw = v.width * k, ih = v.height * k;
+      var pos = (res.objectPosition || '50% 50%').split(' ').map(function (p) { return parseFloat(p) / 100; });
+      var ox = (W - iw) * pos[0], oy = (H - ih) * pos[1];
+      var html = '';
+      s.safeZones.forEach(function (z) {
+        html += '<div class="mo-zone mo-zone-' + z.name + '" style="left:' + (ox + z.x * iw) + 'px;top:' + (oy + z.y * ih) + 'px;width:' + (z.w * iw) + 'px;height:' + (z.h * ih) + 'px"><span>' + z.name + '</span></div>';
+      });
+      this.insertAdjacentHTML('beforeend', html);
     }
   }
 

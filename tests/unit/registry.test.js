@@ -113,3 +113,10 @@ test('CANDIDATE art: hidden by default, shown only in prototype preview, never i
     assert.notEqual(prod.version === 'chatgpt-art-v1' && prod.state === 'art', true, id + ' production');
   }
 });
+
+test('preview of a named candidate; history is kept (placeholder + both candidates)', () => {
+  const s = REG.slots['cover-mobile-art'];
+  assert.deepEqual(s.versions.map((v) => v.id), ['placeholder-v1', 'claude-crop-v1', 'chatgpt-art-v1']);
+  assert.equal(R.resolveArt(REG, 'cover-mobile-art', { preview: true }).version, 'chatgpt-art-v1');
+  assert.equal(R.resolveArt(REG, 'cover-mobile-art', { preview: true, previewVersion: 'claude-crop-v1' }).version, 'claude-crop-v1');
+});

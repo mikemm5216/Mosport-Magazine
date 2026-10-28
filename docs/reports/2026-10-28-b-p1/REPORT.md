@@ -1,6 +1,6 @@
 # B-P1 plan vs actual — 2026-10-28
 
-As of 2026-10-28 16:20 Asia/Taipei (zoom addendum; P1 correction: zoom kept across pages + Asset-ready registry; ChatGPT artwork integrated as CANDIDATE). Day **OPEN**.
+As of 2026-10-28 16:20 Asia/Taipei (zoom addendum; P1 correction: zoom kept across pages + Asset-ready registry; ChatGPT artwork integrated as CANDIDATE; 16:30 ChatGPT export package imported). Day **OPEN**.
 
 | WP | Planned | Actual | Evidence |
 |---|---|---|---|
@@ -16,7 +16,7 @@ As of 2026-10-28 16:20 Asia/Taipei (zoom addendum; P1 correction: zoom kept acro
 ## Test results (this commit)
 
 - `npm run registry:check`: registry valid, every file present with matching sha256, generated copy in sync.
-- `npm run test:unit`: **28 pass**, 0 fail (18 eligibility + 10 registry).
+- `npm run test:unit`: **29 pass**, 0 fail (18 eligibility + 11 registry).
 - `npm run test:e2e`: **306/306 pass** (172 base + 79 zoom addendum + 31 zoom persistence / mobile pinch / asset slots + 24 CANDIDATE-art preview). Coverage:
   - home at 1440/1280/390/360 × zh/en × light/dark: no overflow, no script errors, brand strings, exactly one %, spread vs cover-first, English edition has no Chinese text;
   - empty issue (U-01); bypass fixture (human gate) on home and review; DEMO refused in production mode;
@@ -64,9 +64,13 @@ Source: Founder-supplied `MOSPORT_B_Original_Five_Panel_Art_Source_20261028.png`
 | match-hero-art | 880,352,1524,667 | `match-hero-art.v1.webp` 2560×720 | 105 KB |
 | editorial-card-art | 880,677,1524,1015 (right side kept) | `editorial-card-art.v1.webp` 1200×800 | 68 KB |
 
-Registered as version `chatgpt-art-v1`, status **CANDIDATE** (rights OWNED, generator ChatGPT ImageGen, source URL and region recorded). `activeVersion` is unchanged, so the default site and production do not show them. Preview: `?art=candidate` (prototype only).
+**Update 16:30:** the ChatGPT export package (`MOSPORT_B_Visual_Assets_v1_For_Claude_20261028.zip`, Drive `1zoRAUlis0yFjKH7UPh2Sbr8yf6kBc06D`, sha256 `e6c0456a…5c6d61`) was downloaded through the Drive connector and verified: all five files match `asset_verification.json` (width, height, sha256) and are within slot limits (353, 243, 169, 126, 77 KB). Its `asset_manifest_entries.json` entries were appended as **`chatgpt-art-v1`** at the canonical paths. The crops above, made earlier from the same source sheet, are kept as `claude-crop-v1` (files `*.v1-claude-crop.webp`) for comparison only. History per slot: `placeholder-v1` → `claude-crop-v1` → `chatgpt-art-v1`; `activeVersion` is unchanged. Preview `?art=candidate` shows `chatgpt-art-v1`, and `?art=candidate:claude-crop-v1` shows the alternate. `mobile-390-chatgpt-vs-claude-crop.jpg` shows the two side by side; both differ only in the left extension, which sits under the cover shade.
+
+Originally registered as version `chatgpt-art-v1`, status **CANDIDATE** (rights OWNED, generator ChatGPT ImageGen, source URL and region recorded). `activeVersion` is unchanged, so the default site and production do not show them. Preview: `?art=candidate` (prototype only).
 
 Checked in the browser (24 checks): each slot shows `chatgpt-art-v1` and the file loads; same layout as with no art; no sideways overflow; 1440 Fit and 100%, 1024 Fit, 390, 360, zh/en, light/dark; 200% reaches the last corner; mobile pinch 2×; Match hero; production never shows CANDIDATE.
+
+Safe zones: `?zones=1` draws each slot's safe zones where they land after the crop (`zones-1440-100.jpg`, `zones-390.jpg`). Desktop cover: the ball extends a little left of the `subject` zone, behind the slogan `SPORT` and the masthead's last letters; text stays readable on the cover shade. Lead card: both logos sit inside the `logos` zone.
 
 Visible differences vs the master, for the Founder's call:
 - The cover now carries a ball, hoop, net, light flares and arena much like the master. The ball sits behind the right end of the MOSPORT masthead (as in the master); the masthead stays readable.

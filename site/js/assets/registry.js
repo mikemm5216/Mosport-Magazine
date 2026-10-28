@@ -59,7 +59,7 @@
     var base = { fit: s.fit, fallback: s.fallback, slotLabel: s.label };
     var v = null;
     var activeId = s.activeVersion;
-    if (preview) (s.versions || []).forEach(function (x) { if (x.status === 'CANDIDATE') activeId = x.id; });
+    if (preview) (s.versions || []).forEach(function (x) { if (x.status === 'CANDIDATE' && (!opts.previewVersion || x.id === opts.previewVersion)) activeId = x.id; });
     (s.versions || []).forEach(function (x) { if (x.id === activeId) v = x; });
     var no = function (reason) { return Object.assign(base, { state: 'fallback', reason: reason, version: v ? v.id : null }); };
     if (!activeId) return no('NO_ACTIVE_VERSION');
