@@ -39,3 +39,5 @@ Needs Node 18+. First run:
 npm install
 npm run setup:browsers   # downloads Chromium for Playwright (free, local)
 ```
+
+同日後續決議與覆核：[Founder follow-up](docs/FOUNDER_FOLLOWUP_20261028.md)。

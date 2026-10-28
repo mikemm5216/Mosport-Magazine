@@ -11,7 +11,7 @@
  *   colors      [primary, secondary] — used only by the abbreviation fallback badge
  *   providerIds external ids. null = not yet verified (typed missing, do not guess)
  *   legacyRef   where a logo file exists in the read-only legacy repo, for the
- *               later asset-integration step. Reference only: nothing is copied here.
+ *               source inventory. Prototype marks are now registered separately with UNVERIFIED rights.
  */
 (function () {
   var T = function (code, cityZh, nameZh, cityEn, nameEn, c1, c2, legacy, aliases) {

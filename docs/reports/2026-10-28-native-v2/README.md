@@ -24,3 +24,9 @@ Chinese system font installed locally for readable screenshots; not a site chang
 
 Pending: Founder visual decision, detailed painterly assets if still required,
 team-logo usage basis, PR #1 sequencing and merge authorisation. PR #6 stays Draft.
+
+## Repository NBA-logo continuation
+
+30 NBA PNG marks now render in the internal prototype, including the named v2-art preview. Their Git blob ids were independently recomputed locally and match the pinned Terminal source. Registry rights remain UNVERIFIED; production refuses all 30. No logo permission is fabricated. Follow-up Node tests: 34/34; native-v2 browser tests: 18/18 (including logo decoding). Desktop/mobile/match images here show the integrated logos.
+
+PR #1 follow-up decisions: docs/FOUNDER_FOLLOWUP_20261028.md. P2 preparation audit: docs/P2_CONTRACT_COMPATIBILITY.md. No merge or deployment.

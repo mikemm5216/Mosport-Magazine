@@ -15,6 +15,7 @@ const assert=require('node:assert/strict');
   await page.evaluate(()=>document.fonts.ready);
   await page.waitForTimeout(350);
   const states=await page.locator('mo-art').evaluateAll(es=>es.map(e=>({slot:e.dataset.slot,v:e.dataset.version,state:e.dataset.state})));
+  assert.ok(await page.locator('mo-team-logo img').evaluateAll(is=>is.length>0&&is.every(i=>i.complete&&i.naturalWidth>0)));checks++;
   assert.ok(states.length);assert.ok(states.every(s=>s.v==='native-illustration-v2'&&s.state==='art'));checks++;
   assert.ok(await page.locator('mo-art img').evaluateAll(is=>is.length>0&&is.every(i=>i.complete&&i.naturalWidth>0)));checks++;
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));checks++;

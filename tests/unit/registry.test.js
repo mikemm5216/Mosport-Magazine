@@ -87,7 +87,7 @@ test('a slot with no active version, a dangling version id or an unknown id fall
 });
 
 test('team logos: no entry → tricode badge fallback', () => {
-  const x = R.resolveTeamLogo(REG, 'LAL', { mode: 'prototype' });
+  const x = R.resolveTeamLogo(REG, 'UNKNOWN', { mode: 'prototype' });
   assert.equal(x.state, 'fallback');
   assert.equal(x.fallback.kind, 'tricode-badge');
 });
@@ -119,4 +119,14 @@ test('preview of a named candidate; history is kept (placeholder + both candidat
   assert.deepEqual(s.versions.map((v) => v.id), ['placeholder-v1', 'claude-crop-v1', 'native-illustration-v2', 'chatgpt-art-v1']);
   assert.equal(R.resolveArt(REG, 'cover-mobile-art', { preview: true }).version, 'chatgpt-art-v1');
   assert.equal(R.resolveArt(REG, 'cover-mobile-art', { preview: true, previewVersion: 'claude-crop-v1' }).version, 'claude-crop-v1');
+});
+
+test('repository NBA logos load in prototype, but unverified rights never enter production', () => {
+  assert.equal(Object.keys(REG.teamLogos.entries).length, 30);
+  for (const code of Object.keys(REG.teamLogos.entries)) {
+    assert.equal(R.resolveTeamLogo(REG, code, {mode: 'prototype'}).state, 'art');
+    assert.equal(R.resolveTeamLogo(REG, code, {mode: 'prototype', preview: true, previewVersion: 'native-illustration-v2'}).state, 'art');
+    assert.equal(R.resolveTeamLogo(REG, code, {mode: 'production', preview: true}).state, 'fallback');
+    assert.equal(REG.teamLogos.entries[code].versions[0].rights.status, 'UNVERIFIED');
+  }
 });

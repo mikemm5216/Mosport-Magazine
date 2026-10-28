@@ -121,3 +121,9 @@ or approval record was changed. Production refuses the candidate. The unnamed
 
 Additional browser check: `node tests/e2e/native-candidate.js` (image loading,
 desktop/mobile/match geometry parity, overflow, production refusal and screenshots).
+
+## Repository team marks in the internal prototype
+
+30 NBA PNGs are copied byte-for-byte from Mosport-Terminal at ae608b26a9efb115b13b080904d1d9fd8bd5ec57. Source blob hashes and paths: docs/assets/nba-import.json. Each registry entry records UNVERIFIED rights; internal prototype display is enabled under the Founder instruction to reuse existing logos, while production refuses them. This records technical integration, not third-party commercial permission.
+
+Other existing sports files are indexed in docs/assets/multi-sport-logo-inventory.json. The inspected Terminal tree has MLB, EPL/UCL and NHL collections; only public/logos/cpbl/bro.png was found for CPBL; no NFL file was located in that tree. Do not claim complete NFL or CPBL coverage.

@@ -54,7 +54,7 @@
    * before a candidate is promoted to activeVersion. Production ignores preview. */
   function pick(reg, s, opts, isArt) {
     opts = opts || {};
-    var preview = !!opts.preview && opts.mode !== 'production' && reg.renderPolicy && reg.renderPolicy.preview;
+    var preview = isArt && !!opts.preview && opts.mode !== 'production' && reg.renderPolicy && reg.renderPolicy.preview;
     var policy = (reg.renderPolicy || {})[preview ? 'preview' : (opts.mode || 'prototype')] || { allowRights: [], allowStatus: [] };
     var base = { fit: s.fit, fallback: s.fallback, slotLabel: s.label };
     var v = null;
