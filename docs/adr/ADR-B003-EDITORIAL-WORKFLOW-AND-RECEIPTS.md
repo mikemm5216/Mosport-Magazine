@@ -47,7 +47,8 @@ can only be reached through a publication receipt.
    - Conflicting, invalidated or missing sources are BLOCK.
 3. **Approval** is an ApprovalReceipt bound to item id, revision and content hash.
    - AUTO is issued by the workflow when gates 1 and 2 allow it.
-   - HUMAN needs a named approver who is not the author of that revision.
+   - HUMAN needs a named approver who is not the author of that revision. Ids are compared after
+     trimming and ignoring case.
    - HUMAN approval is possible only after all four checks PASS and the route is not BLOCK. A human
      approval cannot make a wrong fact, a fake exclusive or unlicensed reuse acceptable.
 4. **Publication boundary** (`publishBlockers`) re-checks at publish time:
@@ -84,7 +85,7 @@ appended directly to the store.
 | Source state | Published item | Item on its way to publication |
 |---|---|---|
 | RETRACTED, DISPUTED, CONTRADICTED, FALSE | Moves to CORRECTION_PENDING. The reader stops showing it at once, because the public issue only exports PUBLISHED items | Moves to HELD_FOR_EVIDENCE |
-| UNAVAILABLE | Flagged | Held |
+| UNAVAILABLE | Flagged | Held. Fact QA also fails while the source is unavailable, so a new revision or a new item on that source cannot pass QA or publish until a RESTORED event |
 
 After that, an editor corrects the item (new revision, then a CORRECT receipt) or withdraws it
 (WITHDRAW receipt). Earlier receipts are never edited.

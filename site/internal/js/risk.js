@@ -74,6 +74,8 @@
     item.sourceRefs.forEach(function (id) {
       if (!ctx.sources[id]) r.push('SOURCE_MISSING:' + id);
       else if (C.INVALIDATING.indexOf(stateOf(ctx, id)) !== -1) r.push('SOURCE_INVALIDATED:' + id);
+      /* An unavailable source cannot be re-verified: nothing new is approved or published on it. */
+      else if (stateOf(ctx, id) === 'UNAVAILABLE') r.push('SOURCE_UNAVAILABLE:' + id);
     });
     var list = srcs(item, ctx);
     var isRumor = item.riskTriggers.indexOf('UNVERIFIED_RUMOR') !== -1;
