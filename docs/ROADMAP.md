@@ -37,8 +37,8 @@ Order follows the Founder engineering instructions of 2026-10-28 and 2026-10-29:
 | B-P3-01 | Workflow state machine, QA, publication receipts, correction/withdraw, local persistence | B-P2-02 | In PR (P3, stacked on #8); DEMO environment only, ADR-B003 |
 | B-P3-02 | Risk routing and policy cases M-01…M-07 | B-P3-01 | In PR (P3) |
 | B-P3-05 | Internal editor operations prototype (DEMO) | B-P3-01, 02 | In PR (P3) |
-| B-P3-03 | Free official source inventory and one offline parser | B-P3-01 | In PR (P3 sources) |
-| B-P3-04 | Media → World Evidence Candidate draft (research lane, not sent to A) | B-P3-01; A review | Draft contract only; A acceptance format unconfirmed |
+| B-P3-03 | Free official source inventory and one offline parser | B-P3-01 | PARTIAL, Draft PR: inventory + NBA injury-report text parser on a synthetic fixture; no live connector; commercial citation/linking needs a legal or Founder decision (`docs/sources/FREE_SOURCE_INVENTORY.md`) |
+| B-P3-04 | Media → World Evidence Candidate draft (research lane, not sent to A) | B-P3-01; A review | PARTIAL, Draft PR: `mosport-b/evidence-candidate@0` builder + validator; A acceptance format unconfirmed (`docs/contracts/EVIDENCE_CANDIDATE_DRAFT.md`) |
 
 ## Acceptance (spec 02 §7, 04 §2)
 

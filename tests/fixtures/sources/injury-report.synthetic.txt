@@ -1,0 +1,11 @@
+SYNTHETIC TEST FIXTURE: fictional players; layout modelled on the league report text layer. Not league content.
+Injury Report: 10/31/26 05:30 PM                                                                                        Page 1 of 1
+Game Date     Game Time    Matchup     Team                      Player Name            Current Status    Reason
+10/31/2026    07:30 (ET)   BOS@NYK     Boston Celtics            Sample, Alpha          Out               Injury/Illness - Left Ankle; Sprain
+                                                                 Sample, Bravo          Questionable      Injury/Illness - Right Knee;
+                                                                                                          Soreness
+                                       New York Knicks           Sample, Charlie        Probable          Rest
+              10:00 (ET)   GSW@LAL     Golden State Warriors     Sample, Delta          Doubtful          Injury/Illness - Lower Back; Spasms
+                                       Los Angeles Lakers                               NOT YET SUBMITTED
+11/01/2026    08:00 (ET)   PHI@TOR     Philadelphia 76ers        Sample, Echo           Out               G League - Two-Way
+                                       Toronto Raptors           Sample, Foxtrot        Available         Injury/Illness - Left Hamstring; Tightness
