@@ -12,7 +12,7 @@ window.MOSPORT_I18N = {
   zh: {
     navLabel: '主要導覽', today: '今日', schedule: '賽程', review: '檢討',
     almanac: 'Almanac 歷史資料庫', almanacSoon: '即將推出',
-    sportLabel: '運動', nba: 'NBA', baseball: '棒球', football: '足球', comingSoon: '即將推出',
+    sportLabel: '運動', nba: 'NBA', baseball: '棒球', soccer: '足球', comingSoon: '即將推出',
     toDark: '夜間', toLight: '日間', langLabel: '語言',
     issueLine: 'VOL. {vol} · 第 {no} 期 · {date}',
     thisIssue: '本期主題',
@@ -50,7 +50,7 @@ window.MOSPORT_I18N = {
   en: {
     navLabel: 'Primary', today: 'Today', schedule: 'Schedule', review: 'Review',
     almanac: 'MOSPORT Almanac', almanacSoon: 'Coming later',
-    sportLabel: 'Sport', nba: 'NBA', baseball: 'Baseball', football: 'Football', comingSoon: 'Coming soon',
+    sportLabel: 'Sport', nba: 'NBA', baseball: 'Baseball', soccer: 'Soccer', comingSoon: 'Coming soon',
     toDark: 'Dark', toLight: 'Light', langLabel: 'Language',
     issueLine: 'VOL. {vol} · NO. {no} · {date}',
     thisIssue: 'This issue',

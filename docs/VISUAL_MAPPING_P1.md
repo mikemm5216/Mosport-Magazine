@@ -21,7 +21,7 @@ Side-by-side evidence: `docs/reports/2026-10-28-b-p1/compare-visual-master.jpg`.
 | 昨日檢討 card | `.story-review` | Human-approved REVIEW only |
 | DEMO footer | `.pg-foot` with DEMO badge | |
 | Reading the spread at different sizes (Founder addendum) | Reader toolbar under the nav: Fit Page / − / % / + / 100%; whole spread scales as one unit, nav does not | ≥ 1024 px; mobile keeps native pinch-zoom |
-| Mobile: cover first screen, TODAY / SCHEDULE / REVIEW tabs, NBA / Baseball / Football tabs, date, lead card | `.pg-cover` (100svh), `.mnav`, `.pg-inner` | < 1024 px |
+| Mobile: cover first screen, TODAY / SCHEDULE / REVIEW tabs, NBA / Baseball / Soccer tabs, date, lead card | `.pg-cover` (100svh), `.mnav`, `.pg-inner` | < 1024 px |
 
 ## Intentional deviations (written Founder rules override the image)
 

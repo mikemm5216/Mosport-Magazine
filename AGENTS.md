@@ -73,3 +73,8 @@ Team-logo delivery standard: 80×80 transparent canvas, proportionally contained
 and centred in 72×72, preserving original sources and hashes. See ASSET_SLOTS.md
 and scripts/normalize-team-logos.py. Never copy arbitrary native dimensions into
 the active image registry as if they were a consistent delivery size.
+
+Sport naming: use soccer / SOCCER for association-football UI, identifiers, files
+and registry groups. Keep NFL separate. Do not introduce the ambiguous football
+key for soccer. League coverage must use explicit provider membership snapshots,
+not guessed league membership from asset folders.

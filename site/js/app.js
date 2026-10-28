@@ -64,7 +64,7 @@
     return '<div class="' + cls + '" role="group" aria-label="' + esc(T('sportLabel')) + '">' +
       '<button type="button" class="sport is-on" aria-pressed="true">' + T('nba') + '</button>' +
       '<button type="button" class="sport" aria-pressed="false" data-act="note" data-note="note_sport"><span>' + T('baseball') + '</span><small>' + T('comingSoon') + '</small></button>' +
-      '<button type="button" class="sport" aria-pressed="false" data-act="note" data-note="note_sport"><span>' + T('football') + '</span><small>' + T('comingSoon') + '</small></button>' +
+      '<button type="button" class="sport" aria-pressed="false" data-act="note" data-note="note_sport"><span>' + T('soccer') + '</span><small>' + T('comingSoon') + '</small></button>' +
     '</div>';
   }
   function navLinks(active, cls) {

@@ -158,11 +158,24 @@ Rebuild NBA + CPBL derivatives: `python scripts/normalize-team-logos.py`, then
 CPBL mark. The magazine retains its common per-role responsive sizes for team
 logos; every member of a role uses the same box and object-fit: contain.
 
-## MLB / football / NHL imports
+## MLB / soccer / NHL imports
 
 `site/data/multi-sport-team-registry.json` (and disk-safe JS copy) contains MLB 30,
-NHL 32 and a 37-club football pool (legacy EPL 23 + UCL 14). These identities are
+NHL 32 and 137 soccer clubs (132 across seven league snapshots + 5 historical extras). These identities are
 namespaced and separate from NBA codes and flag codes. Originals are under
 `assets/teams/sources/`; 80×80 derivatives under `assets/teams/normalized/`.
-Football source folders do not assert current-season membership. The searchable
+Soccer source folders do not assert current-season membership. The searchable
 flag catalogue now also displays all 135 imported team marks in league sections.
+
+## Soccer namespace and league completeness correction
+
+Use `soccer` for association football in all current UI keys, registry groups,
+asset paths and team ids (`SOCCER:ESPN:<id>`). NFL remains a separate namespace.
+The immutable Founder-source snapshot and historical reports retain their
+original wording; they do not override this later naming instruction.
+
+Soccer now has seven separate provider-directory snapshots: Premier League 20,
+LaLiga 20, Serie A 20, Bundesliga 18, Ligue 1 18, Primeira Liga 18, Eredivisie 18.
+These cover 132 unique clubs, plus 5 retained historical clubs outside the seven
+snapshots. The UI league selector uses the stored team-id membership lists, not
+old EPL/UCL folder names. No UEFA participation is inferred from these lists.
