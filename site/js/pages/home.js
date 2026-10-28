@@ -31,7 +31,7 @@ window.MOSPORT_PAGE = {
 
     var cover =
       '<section class="pg pg-cover" aria-label="MOSPORT">' +
-        '<mo-cover-artwork name="gameday"></mo-cover-artwork>' +
+        '<mo-art slot-id="cover-desktop-art" slot-mobile="cover-mobile-art"></mo-art>' +
         '<div class="cv-shade" aria-hidden="true"></div>' +
         '<div class="cv-mob-top">' +
           '<a class="cv-mark" href="index.html' + c.keepQuery() + '"><mo-brand-logo tone="on-dark"></mo-brand-logo></a>' + c.utilButtons() +
@@ -59,7 +59,7 @@ window.MOSPORT_PAGE = {
       lead =
         '<article class="lead" aria-label="' + esc(c.teamName(g.away) + ' @ ' + c.teamName(g.home)) + '">' +
           '<div class="lead-art">' +
-            '<mo-cover-artwork name="arena"></mo-cover-artwork>' +
+            '<mo-art slot-id="today-feature-art"></mo-art>' +
             '<div class="lead-teams">' +
               '<div class="lead-team"><mo-team-logo code="' + g.away + '" size="lg"></mo-team-logo><p class="lt-code">' + g.away + '</p><p class="lt-name">' + esc(c.teamName(g.away)) + '</p></div>' +
               '<span class="lead-at">@</span>' +
@@ -115,7 +115,7 @@ window.MOSPORT_PAGE = {
     var streakCard = streak ?
       '<section class="story story-streak" aria-labelledby="sk-h">' +
         '<div class="sec-head"><h2 id="sk-h">' + T('streakHead') + '</h2></div>' +
-        '<div class="story-body story-dark">' +
+        '<div class="story-body story-dark"><mo-art slot-id="editorial-card-art"></mo-art>' +
           '<p class="teaser-label lbl-streak">' + LB.STREAK_WATCH + '</p>' +
           '<div class="sk-top">' + (streak.linkedTeams || []).map(function (t) { return '<mo-team-logo code="' + t + '" size="md"></mo-team-logo>'; }).join('') +
             '<h3>' + esc(streak[L].headline) + '</h3></div>' +

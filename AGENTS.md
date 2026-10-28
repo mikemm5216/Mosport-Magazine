@@ -41,14 +41,22 @@ media/editorial workflow. It is a separate product line from MOSPORT-A
 ```
 site/                 static site (no build step); open site/index.html
   css/                tokens, components, page styles
+  data/               asset-registry.json (source of truth for all imagery) + generated .js copy
+  js/assets/          registry resolver (unit-tested) and loader (local or remote registry)
   js/editorial/       eligibility gate (pure functions, unit-tested)
   js/fixtures/        DEMO and empty issue fixtures
   js/                 components (logo/cover slots), i18n, page renderers
-  assets/             fonts (OFL), brand mark, original cover art; team logos empty
+  assets/             fonts (OFL), brand mark, art/ (placeholder vectors), teams/nba (empty)
 tests/unit/           node --test
 tests/e2e/            Playwright browser checks + screenshots
 docs/                 founder specs, ADRs, roadmap, reports
 ```
+
+## Imagery
+
+Every image is a slot in `site/data/asset-registry.json` (see `docs/ASSET_SLOTS.md`).
+Never put an image path in HTML, CSS or a component; never bake text, logos or
+people into artwork. After editing the registry run `npm run registry:build`.
 
 ## Commands
 

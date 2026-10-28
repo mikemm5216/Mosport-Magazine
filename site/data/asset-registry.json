@@ -1,0 +1,602 @@
+{
+  "schemaVersion": 1,
+  "registryVersion": "2026-10-28.1",
+  "updatedAt": "2026-10-28T15:45:00+08:00",
+  "updatedBy": "MOSPORT-B engineering",
+  "formats": [
+    "webp",
+    "png",
+    "svg"
+  ],
+  "renderPolicy": {
+    "prototype": {
+      "allowRights": [
+        "OWNED",
+        "LICENSED",
+        "EMBED_PERMITTED",
+        "UNVERIFIED"
+      ],
+      "allowStatus": [
+        "ACTIVE",
+        "PLACEHOLDER"
+      ]
+    },
+    "production": {
+      "allowRights": [
+        "OWNED",
+        "LICENSED",
+        "EMBED_PERMITTED"
+      ],
+      "allowStatus": [
+        "ACTIVE"
+      ]
+    }
+  },
+  "slots": {
+    "cover-desktop-art": {
+      "label": "Cover page artwork, desktop (left page of the open spread)",
+      "placement": "index.html ≥1024px: .pg-cover background, under masthead, topic, teasers and cover lines",
+      "renderBox": {
+        "width": 629,
+        "height": 1213,
+        "note": "CSS px at 100% reader zoom; scaled with the spread"
+      },
+      "deliver": {
+        "width": 1260,
+        "height": 2440,
+        "formats": [
+          "webp",
+          "png",
+          "svg"
+        ],
+        "maxBytes": 550000,
+        "expectedFile": "assets/art/cover-desktop-art.v{n}.webp"
+      },
+      "fit": "cover",
+      "defaultFocal": {
+        "x": 0.62,
+        "y": 0.4
+      },
+      "overlay": "cover-shade",
+      "safeZones": [
+        {
+          "name": "masthead",
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.25,
+          "rule": "dark, low detail: MOSPORT and More than sport sit here"
+        },
+        {
+          "name": "topic",
+          "x": 0,
+          "y": 0.25,
+          "w": 0.6,
+          "h": 0.32,
+          "rule": "low contrast: THIS ISSUE, NBA GAME DAY, tagline"
+        },
+        {
+          "name": "teasers",
+          "x": 0,
+          "y": 0.55,
+          "w": 0.75,
+          "h": 0.33,
+          "rule": "low contrast: Breaking News / Exclusive headlines"
+        },
+        {
+          "name": "footer",
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12,
+          "rule": "dark: cover lines and Be Your Own Coach"
+        },
+        {
+          "name": "subject",
+          "x": 0.42,
+          "y": 0.18,
+          "w": 0.58,
+          "h": 0.45,
+          "rule": "main subject (ball, hoop, light) goes here"
+        }
+      ],
+      "allowedKinds": [
+        "equipment",
+        "court",
+        "arena",
+        "lights",
+        "crowd-abstract",
+        "geometry",
+        "brush"
+      ],
+      "fallback": {
+        "kind": "gradient",
+        "light": "radial-gradient(120% 70% at 75% 35%, #1D4FC4 0%, #0E2A66 38%, #0B1A3D 70%), #0B1A3D",
+        "dark": "radial-gradient(120% 70% at 75% 35%, #163C99 0%, #0A1F4D 38%, #071433 70%), #071433"
+      },
+      "activeVersion": "placeholder-v1",
+      "versions": [
+        {
+          "id": "placeholder-v1",
+          "status": "PLACEHOLDER",
+          "file": "assets/art/cover-art.placeholder-v1.svg",
+          "format": "svg",
+          "width": 1000,
+          "height": 1300,
+          "sha256": "40a7b37036c66d49b64be5eb15d6088a267d561dede5b2265406e74ee528ea73",
+          "darkFile": null,
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.62,
+                "y": 0.4
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "court",
+              "arena",
+              "lights",
+              "crowd-abstract"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original MOSPORT-B development placeholder",
+            "owner": "MOSPORT",
+            "source": "Vector: ball, hoop, arena lights, crowd pattern, court",
+            "generator": null,
+            "generatorPrompt": null,
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering",
+            "addedAt": "2026-10-28T15:45:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null
+          }
+        }
+      ]
+    },
+    "cover-mobile-art": {
+      "label": "Cover artwork, mobile first screen",
+      "placement": "index.html <1024px: full-screen .pg-cover background",
+      "renderBox": {
+        "width": 390,
+        "height": 844,
+        "note": "CSS px at 390×844; height is 100svh clamped 620–880"
+      },
+      "deliver": {
+        "width": 1170,
+        "height": 2532,
+        "formats": [
+          "webp",
+          "png",
+          "svg"
+        ],
+        "maxBytes": 450000,
+        "expectedFile": "assets/art/cover-mobile-art.v{n}.webp"
+      },
+      "fit": "cover",
+      "defaultFocal": {
+        "x": 0.7,
+        "y": 0.34
+      },
+      "overlay": "cover-shade-mobile",
+      "safeZones": [
+        {
+          "name": "masthead",
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.22,
+          "rule": "dark: logo row, MOSPORT, slogan"
+        },
+        {
+          "name": "subject",
+          "x": 0.25,
+          "y": 0.2,
+          "w": 0.75,
+          "h": 0.35,
+          "rule": "ball / hoop"
+        },
+        {
+          "name": "teasers",
+          "x": 0,
+          "y": 0.55,
+          "w": 1,
+          "h": 0.45,
+          "rule": "dark gradient: Breaking / Exclusive headlines"
+        }
+      ],
+      "allowedKinds": [
+        "equipment",
+        "court",
+        "arena",
+        "lights",
+        "crowd-abstract",
+        "geometry",
+        "brush"
+      ],
+      "fallback": {
+        "kind": "gradient",
+        "light": "radial-gradient(120% 70% at 75% 35%, #1D4FC4 0%, #0E2A66 38%, #0B1A3D 70%), #0B1A3D",
+        "dark": "radial-gradient(120% 70% at 75% 35%, #163C99 0%, #0A1F4D 38%, #071433 70%), #071433"
+      },
+      "activeVersion": "placeholder-v1",
+      "versions": [
+        {
+          "id": "placeholder-v1",
+          "status": "PLACEHOLDER",
+          "file": "assets/art/cover-art.placeholder-v1.svg",
+          "format": "svg",
+          "width": 1000,
+          "height": 1300,
+          "sha256": "40a7b37036c66d49b64be5eb15d6088a267d561dede5b2265406e74ee528ea73",
+          "darkFile": null,
+          "crops": {
+            "mobile": {
+              "focal": {
+                "x": 0.7,
+                "y": 0.34
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "court",
+              "arena",
+              "lights",
+              "crowd-abstract"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original MOSPORT-B development placeholder",
+            "owner": "MOSPORT",
+            "source": "Vector: same development placeholder as desktop, mobile crop",
+            "generator": null,
+            "generatorPrompt": null,
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering",
+            "addedAt": "2026-10-28T15:45:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null
+          }
+        }
+      ]
+    },
+    "today-feature-art": {
+      "label": "TODAY lead-game card background (behind the two team logos)",
+      "placement": "index.html: .lead-art panel; desktop ≈ 470×250, mobile full card width × 180",
+      "renderBox": {
+        "width": 470,
+        "height": 250,
+        "note": "desktop at 100%; mobile ≈ 362×180"
+      },
+      "deliver": {
+        "width": 1600,
+        "height": 800,
+        "formats": [
+          "webp",
+          "png",
+          "svg"
+        ],
+        "maxBytes": 250000,
+        "expectedFile": "assets/art/today-feature-art.v{n}.webp"
+      },
+      "fit": "cover",
+      "defaultFocal": {
+        "x": 0.5,
+        "y": 0.7
+      },
+      "overlay": "lead-shade",
+      "safeZones": [
+        {
+          "name": "logos",
+          "x": 0.15,
+          "y": 0.1,
+          "w": 0.7,
+          "h": 0.8,
+          "rule": "low contrast: two team logos, codes and names sit on top"
+        }
+      ],
+      "allowedKinds": [
+        "arena",
+        "court",
+        "lights",
+        "skyline-generic",
+        "geometry"
+      ],
+      "fallback": {
+        "kind": "gradient",
+        "light": "linear-gradient(180deg, #1B1F5E 0%, #4A3A8C 60%, #8B4E8F 100%)",
+        "dark": "linear-gradient(180deg, #11143F 0%, #2E2560 60%, #563463 100%)"
+      },
+      "activeVersion": "placeholder-v1",
+      "versions": [
+        {
+          "id": "placeholder-v1",
+          "status": "PLACEHOLDER",
+          "file": "assets/art/arena-art.placeholder-v1.svg",
+          "format": "svg",
+          "width": 800,
+          "height": 400,
+          "sha256": "64def4a1e3905bdcf38aeb89d566e47ca5d1c41b61fae4e9ff6eac52d69b8d7f",
+          "darkFile": null,
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.7
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.7
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "arena",
+              "skyline-generic"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original MOSPORT-B development placeholder",
+            "owner": "MOSPORT",
+            "source": "Vector: generic arena at dusk with palms; no real venue",
+            "generator": null,
+            "generatorPrompt": null,
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering",
+            "addedAt": "2026-10-28T15:45:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null
+          }
+        }
+      ]
+    },
+    "match-hero-art": {
+      "label": "Match Detail hero band background",
+      "placement": "match.html: .m-hero, full content width × ≈ 300 (desktop), ≈ 360 (mobile)",
+      "renderBox": {
+        "width": 1144,
+        "height": 300,
+        "note": "desktop; mobile ≈ 358×360"
+      },
+      "deliver": {
+        "width": 2560,
+        "height": 720,
+        "formats": [
+          "webp",
+          "png",
+          "svg"
+        ],
+        "maxBytes": 350000,
+        "expectedFile": "assets/art/match-hero-art.v{n}.webp"
+      },
+      "fit": "cover",
+      "defaultFocal": {
+        "x": 0.5,
+        "y": 0.6
+      },
+      "overlay": "hero-shade",
+      "safeZones": [
+        {
+          "name": "teams-and-title",
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1,
+          "rule": "whole band carries text and logos; a 58% navy overlay is applied"
+        }
+      ],
+      "allowedKinds": [
+        "arena",
+        "court",
+        "lights",
+        "geometry"
+      ],
+      "fallback": {
+        "kind": "gradient",
+        "light": "linear-gradient(180deg, #1B1F5E 0%, #4A3A8C 60%, #8B4E8F 100%)",
+        "dark": "linear-gradient(180deg, #11143F 0%, #2E2560 60%, #563463 100%)"
+      },
+      "activeVersion": "placeholder-v1",
+      "versions": [
+        {
+          "id": "placeholder-v1",
+          "status": "PLACEHOLDER",
+          "file": "assets/art/arena-art.placeholder-v1.svg",
+          "format": "svg",
+          "width": 800,
+          "height": 400,
+          "sha256": "64def4a1e3905bdcf38aeb89d566e47ca5d1c41b61fae4e9ff6eac52d69b8d7f",
+          "darkFile": null,
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.7
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.7
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "arena",
+              "skyline-generic"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original MOSPORT-B development placeholder",
+            "owner": "MOSPORT",
+            "source": "Vector: same development placeholder as today-feature-art",
+            "generator": null,
+            "generatorPrompt": null,
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering",
+            "addedAt": "2026-10-28T15:45:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null
+          }
+        }
+      ]
+    },
+    "editorial-card-art": {
+      "label": "Decorative background for editorial cards (STREAK WATCH, features)",
+      "placement": "index.html: .story-dark card body; ≈ 320×270 desktop, full width mobile",
+      "renderBox": {
+        "width": 320,
+        "height": 270,
+        "note": "desktop at 100%"
+      },
+      "deliver": {
+        "width": 1200,
+        "height": 800,
+        "formats": [
+          "webp",
+          "png",
+          "svg"
+        ],
+        "maxBytes": 200000,
+        "expectedFile": "assets/art/editorial-card-art.v{n}.webp"
+      },
+      "fit": "cover",
+      "defaultFocal": {
+        "x": 0.8,
+        "y": 0.5
+      },
+      "overlay": "card-shade",
+      "safeZones": [
+        {
+          "name": "text",
+          "x": 0,
+          "y": 0,
+          "w": 0.7,
+          "h": 1,
+          "rule": "label, logo, headline and summary on the left 70%"
+        }
+      ],
+      "allowedKinds": [
+        "geometry",
+        "brush",
+        "court",
+        "lights"
+      ],
+      "fallback": {
+        "kind": "gradient",
+        "light": "linear-gradient(135deg, #0B1A3D 0%, #12295E 100%)",
+        "dark": "linear-gradient(135deg, #081332 0%, #0F2150 100%)"
+      },
+      "activeVersion": null,
+      "versions": []
+    }
+  },
+  "logos": {
+    "brand-mark": {
+      "label": "MOSPORT monogram",
+      "placement": "top bar, mobile cover",
+      "deliver": {
+        "width": 512,
+        "height": 512,
+        "formats": [
+          "svg",
+          "png"
+        ],
+        "expectedFile": "assets/brand/mosport-mark.svg"
+      },
+      "fit": "contain",
+      "fallback": {
+        "kind": "text",
+        "value": "M"
+      },
+      "activeVersion": "draft-v1",
+      "versions": [
+        {
+          "id": "draft-v1",
+          "status": "ACTIVE",
+          "file": "assets/brand/mosport-mark.svg",
+          "format": "svg",
+          "width": 120,
+          "height": 120,
+          "sha256": "1e6dc87c9ed51c9f534c4365dfd5df0863992200b822694e0a0b0e81a8894bf2",
+          "darkFile": null,
+          "crops": {},
+          "content": {
+            "kinds": [
+              "brand-mark"
+            ],
+            "containsText": true,
+            "containsLogo": true,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Draft monogram from the v0.3 handoff; not a trademark clearance",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B handoff v0.3",
+            "generator": null,
+            "generatorPrompt": null,
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering",
+            "addedAt": "2026-10-28T15:45:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null
+          }
+        }
+      ]
+    }
+  },
+  "teamLogos": {
+    "note": "Keyed by canonical NBA tricode (site/js/teams.nba.js). No files yet: every logo renders the tricode badge. Reference for the asset task: Mosport-Terminal frontend/public/logos/nba-*.png (rights unverified, nothing copied). Issue #5.",
+    "deliver": {
+      "width": 512,
+      "height": 512,
+      "formats": [
+        "svg",
+        "png",
+        "webp"
+      ],
+      "expectedFile": "assets/teams/nba/{code}.png"
+    },
+    "fit": "contain",
+    "fallback": {
+      "kind": "tricode-badge"
+    },
+    "entries": {}
+  }
+}

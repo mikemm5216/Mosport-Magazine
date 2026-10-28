@@ -90,6 +90,9 @@
     /* Carry the current edition and appearance so links work even where storage is blocked. */
     keep.set('lang', state.lang);
     keep.set('theme', state.theme);
+    /* Carry the reader zoom so Today reopens at the same zoom after Schedule/Review/Match. */
+    var z = window.MOSPORT_READER ? window.MOSPORT_READER.token() : null;
+    if (z) keep.set('zoom', z);
     ['fixture', 'slots', 'logoFail', 'mode'].forEach(function (k) { if (q.get(k)) keep.set(k, q.get(k)); });
     var s = keep.toString();
     return s ? '?' + s : '';

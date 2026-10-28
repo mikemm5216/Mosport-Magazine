@@ -35,7 +35,7 @@
 
       var head =
         '<section class="m-hero" aria-labelledby="m-h">' +
-          '<mo-cover-artwork name="arena"></mo-cover-artwork>' +
+          '<mo-art slot-id="match-hero-art"></mo-art>' +
           '<div class="m-run"><span>' + (d ? esc(d.runhead) : 'MATCH DETAIL') + '</span><span>' + g.gameId + '</span></div>' +
           '<div class="m-teams">' +
             '<div class="m-team"><mo-team-logo code="' + g.away + '" size="xl"></mo-team-logo><p class="m-name">' + esc(c.teamName(g.away)) + '</p><p class="m-side">' + (L === 'zh' ? '客隊' : 'Away') + ' · ' + g.away + '</p></div>' +

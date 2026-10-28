@@ -33,7 +33,7 @@ html[lang="zh-Hant"] .sheet-head h1 { font-family: var(--f-cjk-bold); font-weigh
 .back { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; color: var(--blue); }
 .demo-line { font-size: 12px; color: var(--ink2); }
 .m-hero { position: relative; overflow: hidden; border-radius: 10px; background: var(--navy); color: var(--on); padding: 16px 18px 20px; display: flex; flex-direction: column; gap: 14px; }
-.m-hero > :not(mo-cover-artwork) { position: relative; z-index: 2; }
+.m-hero > :not(mo-art) { position: relative; z-index: 2; }
 .m-hero::after { content: ''; position: absolute; inset: 0; z-index: 1; background: rgba(8, 16, 40, .58); }
 .m-run { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--sky); padding-bottom: 8px; font-family: var(--f-cond); font-weight: 700; letter-spacing: .08em; font-size: 13px; }
 .m-teams { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: center; }

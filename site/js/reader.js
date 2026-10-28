@@ -21,6 +21,25 @@
   var st = { mode: 'fit', scale: 1, current: 1 };
   var ro = null, bound = false;
 
+  /* Zoom is kept across the site: URL ?zoom=fit|50..200 first, then this tab's session. */
+  var KEY = 'mosport.zoom';
+  function parseToken(t) {
+    if (t === 'fit') return { mode: 'fit' };
+    var n = parseInt(t, 10);
+    if (isFinite(n) && n >= MIN * 100 && n <= MAX * 100) return { mode: 'manual', scale: Math.round(n) / 100 };
+    return null;
+  }
+  function token() { return st.mode === 'fit' ? 'fit' : String(Math.round(st.scale * 100)); }
+  function save() { try { sessionStorage.setItem(KEY, token()); } catch (e) { /* storage blocked */ } }
+  (function restore() {
+    var fromUrl = parseToken(new URLSearchParams(location.search).get('zoom'));
+    var stored = null;
+    try { stored = parseToken(sessionStorage.getItem(KEY)); } catch (e) { /* storage blocked */ }
+    var s = fromUrl || stored;
+    if (s) { st.mode = s.mode; if (s.scale) st.scale = s.scale; }
+    if (fromUrl) save();
+  })();
+
   var $ = function (id) { return document.getElementById(id); };
   var desktop = function () { return window.matchMedia(DESKTOP).matches; };
   var clamp = function (s) { return Math.min(MAX, Math.max(MIN, s)); };
@@ -93,7 +112,9 @@
     else if (kind === 'reset') { st.mode = 'manual'; st.scale = 1; }
     else if (kind === 'in') { st.mode = 'manual'; st.scale = clamp(round2(Math.floor(cur * 10 + 1e-6) / 10 + STEP)); }
     else if (kind === 'out') { st.mode = 'manual'; st.scale = clamp(round2(Math.ceil(cur * 10 - 1e-6) / 10 - STEP)); }
+    save();
     apply(true);
+    syncLinks();
   }
 
   function onKey(e) {
@@ -102,6 +123,18 @@
     if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
     var map = { '+': 'in', '=': 'in', '-': 'out', '_': 'out', '0': 'reset', 'f': 'fit', 'F': 'fit' };
     if (map[e.key]) { e.preventDefault(); zoom(map[e.key]); }
+  }
+
+  /* Rewrite ?zoom= on in-site links and in the address bar after a change. */
+  function syncLinks() {
+    var t = token();
+    document.querySelectorAll('a[href]').forEach(function (a) {
+      var h = a.getAttribute('href');
+      if (!/^(index|schedule|review|match)\.html/.test(h)) return;
+      var parts = h.split('?'); var q = new URLSearchParams(parts[1] || '');
+      q.set('zoom', t); a.setAttribute('href', parts[0] + '?' + q.toString());
+    });
+    try { var u = new URLSearchParams(location.search); u.set('zoom', t); history.replaceState(null, '', location.pathname + '?' + u.toString() + location.hash); } catch (e) { /* file: */ }
   }
 
   /* Called after every page render (language/theme changes re-render the page). */
@@ -128,7 +161,7 @@
   }
 
   window.MOSPORT_READER = {
-    mount: mount, zoom: zoom, state: st,
+    mount: mount, zoom: zoom, state: st, token: token,
     limits: { min: MIN, max: MAX, step: STEP, naturalWidth: NATURAL_WIDTH }
   };
 })();

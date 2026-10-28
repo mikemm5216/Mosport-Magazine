@@ -11,7 +11,7 @@
   background: var(--navy); color: var(--on);
   display: flex; flex-direction: column;
 }
-.pg-cover > :not(mo-cover-artwork):not(.cv-shade) { position: relative; z-index: 2; }
+.pg-cover > :not(mo-art):not(.cv-shade) { position: relative; z-index: 2; }
 .cv-shade { position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background:
     linear-gradient(180deg, rgba(5, 12, 32, .82) 0%, rgba(5, 12, 32, .25) 24%, rgba(5, 12, 32, 0) 40%),
@@ -109,7 +109,8 @@ html[lang="en"] .sec-head h2 { font-family: 'Anton', Impact, sans-serif; font-we
 .rv-top h3, .sk-top h3 { font-family: var(--f-cjk-bold); font-weight: 900; font-size: 20px; line-height: 1.25; }
 .story-s { font-size: 14px; line-height: 1.6; color: var(--ink2); }
 .story-meta { font-size: 12px; line-height: 1.5; color: var(--ink3); border-top: 1px solid var(--rule); padding-top: 8px; }
-.story-dark { background: var(--navy); border-color: var(--navy); color: var(--on); }
+.story-dark { position: relative; overflow: hidden; background: var(--navy); border-color: var(--navy); color: var(--on); }
+.story-dark > :not(mo-art) { position: relative; z-index: 1; }
 .story-dark .story-s { color: var(--on2); }
 .lbl-streak { align-self: flex-start; background: var(--orange); color: #111; font-size: 15px; }
 .sk-top { display: flex; align-items: center; gap: 12px; --logo: 52px; }

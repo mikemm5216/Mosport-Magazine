@@ -132,13 +132,16 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
   for (const url of ['index.html', 'match.html?game=DEMO-0041', 'schedule.html', 'review.html']) {
     const { ctx, page } = await open(browser, url, 1440, 900);
     const r = await page.evaluate(() => {
-      const A = window.MOSPORT_ASSETS;
-      const all = [].concat(Object.values(A.brand), Object.values(A.cover), Object.values(A.teams));
-      const allowed = new Set(all.filter((a) => a.src && a.kind !== 'athlete').map((a) => new URL(a.src, location.href).href));
+      const G = window.MOSPORT_REG;
+      const vs = [];
+      const add = (s) => (s.versions || []).forEach((v) => vs.push(v));
+      Object.values(G.slots).forEach(add); Object.values(G.logos).forEach(add); Object.values(G.teamLogos.entries || {}).forEach(add);
+      const ok = vs.filter((v) => !v.content.containsPerson && (v.content.kinds || []).indexOf('athlete') === -1);
+      const allowed = new Set([].concat(...ok.map((v) => [v.file, v.darkFile].filter(Boolean))).map((f) => new URL(f, location.href).href));
       const imgs = [...document.images].map((i) => i.src);
-      return { imgs, bad: imgs.filter((s) => !allowed.has(s) || !s.startsWith('file:')), athlete: all.filter((a) => a.kind === 'athlete').length };
+      return { imgs, bad: imgs.filter((x) => !allowed.has(x) || !x.startsWith('file:')), athlete: vs.length - ok.length };
     });
-    check(`imagery ${url}: only local manifest assets, no athlete kind`, r.bad.length === 0 && r.athlete === 0, r.bad.join(','));
+    check(`imagery ${url}: only registry assets, no person/athlete content`, r.bad.length === 0 && r.athlete === 0, r.bad.join(','));
     await ctx.close();
   }
 
@@ -212,6 +215,9 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
 
   /* 9. Magazine Reader Zoom (Founder addendum) */
   await require('./zoom-suite')(browser, check, open, OUT);
+
+  /* 9b. Asset-ready slots (registry, fallback parity, remote registry) */
+  await require('./asset-suite')(browser, check, open, OUT);
 
   /* 10. Side-by-side with the visual master (for human review; not an automated pass/fail) */
   {

@@ -14,8 +14,9 @@ mo-brand-logo img { width: 100%; height: 100%; display: block; }
 .mo-brand-fb { width: 100%; height: 100%; display: inline-flex; align-items: center; justify-content: center; border-radius: 20%; border: 2px solid currentColor; font-family: var(--f-display); font-size: calc(var(--mark, 36px) * .6); }
 .mo-tone-on-dark { color: var(--on); }
 .mo-tone-on-light { color: var(--ink); }
-mo-cover-artwork { position: absolute; inset: 0; display: block; overflow: hidden; z-index: 0; }
-mo-cover-artwork img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Artwork slot: fills its positioned parent; size comes from layout, never from the image. */
+mo-art { position: absolute; inset: 0; display: block; overflow: hidden; z-index: 0; }
+mo-art img { width: 100%; height: 100%; display: block; }
 .show-slots .mo-slot { outline: 2px dashed #FF3EA5; outline-offset: -2px; }
 .show-slots .mo-slot::after { content: attr(data-slot-label); position: absolute; left: 0; top: 0; z-index: 60; background: #FF3EA5; color: #fff; font: 10px/1.3 monospace; padding: 2px 4px; white-space: nowrap; pointer-events: none; }
 .show-slots mo-brand-logo { position: relative; }

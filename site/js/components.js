@@ -1,44 +1,68 @@
 /*
- * Image-slot components (light DOM, no build step).
+ * Asset-slot components (light DOM, no build step). They hold no paths and no
+ * switching rules: every decision comes from the Asset Registry via
+ * MOSPORT_REGISTRY.resolve*(). Layout size is set by CSS, never by the image, so
+ * a missing or replaced file cannot change the layout.
  *
- *   <mo-brand-logo tone="on-dark|on-light"></mo-brand-logo>      the monogram mark
+ *   <mo-art slot-id="cover-desktop-art" slot-mobile="cover-mobile-art"></mo-art>
  *   <mo-team-logo code="LAL" size="xs|sm|md|lg|xl"></mo-team-logo>
- *   <mo-cover-artwork name="gameday" alt=""></mo-cover-artwork>    fills its positioned parent
+ *   <mo-brand-logo tone="on-dark|on-light"></mo-brand-logo>
  *
- * Every slot resolves through MOSPORT_ASSETS. With no usable file it renders a
- * fallback that is plainly a fallback: the monogram letter, the team tricode on
- * the team colour, or a flat navy field. No fallback imitates a real logo.
- * ?slots=1 outlines each slot with its id, path and rights.
+ * Each element exposes data-slot, data-state (art|fallback), data-version and
+ * data-reason. ?slots=1 outlines every slot with that information.
  */
 (function () {
-  var A = function () { return window.MOSPORT_ASSETS || { brand: {}, cover: {}, teams: {} }; };
-  var mode = function () { return (window.MOSPORT_CONFIG && window.MOSPORT_CONFIG.mode) || 'prototype'; };
+  var REG = function () { return window.MOSPORT_REG; };
+  var R = function () { return window.MOSPORT_REGISTRY; };
+  var cfg = function () { return window.MOSPORT_CONFIG || { mode: 'prototype' }; };
   var lang = function () { return document.documentElement.lang === 'en' ? 'en' : 'zh'; };
-  var dark = function () { return document.documentElement.dataset.theme === 'dark'; };
-  var mobile = function () { return window.matchMedia('(max-width: 1023px)').matches; };
-
-  function usable(a) {
-    if (!a || !a.src) return false;
-    if (a.kind === 'athlete') return false;
-    if (a.rightsStatus === 'BLOCKED') return false;
-    if (a.rightsStatus === 'UNVERIFIED' && mode() !== 'prototype') return false;
-    return true;
-  }
-  function src(a) { return dark() && a.srcDark ? a.srcDark : a.src; }
+  var theme = function () { return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'; };
+  var MOBILE = '(max-width: 1023px)';
+  var variant = function () { return window.matchMedia(MOBILE).matches ? 'mobile' : 'desktop'; };
+  var opts = function () { return { variant: variant(), theme: theme(), mode: cfg().mode }; };
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function readableOn(hex) {
     var h = (hex || '#000000').replace('#', '');
     var c = [0, 2, 4].map(function (i) { var v = parseInt(h.substr(i, 2), 16) / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
     return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2] > 0.36 ? '#0B1220' : '#FFFFFF';
   }
-  function mark(el, id, a) {
+  function tag(el, slot, res) {
     el.classList.add('mo-slot');
-    el.dataset.slot = id;
-    el.dataset.slotLabel = id + ' · ' + (a ? (a.src || a.expectedPath) + ' · ' + a.rightsStatus : 'no manifest entry');
+    el.dataset.slot = slot;
+    el.dataset.state = res.state;
+    el.dataset.version = res.version || '';
+    el.dataset.reason = res.reason || '';
+    el.dataset.slotLabel = slot + ' · ' + res.state + (res.version ? ' · ' + res.version : '') + (res.reason ? ' · ' + res.reason : '') + (res.src ? ' · ' + res.src : '');
   }
 
-  var SIZES = { xs: 22, sm: 36, md: 52, lg: 84, xl: 120 };
+  /* ---------- artwork slot ---------- */
+  class MoArt extends HTMLElement {
+    connectedCallback() {
+      this._mq = window.matchMedia(MOBILE);
+      this._on = this.render.bind(this);
+      if (this._mq.addEventListener) this._mq.addEventListener('change', this._on);
+      this.render();
+    }
+    disconnectedCallback() { if (this._mq && this._mq.removeEventListener) this._mq.removeEventListener('change', this._on); }
+    render() {
+      var o = opts();
+      var slot = o.variant === 'mobile' && this.getAttribute('slot-mobile') ? this.getAttribute('slot-mobile') : this.getAttribute('slot-id');
+      var res = R().resolveArt(REG(), slot, o);
+      if (cfg().forceArtFallback && res.state === 'art') res = Object.assign({}, res, { state: 'fallback', reason: 'FORCED_FALLBACK' });
+      tag(this, slot, res);
+      this.style.background = R().fallbackCss(res.fallback, o.theme) || '';
+      if (res.state === 'art') {
+        this.innerHTML = '<img src="' + esc(res.src) + '" alt="" decoding="async" style="object-fit:' + esc(res.fit || 'cover') + ';object-position:' + esc(res.objectPosition) + '">';
+        var self = this;
+        this.querySelector('img').addEventListener('error', function () {
+          self.innerHTML = ''; self.dataset.state = 'fallback'; self.dataset.reason = 'LOAD_ERROR';
+        }, { once: true });
+      } else this.innerHTML = '';
+    }
+  }
 
+  /* ---------- team logo ---------- */
+  var SIZES = { xs: 22, sm: 36, md: 52, lg: 84, xl: 120 };
   class MoTeamLogo extends HTMLElement {
     static get observedAttributes() { return ['code', 'size']; }
     connectedCallback() { this.render(); }
@@ -47,71 +71,45 @@
       var code = (this.getAttribute('code') || '').toUpperCase();
       var team = window.MOSPORT_TEAMS && window.MOSPORT_TEAMS.get(code);
       var canon = team ? team.code : code;
-      var px = SIZES[this.getAttribute('size') || 'md'] || 52;
-      this.style.setProperty('--logo-default', px + 'px');
-      var a = A().teams[canon];
-      mark(this, 'teams.' + canon, a);
+      this.style.setProperty('--logo-default', (SIZES[this.getAttribute('size') || 'md'] || 52) + 'px');
+      var res = R().resolveTeamLogo(REG(), canon, opts());
+      tag(this, 'team-logo:' + canon, res);
       var name = team ? (lang() === 'zh' ? team.city.zh + team.name.zh : team.city.en + ' ' + team.name.en) : code;
-      if (usable(a)) {
-        this.innerHTML = '<img src="' + esc(src(a)) + '" alt="' + esc(name) + '" decoding="async">';
+      if (res.state === 'art') {
+        this.innerHTML = '<img src="' + esc(res.src) + '" alt="' + esc(name) + '" decoding="async">';
         var self = this;
-        this.querySelector('img').addEventListener('error', function () { self.fallback(team, canon, name); }, { once: true });
-      } else this.fallback(team, canon, name);
+        this.querySelector('img').addEventListener('error', function () { self.dataset.state = 'fallback'; self.dataset.reason = 'LOAD_ERROR'; self.badge(team, canon, name); }, { once: true });
+      } else this.badge(team, canon, name);
     }
-    fallback(team, code, name) {
+    badge(team, code, name) {
       var bg = team ? team.colors[0] : '#5B6472';
-      var stripe = team ? team.colors[1] : '#9AA5B4';
       this.dataset.fallback = 'abbr';
-      this.innerHTML = '<span class="mo-abbr" role="img" aria-label="' + esc(name) + '" style="--bg:' + bg + ';--fg:' + readableOn(bg) + ';--stripe:' + stripe + '">' + esc(code || '?') + '</span>';
+      this.innerHTML = '<span class="mo-abbr" role="img" aria-label="' + esc(name) + '" style="--bg:' + bg + ';--fg:' + readableOn(bg) + ';--stripe:' + (team ? team.colors[1] : '#9AA5B4') + '">' + esc(code || '?') + '</span>';
     }
   }
 
+  /* ---------- brand mark ---------- */
   class MoBrandLogo extends HTMLElement {
     connectedCallback() { this.render(); }
     render() {
-      var a = A().brand.mark;
-      mark(this, 'brand.mark', a);
-      this.className = 'mo-brand mo-slot mo-tone-' + (this.getAttribute('tone') || 'on-dark');
-      if (usable(a)) {
-        this.innerHTML = '<img src="' + esc(src(a)) + '" alt="MOSPORT">';
+      var res = R().resolveLogo(REG(), 'brand-mark', opts());
+      this.className = 'mo-brand mo-tone-' + (this.getAttribute('tone') || 'on-dark');
+      tag(this, 'brand-mark', res);
+      if (res.state === 'art') {
+        this.innerHTML = '<img src="' + esc(res.src) + '" alt="MOSPORT">';
         var self = this;
-        this.querySelector('img').addEventListener('error', function () { self.fallback(); }, { once: true });
-      } else this.fallback();
+        this.querySelector('img').addEventListener('error', function () { self.dataset.state = 'fallback'; self.dataset.reason = 'LOAD_ERROR'; self.text(); }, { once: true });
+      } else this.text();
     }
-    fallback() {
-      this.dataset.fallback = 'text';
-      this.innerHTML = '<span class="mo-brand-fb" role="img" aria-label="MOSPORT">M</span>';
-    }
+    text() { this.dataset.fallback = 'text'; this.innerHTML = '<span class="mo-brand-fb" role="img" aria-label="MOSPORT">M</span>'; }
   }
 
-  class MoCoverArtwork extends HTMLElement {
-    connectedCallback() {
-      this._mq = window.matchMedia('(max-width: 1023px)');
-      this._on = this.render.bind(this);
-      if (this._mq.addEventListener) this._mq.addEventListener('change', this._on);
-      this.render();
-    }
-    disconnectedCallback() { if (this._mq && this._mq.removeEventListener) this._mq.removeEventListener('change', this._on); }
-    render() {
-      var id = this.getAttribute('name');
-      var a = A().cover[id];
-      mark(this, 'cover.' + id, a);
-      this.classList.add('mo-cover');
-      if (usable(a)) {
-        var focal = (mobile() ? a.focalMobile : a.focalDesktop) || '50% 50%';
-        this.innerHTML = '<img src="' + esc(src(a)) + '" alt="' + esc(this.getAttribute('alt') || '') + '" style="object-position:' + esc(focal) + '" decoding="async">';
-        var self = this;
-        this.querySelector('img').addEventListener('error', function () { self.innerHTML = ''; self.dataset.fallback = 'flat'; }, { once: true });
-      } else { this.innerHTML = ''; this.dataset.fallback = 'flat'; }
-    }
-  }
-
+  customElements.define('mo-art', MoArt);
   customElements.define('mo-team-logo', MoTeamLogo);
   customElements.define('mo-brand-logo', MoBrandLogo);
-  customElements.define('mo-cover-artwork', MoCoverArtwork);
 
   window.MOSPORT_REFRESH_SLOTS = function (root) {
-    (root || document).querySelectorAll('mo-team-logo,mo-brand-logo,mo-cover-artwork').forEach(function (el) { el.render(); });
+    (root || document).querySelectorAll('mo-art,mo-team-logo,mo-brand-logo').forEach(function (el) { el.render(); });
   };
   if (/[?&]slots=1\b/.test(location.search)) document.documentElement.classList.add('show-slots');
 })();

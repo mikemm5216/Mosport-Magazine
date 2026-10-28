@@ -132,6 +132,56 @@ module.exports = async function zoomSuite(browser, check, open, OUT) {
     await ctx.close();
   }
 
+  /* Zoom is kept across the site: Today → Schedule / Review / Match → Today */
+  {
+    const { ctx, page } = await open(browser, 'index.html', 1440, 900);
+    await page.click('[data-zoom="reset"]');
+    await page.click('[data-zoom="in"]');
+    await page.click('[data-zoom="in"]');
+    const set = await zoomOf(page);
+    for (const sel of ['.topbar .tb-nav a[href^="schedule.html"]', '.topbar .tb-nav a[href^="review.html"]']) {
+      await page.click(sel);
+      await page.waitForTimeout(200);
+      await page.click('.topbar .tb-nav a[href^="index.html"]');
+      await page.waitForTimeout(300);
+      const z = await zoomOf(page);
+      check(`zoom kept after ${sel.match(/(\w+)\.html/)[1]} → Today`, z.pct === set.pct && z.mode === 'manual', `${set.pct} → ${z.pct} ${z.mode}`);
+    }
+    await page.click('.lead .cta');
+    await page.waitForTimeout(250);
+    await page.click('.m-top .back');
+    await page.waitForTimeout(300);
+    const z = await zoomOf(page);
+    check('zoom kept after Match Detail → Today', z.pct === set.pct, `${set.pct} → ${z.pct}`);
+    await page.click('[data-zoom="fit"]');
+    await page.click('.topbar .tb-nav a[href^="schedule.html"]');
+    await page.waitForTimeout(200);
+    await page.click('.topbar .tb-nav a[href^="index.html"]');
+    await page.waitForTimeout(300);
+    check('Fit Page kept across pages', (await zoomOf(page)).mode === 'fit');
+    await page.reload(); await page.waitForTimeout(300);
+    check('zoom kept on reload', (await zoomOf(page)).mode === 'fit');
+    await ctx.close();
+  }
+
+  /* Mobile pinch-zoom (emulated with the browser's own page scale) keeps the page usable */
+  for (const w of [390, 360]) {
+    const { ctx, page } = await open(browser, 'index.html', w, 800);
+    const cdp = await ctx.newCDPSession(page);
+    await cdp.send('Emulation.setPageScaleFactor', { pageScaleFactor: 2 });
+    await page.waitForTimeout(250);
+    await page.screenshot({ path: path.join(OUT, `zoom-mobile-${w}-pinch-2x.png`) });
+    const layout = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    check(`mobile ${w} pinch 2×: layout width unchanged (no reflow break)`, layout <= 0);
+    await cdp.send('Emulation.setPageScaleFactor', { pageScaleFactor: 1 });
+    await page.evaluate(() => document.querySelector('.mnav').scrollIntoView());
+    await page.screenshot({ path: path.join(OUT, `zoom-mobile-${w}-tabs.png`) });
+    await page.click('.mnav-sec a[href^="review.html"]');
+    await page.waitForTimeout(250);
+    check(`mobile ${w}: Review tab works after pinch-zoom`, /review\.html/.test(page.url()));
+    await ctx.close();
+  }
+
   /* Mobile: native flow and native pinch zoom */
   for (const w of [390, 360]) {
     const { ctx, page } = await open(browser, 'index.html', w, 800);

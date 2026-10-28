@@ -13,10 +13,10 @@ Side-by-side evidence: `docs/reports/2026-10-28-b-p1/compare-visual-master.jpg`.
 | THIS ISSUE / NBA / GAME DAY / tagline | `.cv-topic` from `issue.topic` | Topic is replaceable (B-02); tagline localised |
 | BREAKING NEWS / MOSPORT EXCLUSIVE teasers | `.teaser` from Editor `layout.cover`, only if `resolveIssue` passes them | Both require human approval; absent → no DOM |
 | `+` cover lines | `.cv-lines`, derived only from items that render | Never written by hand |
-| Cover illustration (ball, hoop, arena, court) | `<mo-cover-artwork name="gameday">` → `assets/cover/cover-gameday.svg` (original vector) | Swappable through the manifest |
+| Cover illustration (ball, hoop, arena, court) | `<mo-art slot-id="cover-desktop-art" slot-mobile="cover-mobile-art">`; current version is a labelled PLACEHOLDER vector | Final art is a registry update (`docs/ASSET_SLOTS.md`); layout fixed with or without art |
 | Runhead, page number 02 | `.runhead`, `.pg-foot` | |
 | TODAY + date + slate | `.today-mast`, `.today-date`; slate counts from the issue | |
-| Lead card: arena panel, two logos, version chip, verdict, big %, time/why, CTA | `.lead`; arena = `<mo-cover-artwork name="arena">`; logos = `<mo-team-logo>`; % = `worldPercent()` | Only when the World package is ISSUED + PUBLIC + locked |
+| Lead card: arena panel, two logos, version chip, verdict, big %, time/why, CTA | `.lead`; panel art = `<mo-art slot-id="today-feature-art">`; logos = `<mo-team-logo>`; % = `worldPercent()` | Only when the World package is ISSUED + PUBLIC + locked |
 | 今日其他比賽 cards + 查看全部 + chevron | `.g-rail` of `.g-card`, `.g-next` scrolls the rail; 查看全部 → Schedule | Status chip from World version / LIVE |
 | 昨日檢討 card | `.story-review` | Human-approved REVIEW only |
 | DEMO footer | `.pg-foot` with DEMO badge | |
