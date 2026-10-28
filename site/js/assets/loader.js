@@ -17,6 +17,8 @@
   var cfg = window.MOSPORT_CONFIG = window.MOSPORT_CONFIG || { mode: 'prototype', assetRegistryUrl: null };
   if (/[?&]mode=production\b/.test(q)) cfg.mode = 'production';
   cfg.forceArtFallback = /[?&]art=fallback\b/.test(q);
+  /* ?art=candidate: Founder preview of CANDIDATE art (prototype only; production ignores it). */
+  cfg.previewCandidates = /[?&]art=candidate\b/.test(q);
 
   var clone = function (o) { return JSON.parse(JSON.stringify(o)); };
   var reg = clone(window.MOSPORT_ASSET_REGISTRY || { schemaVersion: 1, slots: {}, logos: {}, teamLogos: {}, renderPolicy: { prototype: { allowRights: [], allowStatus: [] }, production: { allowRights: [], allowStatus: [] } } });

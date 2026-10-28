@@ -21,6 +21,7 @@ Open `site/index.html` in a browser. No build step, no server required.
 | `?fixture=bypass` | Unapproved high-risk items injected: they must not render |
 | `?slots=1` | Outline image slots with id, state, version and reason |
 | `?art=fallback` | Show every art slot's fallback (layout must not change) |
+| `?art=candidate` | Preview CANDIDATE art awaiting Founder approval (prototype only) |
 | `?zoom=fit` / `?zoom=120` | Reader zoom on the desktop spread (also kept across pages) |
 | `?mode=production` | Production render policy (DEMO issues and placeholder art refused) |
 

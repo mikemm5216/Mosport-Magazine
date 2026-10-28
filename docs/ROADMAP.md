@@ -15,7 +15,7 @@ P3 must not block the P1 frontend MVP.
 | **B-P1-05** | Schedule, Review, Match Detail, Almanac entry (labelled "coming later") | B-P1-04 | In PR |
 | **B-P1-06** | Browser acceptance: 1440/1280/390/360, zh/en, light/dark, empty issue, logo failover; screenshots vs visual master | B-P1-04, B-P1-05 | In PR |
 | **B-P1-07** | Magazine Reader Zoom: Fit / − / + / 100%, 50–200%, keyboard, mobile pinch-zoom (Founder addendum #2) | B-P1-04 | In PR, awaiting Founder review |
-| **B-P1-08** | Asset-ready: Asset Registry (JSON, versions, rights, RWD crops, fallbacks, remote-loadable); five art slots; placeholder art not final | B-P1-02 | In PR, awaiting Founder review |
+| **B-P1-08** | Asset-ready: Asset Registry (JSON, versions, rights, RWD crops, fallbacks, remote-loadable); five art slots; ChatGPT art registered as CANDIDATE | B-P1-02 | In PR, awaiting Founder visual sign-off |
 | B-P2-01 | World read-only contract (ingest an A `World Analysis Package`; no recompute) | B-P1-03; A contract review | Not started |
 | B-P2-02 | Editorial item store + Editor layout plan contract | B-P1-03 | Not started |
 | B-P2-03 | Replace DEMO fixtures with a contract-shaped adapter (still no live data) | B-P2-01, B-P2-02 | Not started |

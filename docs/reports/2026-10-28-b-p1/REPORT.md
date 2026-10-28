@@ -1,6 +1,6 @@
 # B-P1 plan vs actual — 2026-10-28
 
-As of 2026-10-28 16:30 Asia/Taipei (zoom addendum, then the P1 correction: zoom kept across pages + Asset-ready registry). Day **OPEN**.
+As of 2026-10-28 16:20 Asia/Taipei (zoom addendum; P1 correction: zoom kept across pages + Asset-ready registry; ChatGPT artwork integrated as CANDIDATE). Day **OPEN**.
 
 | WP | Planned | Actual | Evidence |
 |---|---|---|---|
@@ -9,15 +9,15 @@ As of 2026-10-28 16:30 Asia/Taipei (zoom addendum, then the P1 correction: zoom 
 | B-P1-03 | Eligibility gate | Done | `site/js/editorial/eligibility.js`; 18 unit tests |
 | B-P1-04 | Home spread + mobile cover | Done | screenshots below |
 | B-P1-05 | Schedule, Review, Match Detail, Almanac entry | Done | Almanac is a labelled "coming later" button, not a page |
-| B-P1-06 | Browser acceptance | Done | `npm run test:e2e`: 282/282 checks |
+| B-P1-06 | Browser acceptance | Done | `npm run test:e2e`: 306/306 checks |
 | B-P1-07 | Magazine Reader Zoom (Founder addendum, issue #2), kept across pages | Done, awaiting Founder review | `site/js/reader.js`; `tests/e2e/zoom-suite.js` |
 | B-P1-08 | Asset-ready registry and slots | Done, awaiting Founder review | `site/data/asset-registry.json`, `site/js/assets/`, `docs/ASSET_SLOTS.md`; `tests/unit/registry.test.js`, `tests/e2e/asset-suite.js` |
 
 ## Test results (this commit)
 
 - `npm run registry:check`: registry valid, every file present with matching sha256, generated copy in sync.
-- `npm run test:unit`: **27 pass**, 0 fail (18 eligibility + 9 registry).
-- `npm run test:e2e`: **282/282 pass** (172 base + 79 zoom addendum + 31 for zoom persistence, mobile pinch and asset slots). Coverage:
+- `npm run test:unit`: **28 pass**, 0 fail (18 eligibility + 10 registry).
+- `npm run test:e2e`: **306/306 pass** (172 base + 79 zoom addendum + 31 zoom persistence / mobile pinch / asset slots + 24 CANDIDATE-art preview). Coverage:
   - home at 1440/1280/390/360 × zh/en × light/dark: no overflow, no script errors, brand strings, exactly one %, spread vs cover-first, English edition has no Chinese text;
   - empty issue (U-01); bypass fixture (human gate) on home and review; DEMO refused in production mode;
   - logo and mark failover (U-05); image allow-list with no athlete kind (U-07);
@@ -51,6 +51,31 @@ Screenshots: `zoom-mobile-390-pinch-2x.jpg`, `zoom-mobile-360-pinch-2x.jpg`, `zo
 ## Asset-ready
 
 See `docs/ASSET_SLOTS.md`. Five art slots (`cover-desktop-art`, `cover-mobile-art`, `today-feature-art`, `match-hero-art`, `editorial-card-art`) plus `brand-mark` and per-team logo entries, all in `site/data/asset-registry.json` with versions, sha256, rights, provenance, RWD crops (desktop/mobile focal points), safe zones and a themed fallback. Components only name slot ids. Current art versions are `PLACEHOLDER` vectors (not final; never shown in production). Evidence: `asset-1440-art.jpg` vs `asset-1440-fallback.jpg`, `asset-390-art.jpg` vs `asset-390-fallback.jpg`.
+
+## ChatGPT artwork (CANDIDATE, not active)
+
+Source: Founder-supplied `MOSPORT_B_Original_Five_Panel_Art_Source_20261028.png` (Drive, 1536×1024, sha256 `94cb4629…a7b48f`). Cropped inside the white gutters, cover-cropped (never stretched), WebP:
+
+| Slot | Source region | File | Size |
+|---|---|---|---|
+| cover-desktop-art | 10,7,537,1015 | `cover-desktop-art.v1.webp` 1260×2440 | 305 KB |
+| cover-mobile-art | 551,7,866,1015 + left extension (blurred, darkened mirror of the panel edge + navy vignette, 100 px feather; ball and rim untouched) | `cover-mobile-art.v1.webp` 1170×2532 | 211 KB |
+| today-feature-art | 880,7,1524,341 | `today-feature-art.v1.webp` 1600×800 | 142 KB |
+| match-hero-art | 880,352,1524,667 | `match-hero-art.v1.webp` 2560×720 | 105 KB |
+| editorial-card-art | 880,677,1524,1015 (right side kept) | `editorial-card-art.v1.webp` 1200×800 | 68 KB |
+
+Registered as version `chatgpt-art-v1`, status **CANDIDATE** (rights OWNED, generator ChatGPT ImageGen, source URL and region recorded). `activeVersion` is unchanged, so the default site and production do not show them. Preview: `?art=candidate` (prototype only).
+
+Checked in the browser (24 checks): each slot shows `chatgpt-art-v1` and the file loads; same layout as with no art; no sideways overflow; 1440 Fit and 100%, 1024 Fit, 390, 360, zh/en, light/dark; 200% reaches the last corner; mobile pinch 2×; Match hero; production never shows CANDIDATE.
+
+Visible differences vs the master, for the Founder's call:
+- The cover now carries a ball, hoop, net, light flares and arena much like the master. The ball sits behind the right end of the MOSPORT masthead (as in the master); the masthead stays readable.
+- The source panels are about 0.4 MP, so the art is visibly softer than the master at 100% on a 1440 screen; Fit Page hides most of it. A higher-resolution export of the same panels would fix this without code changes.
+- Mobile: the left third is a dark extension (the source panel is narrower than the phone ratio); it sits under the masthead and headlines, where the master is also dark.
+- Arena boards in the source have illegible glyph-like marks (no readable text or marks); crowds are distant texture, no identifiable people.
+- Team logos remain tricode badges (issue #5).
+
+Screenshots: `candidate-1440-fit.jpg`, `candidate-1440-100.jpg`, `candidate-1440-100-en-dark.jpg`, `candidate-1440-100-200-bottom-right.jpg`, `candidate-1024-fit.jpg`, `candidate-390-full.jpg`, `candidate-390-en-dark.jpg`, `candidate-390-pinch-2x.jpg`, `candidate-360.jpg`, `candidate-match-1440.jpg`, and `compare-visual-master-candidate.jpg`.
 
 ## Visual comparison
 

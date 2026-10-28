@@ -97,3 +97,19 @@ test('fallback CSS follows the theme', () => {
   assert.equal(R.fallbackCss(fb, 'light'), fb.light);
   assert.equal(R.fallbackCss(fb, 'dark'), fb.dark);
 });
+
+test('CANDIDATE art: hidden by default, shown only in prototype preview, never in production', () => {
+  const ids = ['cover-desktop-art', 'cover-mobile-art', 'today-feature-art', 'match-hero-art', 'editorial-card-art'];
+  for (const id of ids) {
+    const s = REG.slots[id];
+    assert.ok(s.versions.some((v) => v.status === 'CANDIDATE' && v.id === 'chatgpt-art-v1'), id + ' has a candidate');
+    assert.notEqual(s.activeVersion, 'chatgpt-art-v1', id + ' candidate is not active');
+    const def = R.resolveArt(REG, id, { mode: 'prototype' });
+    assert.notEqual(def.version, 'chatgpt-art-v1', id + ' default view');
+    const pv = R.resolveArt(REG, id, { mode: 'prototype', preview: true, variant: 'mobile' });
+    assert.equal(pv.state, 'art', id + ' preview');
+    assert.equal(pv.version, 'chatgpt-art-v1');
+    const prod = R.resolveArt(REG, id, { mode: 'production', preview: true });
+    assert.notEqual(prod.version === 'chatgpt-art-v1' && prod.state === 'art', true, id + ' production');
+  }
+});

@@ -19,7 +19,7 @@
   var theme = function () { return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'; };
   var MOBILE = '(max-width: 1023px)';
   var variant = function () { return window.matchMedia(MOBILE).matches ? 'mobile' : 'desktop'; };
-  var opts = function () { return { variant: variant(), theme: theme(), mode: cfg().mode }; };
+  var opts = function () { return { variant: variant(), theme: theme(), mode: cfg().mode, preview: !!cfg().previewCandidates }; };
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function readableOn(hex) {
     var h = (hex || '#000000').replace('#', '');

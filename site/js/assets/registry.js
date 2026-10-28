@@ -49,15 +49,20 @@
     return errs;
   }
 
-  /* opts: { variant: 'desktop'|'mobile', theme: 'light'|'dark', mode: 'prototype'|'production' } */
+  /* opts: { variant: 'desktop'|'mobile', theme: 'light'|'dark', mode: 'prototype'|'production', preview: bool }
+   * preview (prototype only): show the newest CANDIDATE version of each slot, for Founder review
+   * before a candidate is promoted to activeVersion. Production ignores preview. */
   function pick(reg, s, opts, isArt) {
     opts = opts || {};
-    var policy = (reg.renderPolicy || {})[opts.mode || 'prototype'] || { allowRights: [], allowStatus: [] };
+    var preview = !!opts.preview && opts.mode !== 'production' && reg.renderPolicy && reg.renderPolicy.preview;
+    var policy = (reg.renderPolicy || {})[preview ? 'preview' : (opts.mode || 'prototype')] || { allowRights: [], allowStatus: [] };
     var base = { fit: s.fit, fallback: s.fallback, slotLabel: s.label };
     var v = null;
-    (s.versions || []).forEach(function (x) { if (x.id === s.activeVersion) v = x; });
+    var activeId = s.activeVersion;
+    if (preview) (s.versions || []).forEach(function (x) { if (x.status === 'CANDIDATE') activeId = x.id; });
+    (s.versions || []).forEach(function (x) { if (x.id === activeId) v = x; });
     var no = function (reason) { return Object.assign(base, { state: 'fallback', reason: reason, version: v ? v.id : null }); };
-    if (!s.activeVersion) return no('NO_ACTIVE_VERSION');
+    if (!activeId) return no('NO_ACTIVE_VERSION');
     if (!v) return no('ACTIVE_VERSION_MISSING');
     if (policy.allowStatus.indexOf(v.status) === -1) return no('STATUS_' + v.status + '_NOT_ALLOWED');
     if (!v.rights || policy.allowRights.indexOf(v.rights.status) === -1) return no('RIGHTS_' + (v.rights && v.rights.status) + '_NOT_ALLOWED');

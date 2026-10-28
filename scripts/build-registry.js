@@ -31,6 +31,9 @@ for (const [id, v] of versions) {
   for (const f of [v.file, v.darkFile].filter(Boolean)) {
     const p = path.join(SITE, f);
     if (!fs.existsSync(p)) { errs.push(`${id}/${v.id}: file missing ${f}`); continue; }
+    const slotDef = (reg.slots || {})[id] || (reg.logos || {})[id] || (reg.teamLogos || {});
+    const max = slotDef.deliver && slotDef.deliver.maxBytes;
+    if (max && v.status !== 'PLACEHOLDER' && fs.statSync(p).size > max) errs.push(`${id}/${v.id}: ${f} is ${fs.statSync(p).size} bytes, over ${max}`);
     if (f === v.file) {
       const h = crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
       if (h !== v.sha256) errs.push(`${id}/${v.id}: sha256 mismatch for ${f}`);

@@ -93,7 +93,7 @@
     /* Carry the reader zoom so Today reopens at the same zoom after Schedule/Review/Match. */
     var z = window.MOSPORT_READER ? window.MOSPORT_READER.token() : null;
     if (z) keep.set('zoom', z);
-    ['fixture', 'slots', 'logoFail', 'mode'].forEach(function (k) { if (q.get(k)) keep.set(k, q.get(k)); });
+    ['fixture', 'slots', 'logoFail', 'mode', 'art'].forEach(function (k) { if (q.get(k)) keep.set(k, q.get(k)); });
     var s = keep.toString();
     return s ? '?' + s : '';
   }

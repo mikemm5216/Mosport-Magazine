@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "registryVersion": "2026-10-28.1",
-  "updatedAt": "2026-10-28T15:45:00+08:00",
+  "registryVersion": "2026-10-28.2",
+  "updatedAt": "2026-10-28T16:10:00+08:00",
   "updatedBy": "MOSPORT-B engineering",
   "formats": [
     "webp",
@@ -29,6 +29,18 @@
       ],
       "allowStatus": [
         "ACTIVE"
+      ]
+    },
+    "preview": {
+      "allowRights": [
+        "OWNED",
+        "LICENSED",
+        "EMBED_PERMITTED"
+      ],
+      "allowStatus": [
+        "ACTIVE",
+        "PLACEHOLDER",
+        "CANDIDATE"
       ]
     }
   },
@@ -160,6 +172,54 @@
             "approvedBy": null,
             "approvedAt": null
           }
+        },
+        {
+          "id": "chatgpt-art-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/cover-desktop-art.v1.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1260,
+          "height": 2440,
+          "sha256": "04e7e7cc91efccaf3797091319bd2547adfbacca347e823d8bd139d6c7ac7d9f",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.62,
+                "y": 0.3
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "court",
+              "arena",
+              "lights",
+              "crowd-abstract",
+              "brush"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original generated artwork for MOSPORT (Founder-supplied)",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Original_Five_Panel_Art_Source_20261028.png, region 10,7,537,1015 (left,top,right,bottom px); cover crop to 1260×2440 (Lanczos), no stretch. Source sha256 94cb4629b2dd14e39319aef5eef11cddcfac5fbad2f8004c8faa32e231a7b48f",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": null,
+            "attribution": null,
+            "sourceUrl": "https://drive.google.com/file/d/1VSBmjPt9b3iv19h_mTy60ngx4QxN__K_/view?usp=drivesdk"
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering (crop/export from Founder-supplied source)",
+            "addedAt": "2026-10-28T16:10:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "notes": "Crowds are distant, non-identifiable texture. Arena boards carry illegible glyph-like marks, no readable text or marks. Upscaled from a ~0.4 MP panel: soft at 100% on large screens."
+          }
         }
       ]
     },
@@ -274,6 +334,54 @@
             "approvedBy": null,
             "approvedAt": null
           }
+        },
+        {
+          "id": "chatgpt-art-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/cover-mobile-art.v1.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1170,
+          "height": 2532,
+          "sha256": "31dc2c7c2e89cf03121fdc97edeede936b0189040ad4359cce94dcf7e28ebfcf",
+          "crops": {
+            "mobile": {
+              "focal": {
+                "x": 0.7,
+                "y": 0.3
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "court",
+              "arena",
+              "lights",
+              "crowd-abstract",
+              "brush"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original generated artwork for MOSPORT (Founder-supplied)",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Original_Five_Panel_Art_Source_20261028.png, region 551,7,866,1015 (left,top,right,bottom px); left side extended with a blurred, darkened mirror of the panel edge plus navy vignette (feathered 100 px); ball and rim not stretched; resized to 1170×2532. Source sha256 94cb4629b2dd14e39319aef5eef11cddcfac5fbad2f8004c8faa32e231a7b48f",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": null,
+            "attribution": null,
+            "sourceUrl": "https://drive.google.com/file/d/1VSBmjPt9b3iv19h_mTy60ngx4QxN__K_/view?usp=drivesdk"
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering (crop/export from Founder-supplied source)",
+            "addedAt": "2026-10-28T16:10:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "notes": "Crowds are distant, non-identifiable texture. Arena boards carry illegible glyph-like marks, no readable text or marks. Upscaled from a ~0.4 MP panel: soft at 100% on large screens."
+          }
         }
       ]
     },
@@ -373,6 +481,58 @@
             "approvedBy": null,
             "approvedAt": null
           }
+        },
+        {
+          "id": "chatgpt-art-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/today-feature-art.v1.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1600,
+          "height": 800,
+          "sha256": "8d0c78f6afcb27cc7add94542d49413318ea7b1148826b1a024438cd73d0eccf",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.62
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.62
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "arena",
+              "court",
+              "lights",
+              "crowd-abstract"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original generated artwork for MOSPORT (Founder-supplied)",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Original_Five_Panel_Art_Source_20261028.png, region 880,7,1524,341 (left,top,right,bottom px); cover crop to 1600×800 (focal y 0.6). Source sha256 94cb4629b2dd14e39319aef5eef11cddcfac5fbad2f8004c8faa32e231a7b48f",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": null,
+            "attribution": null,
+            "sourceUrl": "https://drive.google.com/file/d/1VSBmjPt9b3iv19h_mTy60ngx4QxN__K_/view?usp=drivesdk"
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering (crop/export from Founder-supplied source)",
+            "addedAt": "2026-10-28T16:10:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "notes": "Crowds are distant, non-identifiable texture. Arena boards carry illegible glyph-like marks, no readable text or marks. Upscaled from a ~0.4 MP panel: soft at 100% on large screens."
+          }
         }
       ]
     },
@@ -471,6 +631,58 @@
             "approvedBy": null,
             "approvedAt": null
           }
+        },
+        {
+          "id": "chatgpt-art-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/match-hero-art.v1.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 2560,
+          "height": 720,
+          "sha256": "65110777ddd7accdbf809af731d5bceaddc755ede9f3698b625998a367ff1c9e",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "arena",
+              "court",
+              "lights",
+              "crowd-abstract"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original generated artwork for MOSPORT (Founder-supplied)",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Original_Five_Panel_Art_Source_20261028.png, region 880,352,1524,667 (left,top,right,bottom px); cover crop to 2560×720 (focal y 0.45). Source sha256 94cb4629b2dd14e39319aef5eef11cddcfac5fbad2f8004c8faa32e231a7b48f",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": null,
+            "attribution": null,
+            "sourceUrl": "https://drive.google.com/file/d/1VSBmjPt9b3iv19h_mTy60ngx4QxN__K_/view?usp=drivesdk"
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering (crop/export from Founder-supplied source)",
+            "addedAt": "2026-10-28T16:10:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "notes": "Crowds are distant, non-identifiable texture. Arena boards carry illegible glyph-like marks, no readable text or marks. Upscaled from a ~0.4 MP panel: soft at 100% on large screens."
+          }
         }
       ]
     },
@@ -521,7 +733,59 @@
         "dark": "linear-gradient(135deg, #081332 0%, #0F2150 100%)"
       },
       "activeVersion": null,
-      "versions": []
+      "versions": [
+        {
+          "id": "chatgpt-art-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/editorial-card-art.v1.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1200,
+          "height": 800,
+          "sha256": "1c0e49b10aeeff86260b8b66f2f161ce7957563aab62cb03e40530cfb9d1be31",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.8,
+                "y": 0.5
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.8,
+                "y": 0.5
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "geometry",
+              "brush",
+              "equipment"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original generated artwork for MOSPORT (Founder-supplied)",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Original_Five_Panel_Art_Source_20261028.png, region 880,677,1524,1015 (left,top,right,bottom px); cover crop to 1200×800 keeping the right side (focal x 0.8). Source sha256 94cb4629b2dd14e39319aef5eef11cddcfac5fbad2f8004c8faa32e231a7b48f",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": null,
+            "attribution": null,
+            "sourceUrl": "https://drive.google.com/file/d/1VSBmjPt9b3iv19h_mTy60ngx4QxN__K_/view?usp=drivesdk"
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering (crop/export from Founder-supplied source)",
+            "addedAt": "2026-10-28T16:10:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "notes": "Crowds are distant, non-identifiable texture. Arena boards carry illegible glyph-like marks, no readable text or marks. Upscaled from a ~0.4 MP panel: soft at 100% on large screens."
+          }
+        }
+      ]
     }
   },
   "logos": {

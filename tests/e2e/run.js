@@ -219,20 +219,26 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
   /* 9b. Asset-ready slots (registry, fallback parity, remote registry) */
   await require('./asset-suite')(browser, check, open, OUT);
 
+  /* 9c. Founder preview of CANDIDATE art */
+  await require('./candidate-suite')(browser, check, open, OUT);
+
   /* 10. Side-by-side with the visual master (for human review; not an automated pass/fail) */
-  {
+  for (const [file, fit, full, mob, label] of [
+    ['compare-visual-master.png', 'zoom-1440-fit.png', 'zoom-1440-100.png', 'home-390-zh-light.png', 'placeholder art'],
+    ['compare-visual-master-candidate.png', 'candidate-1440-fit.png', 'candidate-1440-100.png', 'candidate-390.png', 'CANDIDATE art (chatgpt-art-v1)']
+  ]) {
     const ref = 'data:image/png;base64,' + fs.readFileSync(REF).toString('base64');
-    const d = 'data:image/png;base64,' + fs.readFileSync(path.join(OUT, 'zoom-1440-fit.png')).toString('base64');
-    const h = 'data:image/png;base64,' + fs.readFileSync(path.join(OUT, 'zoom-1440-100.png')).toString('base64');
-    const m = 'data:image/png;base64,' + fs.readFileSync(path.join(OUT, 'home-390-zh-light.png')).toString('base64');
+    const d = 'data:image/png;base64,' + fs.readFileSync(path.join(OUT, fit)).toString('base64');
+    const h = 'data:image/png;base64,' + fs.readFileSync(path.join(OUT, full)).toString('base64');
+    const m = 'data:image/png;base64,' + fs.readFileSync(path.join(OUT, mob)).toString('base64');
     const ctx = await browser.newContext({ viewport: { width: 2500, height: 1100 } });
     const page = await ctx.newPage();
     await page.setContent(`<body style="margin:0;background:#222;display:flex;gap:16px;padding:16px;font:14px sans-serif;color:#fff">
       <figure style="margin:0"><figcaption>VISUAL_REFERENCE_CURRENT.png</figcaption><img src="${ref}" style="height:1024px"></figure>
-      <figure style="margin:0"><figcaption>Browser 1440×900 · Fit Page</figcaption><img src="${d}" style="width:820px;display:block"><figcaption style="margin-top:8px">Browser 1440×900 · 100%</figcaption><img src="${h}" style="width:820px;display:block"></figure>
-      <figure style="margin:0"><figcaption>Browser 390 · zh · light (top)</figcaption><div style="height:1024px;overflow:hidden"><img src="${m}" style="width:260px"></div></figure></body>`);
+      <figure style="margin:0"><figcaption>Browser 1440×900 · Fit Page · ${label}</figcaption><img src="${d}" style="width:820px;display:block"><figcaption style="margin-top:8px">Browser 1440×900 · 100%</figcaption><img src="${h}" style="width:820px;display:block"></figure>
+      <figure style="margin:0"><figcaption>Browser 390 · zh · light · ${label}</figcaption><div style="height:1024px;overflow:hidden"><img src="${m}" style="width:260px"></div></figure></body>`);
     await page.waitForTimeout(300);
-    await page.screenshot({ path: path.join(OUT, 'compare-visual-master.png'), fullPage: true });
+    await page.screenshot({ path: path.join(OUT, file), fullPage: true });
     await ctx.close();
   }
 
