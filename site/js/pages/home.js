@@ -140,7 +140,8 @@ window.MOSPORT_PAGE = {
     var bar =
       '<div class="reader-bar" id="reader-bar" role="toolbar" aria-label="' + esc(T('zoomLabel')) + '" aria-controls="reader">' +
         '<span class="rb-label">' + T('zoomLabel') + '</span>' +
-        '<button type="button" class="rb-btn rb-fit" data-zoom="fit" aria-pressed="true">' + T('zoomFit') + '</button>' +
+        '<button type="button" class="rb-btn rb-fit" data-zoom="width" aria-pressed="true">' + T('zoomWidth') + '</button>' +
+        '<button type="button" class="rb-btn rb-fit" data-zoom="fit" aria-pressed="false">' + T('zoomFit') + '</button>' +
         '<button type="button" class="rb-btn rb-icon" data-zoom="out" aria-label="' + esc(T('zoomOut')) + '">−</button>' +
         '<output class="rb-val" data-zoom-value aria-live="polite" aria-label="' + esc(T('zoomCurrent')) + '">100%</output>' +
         '<button type="button" class="rb-btn rb-icon" data-zoom="in" aria-label="' + esc(T('zoomIn')) + '">+</button>' +
