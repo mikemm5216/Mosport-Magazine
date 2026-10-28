@@ -151,3 +151,26 @@ test('xss issue: unsafe records are rejected; surviving markup is carried as pla
   assert.ok(!ids(m.cover).includes('ED-FEAT-0003'), 'story backed by the javascript: source is out');
   assert.ok(m.cover[0].zh.headline.includes('<script>'), 'kept verbatim; the page must escape it');
 });
+
+test('Codex #8: a null entry in games or items is excluded; the rest of the issue still renders', () => {
+  const raw = clone(F.demo);
+  raw.games.splice(1, 0, null);
+  raw.items.splice(2, 0, null);
+  const { model: m, diagnostics: d } = PL.run(raw, { mode: 'prototype', now: NOW });
+  assert.equal(m.status, 'OK');
+  assert.equal(m.schedule.length, 6);
+  assert.equal(m.invalidGames, 1);
+  assert.deepEqual(ids(m.cover), ['ED-NEWS-0007', 'ED-FEAT-0003']);
+  assert.ok(d.problems.some((p) => p.code === 'WRONG_TYPE'));
+});
+
+test('Codex #8: a well-spelled but unknown time zone excludes that game instead of breaking the page', () => {
+  const raw = clone(F.demo);
+  raw.games[0].venueTz = 'America/Not_A_Zone';
+  const { model: m, diagnostics: d } = PL.run(raw, { mode: 'prototype', now: NOW });
+  assert.equal(m.status, 'OK');
+  assert.ok(d.problems.some((p) => p.id === 'DEMO-0041' && p.code === 'BAD_FORMAT'));
+  assert.ok(!m.schedule.some((g) => g.gameId === 'DEMO-0041'));
+  assert.equal(m.lead, null, 'the lead that pointed at it is dropped, not re-pointed');
+  assert.equal(m.invalidGames, 1);
+});

@@ -206,6 +206,15 @@
     if (r.t === 'object' && r.shape) checkShape(v, r.shape, path, out);
   }
 
+  var tzCache = {};
+  function supportedTimeZone(tz) {
+    if (Object.prototype.hasOwnProperty.call(tzCache, tz)) return tzCache[tz];
+    var ok;
+    try { new Intl.DateTimeFormat('en-US', { timeZone: tz }).format(0); ok = true; } catch (e) { ok = false; }
+    tzCache[tz] = ok;
+    return ok;
+  }
+
   /** Only absolute http(s) URLs. Rejects javascript:, data:, protocol-relative and credentials. */
   function safeUrl(s) {
     if (typeof s !== 'string' || s.length > 2048 || /[\s<>"'`\\]/.test(s)) return false;
@@ -392,6 +401,8 @@
     }
     if (kind === 'game') {
       var w = rec.world;
+      /* The spelling pattern is not enough: the runtime must know the zone, or formatting throws. */
+      if (!supportedTimeZone(rec.venueTz)) out.push(P('BAD_FORMAT', path + '.venueTz', 'unknown time zone ' + rec.venueTz));
       if (rec.away === rec.home) out.push(P('BAD_FORMAT', path + '.home', 'same team twice'));
       if (w.interval60 && w.interval60[0] > w.interval60[1]) out.push(P('OUT_OF_RANGE', path + '.world.interval60'));
       if (w.state === 'NOT_ISSUED' && (w.homeWinProbability != null || w.verdict)) out.push(P('FIELD_NOT_ALLOWED', path + '.world', 'NOT_ISSUED carries no read'));

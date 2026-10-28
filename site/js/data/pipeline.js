@@ -76,7 +76,8 @@
     if (v.fatal.length) return { model: emptyModel('INVALID', v.fatal[0].code), diagnostics: diag };
 
     var bad = v.records;
-    var okGames = raw.games.filter(function (g) { return v.index.game[g.gameId] && !bad.game[g.gameId]; });
+    /* Build from the validated index: a null or malformed entry is skipped, not dereferenced. */
+    var okGames = raw.games.filter(function (g) { return g && typeof g.gameId === 'string' && v.index.game[g.gameId] === g && !bad.game[g.gameId]; });
     var meta = { issueId: raw.issueId, volume: raw.issue.volume, number: raw.issue.number, date: raw.issue.date, page: raw.issue.page,
       topic: { line1: raw.issue.topic.line1, line2: raw.issue.topic.line2 }, edition: { zh: raw.issue.edition.zh, en: raw.issue.edition.en },
       generatedAt: raw.generatedAt, validUntil: raw.validUntil, worldSource: raw.worldSource };
@@ -94,7 +95,7 @@
 
     /* Reference resolution: the approval shown to the gate comes only from a receipt
        that matches this item's id, revision and content hash. */
-    var items = raw.items.filter(function (it) { return v.index.item[it.id] && !bad.item[it.id]; }).map(function (it) {
+    var items = raw.items.filter(function (it) { return it && typeof it.id === 'string' && v.index.item[it.id] === it && !bad.item[it.id]; }).map(function (it) {
       var r = JSON.parse(JSON.stringify(it));
       var a = it.approvalReceiptRef ? v.index.approval[it.approvalReceiptRef] : null;
       r.approval = a ? { mode: a.mode, approverId: a.approverId, approvedAt: a.decidedAt, policyVersion: a.policyVersion } : null;
