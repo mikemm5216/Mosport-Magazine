@@ -41,3 +41,6 @@ npm run setup:browsers   # downloads Chromium for Playwright (free, local)
 ```
 
 同日後續決議與覆核：[Founder follow-up](docs/FOUNDER_FOLLOWUP_20261028.md)。
+
+CPBL 六隊與旗幟素材總覽：開啟 [asset-catalog.html](site/asset-catalog.html)。
+來源與驗證：[CPBL / flags acquisition](docs/reports/2026-10-28-cpbl-flags/README.md)。

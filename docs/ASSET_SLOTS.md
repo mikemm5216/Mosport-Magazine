@@ -127,3 +127,19 @@ desktop/mobile/match geometry parity, overflow, production refusal and screensho
 30 NBA PNGs are copied byte-for-byte from Mosport-Terminal at ae608b26a9efb115b13b080904d1d9fd8bd5ec57. Source blob hashes and paths: docs/assets/nba-import.json. Each registry entry records UNVERIFIED rights; internal prototype display is enabled under the Founder instruction to reuse existing logos, while production refuses them. This records technical integration, not third-party commercial permission.
 
 Other existing sports files are indexed in docs/assets/multi-sport-logo-inventory.json. The inspected Terminal tree has MLB, EPL/UCL and NHL collections; only public/logos/cpbl/bro.png was found for CPBL; no NFL file was located in that tree. Do not claim complete NFL or CPBL coverage.
+
+## CPBL marks and flags
+
+The complete six-team CPBL set is in `site/assets/teams/cpbl/`, indexed by the
+league's observed provider codes in `site/data/cpbl-team-registry.json`.
+The existing `BRO`/`UNI`/etc. labels are local aliases, not claimed official codes.
+Native small-mark sizes (80–100px) are recorded; files are not enlarged.
+
+`site/assets/flags/` contains the MIT-licensed flag-icons 7.6.0 4:3 SVG collection:
+249 ISO country/territory flags plus 22 supplementary symbols. Its independent
+`site/data/flag-registry.json` prevents collisions with team tricodes. Country
+flags and sports federation/IOC symbols must not be silently interchanged.
+
+Open `site/asset-catalog.html` to inspect/search both collections. This adds an
+asset collection; it does not enable CPBL games or national-team pages in the NBA
+magazine. `npm run assets:check` and the browser asset suite verify the collection.
