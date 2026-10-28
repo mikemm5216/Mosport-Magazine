@@ -4,11 +4,12 @@
  * Desktop (≥ 1024 px): the whole spread (cover + TODAY together) is laid out at
  * a fixed natural width and scaled as one unit inside a scrollable reader
  * viewport. The site navigation is outside the reader and never scales.
+ *   Fit Width  DEFAULT; largest scale fitting the spread width, capped at 100%
  *   Fit Page   largest scale that shows the whole spread in the available
  *              width AND height; recomputed on resize while Fit is active
  *   − / +      10% steps on a 10% grid, bounded to 50%–200%
  *   100%       the unscaled spread
- * Keyboard (focus inside the reader): + / − / 0 / F. Ctrl/Cmd combinations are
+ * Keyboard (focus inside the reader): + / − / 0 / F / W. Ctrl/Cmd combinations are
  * left to the browser, so browser zoom is never hijacked.
  *
  * Mobile (< 1024 px): nothing is scaled; the page keeps the native cover →
@@ -18,18 +19,19 @@
   var NATURAL_WIDTH = 1360;   /* spread width at 100% (px) */
   var MIN = 0.5, MAX = 2, STEP = 0.1;
   var DESKTOP = '(min-width: 1024px)';
-  var st = { mode: 'fit', scale: 1, current: 1 };
+  var st = { mode: 'width', scale: 1, current: 1 };
   var ro = null, bound = false;
 
-  /* Zoom is kept across the site: URL ?zoom=fit|50..200 first, then this tab's session. */
+  /* Zoom is kept across the site: URL ?zoom=width|fit|50..200 first, then this tab's session. */
   var KEY = 'mosport.zoom';
   function parseToken(t) {
+    if (t === 'width') return { mode: 'width' };
     if (t === 'fit') return { mode: 'fit' };
     var n = parseInt(t, 10);
     if (isFinite(n) && n >= MIN * 100 && n <= MAX * 100) return { mode: 'manual', scale: Math.round(n) / 100 };
     return null;
   }
-  function token() { return st.mode === 'fit' ? 'fit' : String(Math.round(st.scale * 100)); }
+  function token() { return st.mode === 'fit' || st.mode === 'width' ? st.mode : String(Math.round(st.scale * 100)); }
   function save() { try { sessionStorage.setItem(KEY, token()); } catch (e) { /* storage blocked */ } }
   (function restore() {
     var fromUrl = parseToken(new URLSearchParams(location.search).get('zoom'));
@@ -48,6 +50,12 @@
   function parts() {
     var reader = $('reader'), sizer = $('sizer');
     return reader && sizer ? { reader: reader, sizer: sizer, spread: sizer.querySelector('.spread'), bar: $('reader-bar') } : null;
+  }
+
+  function widthScale(p) {
+    var cs = getComputedStyle(p.reader);
+    var w = p.reader.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    return clamp(Math.floor(Math.min(1, w / NATURAL_WIDTH) * 100) / 100);
   }
 
   function fitScale(p) {
@@ -74,7 +82,7 @@
     var cy = r.scrollHeight > r.clientHeight ? (r.scrollTop + r.clientHeight / 2) / r.scrollHeight : 0;
 
     p.spread.style.width = NATURAL_WIDTH + 'px';
-    var s = st.mode === 'fit' ? fitScale(p) : st.scale;
+    var s = st.mode === 'fit' ? fitScale(p) : st.mode === 'width' ? widthScale(p) : st.scale;
     st.current = s;
     p.spread.style.transform = 'scale(' + s + ')';
     p.sizer.style.width = Math.round(NATURAL_WIDTH * s) + 'px';
@@ -103,12 +111,14 @@
     set('[data-zoom="out"]', st.current <= MIN + 1e-9);
     set('[data-zoom="in"]', st.current >= MAX - 1e-9);
     set('[data-zoom="fit"]', false, st.mode === 'fit');
+    set('[data-zoom="width"]', false, st.mode === 'width');
     set('[data-zoom="reset"]', false, st.mode === 'manual' && Math.abs(st.current - 1) < 1e-9);
   }
 
   function zoom(kind) {
     var cur = st.current;
-    if (kind === 'fit') { st.mode = 'fit'; }
+    if (kind === 'width') { st.mode = 'width'; }
+    else if (kind === 'fit') { st.mode = 'fit'; }
     else if (kind === 'reset') { st.mode = 'manual'; st.scale = 1; }
     else if (kind === 'in') { st.mode = 'manual'; st.scale = clamp(round2(Math.floor(cur * 10 + 1e-6) / 10 + STEP)); }
     else if (kind === 'out') { st.mode = 'manual'; st.scale = clamp(round2(Math.ceil(cur * 10 - 1e-6) / 10 - STEP)); }
@@ -121,7 +131,7 @@
     if (!desktop() || e.ctrlKey || e.metaKey || e.altKey) return;
     var t = e.target;
     if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
-    var map = { '+': 'in', '=': 'in', '-': 'out', '_': 'out', '0': 'reset', 'f': 'fit', 'F': 'fit' };
+    var map = { '+': 'in', '=': 'in', '-': 'out', '_': 'out', '0': 'reset', 'f': 'fit', 'F': 'fit', 'w': 'width', 'W': 'width' };
     if (map[e.key]) { e.preventDefault(); zoom(map[e.key]); }
   }
 
