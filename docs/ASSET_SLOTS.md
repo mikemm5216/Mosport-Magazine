@@ -157,3 +157,12 @@ Rebuild NBA + CPBL derivatives: `python scripts/normalize-team-logos.py`, then
 `npm run registry:build`. The catalogue uses exactly 80×80 CSS pixels for every
 CPBL mark. The magazine retains its common per-role responsive sizes for team
 logos; every member of a role uses the same box and object-fit: contain.
+
+## MLB / football / NHL imports
+
+`site/data/multi-sport-team-registry.json` (and disk-safe JS copy) contains MLB 30,
+NHL 32 and a 37-club football pool (legacy EPL 23 + UCL 14). These identities are
+namespaced and separate from NBA codes and flag codes. Originals are under
+`assets/teams/sources/`; 80×80 derivatives under `assets/teams/normalized/`.
+Football source folders do not assert current-season membership. The searchable
+flag catalogue now also displays all 135 imported team marks in league sections.

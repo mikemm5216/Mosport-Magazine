@@ -1,0 +1,699 @@
+{
+  "repository": "mikemm5216/Mosport-Terminal",
+  "commit": "ae608b26a9efb115b13b080904d1d9fd8bd5ec57",
+  "entries": [
+    {
+      "source": "frontend/public/logos/epl/ars.png",
+      "file": "assets/teams/sources/epl/ars.png",
+      "sourceBlob": "17315597d7c94c72a30ad943503aa438b73953dc",
+      "group": "epl",
+      "name": "ars.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/avl.png",
+      "file": "assets/teams/sources/epl/avl.png",
+      "sourceBlob": "f0299bb4e79c15ac2a53dac96afad1930aafcd61",
+      "group": "epl",
+      "name": "avl.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/bha.png",
+      "file": "assets/teams/sources/epl/bha.png",
+      "sourceBlob": "f5f1d7ed5e59c4e9ba1b0e2c664936fa81b0ce59",
+      "group": "epl",
+      "name": "bha.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/bou.png",
+      "file": "assets/teams/sources/epl/bou.png",
+      "sourceBlob": "c319ccc66d0541fe375500f22cc9743766d7d1b9",
+      "group": "epl",
+      "name": "bou.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/bre.png",
+      "file": "assets/teams/sources/epl/bre.png",
+      "sourceBlob": "cd240e776b7c51ada3f08854c5beff471254786c",
+      "group": "epl",
+      "name": "bre.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/bur.png",
+      "file": "assets/teams/sources/epl/bur.png",
+      "sourceBlob": "fd794f21b14fede9740327dbfabde9cec8b2ef50",
+      "group": "epl",
+      "name": "bur.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/che.png",
+      "file": "assets/teams/sources/epl/che.png",
+      "sourceBlob": "ae8abe5f39112e290f9ee8ac5c5d10e6db5e88b1",
+      "group": "epl",
+      "name": "che.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/cry.png",
+      "file": "assets/teams/sources/epl/cry.png",
+      "sourceBlob": "e1a5ad12d9b8577bcb1ce637e19404224fccc2ec",
+      "group": "epl",
+      "name": "cry.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/eve.png",
+      "file": "assets/teams/sources/epl/eve.png",
+      "sourceBlob": "af533734b3ca49431913a44c4310bbee0d1aae58",
+      "group": "epl",
+      "name": "eve.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/ful.png",
+      "file": "assets/teams/sources/epl/ful.png",
+      "sourceBlob": "24e3a5088cd67dc0504a1e806c0f6035cd863f15",
+      "group": "epl",
+      "name": "ful.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/ips.png",
+      "file": "assets/teams/sources/epl/ips.png",
+      "sourceBlob": "a56bc444eb0735ad1074172bc4a40eadcea484f8",
+      "group": "epl",
+      "name": "ips.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/lee.png",
+      "file": "assets/teams/sources/epl/lee.png",
+      "sourceBlob": "a5d6f210d2a6515cb5283ecaed9d2fa1dfe3420d",
+      "group": "epl",
+      "name": "lee.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/lei.png",
+      "file": "assets/teams/sources/epl/lei.png",
+      "sourceBlob": "241c601b63c0d257fd031b1d401319aef366c4e0",
+      "group": "epl",
+      "name": "lei.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/liv.png",
+      "file": "assets/teams/sources/epl/liv.png",
+      "sourceBlob": "080712d8ff4b36f3c1e5afb515bf5ca46bc74505",
+      "group": "epl",
+      "name": "liv.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/mci.png",
+      "file": "assets/teams/sources/epl/mci.png",
+      "sourceBlob": "04e45f2190bc77f199fe6bdbd1b14fe039e1ad7d",
+      "group": "epl",
+      "name": "mci.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/mun.png",
+      "file": "assets/teams/sources/epl/mun.png",
+      "sourceBlob": "c95572cef4a6dbc5cc8e60ff42fa21d858a6e04a",
+      "group": "epl",
+      "name": "mun.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/new.png",
+      "file": "assets/teams/sources/epl/new.png",
+      "sourceBlob": "e4a7cf91c524f4fb9eb9328f0bcdd59452653515",
+      "group": "epl",
+      "name": "new.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/nfo.png",
+      "file": "assets/teams/sources/epl/nfo.png",
+      "sourceBlob": "489723184c9e77c4068b78008f950c550fa60d18",
+      "group": "epl",
+      "name": "nfo.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/sou.png",
+      "file": "assets/teams/sources/epl/sou.png",
+      "sourceBlob": "24d25134bcefc719f800c1395ff6b7662274dd38",
+      "group": "epl",
+      "name": "sou.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/sun.png",
+      "file": "assets/teams/sources/epl/sun.png",
+      "sourceBlob": "09c7d2a5a69fff543c368b7559a08246319023db",
+      "group": "epl",
+      "name": "sun.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/tot.png",
+      "file": "assets/teams/sources/epl/tot.png",
+      "sourceBlob": "6e315e172d9f9f094dcf750278a4d4c04a2711ef",
+      "group": "epl",
+      "name": "tot.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/whu.png",
+      "file": "assets/teams/sources/epl/whu.png",
+      "sourceBlob": "d663b7b5d4b72171556e6f3457d6ed165bee5aac",
+      "group": "epl",
+      "name": "whu.png"
+    },
+    {
+      "source": "frontend/public/logos/epl/wol.png",
+      "file": "assets/teams/sources/epl/wol.png",
+      "sourceBlob": "779438c819bc23714b4547a04f4bfff4f555bac3",
+      "group": "epl",
+      "name": "wol.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/ari.png",
+      "file": "assets/teams/sources/mlb/ari.png",
+      "sourceBlob": "0ab933de0a35f63493f3faa2dff6ad395dc84bcd",
+      "group": "mlb",
+      "name": "ari.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/ath.png",
+      "file": "assets/teams/sources/mlb/ath.png",
+      "sourceBlob": "1269a04b71196b60aebb869d4ce824da47caf5ff",
+      "group": "mlb",
+      "name": "ath.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/atl.png",
+      "file": "assets/teams/sources/mlb/atl.png",
+      "sourceBlob": "af9ddabdcd52c57fb536dc7d08ab145b8e1aee46",
+      "group": "mlb",
+      "name": "atl.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/bal.png",
+      "file": "assets/teams/sources/mlb/bal.png",
+      "sourceBlob": "51d87da223e2e8fba114d083e17ee5505cbbd63d",
+      "group": "mlb",
+      "name": "bal.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/bos.png",
+      "file": "assets/teams/sources/mlb/bos.png",
+      "sourceBlob": "e21a392dfff2800ba0ab454dc4413e5ccbe1dff8",
+      "group": "mlb",
+      "name": "bos.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/chc.png",
+      "file": "assets/teams/sources/mlb/chc.png",
+      "sourceBlob": "878a3af2e932db1f25dbe290826080a8364bb345",
+      "group": "mlb",
+      "name": "chc.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/chw.png",
+      "file": "assets/teams/sources/mlb/chw.png",
+      "sourceBlob": "5ee3600999e87625735f8d7555fb3a5336588791",
+      "group": "mlb",
+      "name": "chw.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/cin.png",
+      "file": "assets/teams/sources/mlb/cin.png",
+      "sourceBlob": "0d3321f7b6b937ec8ea0dbb0f3da3be24b5b5ad2",
+      "group": "mlb",
+      "name": "cin.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/cle.png",
+      "file": "assets/teams/sources/mlb/cle.png",
+      "sourceBlob": "b65d2c5d6273b801de73b58216f1d2b1e2c4ff17",
+      "group": "mlb",
+      "name": "cle.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/col.png",
+      "file": "assets/teams/sources/mlb/col.png",
+      "sourceBlob": "7219a0ae71c5a9fcc1d54d502efe3eff2b067580",
+      "group": "mlb",
+      "name": "col.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/det.png",
+      "file": "assets/teams/sources/mlb/det.png",
+      "sourceBlob": "8e7f26846bee2a150922b8e2da7eb1ff4f4dbc7c",
+      "group": "mlb",
+      "name": "det.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/hou.png",
+      "file": "assets/teams/sources/mlb/hou.png",
+      "sourceBlob": "579422f26f6a5eeac4029651efbe3427e1ff24d0",
+      "group": "mlb",
+      "name": "hou.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/kc.png",
+      "file": "assets/teams/sources/mlb/kc.png",
+      "sourceBlob": "eaf340c3ab48086306c7a17500fde8c2fea5bd73",
+      "group": "mlb",
+      "name": "kc.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/laa.png",
+      "file": "assets/teams/sources/mlb/laa.png",
+      "sourceBlob": "7b0783f5ffa4701800736d4159bf46ba538bc972",
+      "group": "mlb",
+      "name": "laa.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/lad.png",
+      "file": "assets/teams/sources/mlb/lad.png",
+      "sourceBlob": "f3eeb5b74ab936facb35789796bd4e9996bdb6d2",
+      "group": "mlb",
+      "name": "lad.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/mia.png",
+      "file": "assets/teams/sources/mlb/mia.png",
+      "sourceBlob": "386ec54cc3524b22274f995452a8c33e4e115c0f",
+      "group": "mlb",
+      "name": "mia.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/mil.png",
+      "file": "assets/teams/sources/mlb/mil.png",
+      "sourceBlob": "79b23ed667613c71c4e1ed273f1feb9d5515c4c6",
+      "group": "mlb",
+      "name": "mil.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/min.png",
+      "file": "assets/teams/sources/mlb/min.png",
+      "sourceBlob": "0300f828f59b60102a34321496df07749aad52fb",
+      "group": "mlb",
+      "name": "min.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/nym.png",
+      "file": "assets/teams/sources/mlb/nym.png",
+      "sourceBlob": "8c276dba095a0721228e9076f91e286ee1428d3f",
+      "group": "mlb",
+      "name": "nym.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/nyy.png",
+      "file": "assets/teams/sources/mlb/nyy.png",
+      "sourceBlob": "ae647af90ba22bed2a30191a671361bc58542deb",
+      "group": "mlb",
+      "name": "nyy.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/phi.png",
+      "file": "assets/teams/sources/mlb/phi.png",
+      "sourceBlob": "3a4e5f3a93e011ef9f418efd4a36a4b784351be8",
+      "group": "mlb",
+      "name": "phi.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/pit.png",
+      "file": "assets/teams/sources/mlb/pit.png",
+      "sourceBlob": "d7263c7f5c357a91cdde9fe070bd6f80879b2f6d",
+      "group": "mlb",
+      "name": "pit.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/sd.png",
+      "file": "assets/teams/sources/mlb/sd.png",
+      "sourceBlob": "ad216231676e40b3f4a2366c612ac0fbaa5b42f3",
+      "group": "mlb",
+      "name": "sd.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/sea.png",
+      "file": "assets/teams/sources/mlb/sea.png",
+      "sourceBlob": "1e436fca2b53af42b1e52ccc9e89a0adca27f76e",
+      "group": "mlb",
+      "name": "sea.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/sfg.png",
+      "file": "assets/teams/sources/mlb/sfg.png",
+      "sourceBlob": "b15c7a80f4cfee7e3a71f85ee1d9161b31af44a2",
+      "group": "mlb",
+      "name": "sfg.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/stl.png",
+      "file": "assets/teams/sources/mlb/stl.png",
+      "sourceBlob": "ac6ebc3a5d66484330a31dfcf0254b8b00d49bba",
+      "group": "mlb",
+      "name": "stl.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/tb.png",
+      "file": "assets/teams/sources/mlb/tb.png",
+      "sourceBlob": "5579e97f6910f25bfed9a02c695fae3a310fa6b2",
+      "group": "mlb",
+      "name": "tb.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/tex.png",
+      "file": "assets/teams/sources/mlb/tex.png",
+      "sourceBlob": "6f6db11e8cee3fd757fcdc6fee42a62a7bcfb663",
+      "group": "mlb",
+      "name": "tex.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/tor.png",
+      "file": "assets/teams/sources/mlb/tor.png",
+      "sourceBlob": "0b9f10a9ae56676f656997991c99c398069e0301",
+      "group": "mlb",
+      "name": "tor.png"
+    },
+    {
+      "source": "frontend/public/logos/mlb/wsh.png",
+      "file": "assets/teams/sources/mlb/wsh.png",
+      "sourceBlob": "c113274f200ec6b9db08a4e383a50c898ebc9841",
+      "group": "mlb",
+      "name": "wsh.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/ana.png",
+      "file": "assets/teams/sources/nhl/ana.png",
+      "sourceBlob": "cf5a22db24af0c4a302bcde5b15ac70493da60ad",
+      "group": "nhl",
+      "name": "ana.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/bos.png",
+      "file": "assets/teams/sources/nhl/bos.png",
+      "sourceBlob": "be8fb2a138c21cdd410b10dc6c39e04a6d6fa241",
+      "group": "nhl",
+      "name": "bos.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/buf.png",
+      "file": "assets/teams/sources/nhl/buf.png",
+      "sourceBlob": "d340773b0b322f9f1001238a0729808babf29ffa",
+      "group": "nhl",
+      "name": "buf.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/car.png",
+      "file": "assets/teams/sources/nhl/car.png",
+      "sourceBlob": "a4fe1029ae33b7fe2f34df0f61d4c204bc4569a8",
+      "group": "nhl",
+      "name": "car.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/cbj.png",
+      "file": "assets/teams/sources/nhl/cbj.png",
+      "sourceBlob": "d1f751f48c2444359d47b88e7b5c768178877237",
+      "group": "nhl",
+      "name": "cbj.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/cgy.png",
+      "file": "assets/teams/sources/nhl/cgy.png",
+      "sourceBlob": "8d841e418375710e2d10281ab09f16d1e54b152e",
+      "group": "nhl",
+      "name": "cgy.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/chi.png",
+      "file": "assets/teams/sources/nhl/chi.png",
+      "sourceBlob": "18c88c510fc18f15682f2eba2cb4b7c9ee850ada",
+      "group": "nhl",
+      "name": "chi.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/col.png",
+      "file": "assets/teams/sources/nhl/col.png",
+      "sourceBlob": "c18bace480feb63bb551175a2a2245e30857ea33",
+      "group": "nhl",
+      "name": "col.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/dal.png",
+      "file": "assets/teams/sources/nhl/dal.png",
+      "sourceBlob": "73a6704446be20e57a9f62170cd5b2abdb9f1b28",
+      "group": "nhl",
+      "name": "dal.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/det.png",
+      "file": "assets/teams/sources/nhl/det.png",
+      "sourceBlob": "886fe39f3f70bc3b6121945d2849afdb0fe005f9",
+      "group": "nhl",
+      "name": "det.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/edm.png",
+      "file": "assets/teams/sources/nhl/edm.png",
+      "sourceBlob": "6c64477807e58da8be3dad3b19fd3257d2750b3f",
+      "group": "nhl",
+      "name": "edm.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/fla.png",
+      "file": "assets/teams/sources/nhl/fla.png",
+      "sourceBlob": "d479fa9a949fb1b2af638725839c8f369dc48a86",
+      "group": "nhl",
+      "name": "fla.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/lak.png",
+      "file": "assets/teams/sources/nhl/lak.png",
+      "sourceBlob": "b2baeaf06b61540171cee52700f0b9170c53b8cd",
+      "group": "nhl",
+      "name": "lak.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/min.png",
+      "file": "assets/teams/sources/nhl/min.png",
+      "sourceBlob": "b9556efc1b389df6394499547ebfec2efd5c5f95",
+      "group": "nhl",
+      "name": "min.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/mtl.png",
+      "file": "assets/teams/sources/nhl/mtl.png",
+      "sourceBlob": "d2e8d8d0dc6bfde08ffd910cd795a4182e121f2f",
+      "group": "nhl",
+      "name": "mtl.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/njd.png",
+      "file": "assets/teams/sources/nhl/njd.png",
+      "sourceBlob": "671e983f6694dce6992f21fd066bcf7e9375309e",
+      "group": "nhl",
+      "name": "njd.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/nsh.png",
+      "file": "assets/teams/sources/nhl/nsh.png",
+      "sourceBlob": "100743bc67023479bd466c2a7c54390c78fc67a9",
+      "group": "nhl",
+      "name": "nsh.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/nyi.png",
+      "file": "assets/teams/sources/nhl/nyi.png",
+      "sourceBlob": "c93af020262061c15faa68dd95b458514ca4a590",
+      "group": "nhl",
+      "name": "nyi.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/nyr.png",
+      "file": "assets/teams/sources/nhl/nyr.png",
+      "sourceBlob": "a3d6643bc97aea16484966c065a8c0dc1b4e3669",
+      "group": "nhl",
+      "name": "nyr.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/ott.png",
+      "file": "assets/teams/sources/nhl/ott.png",
+      "sourceBlob": "04edcd05997671215db896c64b28f6208d907ec6",
+      "group": "nhl",
+      "name": "ott.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/phi.png",
+      "file": "assets/teams/sources/nhl/phi.png",
+      "sourceBlob": "2a3cd7520be72259f5e84816925ae493625eac86",
+      "group": "nhl",
+      "name": "phi.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/pit.png",
+      "file": "assets/teams/sources/nhl/pit.png",
+      "sourceBlob": "a1eb6b448eaea8e8e70a8c43e8067c83b56d5dbc",
+      "group": "nhl",
+      "name": "pit.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/sea.png",
+      "file": "assets/teams/sources/nhl/sea.png",
+      "sourceBlob": "8742a3e3a65e9d4dfb5e5c5809d8e4bc3570c352",
+      "group": "nhl",
+      "name": "sea.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/sjs.png",
+      "file": "assets/teams/sources/nhl/sjs.png",
+      "sourceBlob": "eb1b870dfe6121a529fdbdaaec276af66053408f",
+      "group": "nhl",
+      "name": "sjs.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/stl.png",
+      "file": "assets/teams/sources/nhl/stl.png",
+      "sourceBlob": "ace4348a336b365e264f9ce3a6937901131d5218",
+      "group": "nhl",
+      "name": "stl.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/tbl.png",
+      "file": "assets/teams/sources/nhl/tbl.png",
+      "sourceBlob": "711e7be4cd44cce96258b3ea336f4505d4bce652",
+      "group": "nhl",
+      "name": "tbl.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/tor.png",
+      "file": "assets/teams/sources/nhl/tor.png",
+      "sourceBlob": "844a21a5e302d39f0f0495f9317292f61ec59127",
+      "group": "nhl",
+      "name": "tor.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/uta.png",
+      "file": "assets/teams/sources/nhl/uta.png",
+      "sourceBlob": "3afd828e59bc7d75925db8c3f84cf521b9ef2e78",
+      "group": "nhl",
+      "name": "uta.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/van.png",
+      "file": "assets/teams/sources/nhl/van.png",
+      "sourceBlob": "5105ad7f6dea5d21414230ca21839ae9799183c4",
+      "group": "nhl",
+      "name": "van.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/vgk.png",
+      "file": "assets/teams/sources/nhl/vgk.png",
+      "sourceBlob": "a00d81643f5850fa64901e621ef199e90049bad8",
+      "group": "nhl",
+      "name": "vgk.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/wpg.png",
+      "file": "assets/teams/sources/nhl/wpg.png",
+      "sourceBlob": "9c406cad7d5e0d2448c672ad4db5171de18c6fcf",
+      "group": "nhl",
+      "name": "wpg.png"
+    },
+    {
+      "source": "frontend/public/logos/nhl/wsh.png",
+      "file": "assets/teams/sources/nhl/wsh.png",
+      "sourceBlob": "9c682d02b128b894fb3a3595e0155f801c0ae50f",
+      "group": "nhl",
+      "name": "wsh.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/ajx.png",
+      "file": "assets/teams/sources/ucl/ajx.png",
+      "sourceBlob": "2582a983e6c71a7ed3ff0fb0109fea25912fd22d",
+      "group": "ucl",
+      "name": "ajx.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/atm.png",
+      "file": "assets/teams/sources/ucl/atm.png",
+      "sourceBlob": "1ba70aa79c5ff943ca90127f5f1d8889a453bdc1",
+      "group": "ucl",
+      "name": "atm.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/bar.png",
+      "file": "assets/teams/sources/ucl/bar.png",
+      "sourceBlob": "5e3c8241058012d149998dddff8e0b0dfd74a9d1",
+      "group": "ucl",
+      "name": "bar.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/bay.png",
+      "file": "assets/teams/sources/ucl/bay.png",
+      "sourceBlob": "a3e111b46c5abccae96d728348343f89e6dd33da",
+      "group": "ucl",
+      "name": "bay.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/ben.png",
+      "file": "assets/teams/sources/ucl/ben.png",
+      "sourceBlob": "24e3a5088cd67dc0504a1e806c0f6035cd863f15",
+      "group": "ucl",
+      "name": "ben.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/bvb.png",
+      "file": "assets/teams/sources/ucl/bvb.png",
+      "sourceBlob": "35afd82cdfaf7af316fc0e8a4b3f97c795519a58",
+      "group": "ucl",
+      "name": "bvb.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/int.png",
+      "file": "assets/teams/sources/ucl/int.png",
+      "sourceBlob": "aabd4f3ab5d79a051058875f2b9ff339602fdce6",
+      "group": "ucl",
+      "name": "int.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/juv.png",
+      "file": "assets/teams/sources/ucl/juv.png",
+      "sourceBlob": "b546b4bfcd5e9a184bcb51ccfe660d168e93dd26",
+      "group": "ucl",
+      "name": "juv.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/mil.png",
+      "file": "assets/teams/sources/ucl/mil.png",
+      "sourceBlob": "624144695af7925ff94dbf9fcfeb90250564f845",
+      "group": "ucl",
+      "name": "mil.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/nap.png",
+      "file": "assets/teams/sources/ucl/nap.png",
+      "sourceBlob": "be00ce24d29bd8e2226847f4ece3d1b2674b47d1",
+      "group": "ucl",
+      "name": "nap.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/por.png",
+      "file": "assets/teams/sources/ucl/por.png",
+      "sourceBlob": "af533734b3ca49431913a44c4310bbee0d1aae58",
+      "group": "ucl",
+      "name": "por.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/psg.png",
+      "file": "assets/teams/sources/ucl/psg.png",
+      "sourceBlob": "6f4cb17a1bd348b9a4e3dec8c4e1367bb433c93b",
+      "group": "ucl",
+      "name": "psg.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/rma.png",
+      "file": "assets/teams/sources/ucl/rma.png",
+      "sourceBlob": "d47de797097ae12f71f409092b1d6c691d99d371",
+      "group": "ucl",
+      "name": "rma.png"
+    },
+    {
+      "source": "frontend/public/logos/ucl/sev.png",
+      "file": "assets/teams/sources/ucl/sev.png",
+      "sourceBlob": "7b16d3043a8f5f2d3252562c47a6add62ddc11c0",
+      "group": "ucl",
+      "name": "sev.png"
+    }
+  ]
+}

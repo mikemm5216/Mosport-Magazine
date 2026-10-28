@@ -28,4 +28,10 @@ for a in cpbl['entries']:
  source=a.get('normalization',{}).get('sourceFile',a['file']);a.update(normalize(source,'cpbl'))
 cpbl['logoStandard']={'width':80,'height':80,'contentBox':[72,72],'fit':'contain','position':'center'}
 p.write_text(json.dumps(cpbl,ensure_ascii=False,indent=2)+'\n');p.with_suffix('.js').write_text('window.MOSPORT_CPBL_ASSETS = '+p.read_text().strip()+';\n')
-print('Normalized 36 logos: 80×80 transparent canvas, 72×72 content box; sources preserved')
+p=SITE/'data/multi-sport-team-registry.json'
+if p.exists():
+ multi=json.loads(p.read_text())
+ for league,entries in multi['groups'].items():
+  for a in entries:a.update(normalize(a['sourceFile'],league))
+ p.write_text(json.dumps(multi,ensure_ascii=False,indent=2)+'\n');p.with_suffix('.js').write_text('window.MOSPORT_MULTI_SPORT_ASSETS = '+p.read_text().strip()+';\n')
+print('Normalized all imported team marks: 80×80 transparent canvas; sources preserved')

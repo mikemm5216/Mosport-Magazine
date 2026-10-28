@@ -20,4 +20,22 @@ for(const slot of Object.values(nba.teamLogos.entries)){
  assert.equal(a.width,80);assert.equal(a.height,80);assert.equal(b.readUInt32BE(16),80);assert.equal(b.readUInt32BE(20),80);
  const src=fs.readFileSync(path.join(site,a.normalization.sourceFile));assert.equal(crypto.createHash('sha256').update(src).digest('hex'),a.normalization.sourceSha256);
 }
+const multi=JSON.parse(fs.readFileSync(path.join(site,'data/multi-sport-team-registry.json')));
+assert.deepEqual(Object.fromEntries(Object.entries(multi.groups).map(([k,v])=>[k,v.length])),{mlb:30,nhl:32,football:37});
+const ids=new Set();
+for(const entries of Object.values(multi.groups))for(const a of entries){
+ assert.ok(!ids.has(a.id));ids.add(a.id);
+ const b=fs.readFileSync(path.join(site,a.file)),src=fs.readFileSync(path.join(site,a.sourceFile));
+ assert.equal(b.readUInt32BE(16),80);assert.equal(b.readUInt32BE(20),80);assert.equal(a.width,80);assert.equal(a.height,80);
+ assert.equal(crypto.createHash('sha256').update(b).digest('hex'),a.sha256);
+ assert.equal(crypto.createHash('sha1').update(Buffer.concat([Buffer.from('blob '+src.length+'\0'),src])).digest('hex'),a.sourceBlob);
+}
+assert.equal(multi.groups.mlb.filter(a=>a.aliases.includes('OAK')).length,1);
+assert.equal(multi.groups.mlb.find(a=>a.code==='ATH').mlbTeamId,133);
+assert.equal(multi.groups.nhl.find(a=>a.code==='UTA').name,'Utah Mammoth');
+const footballIds=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../docs/assets/football-team-identities.json'))).entries;
+for(const a of multi.groups.football){const identity=footballIds.find(x=>x.assetId===a.id);assert.ok(identity);assert.equal(a.providerTeamId,identity.providerTeamId);assert.equal(a.sourceUrl,identity.logoUrl);assert.ok(a.sourceFile.includes('/football-verified/'));}
+for(const a of multi.groups.nhl){const svg=fs.readFileSync(path.join(site,a.vectorSourceFile));assert.equal(crypto.createHash('sha256').update(svg).digest('hex'),a.vectorSourceSha256);assert.ok(a.sourceUrl.startsWith('https://assets.nhle.com/logos/nhl/svg/'));}
+
+assert.equal(fs.readFileSync(path.join(site,'data/multi-sport-team-registry.js'),'utf8'),'window.MOSPORT_MULTI_SPORT_ASSETS = '+fs.readFileSync(path.join(site,'data/multi-sport-team-registry.json'),'utf8').trim()+';\n');
 console.log('Sport assets OK: 6 CPBL marks, 249 ISO flags + 22 additional symbols; hashes, dimensions, local copies and licence checked');

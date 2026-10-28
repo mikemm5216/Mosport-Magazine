@@ -5,12 +5,17 @@ for(const w of [1440,390]){
  const c=await browser.newContext({viewport:{width:w,height:1000}}),p=await c.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
  await p.goto('file://'+path.resolve(__dirname,'../../site/asset-catalog.html'));await p.evaluate(()=>document.fonts.ready);
  const imgs=await p.evaluate(async()=>Promise.all([...document.images].map(async i=>{try{await i.decode();return i.naturalWidth>0&&i.naturalHeight>0}catch{return false}})));
- assert.equal(imgs.length,277);assert.ok(imgs.every(Boolean));checks++;
+ assert.equal(imgs.length,406);assert.ok(imgs.every(Boolean));checks++;
  assert.equal(await p.locator('#cpbl figure').count(),6);checks++;
  assert.ok(await p.locator('#cpbl img').evaluateAll(is=>is.every(i=>i.naturalWidth===80&&i.naturalHeight===80&&i.getBoundingClientRect().width===80&&i.getBoundingClientRect().height===80)));checks++;
  assert.equal(await p.locator('#flags figure').count(),271);checks++;
+ for(const [league,count] of [['nba',30],['mlb',30],['football',37],['nhl',32]]){assert.equal(await p.locator('#'+league+' figure').count(),count);checks++;}
+ assert.ok(await p.locator('.logos img').evaluateAll(is=>is.length===135&&is.every(i=>i.naturalWidth===80&&i.naturalHeight===80&&i.getBoundingClientRect().width===80&&i.getBoundingClientRect().height===80)));checks++;
+ if(w===1440)for(const league of ['mlb','football','nhl'])await p.locator('#'+league+'-group').screenshot({path:path.join(out,league+'-80.png')});
+ await p.evaluate(()=>scrollTo(0,0));
  assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));checks++;
  assert.deepEqual(errors,[]);checks++;
+ assert.ok(!/undefined/.test(await p.locator('body').innerText()));checks++;
  await p.screenshot({path:path.join(out,'catalog-'+w+'.png')});
  await p.locator('#filter').fill('TW');assert.equal(await p.locator('#flags figure:visible').count(),1);assert.equal(await p.locator('#flags figure:visible').getAttribute('data-code'),'TW');checks++;
  await p.locator('#filter').fill('Japan');assert.equal(await p.locator('#flags figure:visible').getAttribute('data-code'),'JP');checks++;
