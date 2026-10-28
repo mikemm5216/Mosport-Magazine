@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mosport.example/schemas/asset-registry.v1.json",
+  "title": "MOSPORT Asset Registry v1",
+  "description": "Source of truth for every image slot. Enforced at runtime by site/js/assets/registry.js validate(); this schema documents the shape for CMS / agent integrations.",
+  "type": "object",
+  "required": ["schemaVersion", "registryVersion", "updatedAt", "renderPolicy", "slots", "logos", "teamLogos"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "registryVersion": { "type": "string" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "updatedBy": { "type": "string" },
+    "formats": { "type": "array", "items": { "enum": ["webp", "png", "svg"] } },
+    "renderPolicy": {
+      "type": "object",
+      "required": ["prototype", "production"],
+      "additionalProperties": { "$ref": "#/$defs/policy" }
+    },
+    "slots": { "type": "object", "additionalProperties": { "$ref": "#/$defs/artSlot" } },
+    "logos": { "type": "object", "additionalProperties": { "$ref": "#/$defs/slot" } },
+    "teamLogos": {
+      "type": "object",
+      "required": ["deliver", "fit", "fallback", "entries"],
+      "properties": {
+        "deliver": { "$ref": "#/$defs/deliver" },
+        "fit": { "const": "contain" },
+        "fallback": { "$ref": "#/$defs/fallback" },
+        "entries": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[A-Z]{2,4}$" },
+          "additionalProperties": {
+            "type": "object",
+            "required": ["activeVersion", "versions"],
+            "properties": { "activeVersion": { "type": ["string", "null"] }, "versions": { "type": "array", "items": { "$ref": "#/$defs/version" } } }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "policy": {
+      "type": "object",
+      "required": ["allowRights", "allowStatus"],
+      "properties": {
+        "allowRights": { "type": "array", "items": { "$ref": "#/$defs/rightsStatus" } },
+        "allowStatus": { "type": "array", "items": { "$ref": "#/$defs/versionStatus" } }
+      }
+    },
+    "rightsStatus": { "enum": ["OWNED", "LICENSED", "EMBED_PERMITTED", "UNVERIFIED", "BLOCKED"] },
+    "versionStatus": { "enum": ["ACTIVE", "PLACEHOLDER", "CANDIDATE", "RETIRED"] },
+    "focal": { "type": "object", "required": ["x", "y"], "properties": { "x": { "type": "number", "minimum": 0, "maximum": 1 }, "y": { "type": "number", "minimum": 0, "maximum": 1 } } },
+    "deliver": {
+      "type": "object",
+      "required": ["width", "height", "formats", "expectedFile"],
+      "properties": {
+        "width": { "type": "integer" }, "height": { "type": "integer" },
+        "formats": { "type": "array", "items": { "enum": ["webp", "png", "svg"] } },
+        "maxBytes": { "type": "integer" }, "expectedFile": { "type": "string" }
+      }
+    },
+    "fallback": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": { "kind": { "enum": ["gradient", "text", "tricode-badge", "none"] }, "light": { "type": "string" }, "dark": { "type": "string" }, "value": { "type": "string" } }
+    },
+    "version": {
+      "type": "object",
+      "required": ["id", "status", "file", "format", "width", "height", "sha256", "content", "rights", "provenance"],
+      "properties": {
+        "id": { "type": "string" },
+        "status": { "$ref": "#/$defs/versionStatus" },
+        "file": { "type": "string" },
+        "darkFile": { "type": ["string", "null"] },
+        "format": { "enum": ["webp", "png", "svg"] },
+        "width": { "type": "integer" }, "height": { "type": "integer" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "crops": { "type": "object", "properties": { "desktop": { "type": "object", "properties": { "focal": { "$ref": "#/$defs/focal" } } }, "mobile": { "type": "object", "properties": { "focal": { "$ref": "#/$defs/focal" } } } } },
+        "content": {
+          "type": "object",
+          "required": ["kinds", "containsText", "containsLogo", "containsPerson"],
+          "properties": {
+            "kinds": { "type": "array", "items": { "type": "string", "not": { "const": "athlete" } } },
+            "containsText": { "type": "boolean" }, "containsLogo": { "type": "boolean" }, "containsPerson": { "type": "boolean" }
+          }
+        },
+        "rights": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "$ref": "#/$defs/rightsStatus" }, "licence": { "type": ["string", "null"] }, "owner": { "type": ["string", "null"] },
+            "source": { "type": ["string", "null"] }, "generator": { "type": ["string", "null"] }, "generatorPrompt": { "type": ["string", "null"] }, "attribution": { "type": ["string", "null"] }
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "properties": { "addedBy": { "type": ["string", "null"] }, "addedAt": { "type": ["string", "null"] }, "approvedBy": { "type": ["string", "null"] }, "approvedAt": { "type": ["string", "null"] } }
+        }
+      }
+    },
+    "slot": {
+      "type": "object",
+      "required": ["label", "placement", "deliver", "fit", "fallback", "activeVersion", "versions"],
+      "properties": {
+        "label": { "type": "string" }, "placement": { "type": "string" }, "deliver": { "$ref": "#/$defs/deliver" },
+        "fit": { "enum": ["cover", "contain"] }, "fallback": { "$ref": "#/$defs/fallback" },
+        "activeVersion": { "type": ["string", "null"] }, "versions": { "type": "array", "items": { "$ref": "#/$defs/version" } }
+      }
+    },
+    "artSlot": {
+      "allOf": [
+        { "$ref": "#/$defs/slot" },
+        {
+          "type": "object",
+          "required": ["renderBox", "defaultFocal", "safeZones", "allowedKinds"],
+          "properties": {
+            "renderBox": { "type": "object" },
+            "defaultFocal": { "$ref": "#/$defs/focal" },
+            "overlay": { "type": "string" },
+            "safeZones": { "type": "array", "items": { "type": "object", "required": ["name", "x", "y", "w", "h", "rule"] } },
+            "allowedKinds": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      ]
+    }
+  }
+}

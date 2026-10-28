@@ -1,0 +1,49 @@
+/* MOSPORT magazine tokens. Light default; html[data-theme="dark"] for night. */
+:root {
+  --desk: #1E2A3D;
+  --desk2: #2B3B53;
+  --paper: #F3F1EB;
+  --card: #FFFFFF;
+  --ink: #0B1426;
+  --ink2: #4D586A;
+  --ink3: #7A8496;
+  --rule: #D4D7DD;
+  --navy: #0B1A3D;       /* cover field, lead card */
+  --navy2: #12295E;
+  --blue: #1F4FD0;       /* the one action blue */
+  --blue-soft: #E5ECFB;
+  --sky: #8FB4FF;
+  --orange: #F28A2E;     /* restrained basketball orange */
+  --red: #D7262E;        /* BREAKING label, live */
+  --yellow: #F4C430;     /* EXCLUSIVE label */
+  --on: #FFFFFF;
+  --on2: #C8D4EC;
+
+  --f-display: 'Anton', 'Noto Sans TC', 'Noto Sans CJK TC', 'PingFang TC', 'Microsoft JhengHei', Impact, sans-serif;
+  --f-cond: 'Barlow Condensed', 'Noto Sans TC', 'Noto Sans CJK TC', 'PingFang TC', 'Microsoft JhengHei', 'Arial Narrow', sans-serif;
+  --f-text: 'Inter', 'Noto Sans TC', 'Noto Sans CJK TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;
+  --f-cjk-bold: 'Noto Sans TC', 'Noto Sans CJK TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+}
+html[data-theme="dark"] {
+  --desk: #060A12;
+  --desk2: #0D1420;
+  --paper: #111926;
+  --card: #18222F;
+  --ink: #E8EDF5;
+  --ink2: #A9B4C6;
+  --ink3: #7F8B9F;
+  --rule: #2A3647;
+  --navy: #081332;
+  --navy2: #0F2150;
+  --blue: #4C7DFF;
+  --blue-soft: #1B2B4C;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; font-family: var(--f-text); color: var(--ink); background: var(--desk); line-height: 1.5; font-variant-numeric: tabular-nums; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+img { max-width: 100%; }
+h1, h2, h3, p { margin: 0; }
+:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }

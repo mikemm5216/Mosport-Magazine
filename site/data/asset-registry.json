@@ -1,0 +1,4179 @@
+{
+  "schemaVersion": 1,
+  "registryVersion": "2026-10-28-normalized-80-v1",
+  "updatedAt": "2026-10-28",
+  "updatedBy": "ChatGPT",
+  "formats": [
+    "webp",
+    "png",
+    "svg"
+  ],
+  "renderPolicy": {
+    "prototype": {
+      "allowRights": [
+        "OWNED",
+        "LICENSED",
+        "EMBED_PERMITTED",
+        "UNVERIFIED"
+      ],
+      "allowStatus": [
+        "ACTIVE",
+        "PLACEHOLDER"
+      ]
+    },
+    "production": {
+      "allowRights": [
+        "OWNED",
+        "LICENSED",
+        "EMBED_PERMITTED"
+      ],
+      "allowStatus": [
+        "ACTIVE"
+      ]
+    },
+    "preview": {
+      "allowRights": [
+        "OWNED",
+        "LICENSED",
+        "EMBED_PERMITTED"
+      ],
+      "allowStatus": [
+        "ACTIVE",
+        "PLACEHOLDER",
+        "CANDIDATE"
+      ]
+    }
+  },
+  "slots": {
+    "cover-desktop-art": {
+      "label": "Cover page artwork, desktop (left page of the open spread)",
+      "placement": "index.html ≥1024px: .pg-cover background, under masthead, topic, teasers and cover lines",
+      "renderBox": {
+        "width": 629,
+        "height": 1213,
+        "note": "CSS px at 100% reader zoom; scaled with the spread"
+      },
+      "deliver": {
+        "width": 1260,
+        "height": 2440,
+        "formats": [
+          "webp",
+          "png",
+          "svg"
+        ],
+        "maxBytes": 550000,
+        "expectedFile": "assets/art/cover-desktop-art.v{n}.webp"
+      },
+      "fit": "cover",
+      "defaultFocal": {
+        "x": 0.62,
+        "y": 0.4
+      },
+      "overlay": "cover-shade",
+      "safeZones": [
+        {
+          "name": "masthead",
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.25,
+          "rule": "dark, low detail: MOSPORT and More than sport sit here"
+        },
+        {
+          "name": "topic",
+          "x": 0,
+          "y": 0.25,
+          "w": 0.6,
+          "h": 0.32,
+          "rule": "low contrast: THIS ISSUE, NBA GAME DAY, tagline"
+        },
+        {
+          "name": "teasers",
+          "x": 0,
+          "y": 0.55,
+          "w": 0.75,
+          "h": 0.33,
+          "rule": "low contrast: Breaking News / Exclusive headlines"
+        },
+        {
+          "name": "footer",
+          "x": 0,
+          "y": 0.88,
+          "w": 1,
+          "h": 0.12,
+          "rule": "dark: cover lines and Be Your Own Coach"
+        },
+        {
+          "name": "subject",
+          "x": 0.42,
+          "y": 0.18,
+          "w": 0.58,
+          "h": 0.45,
+          "rule": "main subject (ball, hoop, light) goes here"
+        }
+      ],
+      "allowedKinds": [
+        "equipment",
+        "court",
+        "arena",
+        "lights",
+        "crowd-abstract",
+        "geometry",
+        "brush"
+      ],
+      "fallback": {
+        "kind": "gradient",
+        "light": "radial-gradient(120% 70% at 75% 35%, #1D4FC4 0%, #0E2A66 38%, #0B1A3D 70%), #0B1A3D",
+        "dark": "radial-gradient(120% 70% at 75% 35%, #163C99 0%, #0A1F4D 38%, #071433 70%), #071433"
+      },
+      "activeVersion": "placeholder-v1",
+      "versions": [
+        {
+          "id": "placeholder-v1",
+          "status": "PLACEHOLDER",
+          "file": "assets/art/cover-art.placeholder-v1.svg",
+          "format": "svg",
+          "width": 1000,
+          "height": 1300,
+          "sha256": "40a7b37036c66d49b64be5eb15d6088a267d561dede5b2265406e74ee528ea73",
+          "darkFile": null,
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.62,
+                "y": 0.4
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "court",
+              "arena",
+              "lights",
+              "crowd-abstract"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original MOSPORT-B development placeholder",
+            "owner": "MOSPORT",
+            "source": "Vector: ball, hoop, arena lights, crowd pattern, court",
+            "generator": null,
+            "generatorPrompt": null,
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering",
+            "addedAt": "2026-10-28T15:45:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null
+          }
+        },
+        {
+          "id": "claude-crop-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/cover-desktop-art.v1-claude-crop.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1260,
+          "height": 2440,
+          "sha256": "04e7e7cc91efccaf3797091319bd2547adfbacca347e823d8bd139d6c7ac7d9f",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.62,
+                "y": 0.3
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "court",
+              "arena",
+              "lights",
+              "crowd-abstract",
+              "brush"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original generated artwork for MOSPORT (Founder-supplied)",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Original_Five_Panel_Art_Source_20261028.png, region 10,7,537,1015 (left,top,right,bottom px); cover crop to 1260×2440 (Lanczos), no stretch. Source sha256 94cb4629b2dd14e39319aef5eef11cddcfac5fbad2f8004c8faa32e231a7b48f",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": null,
+            "attribution": null,
+            "sourceUrl": "https://drive.google.com/file/d/1VSBmjPt9b3iv19h_mTy60ngx4QxN__K_/view?usp=drivesdk"
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering (crop/export from Founder-supplied source)",
+            "addedAt": "2026-10-28T16:10:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "notes": "Crowds are distant, non-identifiable texture. Arena boards carry illegible glyph-like marks, no readable text or marks. Upscaled from a ~0.4 MP panel: soft at 100% on large screens. Alternative crop made by Claude Code from the same source sheet before the ChatGPT package arrived; kept for comparison only."
+          }
+        },
+        {
+          "id": "native-illustration-v2",
+          "status": "CANDIDATE",
+          "file": "assets/art/cover-desktop-art.v2.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1260,
+          "height": 2440,
+          "sha256": "95311122c4f291f6d9aa85e6ed70bb62ba41d845beef2219459940bcc3b3763c",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.62,
+                "y": 0.4
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.62,
+                "y": 0.4
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "arena",
+              "court",
+              "lights",
+              "geometry"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original procedural illustration candidate; internal design review only",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Native_Editorial_Art_v2 locally available generated illustration sources",
+            "generator": "procedural vector/raster illustration",
+            "generatorPrompt": "MOSPORT navy/orange basketball equipment and arena art; no people, text, or logos",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT MOSPORT-B visual review",
+            "addedAt": "2026-10-28T18:42:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "note": "Standalone native-size procedural illustration, NOT the painterly high-detail final approved artwork."
+          }
+        },
+        {
+          "id": "chatgpt-art-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/cover-desktop-art.v1.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1260,
+          "height": 2440,
+          "sha256": "bcc42f5e5ddcccb0584f6eff56977c2a1a65cc4c542ff65fd594c48497986b13",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.62,
+                "y": 0.4
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.6
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "arena",
+              "lights",
+              "geometry",
+              "court"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "AI-generated original MOSPORT art; internal candidate pending Founder review",
+            "owner": "MOSPORT",
+            "source": "Original generation in ChatGPT, 2026-10-28",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": "No people, no player likenesses, no text, no logos; cinematic basketball equipment and empty arena in editorial navy/orange style; five art-only panels for responsive MOSPORT slots",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT / MOSPORT-B visual art",
+            "addedAt": "2026-10-28T15:00:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "package": {
+              "name": "MOSPORT_B_Visual_Assets_v1_For_Claude_20261028.zip",
+              "driveId": "1zoRAUlis0yFjKH7UPh2Sbr8yf6kBc06D",
+              "sha256": "e6c0456a37878ae28239a9caed7a790652f7210c5d890947fcd7e758595c6d61",
+              "importedBy": "MOSPORT-B engineering",
+              "importedAt": "2026-10-28T16:25:00+08:00",
+              "verified": "width, height and sha256 match asset_verification.json"
+            }
+          }
+        }
+      ]
+    },
+    "cover-mobile-art": {
+      "label": "Cover artwork, mobile first screen",
+      "placement": "index.html <1024px: full-screen .pg-cover background",
+      "renderBox": {
+        "width": 390,
+        "height": 844,
+        "note": "CSS px at 390×844; height is 100svh clamped 620–880"
+      },
+      "deliver": {
+        "width": 1170,
+        "height": 2532,
+        "formats": [
+          "webp",
+          "png",
+          "svg"
+        ],
+        "maxBytes": 450000,
+        "expectedFile": "assets/art/cover-mobile-art.v{n}.webp"
+      },
+      "fit": "cover",
+      "defaultFocal": {
+        "x": 0.7,
+        "y": 0.34
+      },
+      "overlay": "cover-shade-mobile",
+      "safeZones": [
+        {
+          "name": "masthead",
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 0.22,
+          "rule": "dark: logo row, MOSPORT, slogan"
+        },
+        {
+          "name": "subject",
+          "x": 0.25,
+          "y": 0.2,
+          "w": 0.75,
+          "h": 0.35,
+          "rule": "ball / hoop"
+        },
+        {
+          "name": "teasers",
+          "x": 0,
+          "y": 0.55,
+          "w": 1,
+          "h": 0.45,
+          "rule": "dark gradient: Breaking / Exclusive headlines"
+        }
+      ],
+      "allowedKinds": [
+        "equipment",
+        "court",
+        "arena",
+        "lights",
+        "crowd-abstract",
+        "geometry",
+        "brush"
+      ],
+      "fallback": {
+        "kind": "gradient",
+        "light": "radial-gradient(120% 70% at 75% 35%, #1D4FC4 0%, #0E2A66 38%, #0B1A3D 70%), #0B1A3D",
+        "dark": "radial-gradient(120% 70% at 75% 35%, #163C99 0%, #0A1F4D 38%, #071433 70%), #071433"
+      },
+      "activeVersion": "placeholder-v1",
+      "versions": [
+        {
+          "id": "placeholder-v1",
+          "status": "PLACEHOLDER",
+          "file": "assets/art/cover-art.placeholder-v1.svg",
+          "format": "svg",
+          "width": 1000,
+          "height": 1300,
+          "sha256": "40a7b37036c66d49b64be5eb15d6088a267d561dede5b2265406e74ee528ea73",
+          "darkFile": null,
+          "crops": {
+            "mobile": {
+              "focal": {
+                "x": 0.7,
+                "y": 0.34
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "court",
+              "arena",
+              "lights",
+              "crowd-abstract"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original MOSPORT-B development placeholder",
+            "owner": "MOSPORT",
+            "source": "Vector: same development placeholder as desktop, mobile crop",
+            "generator": null,
+            "generatorPrompt": null,
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering",
+            "addedAt": "2026-10-28T15:45:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null
+          }
+        },
+        {
+          "id": "claude-crop-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/cover-mobile-art.v1-claude-crop.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1170,
+          "height": 2532,
+          "sha256": "31dc2c7c2e89cf03121fdc97edeede936b0189040ad4359cce94dcf7e28ebfcf",
+          "crops": {
+            "mobile": {
+              "focal": {
+                "x": 0.7,
+                "y": 0.3
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "court",
+              "arena",
+              "lights",
+              "crowd-abstract",
+              "brush"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original generated artwork for MOSPORT (Founder-supplied)",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Original_Five_Panel_Art_Source_20261028.png, region 551,7,866,1015 (left,top,right,bottom px); left side extended with a blurred, darkened mirror of the panel edge plus navy vignette (feathered 100 px); ball and rim not stretched; resized to 1170×2532. Source sha256 94cb4629b2dd14e39319aef5eef11cddcfac5fbad2f8004c8faa32e231a7b48f",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": null,
+            "attribution": null,
+            "sourceUrl": "https://drive.google.com/file/d/1VSBmjPt9b3iv19h_mTy60ngx4QxN__K_/view?usp=drivesdk"
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering (crop/export from Founder-supplied source)",
+            "addedAt": "2026-10-28T16:10:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "notes": "Crowds are distant, non-identifiable texture. Arena boards carry illegible glyph-like marks, no readable text or marks. Upscaled from a ~0.4 MP panel: soft at 100% on large screens. Alternative crop made by Claude Code from the same source sheet before the ChatGPT package arrived; kept for comparison only."
+          }
+        },
+        {
+          "id": "native-illustration-v2",
+          "status": "CANDIDATE",
+          "file": "assets/art/cover-mobile-art.v2.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1170,
+          "height": 2532,
+          "sha256": "affd79c41acb55c0f374c3d931bb881185a38b3311421fd120f61b2bd258caf0",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.7,
+                "y": 0.34
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.7,
+                "y": 0.34
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "arena",
+              "court",
+              "lights",
+              "geometry"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original procedural illustration candidate; internal design review only",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Native_Editorial_Art_v2 locally available generated illustration sources",
+            "generator": "procedural vector/raster illustration",
+            "generatorPrompt": "MOSPORT navy/orange basketball equipment and arena art; no people, text, or logos",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT MOSPORT-B visual review",
+            "addedAt": "2026-10-28T18:42:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "note": "Standalone native-size procedural illustration, NOT the painterly high-detail final approved artwork."
+          }
+        },
+        {
+          "id": "chatgpt-art-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/cover-mobile-art.v1.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1170,
+          "height": 2532,
+          "sha256": "aed238ad94699cebbc58fe79e5c1e1f0744a5bf5c48191b6be7839173e86cdb9",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.6
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.7,
+                "y": 0.34
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "arena",
+              "lights",
+              "geometry",
+              "court"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "AI-generated original MOSPORT art; internal candidate pending Founder review",
+            "owner": "MOSPORT",
+            "source": "Original generation in ChatGPT, 2026-10-28",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": "No people, no player likenesses, no text, no logos; cinematic basketball equipment and empty arena in editorial navy/orange style; five art-only panels for responsive MOSPORT slots",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT / MOSPORT-B visual art",
+            "addedAt": "2026-10-28T15:00:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "package": {
+              "name": "MOSPORT_B_Visual_Assets_v1_For_Claude_20261028.zip",
+              "driveId": "1zoRAUlis0yFjKH7UPh2Sbr8yf6kBc06D",
+              "sha256": "e6c0456a37878ae28239a9caed7a790652f7210c5d890947fcd7e758595c6d61",
+              "importedBy": "MOSPORT-B engineering",
+              "importedAt": "2026-10-28T16:25:00+08:00",
+              "verified": "width, height and sha256 match asset_verification.json"
+            }
+          }
+        }
+      ]
+    },
+    "today-feature-art": {
+      "label": "TODAY lead-game card background (behind the two team logos)",
+      "placement": "index.html: .lead-art panel; desktop ≈ 470×250, mobile full card width × 180",
+      "renderBox": {
+        "width": 470,
+        "height": 250,
+        "note": "desktop at 100%; mobile ≈ 362×180"
+      },
+      "deliver": {
+        "width": 1600,
+        "height": 800,
+        "formats": [
+          "webp",
+          "png",
+          "svg"
+        ],
+        "maxBytes": 250000,
+        "expectedFile": "assets/art/today-feature-art.v{n}.webp"
+      },
+      "fit": "cover",
+      "defaultFocal": {
+        "x": 0.5,
+        "y": 0.7
+      },
+      "overlay": "lead-shade",
+      "safeZones": [
+        {
+          "name": "logos",
+          "x": 0.15,
+          "y": 0.1,
+          "w": 0.7,
+          "h": 0.8,
+          "rule": "low contrast: two team logos, codes and names sit on top"
+        }
+      ],
+      "allowedKinds": [
+        "arena",
+        "court",
+        "lights",
+        "skyline-generic",
+        "geometry"
+      ],
+      "fallback": {
+        "kind": "gradient",
+        "light": "linear-gradient(180deg, #1B1F5E 0%, #4A3A8C 60%, #8B4E8F 100%)",
+        "dark": "linear-gradient(180deg, #11143F 0%, #2E2560 60%, #563463 100%)"
+      },
+      "activeVersion": "placeholder-v1",
+      "versions": [
+        {
+          "id": "placeholder-v1",
+          "status": "PLACEHOLDER",
+          "file": "assets/art/arena-art.placeholder-v1.svg",
+          "format": "svg",
+          "width": 800,
+          "height": 400,
+          "sha256": "64def4a1e3905bdcf38aeb89d566e47ca5d1c41b61fae4e9ff6eac52d69b8d7f",
+          "darkFile": null,
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.7
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.7
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "arena",
+              "skyline-generic"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original MOSPORT-B development placeholder",
+            "owner": "MOSPORT",
+            "source": "Vector: generic arena at dusk with palms; no real venue",
+            "generator": null,
+            "generatorPrompt": null,
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering",
+            "addedAt": "2026-10-28T15:45:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null
+          }
+        },
+        {
+          "id": "claude-crop-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/today-feature-art.v1-claude-crop.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1600,
+          "height": 800,
+          "sha256": "8d0c78f6afcb27cc7add94542d49413318ea7b1148826b1a024438cd73d0eccf",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.62
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.62
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "arena",
+              "court",
+              "lights",
+              "crowd-abstract"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original generated artwork for MOSPORT (Founder-supplied)",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Original_Five_Panel_Art_Source_20261028.png, region 880,7,1524,341 (left,top,right,bottom px); cover crop to 1600×800 (focal y 0.6). Source sha256 94cb4629b2dd14e39319aef5eef11cddcfac5fbad2f8004c8faa32e231a7b48f",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": null,
+            "attribution": null,
+            "sourceUrl": "https://drive.google.com/file/d/1VSBmjPt9b3iv19h_mTy60ngx4QxN__K_/view?usp=drivesdk"
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering (crop/export from Founder-supplied source)",
+            "addedAt": "2026-10-28T16:10:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "notes": "Crowds are distant, non-identifiable texture. Arena boards carry illegible glyph-like marks, no readable text or marks. Upscaled from a ~0.4 MP panel: soft at 100% on large screens. Alternative crop made by Claude Code from the same source sheet before the ChatGPT package arrived; kept for comparison only."
+          }
+        },
+        {
+          "id": "native-illustration-v2",
+          "status": "CANDIDATE",
+          "file": "assets/art/today-feature-art.v2.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1600,
+          "height": 800,
+          "sha256": "9ad0fcfc3aebcf8b5fb83f0d334f291eeff503363f0ed324bbd05f5725475090",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.7
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.7
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "arena",
+              "court",
+              "lights",
+              "geometry"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original procedural illustration candidate; internal design review only",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Native_Editorial_Art_v2 locally available generated illustration sources",
+            "generator": "procedural vector/raster illustration",
+            "generatorPrompt": "MOSPORT navy/orange basketball equipment and arena art; no people, text, or logos",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT MOSPORT-B visual review",
+            "addedAt": "2026-10-28T18:42:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "note": "Standalone native-size procedural illustration, NOT the painterly high-detail final approved artwork."
+          }
+        },
+        {
+          "id": "chatgpt-art-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/today-feature-art.v1.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1600,
+          "height": 800,
+          "sha256": "59f6de303cd8d2c0171e71b18c12aaa924b8876a12e0c7cb5075f9e6044fc573",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.6
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.6
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "arena",
+              "court",
+              "lights",
+              "geometry"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "AI-generated original MOSPORT art; internal candidate pending Founder review",
+            "owner": "MOSPORT",
+            "source": "Original generation in ChatGPT, 2026-10-28",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": "No people, no player likenesses, no text, no logos; cinematic basketball equipment and empty arena in editorial navy/orange style; five art-only panels for responsive MOSPORT slots",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT / MOSPORT-B visual art",
+            "addedAt": "2026-10-28T15:00:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "package": {
+              "name": "MOSPORT_B_Visual_Assets_v1_For_Claude_20261028.zip",
+              "driveId": "1zoRAUlis0yFjKH7UPh2Sbr8yf6kBc06D",
+              "sha256": "e6c0456a37878ae28239a9caed7a790652f7210c5d890947fcd7e758595c6d61",
+              "importedBy": "MOSPORT-B engineering",
+              "importedAt": "2026-10-28T16:25:00+08:00",
+              "verified": "width, height and sha256 match asset_verification.json"
+            }
+          }
+        }
+      ]
+    },
+    "match-hero-art": {
+      "label": "Match Detail hero band background",
+      "placement": "match.html: .m-hero, full content width × ≈ 300 (desktop), ≈ 360 (mobile)",
+      "renderBox": {
+        "width": 1144,
+        "height": 300,
+        "note": "desktop; mobile ≈ 358×360"
+      },
+      "deliver": {
+        "width": 2560,
+        "height": 720,
+        "formats": [
+          "webp",
+          "png",
+          "svg"
+        ],
+        "maxBytes": 350000,
+        "expectedFile": "assets/art/match-hero-art.v{n}.webp"
+      },
+      "fit": "cover",
+      "defaultFocal": {
+        "x": 0.5,
+        "y": 0.6
+      },
+      "overlay": "hero-shade",
+      "safeZones": [
+        {
+          "name": "teams-and-title",
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1,
+          "rule": "whole band carries text and logos; a 58% navy overlay is applied"
+        }
+      ],
+      "allowedKinds": [
+        "arena",
+        "court",
+        "lights",
+        "geometry"
+      ],
+      "fallback": {
+        "kind": "gradient",
+        "light": "linear-gradient(180deg, #1B1F5E 0%, #4A3A8C 60%, #8B4E8F 100%)",
+        "dark": "linear-gradient(180deg, #11143F 0%, #2E2560 60%, #563463 100%)"
+      },
+      "activeVersion": "placeholder-v1",
+      "versions": [
+        {
+          "id": "placeholder-v1",
+          "status": "PLACEHOLDER",
+          "file": "assets/art/arena-art.placeholder-v1.svg",
+          "format": "svg",
+          "width": 800,
+          "height": 400,
+          "sha256": "64def4a1e3905bdcf38aeb89d566e47ca5d1c41b61fae4e9ff6eac52d69b8d7f",
+          "darkFile": null,
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.7
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.7
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "arena",
+              "skyline-generic"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original MOSPORT-B development placeholder",
+            "owner": "MOSPORT",
+            "source": "Vector: same development placeholder as today-feature-art",
+            "generator": null,
+            "generatorPrompt": null,
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering",
+            "addedAt": "2026-10-28T15:45:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null
+          }
+        },
+        {
+          "id": "claude-crop-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/match-hero-art.v1-claude-crop.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 2560,
+          "height": 720,
+          "sha256": "65110777ddd7accdbf809af731d5bceaddc755ede9f3698b625998a367ff1c9e",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "arena",
+              "court",
+              "lights",
+              "crowd-abstract"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original generated artwork for MOSPORT (Founder-supplied)",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Original_Five_Panel_Art_Source_20261028.png, region 880,352,1524,667 (left,top,right,bottom px); cover crop to 2560×720 (focal y 0.45). Source sha256 94cb4629b2dd14e39319aef5eef11cddcfac5fbad2f8004c8faa32e231a7b48f",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": null,
+            "attribution": null,
+            "sourceUrl": "https://drive.google.com/file/d/1VSBmjPt9b3iv19h_mTy60ngx4QxN__K_/view?usp=drivesdk"
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering (crop/export from Founder-supplied source)",
+            "addedAt": "2026-10-28T16:10:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "notes": "Crowds are distant, non-identifiable texture. Arena boards carry illegible glyph-like marks, no readable text or marks. Upscaled from a ~0.4 MP panel: soft at 100% on large screens. Alternative crop made by Claude Code from the same source sheet before the ChatGPT package arrived; kept for comparison only."
+          }
+        },
+        {
+          "id": "native-illustration-v2",
+          "status": "CANDIDATE",
+          "file": "assets/art/match-hero-art.v2.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 2560,
+          "height": 720,
+          "sha256": "4d3c0b8c005c467f89ecef5ca58c8d26c6e418fe298ff2f8c4c89be971dded64",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.6
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.6
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "arena",
+              "court",
+              "lights",
+              "geometry"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original procedural illustration candidate; internal design review only",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Native_Editorial_Art_v2 locally available generated illustration sources",
+            "generator": "procedural vector/raster illustration",
+            "generatorPrompt": "MOSPORT navy/orange basketball equipment and arena art; no people, text, or logos",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT MOSPORT-B visual review",
+            "addedAt": "2026-10-28T18:42:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "note": "Standalone native-size procedural illustration, NOT the painterly high-detail final approved artwork."
+          }
+        },
+        {
+          "id": "chatgpt-art-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/match-hero-art.v1.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 2560,
+          "height": 720,
+          "sha256": "a2b90532ff26209c30ce5966a12045bc79e8a2325fe512718ffb7aadf8fe055e",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.6
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.6
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "arena",
+              "court",
+              "lights",
+              "geometry"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "AI-generated original MOSPORT art; internal candidate pending Founder review",
+            "owner": "MOSPORT",
+            "source": "Original generation in ChatGPT, 2026-10-28",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": "No people, no player likenesses, no text, no logos; cinematic basketball equipment and empty arena in editorial navy/orange style; five art-only panels for responsive MOSPORT slots",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT / MOSPORT-B visual art",
+            "addedAt": "2026-10-28T15:00:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "package": {
+              "name": "MOSPORT_B_Visual_Assets_v1_For_Claude_20261028.zip",
+              "driveId": "1zoRAUlis0yFjKH7UPh2Sbr8yf6kBc06D",
+              "sha256": "e6c0456a37878ae28239a9caed7a790652f7210c5d890947fcd7e758595c6d61",
+              "importedBy": "MOSPORT-B engineering",
+              "importedAt": "2026-10-28T16:25:00+08:00",
+              "verified": "width, height and sha256 match asset_verification.json"
+            }
+          }
+        }
+      ]
+    },
+    "editorial-card-art": {
+      "label": "Decorative background for editorial cards (STREAK WATCH, features)",
+      "placement": "index.html: .story-dark card body; ≈ 320×270 desktop, full width mobile",
+      "renderBox": {
+        "width": 320,
+        "height": 270,
+        "note": "desktop at 100%"
+      },
+      "deliver": {
+        "width": 1200,
+        "height": 800,
+        "formats": [
+          "webp",
+          "png",
+          "svg"
+        ],
+        "maxBytes": 200000,
+        "expectedFile": "assets/art/editorial-card-art.v{n}.webp"
+      },
+      "fit": "cover",
+      "defaultFocal": {
+        "x": 0.8,
+        "y": 0.5
+      },
+      "overlay": "card-shade",
+      "safeZones": [
+        {
+          "name": "text",
+          "x": 0,
+          "y": 0,
+          "w": 0.7,
+          "h": 1,
+          "rule": "label, logo, headline and summary on the left 70%"
+        }
+      ],
+      "allowedKinds": [
+        "geometry",
+        "brush",
+        "court",
+        "lights"
+      ],
+      "fallback": {
+        "kind": "gradient",
+        "light": "linear-gradient(135deg, #0B1A3D 0%, #12295E 100%)",
+        "dark": "linear-gradient(135deg, #081332 0%, #0F2150 100%)"
+      },
+      "activeVersion": null,
+      "versions": [
+        {
+          "id": "claude-crop-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/editorial-card-art.v1-claude-crop.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1200,
+          "height": 800,
+          "sha256": "1c0e49b10aeeff86260b8b66f2f161ce7957563aab62cb03e40530cfb9d1be31",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.8,
+                "y": 0.5
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.8,
+                "y": 0.5
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "geometry",
+              "brush",
+              "equipment"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original generated artwork for MOSPORT (Founder-supplied)",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Original_Five_Panel_Art_Source_20261028.png, region 880,677,1524,1015 (left,top,right,bottom px); cover crop to 1200×800 keeping the right side (focal x 0.8). Source sha256 94cb4629b2dd14e39319aef5eef11cddcfac5fbad2f8004c8faa32e231a7b48f",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": null,
+            "attribution": null,
+            "sourceUrl": "https://drive.google.com/file/d/1VSBmjPt9b3iv19h_mTy60ngx4QxN__K_/view?usp=drivesdk"
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering (crop/export from Founder-supplied source)",
+            "addedAt": "2026-10-28T16:10:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "notes": "Crowds are distant, non-identifiable texture. Arena boards carry illegible glyph-like marks, no readable text or marks. Upscaled from a ~0.4 MP panel: soft at 100% on large screens. Alternative crop made by Claude Code from the same source sheet before the ChatGPT package arrived; kept for comparison only."
+          }
+        },
+        {
+          "id": "native-illustration-v2",
+          "status": "CANDIDATE",
+          "file": "assets/art/editorial-card-art.v2.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1200,
+          "height": 800,
+          "sha256": "fbd8d04878297ac05d4d6aaee5d0aedf306efe56c340b653b43240990595585f",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.8,
+                "y": 0.5
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.8,
+                "y": 0.5
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "arena",
+              "court",
+              "lights",
+              "geometry"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original procedural illustration candidate; internal design review only",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Native_Editorial_Art_v2 locally available generated illustration sources",
+            "generator": "procedural vector/raster illustration",
+            "generatorPrompt": "MOSPORT navy/orange basketball equipment and arena art; no people, text, or logos",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT MOSPORT-B visual review",
+            "addedAt": "2026-10-28T18:42:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "note": "Standalone native-size procedural illustration, NOT the painterly high-detail final approved artwork."
+          }
+        },
+        {
+          "id": "chatgpt-art-v1",
+          "status": "CANDIDATE",
+          "file": "assets/art/editorial-card-art.v1.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1200,
+          "height": 800,
+          "sha256": "4015a8d7dd853b3ddb345c7af52b2d48f074b14d2d2fc531ae8ac21e90790afc",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.6
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.6
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "geometry",
+              "brush",
+              "court",
+              "lights"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "AI-generated original MOSPORT art; internal candidate pending Founder review",
+            "owner": "MOSPORT",
+            "source": "Original generation in ChatGPT, 2026-10-28",
+            "generator": "ChatGPT ImageGen",
+            "generatorPrompt": "No people, no player likenesses, no text, no logos; cinematic basketball equipment and empty arena in editorial navy/orange style; five art-only panels for responsive MOSPORT slots",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT / MOSPORT-B visual art",
+            "addedAt": "2026-10-28T15:00:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "package": {
+              "name": "MOSPORT_B_Visual_Assets_v1_For_Claude_20261028.zip",
+              "driveId": "1zoRAUlis0yFjKH7UPh2Sbr8yf6kBc06D",
+              "sha256": "e6c0456a37878ae28239a9caed7a790652f7210c5d890947fcd7e758595c6d61",
+              "importedBy": "MOSPORT-B engineering",
+              "importedAt": "2026-10-28T16:25:00+08:00",
+              "verified": "width, height and sha256 match asset_verification.json"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "logos": {
+    "brand-mark": {
+      "label": "MOSPORT monogram",
+      "placement": "top bar, mobile cover",
+      "deliver": {
+        "width": 512,
+        "height": 512,
+        "formats": [
+          "svg",
+          "png"
+        ],
+        "expectedFile": "assets/brand/mosport-mark.svg"
+      },
+      "fit": "contain",
+      "fallback": {
+        "kind": "text",
+        "value": "M"
+      },
+      "activeVersion": "draft-v1",
+      "versions": [
+        {
+          "id": "draft-v1",
+          "status": "ACTIVE",
+          "file": "assets/brand/mosport-mark.svg",
+          "format": "svg",
+          "width": 120,
+          "height": 120,
+          "sha256": "1e6dc87c9ed51c9f534c4365dfd5df0863992200b822694e0a0b0e81a8894bf2",
+          "darkFile": null,
+          "crops": {},
+          "content": {
+            "kinds": [
+              "brand-mark"
+            ],
+            "containsText": true,
+            "containsLogo": true,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Draft monogram from the v0.3 handoff; not a trademark clearance",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B handoff v0.3",
+            "generator": null,
+            "generatorPrompt": null,
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering",
+            "addedAt": "2026-10-28T15:45:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null
+          }
+        }
+      ]
+    }
+  },
+  "teamLogos": {
+    "note": "30 NBA active prototype marks use 80×80 normalized derivatives. Original Terminal files and their registry versions are preserved; rights remain UNVERIFIED.",
+    "deliver": {
+      "width": 80,
+      "height": 80,
+      "formats": [
+        "svg",
+        "png",
+        "webp"
+      ],
+      "expectedFile": "assets/teams/normalized/nba/{code}.png"
+    },
+    "fit": "contain",
+    "fallback": {
+      "kind": "tricode-badge"
+    },
+    "entries": {
+      "ATL": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/atl.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "aacfe9bb2e3f69321bcd0b415a72d860fc97609c6c1f25985c6e70b78bd7f3cc",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/atl.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/atl.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "81294c60df498e74c13e894eaf6f719173924b40c19f9a93be29fa9cf58164e9",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/atl.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 7205,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/atl.png",
+              "sourceSha256": "aacfe9bb2e3f69321bcd0b415a72d860fc97609c6c1f25985c6e70b78bd7f3cc",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                20,
+                480,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "BKN": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/bkn.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "a407016d7c6a93b8b7b580b0de3f76caf80801bfd4fa66dc5badecc031164779",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/bkn.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/bkn.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "407eed50af7e16d251e549f2f3169a15c01fed0c511e764273b9f78ac1b61116",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/bkn.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 6578,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/bkn.png",
+              "sourceSha256": "a407016d7c6a93b8b7b580b0de3f76caf80801bfd4fa66dc5badecc031164779",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                20,
+                480,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "BOS": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/bos.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "0d0d6b85971b1d18428ba1161772b8c2f7e3ee103846ec4b4763bf0cc849ece0",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/bos.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/bos.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "aa80e5411239f75e1649dc3bed2f5bfbd138f3f6da014ad31375adffd5bdfa9e",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/bos.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 7976,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/bos.png",
+              "sourceSha256": "0d0d6b85971b1d18428ba1161772b8c2f7e3ee103846ec4b4763bf0cc849ece0",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                20,
+                480,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "CHA": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/cha.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "95b3fe42c24e262fb5ce4f52c50f634ba9b7daeae88d090555f1ef301aa0a451",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/cha.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/cha.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "ce2d764d54ed8425acf98347143ca97968f9c5e14a70de3a6b71e57472a0eb28",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/cha.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 9030,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/cha.png",
+              "sourceSha256": "95b3fe42c24e262fb5ce4f52c50f634ba9b7daeae88d090555f1ef301aa0a451",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                11,
+                20,
+                489,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "CHI": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/chi.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "3d70e58419859b30a8f2599f930ca502b175f9110c7cc1b2ab496787b8d445c2",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/chi.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/chi.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "3f0bad555757eedec88f630a54831351262768bfd90f8ac0e3c6a7369d482bc5",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/chi.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 6113,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/chi.png",
+              "sourceSha256": "3d70e58419859b30a8f2599f930ca502b175f9110c7cc1b2ab496787b8d445c2",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                19,
+                46,
+                480,
+                454
+              ]
+            }
+          }
+        ]
+      },
+      "CLE": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/cle.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "f6eeede7fb286c450b80436ad8c21e430ff1eec73adb187d285cb2b8f681e063",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/cle.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/cle.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "51aa49180c4a1d1ec6b0674a39bb1efdc12cdd6a42f3c5a1c1f357fdf05dfbdf",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/cle.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 7058,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/cle.png",
+              "sourceSha256": "f6eeede7fb286c450b80436ad8c21e430ff1eec73adb187d285cb2b8f681e063",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                54,
+                481,
+                446
+              ]
+            }
+          }
+        ]
+      },
+      "DAL": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/dal.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "d0d526f5400b7266883476071df0d24cdea0655a1641f0e5a2ea212e6c1b2b09",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/dal.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/dal.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "7f0388bc1e9280a1e8bfee58ff6c2ea44553f82e5a7a5fb1edf5db064da6cfdd",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/dal.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 10339,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/dal.png",
+              "sourceSha256": "d0d526f5400b7266883476071df0d24cdea0655a1641f0e5a2ea212e6c1b2b09",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                20,
+                480,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "DEN": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/den.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "33f295fabf1bc3ddb60dfcbefb35ab9a3a91c865752e4539778495aab27f535d",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/den.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/den.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "f2c188f79459a9d5d3ee7509c73c29523abdf96995516efb12d0e9e4eaa7ff36",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/den.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 10485,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/den.png",
+              "sourceSha256": "33f295fabf1bc3ddb60dfcbefb35ab9a3a91c865752e4539778495aab27f535d",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                20,
+                480,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "DET": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/det.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "e5bcfd905add9ef97e06a9cc6bfdde49864fe91731625501c14bf861e84b8853",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/det.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/det.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "fdde9a9619320b25442dd400605a019d40741ee4811188c9faa40c1e2258289d",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/det.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 10687,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/det.png",
+              "sourceSha256": "e5bcfd905add9ef97e06a9cc6bfdde49864fe91731625501c14bf861e84b8853",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                20,
+                480,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "GSW": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/gsw.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "b623681ece167224ad4f51aef1ffa5a6f9e072af1cf1d6a6c158fd796e8d33ab",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/gsw.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/gsw.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "e7a3ee772b496705c2b46c91fa3e4daa1e80f7c60a0a49f0bbd8d403d0472ac5",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/gsw.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 9362,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/gsw.png",
+              "sourceSha256": "b623681ece167224ad4f51aef1ffa5a6f9e072af1cf1d6a6c158fd796e8d33ab",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                20,
+                480,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "HOU": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/hou.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "527bebdf254ffbde90acf50b7af9dc0f6eebddd1f85915fc854e44d225a47d31",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/hou.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/hou.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "b7223a26f44a075c0b80981c19d19b4d4c9519c1786d480615ee240f238abbc3",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/hou.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 4316,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/hou.png",
+              "sourceSha256": "527bebdf254ffbde90acf50b7af9dc0f6eebddd1f85915fc854e44d225a47d31",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                75,
+                20,
+                425,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "IND": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/ind.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "8dc8165d842c4b0d3b6f607ac9494a68189b2b06f48a3d820cd5b3997ae7c9da",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/ind.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/ind.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "26f2bd2e37376a5ff672137e9cd669af7b984353cc9c99971ff8ab7b0cc9d445",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/ind.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 6925,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/ind.png",
+              "sourceSha256": "8dc8165d842c4b0d3b6f607ac9494a68189b2b06f48a3d820cd5b3997ae7c9da",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                36,
+                480,
+                464
+              ]
+            }
+          }
+        ]
+      },
+      "LAC": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/lac.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "d43253c0630f0d3d3a4c3c50ce92c9dbe8d5bf21e3bfd5326920c9487b26dbec",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/lac.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/lac.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "0bff15e0687383b3e8e01cb9e7ba21f23e610cbcd77f9fe1d52332ccfd3352f0",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/lac.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 9716,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/lac.png",
+              "sourceSha256": "d43253c0630f0d3d3a4c3c50ce92c9dbe8d5bf21e3bfd5326920c9487b26dbec",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                20,
+                480,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "LAL": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/lal.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "82fda3df51058c5aad8a52123868f43959017be0c39c886e9aefbb77e6c69c89",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/lal.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/lal.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "16028508e9eb35d2221a3884464363dd2ee528c731695b6779ca129893e4bac5",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/lal.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 6550,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/lal.png",
+              "sourceSha256": "82fda3df51058c5aad8a52123868f43959017be0c39c886e9aefbb77e6c69c89",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                111,
+                480,
+                393
+              ]
+            }
+          }
+        ]
+      },
+      "MEM": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/mem.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "eb3f14246f67bccd4d8dd44be2f431992115beac8837c4b1be51d098b0a388bd",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/mem.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/mem.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "e26029e49cdda83a4f537479a1d1aa4a17b49d79e081967e5e5d772c3002ca05",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/mem.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 8263,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/mem.png",
+              "sourceSha256": "eb3f14246f67bccd4d8dd44be2f431992115beac8837c4b1be51d098b0a388bd",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                19,
+                32,
+                481,
+                468
+              ]
+            }
+          }
+        ]
+      },
+      "MIA": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/mia.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "3ba9ff33e65ea12cef33cbf445163a8ec4063b4cbd42c6d2c63109b6d438575f",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/mia.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/mia.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "e4bc5ead7096902c3d33a6d9f606d29ff38ca00fad645823810f4eb21c0014da",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/mia.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 6682,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/mia.png",
+              "sourceSha256": "3ba9ff33e65ea12cef33cbf445163a8ec4063b4cbd42c6d2c63109b6d438575f",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                32,
+                20,
+                468,
+                481
+              ]
+            }
+          }
+        ]
+      },
+      "MIL": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/mil.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "84fbddec67f59fa143f4fde9c2745ca15f3ad03594da4e677a4a1034aefa6f33",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/mil.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/mil.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "cf1d47b7ae4964ecd8073bdf916dbca8bc4c030177738faaea0ed7a338b024c2",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/mil.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 8113,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/mil.png",
+              "sourceSha256": "84fbddec67f59fa143f4fde9c2745ca15f3ad03594da4e677a4a1034aefa6f33",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                75,
+                20,
+                425,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "MIN": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/min.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "d542f1d0652709c58fa304c21e182c7210ff6264d0a9f37b4db9a0352b542f5d",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/min.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/min.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "b11d6401a9c19044b6c4fc605a3e48c4930b67bf37e82b0209be5088d2cfb0ba",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/min.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 10171,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/min.png",
+              "sourceSha256": "d542f1d0652709c58fa304c21e182c7210ff6264d0a9f37b4db9a0352b542f5d",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                20,
+                480,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "NOP": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/nop.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "2c2bf09a59358e024c442d80f16707cd8b705863df9b6aa0ee478346561dc18a",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/nop.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/nop.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "ee0480703d450a4f3a23cf33bbf5fb609578fc31030669341cd26a106d3164c2",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/nop.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 5242,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/nop.png",
+              "sourceSha256": "2c2bf09a59358e024c442d80f16707cd8b705863df9b6aa0ee478346561dc18a",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                161,
+                480,
+                339
+              ]
+            }
+          }
+        ]
+      },
+      "NYK": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/nyk.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "35d2cc3780d172d427ed9bec8300bdcb91dd1065a3e1b6b015d46bb065ea35f5",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/nyk.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/nyk.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "b414b704925a8757d261752a597e90502bad0ec85af05c5caf04948de0aef383",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/nyk.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 8691,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/nyk.png",
+              "sourceSha256": "35d2cc3780d172d427ed9bec8300bdcb91dd1065a3e1b6b015d46bb065ea35f5",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                62,
+                480,
+                438
+              ]
+            }
+          }
+        ]
+      },
+      "OKC": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/okc.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "6b4801ae99c7dac7240d3b6ab3fbd4249a371473fc06517384e891834164a76e",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/okc.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/okc.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "06a543196aa0c80a1ad600c0346b2ac3c0fef10139b505a4306dcc88068bc00e",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/okc.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 6030,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/okc.png",
+              "sourceSha256": "6b4801ae99c7dac7240d3b6ab3fbd4249a371473fc06517384e891834164a76e",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                117,
+                480,
+                383
+              ]
+            }
+          }
+        ]
+      },
+      "ORL": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/orl.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "ccb08b4b69603f4d41e6494b4a35dba8fd2e6a2a75012559d6844c2fc93e0963",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/orl.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/orl.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "dae9b710a6f7beee0e032c233194db0b3ff7d6bdcd4094a49affba69b4b68bb2",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/orl.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 7570,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/orl.png",
+              "sourceSha256": "ccb08b4b69603f4d41e6494b4a35dba8fd2e6a2a75012559d6844c2fc93e0963",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                83,
+                481,
+                417
+              ]
+            }
+          }
+        ]
+      },
+      "PHI": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/phi.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "3b96bf98838e3ea9e5d4fcccda3a98b69636346d2e50aabf1a5a4ba5aad7585e",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/phi.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/phi.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "d5f31d20df50609b54a0c56b056b7f3a5a0f0d9b3ace4eb3fea298863a90f6ab",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/phi.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 5898,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/phi.png",
+              "sourceSha256": "3b96bf98838e3ea9e5d4fcccda3a98b69636346d2e50aabf1a5a4ba5aad7585e",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                60,
+                20,
+                440,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "PHX": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/phx.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "5f8932efdb7595069610b11ec2f417d78a9213691c2ba21e2bd491c172397ead",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/phx.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/phx.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "8e3060a17ee1cb7382f19c4c0fba30c6d3cdb41332031c478f0b0d0fb890b072",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/phx.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 6293,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/phx.png",
+              "sourceSha256": "5f8932efdb7595069610b11ec2f417d78a9213691c2ba21e2bd491c172397ead",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                58,
+                481,
+                442
+              ]
+            }
+          }
+        ]
+      },
+      "POR": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/por.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "635515bc924cef7432e9b362da558c41032daf6f4c41be2e1dc80a34360b6f18",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/por.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/por.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "b79c18a7443560f5691aa8659c8eac7aa0701877237d6088a585edacaa66dac8",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/por.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 6061,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/por.png",
+              "sourceSha256": "635515bc924cef7432e9b362da558c41032daf6f4c41be2e1dc80a34360b6f18",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                41,
+                19,
+                459,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "SAC": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/sac.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "38728eaaf98d73d00363ee570601d64a4caa7fe2590fb0df5afb1b9129d6e20b",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/sac.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/sac.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "f5314d2e5399355c00127389978818e73203095696039c93427ba30598797ac8",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/sac.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 7544,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/sac.png",
+              "sourceSha256": "38728eaaf98d73d00363ee570601d64a4caa7fe2590fb0df5afb1b9129d6e20b",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                49,
+                20,
+                451,
+                481
+              ]
+            }
+          }
+        ]
+      },
+      "SAS": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/sas.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "cc3d33fa8faf34874258b10a8e0377d70b80c7900b4d90698f35edba9952fa1c",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/sas.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/sas.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "7186af7ea22688ca77b99623bae1c4694ae6784dd754ee1e007f623e5917fcca",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/sas.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 5549,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/sas.png",
+              "sourceSha256": "cc3d33fa8faf34874258b10a8e0377d70b80c7900b4d90698f35edba9952fa1c",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                60,
+                20,
+                440,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "TOR": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/tor.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "9b466dfc1c47b22d6692569ea7f6cb1075a5bb3a35296b5053d6562842850b13",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/tor.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/tor.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "168cb6d629ce10a2f880e722179bb82a9c6caf84fd4f920c55c438ae186f6bc1",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/tor.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 7194,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/tor.png",
+              "sourceSha256": "9b466dfc1c47b22d6692569ea7f6cb1075a5bb3a35296b5053d6562842850b13",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                20,
+                480,
+                480
+              ]
+            }
+          }
+        ]
+      },
+      "UTA": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/uta.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "eb20ed36a17b49f65fa30627a2ab2aae5c6e3ee31ab9f03983c15c05270016e1",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/uta.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/uta.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "361a1e4520bb29695cc0981fd49d34b811e7f5611ca602bf5333cc404950466d",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/uta.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 3118,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/uta.png",
+              "sourceSha256": "eb20ed36a17b49f65fa30627a2ab2aae5c6e3ee31ab9f03983c15c05270016e1",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                93,
+                480,
+                406
+              ]
+            }
+          }
+        ]
+      },
+      "WAS": {
+        "activeVersion": "normalized-80-v1",
+        "versions": [
+          {
+            "id": "terminal-prototype-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/nba/was.png",
+            "format": "png",
+            "width": 500,
+            "height": 500,
+            "sha256": "7135d5ce8b74481acf0a831a7a48c9c3e40af0fa1ef3973b1a3f3de4d7ad85f2",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/was.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "Enabled for internal prototype only. Not a commercial rights or final visual approval."
+            }
+          },
+          {
+            "id": "normalized-80-v1",
+            "status": "ACTIVE",
+            "file": "assets/teams/normalized/nba/was.png",
+            "format": "png",
+            "width": 80,
+            "height": 80,
+            "sha256": "15fc56d6ce1ee71506d583502ba0cf7ac5c4c6caa8d361e81a7ef9d63de51edc",
+            "crops": {},
+            "content": {
+              "kinds": [
+                "team-logo"
+              ],
+              "containsText": true,
+              "containsLogo": true,
+              "containsPerson": false
+            },
+            "rights": {
+              "status": "UNVERIFIED",
+              "owner": "NBA / respective team",
+              "source": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nba/was.png",
+              "licence": null
+            },
+            "provenance": {
+              "addedBy": "ChatGPT under Founder instruction to reuse repository logos",
+              "addedAt": "2026-10-28",
+              "approvedBy": null,
+              "approvedAt": null,
+              "note": "80×80 transparent derivative of preserved original; contain/center in 72×72 ink box; original rights unchanged."
+            },
+            "bytes": 9381,
+            "normalization": {
+              "canvas": [
+                80,
+                80
+              ],
+              "contentBox": [
+                72,
+                72
+              ],
+              "fit": "contain",
+              "position": "center",
+              "sourceFile": "assets/teams/nba/was.png",
+              "sourceSha256": "7135d5ce8b74481acf0a831a7a48c9c3e40af0fa1ef3973b1a3f3de4d7ad85f2",
+              "sourceSize": [
+                500,
+                500
+              ],
+              "sourceAlphaBounds": [
+                20,
+                23,
+                478,
+                478
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

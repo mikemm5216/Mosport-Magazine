@@ -1,0 +1,156 @@
+{
+  "sourceRepository": "mikemm5216/Mosport-Terminal",
+  "sourceCommit": "ae608b26a9efb115b13b080904d1d9fd8bd5ec57",
+  "files": [
+    {
+      "source": "frontend/public/logos/nba/atl.png",
+      "sourceBlob": "a56795ecb545a64dad04d4689d46c9fc168a0b16",
+      "file": "assets/teams/nba/atl.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/bkn.png",
+      "sourceBlob": "00d73220a284dbf1232f11cb85123c431f3f2d90",
+      "file": "assets/teams/nba/bkn.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/bos.png",
+      "sourceBlob": "bf13e6ed131bf91c338ca6d4b0688c77c166f6aa",
+      "file": "assets/teams/nba/bos.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/cha.png",
+      "sourceBlob": "13bda56af9a6be07b6f240619e74d3e35e6d6e18",
+      "file": "assets/teams/nba/cha.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/chi.png",
+      "sourceBlob": "941abe2e7f09f4acab7bc71357c65f773fb5f396",
+      "file": "assets/teams/nba/chi.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/cle.png",
+      "sourceBlob": "53fe3429b7bd1207fc0e7f26915a30d1b666c84c",
+      "file": "assets/teams/nba/cle.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/dal.png",
+      "sourceBlob": "12b1790472b824f1021d5e126740d14f62f6bf97",
+      "file": "assets/teams/nba/dal.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/den.png",
+      "sourceBlob": "57a2fee6595b39d325b1e3f9b94360a97131b200",
+      "file": "assets/teams/nba/den.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/det.png",
+      "sourceBlob": "bf5c4e6abd21ab468f21912f39b9b6e1da37aad4",
+      "file": "assets/teams/nba/det.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/gsw.png",
+      "sourceBlob": "ba2d5116ef14063f5b36d1a923446185e799c8a1",
+      "file": "assets/teams/nba/gsw.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/hou.png",
+      "sourceBlob": "1b1f9b18ce4008746a16c105389a57afc1de0401",
+      "file": "assets/teams/nba/hou.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/ind.png",
+      "sourceBlob": "6bb04695f489e76438a96a3bcafc702e2ddf5702",
+      "file": "assets/teams/nba/ind.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/lac.png",
+      "sourceBlob": "5f2f74475481921efd4c2a829cbce254e3933661",
+      "file": "assets/teams/nba/lac.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/lal.png",
+      "sourceBlob": "ae21276de8874f1f3f2b8647a27fbba913d1bc6c",
+      "file": "assets/teams/nba/lal.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/mem.png",
+      "sourceBlob": "91d2d37ff0e148c8d83bd434cd142dc6062f8525",
+      "file": "assets/teams/nba/mem.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/mia.png",
+      "sourceBlob": "b094784b947cc05312ea32b3172264ab1c24541e",
+      "file": "assets/teams/nba/mia.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/mil.png",
+      "sourceBlob": "22792ac10e774c6df7e93e55a3074240b5d20e4b",
+      "file": "assets/teams/nba/mil.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/min.png",
+      "sourceBlob": "ade0d03510abe49c7ad8dced62ff89b1aa4752af",
+      "file": "assets/teams/nba/min.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/nop.png",
+      "sourceBlob": "9e3aff80d575c34eb43de99a53c07ed43a1e5a2b",
+      "file": "assets/teams/nba/nop.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/nyk.png",
+      "sourceBlob": "adbd5463c6308e40819bc0e5b141cd09005310f6",
+      "file": "assets/teams/nba/nyk.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/okc.png",
+      "sourceBlob": "aa003be72059a7f0096f61ad794482ea6ff9c6cd",
+      "file": "assets/teams/nba/okc.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/orl.png",
+      "sourceBlob": "7f94044518d65d4c6cdd3af0799ea9c45b1a659f",
+      "file": "assets/teams/nba/orl.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/phi.png",
+      "sourceBlob": "ddbaecddaefd25744dc4502eeb2c6f2778eed4f8",
+      "file": "assets/teams/nba/phi.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/phx.png",
+      "sourceBlob": "7f49b7c4d6b8a2968b3a5939ac7bf71c066a3a5e",
+      "file": "assets/teams/nba/phx.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/por.png",
+      "sourceBlob": "9ca619f31d27d29c2617795c150fca8928680031",
+      "file": "assets/teams/nba/por.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/sac.png",
+      "sourceBlob": "4836f855398dae9614db45b7930068694d142614",
+      "file": "assets/teams/nba/sac.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/sas.png",
+      "sourceBlob": "2077d9bada1b9788c08f9bd7cb912c9b24667e12",
+      "file": "assets/teams/nba/sas.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/tor.png",
+      "sourceBlob": "1e916b471aaaab25d2849e19f01d0da418deebb9",
+      "file": "assets/teams/nba/tor.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/uta.png",
+      "sourceBlob": "14a73f27ebe0f573ee6b877e1e16fdb463e6c638",
+      "file": "assets/teams/nba/uta.png"
+    },
+    {
+      "source": "frontend/public/logos/nba/was.png",
+      "sourceBlob": "e4879545dd24a51a6fb65129d176398182df11af",
+      "file": "assets/teams/nba/was.png"
+    }
+  ]
+}

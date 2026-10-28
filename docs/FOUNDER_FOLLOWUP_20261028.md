@@ -32,3 +32,10 @@ PR #1 的 Codex review 在 `bac86c8` 無 findings；後續 `f922c96` 加入 CLAU
 - P1 視覺決策與正式發布資格分開；未決的最終美術不阻擋依賴安全的 P2 契約準備。
 - 不改 MOSPORT-A；A 契約只能讀取核對，不從 B 重新定義或計算 World。
 - Logo 檔案存在、內部原型選用與第三方授權三者各自如實記錄。
+
+## Soccer 命名與聯賽補齊（同日後續指示）
+
+Founder 明確要求足球英文與程式命名使用 soccer，避免和 NFL 混淆。
+英文 UI 改為 Soccer；key/group/path/team id 使用 soccer / SOCCER。
+素材補齊五大聯賽 96 隊，另加葡超與荷甲共 132 隊；歷史額外素材 5 隊
+獨立標示。隊伍隸屬按來源目錄快照明列，不從舊 EPL/UCL 檔名推定。

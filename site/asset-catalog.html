@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MOSPORT 素材總覽</title>
+<style>body{font:16px system-ui,sans-serif;background:#edf0f5;color:#14243a;margin:0}main{max-width:1200px;margin:auto;padding:28px}h1{margin:0}p{line-height:1.6}a{color:#164fc6}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}.logos{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}figure{margin:0;padding:16px;background:white;border:1px solid #d3dbe5;border-radius:10px;display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center}.logos img{width:80px;height:80px;object-fit:contain}.flags img{width:96px;height:72px;object-fit:contain;border:1px solid #ddd}figcaption{font-size:14px;line-height:1.5}small{display:block;color:#526176}input{font:inherit;padding:12px;width:min(90%,500px);margin-bottom:18px}footer{margin-top:30px}header{background:#0b1729;color:white;padding:24px}header p{margin-bottom:0}</style></head>
+<body><header><main><h1>MOSPORT 素材總覽</h1><p>NBA · CPBL · MLB · 足球 · NHL 隊徽與旗幟</p></main></header><main>
+<p><a href="candidate-v2.html">返回雜誌候選版</a> · 本頁為素材核對，不代表其他運動賽事資料已上線。</p>
+<h2>CPBL 六隊</h2><p>統一 80×80 透明畫布，等比例置中；官網原始檔另存。下載來源不等於第三方商標授權。</p><section id="cpbl" class="grid logos" aria-label="CPBL 隊徽"></section>
+<section id="nba-group"><h2>NBA · 30 隊</h2><div id="nba" class="grid logos"></div></section>
+<section id="mlb-group"><h2>MLB · 30 隊</h2><div id="mlb" class="grid logos"></div></section>
+<section id="soccer-group"><h2>Soccer 足球 · 137 個隊徽</h2><p>五大聯賽 96 隊；加上葡超、荷甲共 132 隊，另保留 5 隊歷史素材。</p><label for="soccer-league">按聯賽查看</label> <select id="soccer-league" style="font:inherit;padding:10px;margin:12px 0"><option value="all">全部隊徽</option></select><p id="soccer-count"></p><div id="soccer" class="grid logos"></div></section>
+<section id="nhl-group"><h2>NHL · 32 隊</h2><div id="nhl" class="grid logos"></div></section>
+<h2>國家／地區旗幟</h2><p id="count"></p><label for="filter">搜尋名稱或代碼</label><br><input id="filter" type="search" placeholder="TW、Japan、United States…"><section id="flags" class="grid flags" aria-label="旗幟"></section>
+<footer>旗幟來源：flag-icons 7.6.0 · <a href="assets/flags/LICENSE.txt">MIT 授權</a>。身分與來源索引：<a href="data/cpbl-team-registry.json">CPBL</a>／<a href="data/flag-registry.json">旗幟</a>／<a href="data/multi-sport-team-registry.json">MLB・足球・NHL</a>。</footer>
+</main><script src="data/asset-registry.js"></script><script src="js/teams.nba.js"></script><script src="data/multi-sport-team-registry.js"></script><script src="data/cpbl-team-registry.js"></script><script src="data/flag-registry.js"></script><script>
+(function(){
+ function card(a,isFlag){var f=document.createElement('figure'),i=document.createElement('img'),c=document.createElement('figcaption'),s=document.createElement('small');i.src=a.file;i.alt=a.name;f.dataset.code=a.code||a.providerCode;f.dataset.search=(a.name+' '+f.dataset.code).toLowerCase();c.appendChild(document.createTextNode(a.name));s.textContent=isFlag?(a.code+(a.iso3166Alpha2?' · ISO':' · 補充符號')):(f.dataset.code+' · '+a.width+'×'+a.height);c.appendChild(s);f.append(i,c);return f;}
+ MOSPORT_CPBL_ASSETS.entries.forEach(function(a){document.getElementById('cpbl').appendChild(card(a,false));});
+ Object.entries(MOSPORT_ASSET_REGISTRY.teamLogos.entries).forEach(function(pair){var code=pair[0],slot=pair[1],v=slot.versions.find(function(v){return v.id===slot.activeVersion}),team=MOSPORT_TEAMS.get(code);document.getElementById('nba').appendChild(card(Object.assign({},v,{code:code,name:team?team.city.en+' '+team.name.en:code}),false));});
+ Object.entries(MOSPORT_MULTI_SPORT_ASSETS.groups).forEach(function(pair){pair[1].forEach(function(a){var f=card(a,false);if(pair[0]==='soccer')f.dataset.leagues=JSON.stringify(a.leagueIds);document.getElementById(pair[0]).appendChild(f);});});
+ MOSPORT_FLAG_ASSETS.entries.forEach(function(a){document.getElementById('flags').appendChild(card(a,true));});
+ var select=document.getElementById('soccer-league');
+ MOSPORT_MULTI_SPORT_ASSETS.soccerCoverage.leagueSnapshots.forEach(function(l){var o=document.createElement('option');o.value=l.id;o.textContent=l.nameZh+' / '+l.name+' · '+l.expectedCount+' 隊';select.appendChild(o);});
+ var legacy=document.createElement('option');legacy.value='legacy';legacy.textContent='其他歷史素材 · 5 隊';select.appendChild(legacy);
+ function filterSoccer(){var n=0;document.querySelectorAll('#soccer figure').forEach(function(f){var leagues=JSON.parse(f.dataset.leagues),yes=select.value==='all'||(select.value==='legacy'?leagues.length===0:leagues.indexOf(select.value)!==-1);f.style.display=yes?'':'none';if(yes)n++;});document.getElementById('soccer-count').textContent='顯示 '+n+' 隊';}
+ select.addEventListener('change',filterSoccer);filterSoccer();
+ document.getElementById('count').textContent=MOSPORT_FLAG_ASSETS.isoCount+' 個 ISO 國家／地區，另有 '+MOSPORT_FLAG_ASSETS.additionalCount+' 個補充旗幟與符號。';
+ document.getElementById('filter').addEventListener('input',function(){var q=this.value.trim().toLowerCase();document.querySelectorAll('#flags figure').forEach(function(f){f.hidden=f.dataset.search.indexOf(q)<0;f.style.display=f.hidden?'none':'';});});
+})();
+</script></body></html>

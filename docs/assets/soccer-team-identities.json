@@ -1,0 +1,1432 @@
+{
+  "source": "ESPN public team metadata",
+  "leagueSnapshots": [
+    {
+      "id": "eng.1",
+      "name": "Premier League",
+      "nameZh": "英超",
+      "expectedCount": 20,
+      "observedAt": "2026-10-28",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+      "teamIds": [
+        "349",
+        "359",
+        "362",
+        "337",
+        "331",
+        "363",
+        "388",
+        "384",
+        "368",
+        "370",
+        "306",
+        "373",
+        "357",
+        "364",
+        "382",
+        "360",
+        "361",
+        "393",
+        "366",
+        "367"
+      ]
+    },
+    {
+      "id": "esp.1",
+      "name": "LaLiga",
+      "nameZh": "西甲",
+      "expectedCount": 20,
+      "observedAt": "2026-10-28",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+      "teamIds": [
+        "96",
+        "93",
+        "1068",
+        "83",
+        "85",
+        "90",
+        "3751",
+        "88",
+        "2922",
+        "1538",
+        "99",
+        "97",
+        "87",
+        "101",
+        "244",
+        "86",
+        "89",
+        "243",
+        "94",
+        "102"
+      ]
+    },
+    {
+      "id": "ita.1",
+      "name": "Serie A",
+      "nameZh": "義甲",
+      "expectedCount": 20,
+      "observedAt": "2026-10-28",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+      "teamIds": [
+        "103",
+        "104",
+        "105",
+        "107",
+        "2925",
+        "2572",
+        "109",
+        "4057",
+        "3263",
+        "110",
+        "111",
+        "112",
+        "113",
+        "4007",
+        "114",
+        "115",
+        "3997",
+        "239",
+        "118",
+        "17530"
+      ]
+    },
+    {
+      "id": "ger.1",
+      "name": "Bundesliga",
+      "nameZh": "德甲",
+      "expectedCount": 18,
+      "observedAt": "2026-10-28",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+      "teamIds": [
+        "598",
+        "131",
+        "132",
+        "124",
+        "268",
+        "125",
+        "3841",
+        "122",
+        "127",
+        "2950",
+        "11420",
+        "126",
+        "3307",
+        "10388",
+        "133",
+        "7911",
+        "134",
+        "137"
+      ]
+    },
+    {
+      "id": "fra.1",
+      "name": "Ligue 1",
+      "nameZh": "法甲",
+      "expectedCount": 18,
+      "observedAt": "2026-10-28",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+      "teamIds": [
+        "172",
+        "174",
+        "7868",
+        "6997",
+        "3236",
+        "2697",
+        "175",
+        "166",
+        "273",
+        "167",
+        "176",
+        "2502",
+        "6851",
+        "160",
+        "169",
+        "180",
+        "179",
+        "170"
+      ]
+    },
+    {
+      "id": "por.1",
+      "name": "Primeira Liga",
+      "nameZh": "葡超",
+      "expectedCount": 18,
+      "observedAt": "2026-10-28",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+      "teamIds": [
+        "21607",
+        "21613",
+        "15784",
+        "1929",
+        "2994",
+        "3472",
+        "21581",
+        "12216",
+        "21610",
+        "12698",
+        "437",
+        "3699",
+        "552",
+        "3696",
+        "3822",
+        "12215",
+        "2250",
+        "5309"
+      ]
+    },
+    {
+      "id": "ned.1",
+      "name": "Eredivisie",
+      "nameZh": "荷甲",
+      "expectedCount": 18,
+      "observedAt": "2026-10-28",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+      "teamIds": [
+        "2726",
+        "140",
+        "139",
+        "2566",
+        "145",
+        "152",
+        "153",
+        "142",
+        "143",
+        "3706",
+        "146",
+        "147",
+        "2565",
+        "148",
+        "3736",
+        "151",
+        "3735",
+        "156"
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "assetId": "SOCCER:ESPN:598",
+      "providerTeamId": "598",
+      "providerTeamName": "1. FC Union Berlin",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/598.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:103",
+      "providerTeamId": "103",
+      "providerTeamName": "AC Milan",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/103.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:2726",
+      "providerTeamId": "2726",
+      "providerTeamName": "ADO Den Haag",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2726.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:349",
+      "providerTeamId": "349",
+      "providerTeamName": "AFC Bournemouth",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:172",
+      "providerTeamId": "172",
+      "providerTeamName": "AJ Auxerre",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/172.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:174",
+      "providerTeamId": "174",
+      "providerTeamName": "AS Monaco",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/174.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:104",
+      "providerTeamId": "104",
+      "providerTeamName": "AS Roma",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/104.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:140",
+      "providerTeamId": "140",
+      "providerTeamName": "AZ Alkmaar",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/140.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:21607",
+      "providerTeamId": "21607",
+      "providerTeamName": "Académico de Viseu",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/21607.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:139",
+      "providerTeamId": "139",
+      "providerTeamName": "Ajax Amsterdam",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/139.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:96",
+      "providerTeamId": "96",
+      "providerTeamName": "Alavés",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/96.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:21613",
+      "providerTeamId": "21613",
+      "providerTeamName": "Alverca",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/21613.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:7868",
+      "providerTeamId": "7868",
+      "providerTeamName": "Angers",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/7868.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:15784",
+      "providerTeamId": "15784",
+      "providerTeamName": "Arouca",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/15784.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:359",
+      "providerTeamId": "359",
+      "providerTeamName": "Arsenal",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:362",
+      "providerTeamId": "362",
+      "providerTeamName": "Aston Villa",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:105",
+      "providerTeamId": "105",
+      "providerTeamName": "Atalanta",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/105.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:93",
+      "providerTeamId": "93",
+      "providerTeamName": "Athletic Club",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/93.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:1068",
+      "providerTeamId": "1068",
+      "providerTeamName": "Atlético Madrid",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/1068.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:83",
+      "providerTeamId": "83",
+      "providerTeamName": "Barcelona",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/83.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:131",
+      "providerTeamId": "131",
+      "providerTeamName": "Bayer Leverkusen",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/131.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:132",
+      "providerTeamId": "132",
+      "providerTeamName": "Bayern Munich",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/132.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:1929",
+      "providerTeamId": "1929",
+      "providerTeamName": "Benfica",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/1929.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:107",
+      "providerTeamId": "107",
+      "providerTeamName": "Bologna",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/107.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:124",
+      "providerTeamId": "124",
+      "providerTeamName": "Borussia Dortmund",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/124.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:268",
+      "providerTeamId": "268",
+      "providerTeamName": "Borussia Mönchengladbach",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/268.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:2994",
+      "providerTeamId": "2994",
+      "providerTeamName": "Braga",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2994.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:337",
+      "providerTeamId": "337",
+      "providerTeamName": "Brentford",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:6997",
+      "providerTeamId": "6997",
+      "providerTeamName": "Brest",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:331",
+      "providerTeamId": "331",
+      "providerTeamName": "Brighton & Hove Albion",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:379",
+      "providerTeamId": "379",
+      "providerTeamName": "Burnley",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/379.png",
+      "leagueIds": []
+    },
+    {
+      "assetId": "SOCCER:ESPN:3472",
+      "providerTeamId": "3472",
+      "providerTeamName": "C.D. Nacional",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3472.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:2925",
+      "providerTeamId": "2925",
+      "providerTeamName": "Cagliari",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2925.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:21581",
+      "providerTeamId": "21581",
+      "providerTeamName": "Casa Pia",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/21581.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:85",
+      "providerTeamId": "85",
+      "providerTeamName": "Celta Vigo",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/85.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:363",
+      "providerTeamId": "363",
+      "providerTeamName": "Chelsea",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:2572",
+      "providerTeamId": "2572",
+      "providerTeamName": "Como",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2572.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:388",
+      "providerTeamId": "388",
+      "providerTeamName": "Coventry City",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:384",
+      "providerTeamId": "384",
+      "providerTeamName": "Crystal Palace",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:90",
+      "providerTeamId": "90",
+      "providerTeamName": "Deportivo",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/90.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:125",
+      "providerTeamId": "125",
+      "providerTeamName": "Eintracht Frankfurt",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/125.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:3751",
+      "providerTeamId": "3751",
+      "providerTeamName": "Elche",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3751.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:88",
+      "providerTeamId": "88",
+      "providerTeamName": "Espanyol",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/88.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:12216",
+      "providerTeamId": "12216",
+      "providerTeamName": "Estoril",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/12216.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:21610",
+      "providerTeamId": "21610",
+      "providerTeamName": "Estrela",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/21610.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:368",
+      "providerTeamId": "368",
+      "providerTeamName": "Everton",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:2566",
+      "providerTeamId": "2566",
+      "providerTeamName": "Excelsior",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2566.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:3841",
+      "providerTeamId": "3841",
+      "providerTeamName": "FC Augsburg",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3841.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:122",
+      "providerTeamId": "122",
+      "providerTeamName": "FC Cologne",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/122.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:12698",
+      "providerTeamId": "12698",
+      "providerTeamName": "FC Famalicao",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/12698.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:145",
+      "providerTeamId": "145",
+      "providerTeamName": "FC Groningen",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/145.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:437",
+      "providerTeamId": "437",
+      "providerTeamName": "FC Porto",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/437.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:152",
+      "providerTeamId": "152",
+      "providerTeamName": "FC Twente",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/152.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:153",
+      "providerTeamId": "153",
+      "providerTeamName": "FC Utrecht",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/153.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:142",
+      "providerTeamId": "142",
+      "providerTeamName": "Feyenoord Rotterdam",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/142.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:109",
+      "providerTeamId": "109",
+      "providerTeamName": "Fiorentina",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/109.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:143",
+      "providerTeamId": "143",
+      "providerTeamName": "Fortuna Sittard",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/143.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:4057",
+      "providerTeamId": "4057",
+      "providerTeamName": "Frosinone",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/4057.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:370",
+      "providerTeamId": "370",
+      "providerTeamName": "Fulham",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:3263",
+      "providerTeamId": "3263",
+      "providerTeamName": "Genoa",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3263.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:2922",
+      "providerTeamId": "2922",
+      "providerTeamName": "Getafe",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2922.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:3699",
+      "providerTeamId": "3699",
+      "providerTeamName": "Gil Vicente",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3699.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:3706",
+      "providerTeamId": "3706",
+      "providerTeamName": "Go Ahead Eagles",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3706.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:127",
+      "providerTeamId": "127",
+      "providerTeamName": "Hamburg SV",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/127.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:146",
+      "providerTeamId": "146",
+      "providerTeamName": "Heerenveen",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/146.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:306",
+      "providerTeamId": "306",
+      "providerTeamName": "Hull City",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:110",
+      "providerTeamId": "110",
+      "providerTeamName": "Internazionale",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/110.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:373",
+      "providerTeamId": "373",
+      "providerTeamName": "Ipswich Town",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:111",
+      "providerTeamId": "111",
+      "providerTeamName": "Juventus",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/111.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:112",
+      "providerTeamId": "112",
+      "providerTeamName": "Lazio",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/112.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:3236",
+      "providerTeamId": "3236",
+      "providerTeamName": "Le Havre AC",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:2697",
+      "providerTeamId": "2697",
+      "providerTeamName": "Le Mans",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:113",
+      "providerTeamId": "113",
+      "providerTeamName": "Lecce",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/113.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:357",
+      "providerTeamId": "357",
+      "providerTeamName": "Leeds United",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:375",
+      "providerTeamId": "375",
+      "providerTeamName": "Leicester City",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/375.png",
+      "leagueIds": []
+    },
+    {
+      "assetId": "SOCCER:ESPN:175",
+      "providerTeamId": "175",
+      "providerTeamName": "Lens",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/175.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:1538",
+      "providerTeamId": "1538",
+      "providerTeamName": "Levante",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/1538.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:166",
+      "providerTeamId": "166",
+      "providerTeamName": "Lille",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:364",
+      "providerTeamId": "364",
+      "providerTeamName": "Liverpool",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:273",
+      "providerTeamId": "273",
+      "providerTeamName": "Lorient",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:167",
+      "providerTeamId": "167",
+      "providerTeamName": "Lyon",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:2950",
+      "providerTeamId": "2950",
+      "providerTeamName": "Mainz",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2950.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:382",
+      "providerTeamId": "382",
+      "providerTeamName": "Manchester City",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:360",
+      "providerTeamId": "360",
+      "providerTeamName": "Manchester United",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:552",
+      "providerTeamId": "552",
+      "providerTeamName": "Maritimo",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/552.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:176",
+      "providerTeamId": "176",
+      "providerTeamName": "Marseille",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/176.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:4007",
+      "providerTeamId": "4007",
+      "providerTeamName": "Monza",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/4007.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:3696",
+      "providerTeamId": "3696",
+      "providerTeamName": "Moreirense",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3696.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:99",
+      "providerTeamId": "99",
+      "providerTeamName": "Málaga",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/99.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:147",
+      "providerTeamId": "147",
+      "providerTeamName": "NEC Nijmegen",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/147.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:114",
+      "providerTeamId": "114",
+      "providerTeamName": "Napoli",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/114.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:361",
+      "providerTeamId": "361",
+      "providerTeamName": "Newcastle United",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:2502",
+      "providerTeamId": "2502",
+      "providerTeamName": "Nice",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:393",
+      "providerTeamId": "393",
+      "providerTeamName": "Nottingham Forest",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:97",
+      "providerTeamId": "97",
+      "providerTeamName": "Osasuna",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/97.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:2565",
+      "providerTeamId": "2565",
+      "providerTeamName": "PEC Zwolle",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2565.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:148",
+      "providerTeamId": "148",
+      "providerTeamName": "PSV Eindhoven",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/148.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:6851",
+      "providerTeamId": "6851",
+      "providerTeamName": "Paris FC",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:160",
+      "providerTeamId": "160",
+      "providerTeamName": "Paris Saint-Germain",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:115",
+      "providerTeamId": "115",
+      "providerTeamName": "Parma",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/115.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:11420",
+      "providerTeamId": "11420",
+      "providerTeamName": "RB Leipzig",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/11420.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:87",
+      "providerTeamId": "87",
+      "providerTeamName": "Racing Santander",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/87.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:101",
+      "providerTeamId": "101",
+      "providerTeamName": "Rayo Vallecano",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/101.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:244",
+      "providerTeamId": "244",
+      "providerTeamName": "Real Betis",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/244.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:86",
+      "providerTeamId": "86",
+      "providerTeamName": "Real Madrid",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/86.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:89",
+      "providerTeamId": "89",
+      "providerTeamName": "Real Sociedad",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/89.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:3822",
+      "providerTeamId": "3822",
+      "providerTeamName": "Rio Ave",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3822.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:3736",
+      "providerTeamId": "3736",
+      "providerTeamName": "SC Cambuur",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3736.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:126",
+      "providerTeamId": "126",
+      "providerTeamName": "SC Freiburg",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/126.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:3307",
+      "providerTeamId": "3307",
+      "providerTeamName": "SC Paderborn 07",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3307.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:10388",
+      "providerTeamId": "10388",
+      "providerTeamName": "SV Elversberg",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/10388.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:12215",
+      "providerTeamId": "12215",
+      "providerTeamName": "Santa Clara",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/12215.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:3997",
+      "providerTeamId": "3997",
+      "providerTeamName": "Sassuolo",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3997.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:133",
+      "providerTeamId": "133",
+      "providerTeamName": "Schalke 04",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/133.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:243",
+      "providerTeamId": "243",
+      "providerTeamName": "Sevilla",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/243.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:376",
+      "providerTeamId": "376",
+      "providerTeamName": "Southampton",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/376.png",
+      "leagueIds": []
+    },
+    {
+      "assetId": "SOCCER:ESPN:151",
+      "providerTeamId": "151",
+      "providerTeamName": "Sparta Rotterdam",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/151.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:2250",
+      "providerTeamId": "2250",
+      "providerTeamName": "Sporting CP",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2250.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:169",
+      "providerTeamId": "169",
+      "providerTeamName": "Stade Rennais",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/169.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:180",
+      "providerTeamId": "180",
+      "providerTeamName": "Strasbourg",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:366",
+      "providerTeamId": "366",
+      "providerTeamName": "Sunderland",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:7911",
+      "providerTeamId": "7911",
+      "providerTeamName": "TSG Hoffenheim",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/7911.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:3735",
+      "providerTeamId": "3735",
+      "providerTeamName": "Telstar",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3735.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:239",
+      "providerTeamId": "239",
+      "providerTeamName": "Torino",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/239.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:367",
+      "providerTeamId": "367",
+      "providerTeamName": "Tottenham Hotspur",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+      "leagueIds": [
+        "eng.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:179",
+      "providerTeamId": "179",
+      "providerTeamName": "Toulouse",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:170",
+      "providerTeamId": "170",
+      "providerTeamName": "Troyes",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
+      "leagueIds": [
+        "fra.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:118",
+      "providerTeamId": "118",
+      "providerTeamName": "Udinese",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/118.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:94",
+      "providerTeamId": "94",
+      "providerTeamName": "Valencia",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/94.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:17530",
+      "providerTeamId": "17530",
+      "providerTeamName": "Venezia",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/17530.png",
+      "leagueIds": [
+        "ita.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:134",
+      "providerTeamId": "134",
+      "providerTeamName": "VfB Stuttgart",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/134.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:102",
+      "providerTeamId": "102",
+      "providerTeamName": "Villarreal",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/102.png",
+      "leagueIds": [
+        "esp.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:5309",
+      "providerTeamId": "5309",
+      "providerTeamName": "Vitória de Guimaraes",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/5309.png",
+      "leagueIds": [
+        "por.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:137",
+      "providerTeamId": "137",
+      "providerTeamName": "Werder Bremen",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/137.png",
+      "leagueIds": [
+        "ger.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:371",
+      "providerTeamId": "371",
+      "providerTeamName": "West Ham United",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/371.png",
+      "leagueIds": []
+    },
+    {
+      "assetId": "SOCCER:ESPN:156",
+      "providerTeamId": "156",
+      "providerTeamName": "Willem II",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/156.png",
+      "leagueIds": [
+        "ned.1"
+      ]
+    },
+    {
+      "assetId": "SOCCER:ESPN:380",
+      "providerTeamId": "380",
+      "providerTeamName": "Wolverhampton Wanderers",
+      "logoUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/380.png",
+      "leagueIds": []
+    }
+  ]
+}

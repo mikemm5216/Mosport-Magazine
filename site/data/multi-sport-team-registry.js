@@ -1,0 +1,9805 @@
+window.MOSPORT_MULTI_SPORT_ASSETS = {
+  "schemaVersion": 1,
+  "sourceRepository": "mikemm5216/Mosport-Terminal",
+  "sourceCommit": "ae608b26a9efb115b13b080904d1d9fd8bd5ec57",
+  "logoStandard": {
+    "width": 80,
+    "height": 80,
+    "contentBox": [
+      72,
+      72
+    ],
+    "fit": "contain"
+  },
+  "groups": {
+    "mlb": [
+      {
+        "id": "MLB:109",
+        "code": "AZ",
+        "name": "Arizona Diamondbacks",
+        "aliases": [],
+        "sourceCode": "ARI",
+        "sourceFile": "assets/teams/sources/mlb/ari.png",
+        "sourceBlob": "0ab933de0a35f63493f3faa2dff6ad395dc84bcd",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/ari.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 109,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/ari.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "3db1ff7f221fddb4f276d906d2aa4ca060700204f0c645078ee39bf5a63ba121",
+        "bytes": 6865,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/ari.png",
+          "sourceSha256": "b060f0fcc21d64b978be260f0c24880c50094f0ec8e640d14896dc5045bf0b21",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            20,
+            54,
+            480,
+            446
+          ]
+        }
+      },
+      {
+        "id": "MLB:133",
+        "code": "ATH",
+        "name": "Athletics",
+        "aliases": [
+          "OAK"
+        ],
+        "sourceCode": "ATH",
+        "sourceFile": "assets/teams/sources/mlb/ath.png",
+        "sourceBlob": "1269a04b71196b60aebb869d4ce824da47caf5ff",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/ath.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 133,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/ath.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "c46d88f507fd7c1c2bbbdca8b32d1fae549e0d56bd05d1f8c27fb72d0688c4b3",
+        "bytes": 7021,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/ath.png",
+          "sourceSha256": "f430543a6db8d652e4fb1a81c4ac99ee32022ae587834234a029830a9653b8d2",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            14,
+            54,
+            487,
+            446
+          ]
+        }
+      },
+      {
+        "id": "MLB:144",
+        "code": "ATL",
+        "name": "Atlanta Braves",
+        "aliases": [],
+        "sourceCode": "ATL",
+        "sourceFile": "assets/teams/sources/mlb/atl.png",
+        "sourceBlob": "af9ddabdcd52c57fb536dc7d08ab145b8e1aee46",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/atl.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 144,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/atl.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "09448baec472cb8ca2030bbde0d87ddc322b26bcd2c1d7cfe953dd9822a7a271",
+        "bytes": 6369,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/atl.png",
+          "sourceSha256": "1c36c62410bbed29624672b006173af58bcdfbb066ae9d6f7c4cb99205e861d2",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            20,
+            33,
+            481,
+            467
+          ]
+        }
+      },
+      {
+        "id": "MLB:110",
+        "code": "BAL",
+        "name": "Baltimore Orioles",
+        "aliases": [],
+        "sourceCode": "BAL",
+        "sourceFile": "assets/teams/sources/mlb/bal.png",
+        "sourceBlob": "51d87da223e2e8fba114d083e17ee5505cbbd63d",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/bal.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 110,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/bal.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "bdbbfee7d1316dc995c3944d8ed45a9855f5f9ed507537e1a976c25b1ae7778a",
+        "bytes": 7140,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/bal.png",
+          "sourceSha256": "e96827050e6079674fa20221f5b8b8acbd4f80843f861dbb4d0261b309741472",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            19,
+            32,
+            481,
+            468
+          ]
+        }
+      },
+      {
+        "id": "MLB:111",
+        "code": "BOS",
+        "name": "Boston Red Sox",
+        "aliases": [],
+        "sourceCode": "BOS",
+        "sourceFile": "assets/teams/sources/mlb/bos.png",
+        "sourceBlob": "e21a392dfff2800ba0ab454dc4413e5ccbe1dff8",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/bos.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 111,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/bos.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "bb1062816b5802feb57c0efec47eeaceea2c4e2514d75350c2496bc1b1853626",
+        "bytes": 5731,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/bos.png",
+          "sourceSha256": "471966c3b3f4ab7b567b9cd29e7eefc138963182e98b31c01c922335ad265597",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            87,
+            19,
+            413,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:112",
+        "code": "CHC",
+        "name": "Chicago Cubs",
+        "aliases": [],
+        "sourceCode": "CHC",
+        "sourceFile": "assets/teams/sources/mlb/chc.png",
+        "sourceBlob": "878a3af2e932db1f25dbe290826080a8364bb345",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/chc.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 112,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/chc.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "3e1533db5d1cdf5f52ba0f8f25041ed48ec9bf12e834ca379076214f15ecc9b2",
+        "bytes": 8516,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/chc.png",
+          "sourceSha256": "39a2b071f52778bbaa9f7d58432db3dcf638bb9a25eb17a901d3551d5d859086",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            20,
+            20,
+            480,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:145",
+        "code": "CWS",
+        "name": "Chicago White Sox",
+        "aliases": [
+          "CHW"
+        ],
+        "sourceCode": "CHW",
+        "sourceFile": "assets/teams/sources/mlb/chw.png",
+        "sourceBlob": "5ee3600999e87625735f8d7555fb3a5336588791",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/chw.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 145,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/chw.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "025699e133580eb9ffb7667579128152e649924dc906c0bed3a75f56230922ad",
+        "bytes": 7517,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/chw.png",
+          "sourceSha256": "f92f9c32cea65d9e697a254d09a8ae16326889796f380649b2fee64396cc4640",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            83,
+            20,
+            417,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:113",
+        "code": "CIN",
+        "name": "Cincinnati Reds",
+        "aliases": [],
+        "sourceCode": "CIN",
+        "sourceFile": "assets/teams/sources/mlb/cin.png",
+        "sourceBlob": "0d3321f7b6b937ec8ea0dbb0f3da3be24b5b5ad2",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/cin.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 113,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/cin.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "317c8bb3945cade3756ea5ef889cee1cdc22a86e9034669e9602eba73a8d634f",
+        "bytes": 3527,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/cin.png",
+          "sourceSha256": "57f685ca691ba291d8ed31378e489a44b71648b310bfb7ceb8017bd21373f23c",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            20,
+            87,
+            480,
+            413
+          ]
+        }
+      },
+      {
+        "id": "MLB:114",
+        "code": "CLE",
+        "name": "Cleveland Guardians",
+        "aliases": [],
+        "sourceCode": "CLE",
+        "sourceFile": "assets/teams/sources/mlb/cle.png",
+        "sourceBlob": "b65d2c5d6273b801de73b58216f1d2b1e2c4ff17",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/cle.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 114,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/cle.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "256cdf1c71be6dac939db264adb312c1b9ddbc1d360ba8fb8ab2efa08fc25f12",
+        "bytes": 4701,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/cle.png",
+          "sourceSha256": "8883a4e8b7c6bb75f308f1fb27a39eb7cf81ce431ba781edbc4afe082164410f",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            101,
+            20,
+            399,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:115",
+        "code": "COL",
+        "name": "Colorado Rockies",
+        "aliases": [],
+        "sourceCode": "COL",
+        "sourceFile": "assets/teams/sources/mlb/col.png",
+        "sourceBlob": "7219a0ae71c5a9fcc1d54d502efe3eff2b067580",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/col.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 115,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/col.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "1289bbdaacdc2256e8024915490765c89b0198d98b3b0b90ab0832af7199d403",
+        "bytes": 4959,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/col.png",
+          "sourceSha256": "bd21e7588f021af3b44cc0aeab2b281ddc515b7d6b6a68e4c823086ed585ea75",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            58,
+            20,
+            442,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:116",
+        "code": "DET",
+        "name": "Detroit Tigers",
+        "aliases": [],
+        "sourceCode": "DET",
+        "sourceFile": "assets/teams/sources/mlb/det.png",
+        "sourceBlob": "8e7f26846bee2a150922b8e2da7eb1ff4f4dbc7c",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/det.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 116,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/det.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "6c4a1495899f516caa783d091a2a940571d8e598cfc9788d3e874e5e4d286ec2",
+        "bytes": 6002,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/det.png",
+          "sourceSha256": "0037b82f8f714da9f40b6a2ac036c5086f06ccb139473891135c3321a7a08750",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            90,
+            19,
+            411,
+            481
+          ]
+        }
+      },
+      {
+        "id": "MLB:117",
+        "code": "HOU",
+        "name": "Houston Astros",
+        "aliases": [],
+        "sourceCode": "HOU",
+        "sourceFile": "assets/teams/sources/mlb/hou.png",
+        "sourceBlob": "579422f26f6a5eeac4029651efbe3427e1ff24d0",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/hou.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 117,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/hou.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "75b01d4cfea3aee5c23135dc4b0c822de4e6784b63e24028c41a75f020de71f1",
+        "bytes": 8794,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/hou.png",
+          "sourceSha256": "b7e6858d9d11fe9fade351624bfbab74ec12451749feef37bd1f083d59eb4f7b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            20,
+            20,
+            480,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:118",
+        "code": "KC",
+        "name": "Kansas City Royals",
+        "aliases": [],
+        "sourceCode": "KC",
+        "sourceFile": "assets/teams/sources/mlb/kc.png",
+        "sourceBlob": "eaf340c3ab48086306c7a17500fde8c2fea5bd73",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/kc.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 118,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/kc.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "502651f42ba19b6733b926cd7e74625894f9468a50c1aca163537ec0d62abe75",
+        "bytes": 4912,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/kc.png",
+          "sourceSha256": "95188fdcf6d74b4e5437549ad33e20548ce8f3e696621765680354da25a0207b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            25,
+            20,
+            475,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:108",
+        "code": "LAA",
+        "name": "Los Angeles Angels",
+        "aliases": [],
+        "sourceCode": "LAA",
+        "sourceFile": "assets/teams/sources/mlb/laa.png",
+        "sourceBlob": "7b0783f5ffa4701800736d4159bf46ba538bc972",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/laa.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 108,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/laa.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "52fb56ac26dfe6cc9f2a3eebfb3f02b1dce0d5c7b51da1c377ec09165a087701",
+        "bytes": 6541,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/laa.png",
+          "sourceSha256": "712a4a6f37cac63156de1d17a170532fd6bbbf3a9690b276fec2a6aac751809f",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            88,
+            20,
+            412,
+            481
+          ]
+        }
+      },
+      {
+        "id": "MLB:119",
+        "code": "LAD",
+        "name": "Los Angeles Dodgers",
+        "aliases": [],
+        "sourceCode": "LAD",
+        "sourceFile": "assets/teams/sources/mlb/lad.png",
+        "sourceBlob": "f3eeb5b74ab936facb35789796bd4e9996bdb6d2",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/lad.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 119,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/lad.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "440fe0f1f0436326136a8aa98e68277331e7bb96d5409d0254535915693a48ea",
+        "bytes": 3154,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/lad.png",
+          "sourceSha256": "aab854c59098d4f465c1c6f31b580f2a38d2ed4f5c0c03df2da76f62f5378dc4",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            87,
+            19,
+            413,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:146",
+        "code": "MIA",
+        "name": "Miami Marlins",
+        "aliases": [],
+        "sourceCode": "MIA",
+        "sourceFile": "assets/teams/sources/mlb/mia.png",
+        "sourceBlob": "386ec54cc3524b22274f995452a8c33e4e115c0f",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/mia.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 146,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/mia.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "8778b401d31495275d657f2e9731b00edcad57023cd820d4c16e86de686f9b81",
+        "bytes": 8130,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/mia.png",
+          "sourceSha256": "ef37342904a50d2807c45432909de83c62c6795e9e54ebe42ac85fdd5e24c91f",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            20,
+            33,
+            480,
+            467
+          ]
+        }
+      },
+      {
+        "id": "MLB:158",
+        "code": "MIL",
+        "name": "Milwaukee Brewers",
+        "aliases": [],
+        "sourceCode": "MIL",
+        "sourceFile": "assets/teams/sources/mlb/mil.png",
+        "sourceBlob": "79b23ed667613c71c4e1ed273f1feb9d5515c4c6",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/mil.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 158,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/mil.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "055a11c4f5bc8c51cfb279b8dc0505317c3961a82214e6c33489888e38b551da",
+        "bytes": 7301,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/mil.png",
+          "sourceSha256": "d4f8fe1b5be4b266a7cb1520a46a863973467361a1d3fd528502e223cbe35490",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            40,
+            20,
+            460,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:142",
+        "code": "MIN",
+        "name": "Minnesota Twins",
+        "aliases": [],
+        "sourceCode": "MIN",
+        "sourceFile": "assets/teams/sources/mlb/min.png",
+        "sourceBlob": "0300f828f59b60102a34321496df07749aad52fb",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/min.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 142,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/min.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "b52ad92a7e138471b135b19834147d401c5616ba1094f94ce8872ad203927710",
+        "bytes": 4615,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/min.png",
+          "sourceSha256": "3fbce769013cd44f2370505f8982d732c58c511eac9ede4e4d9bbe1b24ad4d39",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            32,
+            20,
+            468,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:121",
+        "code": "NYM",
+        "name": "New York Mets",
+        "aliases": [],
+        "sourceCode": "NYM",
+        "sourceFile": "assets/teams/sources/mlb/nym.png",
+        "sourceBlob": "8c276dba095a0721228e9076f91e286ee1428d3f",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/nym.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 121,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/nym.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "c6fb4d5677845ff8dddd3f280df88e32e2a13b08b80e3d8bca5e5d71f1bac73c",
+        "bytes": 6872,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/nym.png",
+          "sourceSha256": "94c334280d388936cb193fca6c3b620d2ed6abb7b932f352fa575630ce6243bd",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            89,
+            20,
+            411,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:147",
+        "code": "NYY",
+        "name": "New York Yankees",
+        "aliases": [],
+        "sourceCode": "NYY",
+        "sourceFile": "assets/teams/sources/mlb/nyy.png",
+        "sourceBlob": "ae647af90ba22bed2a30191a671361bc58542deb",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/nyy.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 147,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/nyy.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "78f4faebc304abec7959084776aec86e1f84bdbcd2defcfe61b4252a673db8d2",
+        "bytes": 5513,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/nyy.png",
+          "sourceSha256": "d98856c36bc8d3b0fb0bab5fabd79d2ae057619164365845cbc817b04ae74a26",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            46,
+            20,
+            454,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:143",
+        "code": "PHI",
+        "name": "Philadelphia Phillies",
+        "aliases": [],
+        "sourceCode": "PHI",
+        "sourceFile": "assets/teams/sources/mlb/phi.png",
+        "sourceBlob": "3a4e5f3a93e011ef9f418efd4a36a4b784351be8",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/phi.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 143,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/phi.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "14b8c692b934eb352df548fa2b5567d2f003932d33e4aa3b97a2525039ebbafc",
+        "bytes": 2575,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/phi.png",
+          "sourceSha256": "95997c9aaac40ec5d718b667c374561b782e5cb88665d69daf3178a16401d683",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            80,
+            20,
+            420,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:134",
+        "code": "PIT",
+        "name": "Pittsburgh Pirates",
+        "aliases": [],
+        "sourceCode": "PIT",
+        "sourceFile": "assets/teams/sources/mlb/pit.png",
+        "sourceBlob": "d7263c7f5c357a91cdde9fe070bd6f80879b2f6d",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/pit.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 134,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/pit.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "a34d8e6ec18a15d50bd6283ea4bb502b49735c69cce2932502fc00d7c379c990",
+        "bytes": 2165,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/pit.png",
+          "sourceSha256": "0af791c91bc01b4c654a65c90c983c3f907bf2605c67cfaaed731985efff34a1",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            88,
+            20,
+            412,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:135",
+        "code": "SD",
+        "name": "San Diego Padres",
+        "aliases": [],
+        "sourceCode": "SD",
+        "sourceFile": "assets/teams/sources/mlb/sd.png",
+        "sourceBlob": "ad216231676e40b3f4a2366c612ac0fbaa5b42f3",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/sd.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 135,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/sd.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "3fae05640054e1b0f13d424264cc7cd086588f039fb86591f1488ea861523f94",
+        "bytes": 3280,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/sd.png",
+          "sourceSha256": "8bb012967768a5f476ff427f433e89960149217777c6371d80eafb8725c2f175",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            75,
+            19,
+            425,
+            481
+          ]
+        }
+      },
+      {
+        "id": "MLB:137",
+        "code": "SF",
+        "name": "San Francisco Giants",
+        "aliases": [],
+        "sourceCode": "SFG",
+        "sourceFile": "assets/teams/sources/mlb/sfg.png",
+        "sourceBlob": "b15c7a80f4cfee7e3a71f85ee1d9161b31af44a2",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/sfg.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 137,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/sfg.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "41f0125b1f3535cd50094c92613a9e7920c562065f2eb40c32b691a1d1d4fc32",
+        "bytes": 3922,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/sfg.png",
+          "sourceSha256": "dad3e0a51931bb8281ebb0215624849e0fd6cbec81aafc6a12d2260f583c04e5",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            87,
+            20,
+            413,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:136",
+        "code": "SEA",
+        "name": "Seattle Mariners",
+        "aliases": [],
+        "sourceCode": "SEA",
+        "sourceFile": "assets/teams/sources/mlb/sea.png",
+        "sourceBlob": "1e436fca2b53af42b1e52ccc9e89a0adca27f76e",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/sea.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 136,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/sea.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "079e3a66574de29457ed05a1ae82aa7b66ede9775f4b0b3fe3384f2853e3747a",
+        "bytes": 7680,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/sea.png",
+          "sourceSha256": "9273d78e456969b14ef9031f39fc0511d8e875a919d887daa6b0898b1ff52226",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            101,
+            20,
+            399,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:138",
+        "code": "STL",
+        "name": "St. Louis Cardinals",
+        "aliases": [],
+        "sourceCode": "STL",
+        "sourceFile": "assets/teams/sources/mlb/stl.png",
+        "sourceBlob": "ac6ebc3a5d66484330a31dfcf0254b8b00d49bba",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/stl.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 138,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/stl.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "36ab2e4a9858817e1cbcfe35d445ae0291630dff63cfb8b3dca7485c2b4b7b2f",
+        "bytes": 4766,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/stl.png",
+          "sourceSha256": "b738c8aaac9b726336cfa3e42745a4ddcc4c8d9537a9dc0b6abba02c5952e417",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            67,
+            20,
+            433,
+            481
+          ]
+        }
+      },
+      {
+        "id": "MLB:139",
+        "code": "TB",
+        "name": "Tampa Bay Rays",
+        "aliases": [],
+        "sourceCode": "TB",
+        "sourceFile": "assets/teams/sources/mlb/tb.png",
+        "sourceBlob": "5579e97f6910f25bfed9a02c695fae3a310fa6b2",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/tb.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 139,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/tb.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "8b06ed31fb0573924388f24664d711e0ae7ed4a0c35e04643608013deb85817d",
+        "bytes": 4928,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/tb.png",
+          "sourceSha256": "3f16f721cfdbb929fac08c9e1d8f9e1ab410be8b409eed5dac9b5f5c9a7af5ae",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            48,
+            480,
+            453
+          ]
+        }
+      },
+      {
+        "id": "MLB:140",
+        "code": "TEX",
+        "name": "Texas Rangers",
+        "aliases": [],
+        "sourceCode": "TEX",
+        "sourceFile": "assets/teams/sources/mlb/tex.png",
+        "sourceBlob": "6f6db11e8cee3fd757fcdc6fee42a62a7bcfb663",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/tex.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 140,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/tex.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "6e82bf4787581798b295f5386d2d026199426cc8fa6a4610a7df4f9caa682a5e",
+        "bytes": 3243,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/tex.png",
+          "sourceSha256": "b19ee28a151164ed231d98cafbcebe471faaa876a202e9c558b925be3ac3dac9",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            49,
+            20,
+            451,
+            480
+          ]
+        }
+      },
+      {
+        "id": "MLB:141",
+        "code": "TOR",
+        "name": "Toronto Blue Jays",
+        "aliases": [],
+        "sourceCode": "TOR",
+        "sourceFile": "assets/teams/sources/mlb/tor.png",
+        "sourceBlob": "0b9f10a9ae56676f656997991c99c398069e0301",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/tor.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 141,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/tor.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "ded86847fdb1c4a5378e902262d7f0929c4880fbbb84668d0b1f53bfe1735c89",
+        "bytes": 5798,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/tor.png",
+          "sourceSha256": "af6d5454549834ea4b8cd6687618a76f936209ecf39eabdb17deaf76d21dd989",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            20,
+            54,
+            480,
+            446
+          ]
+        }
+      },
+      {
+        "id": "MLB:120",
+        "code": "WSH",
+        "name": "Washington Nationals",
+        "aliases": [],
+        "sourceCode": "WSH",
+        "sourceFile": "assets/teams/sources/mlb/wsh.png",
+        "sourceBlob": "c113274f200ec6b9db08a4e383a50c898ebc9841",
+        "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/mlb/wsh.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "mlbTeamId": 120,
+        "identitySource": "https://statsapi.mlb.com/api/v1/teams?sportId=1",
+        "file": "assets/teams/normalized/mlb/wsh.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "b7854fcdd76e30b9f4d9326fefdd4fb242d75bd5961885de72ac477a0de4e26b",
+        "bytes": 9449,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/mlb/wsh.png",
+          "sourceSha256": "1d65931fe979aec3fe59a60b2d9df900e3f84da0eca81eb1646d0ea3a93fc810",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            20,
+            20,
+            480,
+            480
+          ]
+        }
+      }
+    ],
+    "nhl": [
+      {
+        "id": "NHL:ANA",
+        "code": "ANA",
+        "name": "Anaheim Ducks",
+        "aliases": [],
+        "sourceCode": "ANA",
+        "sourceFile": "assets/teams/sources/nhl-official/ana.png",
+        "sourceBlob": "9344935533b4976a6ec748140d0be5e0916f516d",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/ana.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "b8c3254133bc0495eb509a97fc1dea1a1c0e4bab7ef3409d946bfae7eb5ec1e4",
+        "bytes": 8100,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/ana.png",
+          "sourceSha256": "407bb991648af5a33d28b33432dcee38adf3584ece335c2a4c8316f236351444",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            105,
+            121,
+            407,
+            391
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/ana.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/ana.png",
+          "sourceBlob": "cf5a22db24af0c4a302bcde5b15ac70493da60ad"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/ana.svg",
+        "vectorSourceSha256": "a21be1c53858393a8b8b1e32fb602e797a2845e060b8afe33cece8c4c2b98b9c",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:BOS",
+        "code": "BOS",
+        "name": "Boston Bruins",
+        "aliases": [],
+        "sourceCode": "BOS",
+        "sourceFile": "assets/teams/sources/nhl-official/bos.png",
+        "sourceBlob": "d8b6121865b446e48b6e416dfd51cb4c117babd9",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/BOS_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/bos.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "cd080141f75e98e529e5263b583536e905068484dfc885c122b78eb4dc3e1ec9",
+        "bytes": 6052,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/bos.png",
+          "sourceSha256": "9821720981da495e041f3be29e4e3f8502d873b06fff3e577c5fe9026a1a5b04",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            107,
+            107,
+            405,
+            405
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/bos.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/bos.png",
+          "sourceBlob": "be8fb2a138c21cdd410b10dc6c39e04a6d6fa241"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/bos.svg",
+        "vectorSourceSha256": "80c05e3678d3a8d2b56d46d320a2877963935677c55ec9618e506cd20e15c7e4",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:BUF",
+        "code": "BUF",
+        "name": "Buffalo Sabres",
+        "aliases": [],
+        "sourceCode": "BUF",
+        "sourceFile": "assets/teams/sources/nhl-official/buf.png",
+        "sourceBlob": "fabf2d64df50beae70248626c7eddc9777999dbf",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/BUF_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/buf.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "d958ea343dc074b4eff49d82177ff642bf0c51a222406ec69d61ab00c703b0ca",
+        "bytes": 9724,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/buf.png",
+          "sourceSha256": "227b80f1b4c2224a6077c60d64fb7042e5f8840493fbdce66812c16813968e89",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            107,
+            107,
+            405,
+            405
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/buf.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/buf.png",
+          "sourceBlob": "d340773b0b322f9f1001238a0729808babf29ffa"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/buf.svg",
+        "vectorSourceSha256": "a18563d8be078c5d353f699a922f3d70cbdced5f745c1e127e5cb1914eff26d5",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:CGY",
+        "code": "CGY",
+        "name": "Calgary Flames",
+        "aliases": [],
+        "sourceCode": "CGY",
+        "sourceFile": "assets/teams/sources/nhl-official/cgy.png",
+        "sourceBlob": "e7007f875a91df928f6f11e32f55ea65d6a76461",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/CGY_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/cgy.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "7c54b4f443ef716d1e4f8cb32b832355421aa948f4ba61f839f91bd258fd1a51",
+        "bytes": 7418,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/cgy.png",
+          "sourceSha256": "31940eb95446a2217ba6afd184b120f42c11f8c712736c69fdde7f091666b534",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            110,
+            129,
+            402,
+            383
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/cgy.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/cgy.png",
+          "sourceBlob": "8d841e418375710e2d10281ab09f16d1e54b152e"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/cgy.svg",
+        "vectorSourceSha256": "6c7d437480888d242ffff8d6f44cc82f824e0a610589b629c84b6d8617864cdb",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:CAR",
+        "code": "CAR",
+        "name": "Carolina Hurricanes",
+        "aliases": [],
+        "sourceCode": "CAR",
+        "sourceFile": "assets/teams/sources/nhl-official/car.png",
+        "sourceBlob": "c192c6d025802c0696c9bbb6bd7033d7dc1f829a",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/CAR_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/car.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "675732bfc5b3bb41dc4a7136386a9fdec2cd4fe365dfa952c7204af6e2a189ae",
+        "bytes": 6785,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/car.png",
+          "sourceSha256": "75769fba86d5886cdac63efb7e233dbbf1287972ba5b7d208b87d41e186e4b79",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            77,
+            148,
+            435,
+            364
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/car.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/car.png",
+          "sourceBlob": "a4fe1029ae33b7fe2f34df0f61d4c204bc4569a8"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/car.svg",
+        "vectorSourceSha256": "4d1d152f939d73b9d3c756860dcab5fc0c04a70014999ea35bccc30189ad36a7",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:CHI",
+        "code": "CHI",
+        "name": "Chicago Blackhawks",
+        "aliases": [],
+        "sourceCode": "CHI",
+        "sourceFile": "assets/teams/sources/nhl-official/chi.png",
+        "sourceBlob": "0eec5f670a64fdffafe7b2f1dfb7a21ed338b120",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/CHI_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/chi.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "fe36b9101119d04dd77377d438cd36b28abbad7832a265f6117ce04b3e096585",
+        "bytes": 10187,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/chi.png",
+          "sourceSha256": "c920d9f21859d701148450080c9867e30912dd7eb8652cc9a907f97a6e6858e2",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            105,
+            124,
+            407,
+            388
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/chi.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/chi.png",
+          "sourceBlob": "18c88c510fc18f15682f2eba2cb4b7c9ee850ada"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/chi.svg",
+        "vectorSourceSha256": "004c62e1715baa972087061079c39288202bed6ff6e1229d01058c44282b14da",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:COL",
+        "code": "COL",
+        "name": "Colorado Avalanche",
+        "aliases": [],
+        "sourceCode": "COL",
+        "sourceFile": "assets/teams/sources/nhl-official/col.png",
+        "sourceBlob": "55d1cc7497d131b383061a343796aeffd06e9709",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/col.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "b51df47a6a92e3ec1d1826080ed17f9e2ad1daa483cf9d1acb66b57e46f5d2c5",
+        "bytes": 8957,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/col.png",
+          "sourceSha256": "f0b2158703bbc687165bfa6602a267a769e9bf6f9f696bed327101d5c1d983c4",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            104,
+            131,
+            408,
+            381
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/col.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/col.png",
+          "sourceBlob": "c18bace480feb63bb551175a2a2245e30857ea33"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/col.svg",
+        "vectorSourceSha256": "cabc6c42f3f33a7810c0786dffcccb352c6814d83e483f745a7b07e2fe497550",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:CBJ",
+        "code": "CBJ",
+        "name": "Columbus Blue Jackets",
+        "aliases": [],
+        "sourceCode": "CBJ",
+        "sourceFile": "assets/teams/sources/nhl-official/cbj.png",
+        "sourceBlob": "1e672f723aa6663064f277a7c6ef504cea47c498",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/CBJ_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/cbj.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "277390af44767c804c44479e9fb7fce43c3e7903eeea1e6350c0196126504096",
+        "bytes": 9724,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/cbj.png",
+          "sourceSha256": "eea976f90ea89813e96ac023d0d10aeab1fb57d19d3150ac6c729c81bbda390c",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            96,
+            118,
+            416,
+            394
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/cbj.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/cbj.png",
+          "sourceBlob": "d1f751f48c2444359d47b88e7b5c768178877237"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/cbj.svg",
+        "vectorSourceSha256": "3e9328f0bc9ff2e0a40aa1957746c1acf52ad84ecdf33b3d86966d3116a0c587",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:DAL",
+        "code": "DAL",
+        "name": "Dallas Stars",
+        "aliases": [],
+        "sourceCode": "DAL",
+        "sourceFile": "assets/teams/sources/nhl-official/dal.png",
+        "sourceBlob": "5043d1deb1ea45b18dd612ea80faecbb4bedd9e5",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/DAL_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/dal.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "3718b9f1635a3263844c103a15fd8f329bbae512d6b2c7b75695a66b918c0568",
+        "bytes": 5416,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/dal.png",
+          "sourceSha256": "3a79f78644ea6e1a85c6d98bc0eb0c23f847ec1dd5ace5f2668b30c661e5bd9c",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            78,
+            109,
+            434,
+            403
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/dal.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/dal.png",
+          "sourceBlob": "73a6704446be20e57a9f62170cd5b2abdb9f1b28"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/dal.svg",
+        "vectorSourceSha256": "bc35eb8219eed641b3ad3f219ba531bc15645e170cd087fd6d46378f6a2c8c7e",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:DET",
+        "code": "DET",
+        "name": "Detroit Red Wings",
+        "aliases": [],
+        "sourceCode": "DET",
+        "sourceFile": "assets/teams/sources/nhl-official/det.png",
+        "sourceBlob": "504ded851bf5333f4f4968f20f459027eeb604d9",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/DET_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/det.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "adecab9a5f6773a17e3e73240f52e7d8b86a7269ead478f43df5a84968a8e588",
+        "bytes": 7969,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/det.png",
+          "sourceSha256": "62ff067492fc4b0cb57ce93763d3798e29a825845b23d858c10fa70181528aa9",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            75,
+            122,
+            437,
+            390
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/det.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/det.png",
+          "sourceBlob": "886fe39f3f70bc3b6121945d2849afdb0fe005f9"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/det.svg",
+        "vectorSourceSha256": "df86a9617b9d0ee31e59e6abf7c9966c2285e3414c0cca65437ad7616f9aa6fb",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:EDM",
+        "code": "EDM",
+        "name": "Edmonton Oilers",
+        "aliases": [],
+        "sourceCode": "EDM",
+        "sourceFile": "assets/teams/sources/nhl-official/edm.png",
+        "sourceBlob": "f6935c73471b96850d1a4fb0a58163d859f15152",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/edm.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "76b4fdfc44766278cd58f34e31865dfe4960544e6c61cb0860b54f8c6431ef3b",
+        "bytes": 9673,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/edm.png",
+          "sourceSha256": "d8167ab72f7159dd3998cd550e33997bfd0dda5caa6cdf20e8cb19ac0196aaee",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            105,
+            105,
+            407,
+            407
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/edm.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/edm.png",
+          "sourceBlob": "6c64477807e58da8be3dad3b19fd3257d2750b3f"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/edm.svg",
+        "vectorSourceSha256": "655f783dbbda6588dc56bda566a5624a1cc76d2a348f87919c5e20e658c49ed8",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:FLA",
+        "code": "FLA",
+        "name": "Florida Panthers",
+        "aliases": [],
+        "sourceCode": "FLA",
+        "sourceFile": "assets/teams/sources/nhl-official/fla.png",
+        "sourceBlob": "b7121cc0097d133b82870a0275dab48ef11f0450",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/FLA_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/fla.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "4d5dcb946340ba32cedaf4fa0d732c8f98ff8727d1bce39e8e9feef10eb0181e",
+        "bytes": 10194,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/fla.png",
+          "sourceSha256": "a3d09f5aaf8583b55f5dc8113723fe05a94064c51e6907b17c9bce90575e97ff",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            128,
+            113,
+            384,
+            399
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/fla.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/fla.png",
+          "sourceBlob": "d479fa9a949fb1b2af638725839c8f369dc48a86"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/fla.svg",
+        "vectorSourceSha256": "39714a28508546a725f5545cae6442eee833d18dfbf7ace217fdc6b9f65620ae",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:LAK",
+        "code": "LAK",
+        "name": "Los Angeles Kings",
+        "aliases": [],
+        "sourceCode": "LAK",
+        "sourceFile": "assets/teams/sources/nhl-official/lak.png",
+        "sourceBlob": "e22acfc3b52bbd7903103b961e16bbbb78c000a2",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/LAK_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/lak.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "14aac7a841845e9f855004377f42e1c308becafaf45bc22c63cf61d3fd11916b",
+        "bytes": 6492,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/lak.png",
+          "sourceSha256": "2535603faf61a79c4117821e2824d6e86fcfd76c122702c5b483b1d929fac6d6",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            63,
+            133,
+            449,
+            379
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/lak.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/lak.png",
+          "sourceBlob": "b2baeaf06b61540171cee52700f0b9170c53b8cd"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/lak.svg",
+        "vectorSourceSha256": "8516b2daf79eba139ff08686a34d0ddedf907a284c1866f7b9d8a4a6057981b9",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:MIN",
+        "code": "MIN",
+        "name": "Minnesota Wild",
+        "aliases": [],
+        "sourceCode": "MIN",
+        "sourceFile": "assets/teams/sources/nhl-official/min.png",
+        "sourceBlob": "d3fea2f2b18d6b57c6fb652379cfad80c313d936",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/MIN_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/min.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "db8879f6087ec577299497f1eb94952e81c3af48f87a9bd5f2fb438c965f391c",
+        "bytes": 6396,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/min.png",
+          "sourceSha256": "621d8bb2f97b6189a6e47f419d87b8217e10a95d016042db654d50850d77d079",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            77,
+            140,
+            435,
+            372
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/min.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/min.png",
+          "sourceBlob": "b9556efc1b389df6394499547ebfec2efd5c5f95"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/min.svg",
+        "vectorSourceSha256": "8dbf8805f61f5e204a810247ba03b7249ca7ea7c99ae5fa8fa1eed7b998edcbd",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:MTL",
+        "code": "MTL",
+        "name": "Montréal Canadiens",
+        "aliases": [],
+        "sourceCode": "MTL",
+        "sourceFile": "assets/teams/sources/nhl-official/mtl.png",
+        "sourceBlob": "9046eade7e7ed3181060841c0c87a326fdb7a1ba",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/MTL_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/mtl.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "7597a6fcde8209a15d3416ec318e398f225f2009aee646ffaf27f1b394b49ba1",
+        "bytes": 7885,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/mtl.png",
+          "sourceSha256": "42a7d3e80e542872acf24944a8bf1d365957cffb86c6c5d6761d2e21dbf0bb7c",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            80,
+            135,
+            431,
+            377
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/mtl.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/mtl.png",
+          "sourceBlob": "d2e8d8d0dc6bfde08ffd910cd795a4182e121f2f"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/mtl.svg",
+        "vectorSourceSha256": "c2b4b2f292330455e72a61b212e5303fc8923d775e13e734e2da3106dc5a8d7c",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:NSH",
+        "code": "NSH",
+        "name": "Nashville Predators",
+        "aliases": [],
+        "sourceCode": "NSH",
+        "sourceFile": "assets/teams/sources/nhl-official/nsh.png",
+        "sourceBlob": "276510cf1ff7b542df2661a139e2632456d226bb",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/NSH_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/nsh.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "66cec4c7e1de6d6add4920fe7aa3a3fb92eafcf210694475db09817403d43fac",
+        "bytes": 6894,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/nsh.png",
+          "sourceSha256": "5b93d55fc6727106eb0434bc1555b51a5694fa0ba37800d401c894a4f3487494",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            90,
+            158,
+            422,
+            354
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/nsh.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/nsh.png",
+          "sourceBlob": "100743bc67023479bd466c2a7c54390c78fc67a9"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/nsh.svg",
+        "vectorSourceSha256": "658322599492f3c8642117518b4b34ff2fb6ea11dce04c1a97bfb2fff4f9e3ac",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:NJD",
+        "code": "NJD",
+        "name": "New Jersey Devils",
+        "aliases": [],
+        "sourceCode": "NJD",
+        "sourceFile": "assets/teams/sources/nhl-official/njd.png",
+        "sourceBlob": "60b5fe6cda09b379c4adbd4beed49e6818fb6ac9",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/NJD_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/njd.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "c60f72d7c7daebe4c9ccdbe7ed8e9469af64fb7f0baae35dfde5b859f0cb683a",
+        "bytes": 7923,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/njd.png",
+          "sourceSha256": "21ad8be17bbe7c26614d8c55f0a689ead5e99fa01f1b7a3b690d55a1427dde3b",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            118,
+            114,
+            394,
+            398
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/njd.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/njd.png",
+          "sourceBlob": "671e983f6694dce6992f21fd066bcf7e9375309e"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/njd.svg",
+        "vectorSourceSha256": "1c92a9d394394eea75f10e41ea5e86357dc9d3eb473642335300cb74cfe6dfcd",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:NYI",
+        "code": "NYI",
+        "name": "New York Islanders",
+        "aliases": [],
+        "sourceCode": "NYI",
+        "sourceFile": "assets/teams/sources/nhl-official/nyi.png",
+        "sourceBlob": "93b8d66fe8e4e9938119ac9c65c9487b72d1285d",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/NYI_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/nyi.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "cfff6554d43c1f624cee67b6ec27332cc9d28c121c0db26b761e31c9946fed8b",
+        "bytes": 10378,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/nyi.png",
+          "sourceSha256": "b95f0ab37e2afcd82cefde7a77e9e5dc69fe033408bd5b691fbd355074722608",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            115,
+            120,
+            397,
+            392
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/nyi.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/nyi.png",
+          "sourceBlob": "c93af020262061c15faa68dd95b458514ca4a590"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/nyi.svg",
+        "vectorSourceSha256": "567fa7ec2c4764d07a98ce16bf005b9f91cb5ed46126d32fe28f5f0158d7582c",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:NYR",
+        "code": "NYR",
+        "name": "New York Rangers",
+        "aliases": [],
+        "sourceCode": "NYR",
+        "sourceFile": "assets/teams/sources/nhl-official/nyr.png",
+        "sourceBlob": "e5a9ecdb6a168e2a1253037c5df988c3052ebfbf",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/NYR_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/nyr.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "3ebf45ddd959f7af197a7ab3401d80dabaf87d87e5f3c32f61f200670a109a76",
+        "bytes": 8687,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/nyr.png",
+          "sourceSha256": "3c353970a2d1ca1a10edbf0782c6bec218cdfba7eef6251cb7d6709fdeea5a58",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            123,
+            128,
+            389,
+            384
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/nyr.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/nyr.png",
+          "sourceBlob": "a3d6643bc97aea16484966c065a8c0dc1b4e3669"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/nyr.svg",
+        "vectorSourceSha256": "365fc8449f0fe659eeb330c5f219416b1d3fced3ce407b359a1d403d5752ec38",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:OTT",
+        "code": "OTT",
+        "name": "Ottawa Senators",
+        "aliases": [],
+        "sourceCode": "OTT",
+        "sourceFile": "assets/teams/sources/nhl-official/ott.png",
+        "sourceBlob": "4866b4f8c64e404d8e8991cccf4f6e424ebddff6",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/OTT_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/ott.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "1533b8de1a207bfc467e987e2bf7c44e5dee0d74bef80a2115269ff0bca8ba22",
+        "bytes": 7681,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/ott.png",
+          "sourceSha256": "8b460b906809610336e10be45db7c018aba66f756b55fc7f5c3c30383584b5f8",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            80,
+            116,
+            432,
+            396
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/ott.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/ott.png",
+          "sourceBlob": "04edcd05997671215db896c64b28f6208d907ec6"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/ott.svg",
+        "vectorSourceSha256": "5ecf44459f3ac9da1532400a297bed585d923de85d2fba384d9d4ed352c188b7",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:PHI",
+        "code": "PHI",
+        "name": "Philadelphia Flyers",
+        "aliases": [],
+        "sourceCode": "PHI",
+        "sourceFile": "assets/teams/sources/nhl-official/phi.png",
+        "sourceBlob": "a65aef1083d576033eafae49ca93f27771b8eb5e",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/PHI_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/phi.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "5535f0f8a1a862f9678115eea572db104b650433a2aea82677f6ca46a5f6b659",
+        "bytes": 4473,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/phi.png",
+          "sourceSha256": "210652c7a6f72e5fd89bf4023758e4c1c608fb59a2cd26cf5e4c15b684ac8c2e",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            104,
+            150,
+            407,
+            362
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/phi.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/phi.png",
+          "sourceBlob": "2a3cd7520be72259f5e84816925ae493625eac86"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/phi.svg",
+        "vectorSourceSha256": "d7b20decbf0abd1bd5c8370a8ebdc27bd227159781d03fb9134d61f48cc9c4c9",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:PIT",
+        "code": "PIT",
+        "name": "Pittsburgh Penguins",
+        "aliases": [],
+        "sourceCode": "PIT",
+        "sourceFile": "assets/teams/sources/nhl-official/pit.png",
+        "sourceBlob": "d3ce8b284da4515085fa99e94998524536bb2cf2",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/PIT_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/pit.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "82c9fae45bb9b62e4af224ba35c5956cf7a00401fcbc0d3e9236b9dc03a8aeaf",
+        "bytes": 7722,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/pit.png",
+          "sourceSha256": "18365d4e050bdc31ead727de9b8780eccf1e440dfc82443995ab5888c2980e73",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            107,
+            114,
+            405,
+            398
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/pit.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/pit.png",
+          "sourceBlob": "a1eb6b448eaea8e8e70a8c43e8067c83b56d5dbc"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/pit.svg",
+        "vectorSourceSha256": "37364eb8353ece2739fa975e73cbff23573a10c4df6b9d8146efd7fc24920658",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:SJS",
+        "code": "SJS",
+        "name": "San Jose Sharks",
+        "aliases": [],
+        "sourceCode": "SJS",
+        "sourceFile": "assets/teams/sources/nhl-official/sjs.png",
+        "sourceBlob": "4210d40ee675753ff7bfaae9efeca29c41eb9de4",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/SJS_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/sjs.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "4dc19cfb19f00897e95171d24812deecd551f77f6f7e78f47094c06d07861efe",
+        "bytes": 6667,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/sjs.png",
+          "sourceSha256": "78a01c988acb8cd15a842e23614d770180be7fcef430ae2a56376e76ae2d6346",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            86,
+            113,
+            426,
+            399
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/sjs.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/sjs.png",
+          "sourceBlob": "eb1b870dfe6121a529fdbdaaec276af66053408f"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/sjs.svg",
+        "vectorSourceSha256": "f4c34d5b4a461391a8d9443450f3c89257457e8ecc9dc1b9584093259ebe4302",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:SEA",
+        "code": "SEA",
+        "name": "Seattle Kraken",
+        "aliases": [],
+        "sourceCode": "SEA",
+        "sourceFile": "assets/teams/sources/nhl-official/sea.png",
+        "sourceBlob": "87097f5a966dd7c7ab5d2863707ab80410cfa9bd",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/SEA_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/sea.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "abf5c380ba44d474f7ab566f29ec91aa7e48961a39443f0ca30cf2fd7a3ec9b1",
+        "bytes": 8961,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/sea.png",
+          "sourceSha256": "10a4a338a7ff6a6b2dc3ec3b4621a7bcfec57a3c65c1d98fda111877185b58a1",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            143,
+            114,
+            369,
+            398
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/sea.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/sea.png",
+          "sourceBlob": "8742a3e3a65e9d4dfb5e5c5809d8e4bc3570c352"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/sea.svg",
+        "vectorSourceSha256": "941ee0182c890a3bc0b8c4b71fe9ce98ef291d008280bfe4ed77b7715d6325d6",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:STL",
+        "code": "STL",
+        "name": "St. Louis Blues",
+        "aliases": [],
+        "sourceCode": "STL",
+        "sourceFile": "assets/teams/sources/nhl-official/stl.png",
+        "sourceBlob": "04db0bd1247ba051672b60b4a8af1be69b54a9b9",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/STL_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/stl.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "bb9ca7cc2a85959d1809d1b63c50e7a48c93ba41670a39cc18dfcffc709ebd86",
+        "bytes": 5598,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/stl.png",
+          "sourceSha256": "ed50e49ce0b9787fab527b888f30d20f6e9d35c6b0a258305916ba02349ec944",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            109,
+            140,
+            403,
+            372
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/stl.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/stl.png",
+          "sourceBlob": "ace4348a336b365e264f9ce3a6937901131d5218"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/stl.svg",
+        "vectorSourceSha256": "3a61c2a870cedab47508bc46b567f572e69cf8f2173aef13eee17c87bd07c44f",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:TBL",
+        "code": "TBL",
+        "name": "Tampa Bay Lightning",
+        "aliases": [],
+        "sourceCode": "TBL",
+        "sourceFile": "assets/teams/sources/nhl-official/tbl.png",
+        "sourceBlob": "547607c33ab14c52c15155b6233ef570a15fa5db",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/TBL_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/tbl.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "d45f2280482e27006e1528a11d05b8bd5348383735d03f231905f30d357fbe70",
+        "bytes": 5531,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/tbl.png",
+          "sourceSha256": "147f57b09489119ae2af69e813d5c0e6401e3c3fa09b977cf904394856ee6ee8",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            104,
+            114,
+            408,
+            398
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/tbl.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/tbl.png",
+          "sourceBlob": "711e7be4cd44cce96258b3ea336f4505d4bce652"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/tbl.svg",
+        "vectorSourceSha256": "53a7a4b173cadfb1eb0d4aedd02a5d10761b05bdf08dc3528c7b01f9d1dbebf4",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:TOR",
+        "code": "TOR",
+        "name": "Toronto Maple Leafs",
+        "aliases": [],
+        "sourceCode": "TOR",
+        "sourceFile": "assets/teams/sources/nhl-official/tor.png",
+        "sourceBlob": "45ab436ab1df75e3b33bc18bd51fce00959115de",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/TOR_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/tor.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "40591c6c322dd545aaaaafb1aba544d711913e898808386f012845fe9b237edd",
+        "bytes": 8562,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/tor.png",
+          "sourceSha256": "989fe63bb419ac27c84497ebd4737e54a50920f81d09f3eb6d6a17025aa7ffc8",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            119,
+            103,
+            393,
+            409
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/tor.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/tor.png",
+          "sourceBlob": "844a21a5e302d39f0f0495f9317292f61ec59127"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/tor.svg",
+        "vectorSourceSha256": "e8b95e832feac68796de8f3535bae6584663829a71d3f9554371cde49afb0d52",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:UTA",
+        "code": "UTA",
+        "name": "Utah Mammoth",
+        "aliases": [],
+        "sourceCode": "UTA",
+        "sourceFile": "assets/teams/sources/nhl-official/uta.png",
+        "sourceBlob": "4c89919ab43599ae4d66cb462f6b80698a9823b4",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/UTA_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/uta.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "545917b8565c4643b8f271824b8b87b2457779e9f2625e51200855ef28c18222",
+        "bytes": 7057,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/uta.png",
+          "sourceSha256": "5f3aa4f95cd552aec4d21577e6a9ceb7fd34c0a1fa2a3a7365b4f93cf6563626",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            72,
+            120,
+            440,
+            392
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/uta.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/uta.png",
+          "sourceBlob": "3afd828e59bc7d75925db8c3f84cf521b9ef2e78"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/uta.svg",
+        "vectorSourceSha256": "c3435090b06ed74d93c7ac9f8fe53c862eeb5cb8976a3125d06a84e2202bf527",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:VAN",
+        "code": "VAN",
+        "name": "Vancouver Canucks",
+        "aliases": [],
+        "sourceCode": "VAN",
+        "sourceFile": "assets/teams/sources/nhl-official/van.png",
+        "sourceBlob": "d33caf24e5d8442d7d5c187a0a6a5f587726bbbb",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/VAN_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/van.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "7b5a8d373eb1da5fe51f6e9cab70a9b6146cbff1340e3624dbcf2a7685457798",
+        "bytes": 10012,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/van.png",
+          "sourceSha256": "a6fa059a37bb7a4389a54ff50e56351aefef6736747ba6d077fbdbd26a9f2f43",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            103,
+            111,
+            409,
+            401
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/van.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/van.png",
+          "sourceBlob": "5105ad7f6dea5d21414230ca21839ae9799183c4"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/van.svg",
+        "vectorSourceSha256": "457ecbe473be717dfea17ec870a19c4df35de3232ac4cb484106c30a33d67b3e",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:VGK",
+        "code": "VGK",
+        "name": "Vegas Golden Knights",
+        "aliases": [],
+        "sourceCode": "VGK",
+        "sourceFile": "assets/teams/sources/nhl-official/vgk.png",
+        "sourceBlob": "594131c37e9f52b7410454e6dd3fdbe583b606d7",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/VGK_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/vgk.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "1233ec716049e0f5de13a567549fecaac2f37e7a69a7706e5d71dcef86cb9893",
+        "bytes": 6197,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/vgk.png",
+          "sourceSha256": "e0a058d5f302952c8bbff84404164c5905558e3f2a815197bb318a76afe5ea23",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            147,
+            108,
+            365,
+            404
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/vgk.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/vgk.png",
+          "sourceBlob": "a00d81643f5850fa64901e621ef199e90049bad8"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/vgk.svg",
+        "vectorSourceSha256": "b02d15ccfa2510e7696a4d0533fc3f676c6e53ca2c7745e1a1a67fcbc4ff93cf",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:WSH",
+        "code": "WSH",
+        "name": "Washington Capitals",
+        "aliases": [],
+        "sourceCode": "WSH",
+        "sourceFile": "assets/teams/sources/nhl-official/wsh.png",
+        "sourceBlob": "aee857a5e1df024b4e40a50e3ed81e8c98dafff4",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/WSH_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/wsh.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "03892ed1df72af5006ebd07f4934974af4a7fe913b4ab590134c8820f0ca6a5c",
+        "bytes": 4600,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/wsh.png",
+          "sourceSha256": "07d75b88adfeb94b6c7742878a66ac41ef7608b84f2b20bcb24c02d3f79f5ef8",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            65,
+            134,
+            447,
+            378
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/wsh.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/wsh.png",
+          "sourceBlob": "9c682d02b128b894fb3a3595e0155f801c0ae50f"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/wsh.svg",
+        "vectorSourceSha256": "3da9c31ff8ddd0c5670c2bf787d4fec27159e0b975ad0f29a8bc6d02e351f322",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      },
+      {
+        "id": "NHL:WPG",
+        "code": "WPG",
+        "name": "Winnipeg Jets",
+        "aliases": [],
+        "sourceCode": "WPG",
+        "sourceFile": "assets/teams/sources/nhl-official/wpg.png",
+        "sourceBlob": "e8f498ac4cf9bef0ba504fd11997641652162f09",
+        "sourceUrl": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "identitySource": "https://www.nhl.com/info/teams/",
+        "file": "assets/teams/normalized/nhl/wpg.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "62ad4deb7f066506c451e4d5911d977f8797a8a65a48b48add2279eb02aa79e2",
+        "bytes": 9578,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/nhl-official/wpg.png",
+          "sourceSha256": "8b5f76569a4c9d142c0d9df375218225d34cea99b3aa009d9d02426e383b5090",
+          "sourceSize": [
+            512,
+            512
+          ],
+          "sourceAlphaBounds": [
+            103,
+            103,
+            409,
+            409
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/nhl/wpg.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/nhl/wpg.png",
+          "sourceBlob": "9c406cad7d5e0d2448c672ad4db5171de18c6fcf"
+        },
+        "vectorSourceFile": "assets/teams/sources/nhl-official/wpg.svg",
+        "vectorSourceSha256": "07f44caeba5bffba89c916f96ecba717a3c267fd0ec6bf0581019e69863f822c",
+        "sourceStatus": "CURRENT_OFFICIAL_DIRECTORY",
+        "rasterization": "Chromium SVG renderer, transparent 512px PNG; original SVG preserved",
+        "displayVariant": "light-background"
+      }
+    ],
+    "soccer": [
+      {
+        "id": "SOCCER:ESPN:598",
+        "code": "FCU",
+        "name": "1. FC Union Berlin",
+        "providerTeamId": "598",
+        "providerTeamName": "1. FC Union Berlin",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/598.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/598.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "1ecc397dd8b74f3bab3a5b791f7d22a6f0becf2c",
+        "file": "assets/teams/normalized/soccer/598.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "4280e22c25340ddeb99bcd856b6333615401c0c597c434a129731e75c3e8b4b9",
+        "bytes": 4004,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/598.png",
+          "sourceSha256": "f2973a87642765b242fa1797fd64ecfb4c2ad9a0d0338c353afb79c3323a8238",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            22,
+            169,
+            477,
+            336
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:103",
+        "code": "MIL",
+        "name": "AC Milan",
+        "providerTeamId": "103",
+        "providerTeamName": "AC Milan",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/103.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/103.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "624144695af7925ff94dbf9fcfeb90250564f845",
+        "file": "assets/teams/normalized/soccer/103.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "22aa75811b597ec992767b7101b19023bb5d176e5e1492a53c086438f38d8974",
+        "bytes": 6609,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/103.png",
+          "sourceSha256": "32f172036837a0a4a7ef3aadd67f2f3d5cb9f697b698ff6c7722b42faa8ae42e",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            103,
+            20,
+            398,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:2726",
+        "code": "ADO",
+        "name": "ADO Den Haag",
+        "providerTeamId": "2726",
+        "providerTeamName": "ADO Den Haag",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2726.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/2726.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "0c1ece30bfd2711f675eb818471d142dd0cbd2c0",
+        "file": "assets/teams/normalized/soccer/2726.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "bc2fd5cfaa07754b12ed005b311f1588540269084425cdb74ac55e1594c571cb",
+        "bytes": 8678,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/2726.png",
+          "sourceSha256": "d2345a276eac5281222d4b9c2daad3a1b84d1a057eeb380c0a07fddef22f8362",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            61,
+            20,
+            439,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:349",
+        "code": "BOU",
+        "name": "AFC Bournemouth",
+        "providerTeamId": "349",
+        "providerTeamName": "AFC Bournemouth",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/349.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "c319ccc66d0541fe375500f22cc9743766d7d1b9",
+        "file": "assets/teams/normalized/soccer/349.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "b8ac1e25eda362fe9ad4f9e9121f5c61533cd04ac247dd5c5dd7c30be48208ee",
+        "bytes": 8455,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/349.png",
+          "sourceSha256": "0383002b303b31fd4672b7823672c472660be4f2175d84ac480a26e1a06e61bb",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            66,
+            9,
+            433,
+            490
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:172",
+        "code": "AUX",
+        "name": "AJ Auxerre",
+        "providerTeamId": "172",
+        "providerTeamName": "AJ Auxerre",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/172.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/172.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "fc35dcab97ed8247ae72214ef28c40a4d377f338",
+        "file": "assets/teams/normalized/soccer/172.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "f8ff3a71e3e2e387fcf441d41e28c06f194e5ec6832faca983e995a69ee47e90",
+        "bytes": 6092,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/172.png",
+          "sourceSha256": "115f93bf5d37e2a845997ea3be547c1860a4436c9aab5024f009f46b0bb82b5a",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            67,
+            15,
+            427,
+            483
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:174",
+        "code": "MON",
+        "name": "AS Monaco",
+        "providerTeamId": "174",
+        "providerTeamName": "AS Monaco",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/174.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/174.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "613f362b636f4661f26f87921217d6d3d8b00b5e",
+        "file": "assets/teams/normalized/soccer/174.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "e3856d1376a4e6bba221ee8646683c9726eff950eaa9aec6dad17801ac2224b6",
+        "bytes": 6350,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/174.png",
+          "sourceSha256": "bd23a74bdca89df5ed4876567478e5f08e82a4d6576e0252f16968f266300d64",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            110,
+            8,
+            389,
+            492
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:104",
+        "code": "ROMA",
+        "name": "AS Roma",
+        "providerTeamId": "104",
+        "providerTeamName": "AS Roma",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/104.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/104.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "7eaa945dd5c843fff804b1fb67af2cdcd47c296d",
+        "file": "assets/teams/normalized/soccer/104.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "973d50fa76ce15d530169e82d45b020106889f2308416076fe8b9066556d6032",
+        "bytes": 7390,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/104.png",
+          "sourceSha256": "5c8d62dad1ad929922adbb87877f582d8eb0d18c2b76e40facedc2eee65e9a2f",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            74,
+            20,
+            426,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:140",
+        "code": "AZ",
+        "name": "AZ Alkmaar",
+        "providerTeamId": "140",
+        "providerTeamName": "AZ Alkmaar",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/140.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/140.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "0eebc40325a3f4ef05d51f216bd1a1d020359b5e",
+        "file": "assets/teams/normalized/soccer/140.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "afbde52b3a39291245ddc74429eb48c161c49d1904bafed056d7be2efb50bd64",
+        "bytes": 4146,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/140.png",
+          "sourceSha256": "241b04b8bb4bd8407f99c01c1fa526d5f819d75053f1ca1acd4aa564ed7646cf",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            20,
+            138,
+            479,
+            362
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:21607",
+        "code": "ACV",
+        "name": "Académico de Viseu",
+        "providerTeamId": "21607",
+        "providerTeamName": "Académico de Viseu",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/21607.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/21607.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "3d98eb5cadbed2128b5f42c15bb16a85c3243124",
+        "file": "assets/teams/normalized/soccer/21607.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "7f3cfa552a219ab112bf9010e8f063f009df9177fbbcc81880819bb31b4ffddc",
+        "bytes": 5575,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/21607.png",
+          "sourceSha256": "42851864bba1eca0fc5749cd23b0c4ff402580a783dd0bf4741506f29587aea4",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            69,
+            21,
+            431,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:139",
+        "code": "AJA",
+        "name": "Ajax Amsterdam",
+        "providerTeamId": "139",
+        "providerTeamName": "Ajax Amsterdam",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/139.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/139.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "482199d12a7a73538cd5bd1914d417415905eb44",
+        "file": "assets/teams/normalized/soccer/139.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "3706fd65d040d60cc368cc11e93c77bddf31e19e26c0f0ad223834468a8db552",
+        "bytes": 12763,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/139.png",
+          "sourceSha256": "cc0f6f96fafba7ca9f451f67727f9395ee8141112e4fef37b231b99763d38d27",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            20,
+            20,
+            480,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:96",
+        "code": "ALA",
+        "name": "Alavés",
+        "providerTeamId": "96",
+        "providerTeamName": "Alavés",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/96.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/96.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "e3baba841847a691f030e36375a5e0da8d886e03",
+        "file": "assets/teams/normalized/soccer/96.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "dd764c95da6f1b78978f02a1e99afdd6c515dcfbb976b79db8de479185823b4e",
+        "bytes": 11362,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/96.png",
+          "sourceSha256": "0aff431593b58fbf7b7bb5da90be267dbe211e4e68db1f5a1a11e262685db1e7",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            18,
+            18,
+            481,
+            482
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:21613",
+        "code": "ALV",
+        "name": "Alverca",
+        "providerTeamId": "21613",
+        "providerTeamName": "Alverca",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/21613.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/21613.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "ee9102b4fd0f423371b55c8a8bef1926fd45e16a",
+        "file": "assets/teams/normalized/soccer/21613.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "8bb55489c40dc5e9cf52b095ab6cbdc273d458c88d3025be566bb807df9096fc",
+        "bytes": 10049,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/21613.png",
+          "sourceSha256": "7ffcf6fb866fc7daf7470d6ca1a84d64a6a3b8a1c602258e769dfe4399125319",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            70,
+            21,
+            431,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:7868",
+        "code": "ANG",
+        "name": "Angers",
+        "providerTeamId": "7868",
+        "providerTeamName": "Angers",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/7868.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/7868.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "92b3f44516472c334d65ea999781d12451c42968",
+        "file": "assets/teams/normalized/soccer/7868.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "bbdd0c155f589fb71247260ffa7594d53e91b25627ab6b506808cbefb82b5d7b",
+        "bytes": 6597,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/7868.png",
+          "sourceSha256": "112434f38848350bc1747b84c0a85e7a5230e8bee185b3da27e91ddebde02193",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            59,
+            21,
+            441,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:15784",
+        "code": "FCA",
+        "name": "Arouca",
+        "providerTeamId": "15784",
+        "providerTeamName": "Arouca",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/15784.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/15784.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "e0ae77f27a71ace0b594715222c0252d362407bf",
+        "file": "assets/teams/normalized/soccer/15784.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "e63d15a998fd2a645df3d2a3ec86e79fc729148f8d11378614e7e2b0a0577dfd",
+        "bytes": 11715,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/15784.png",
+          "sourceSha256": "b6035af2568a9c2a51a38fef01c6d457f527ff51a44e6d7aa7df7554187b279b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            53,
+            9,
+            443,
+            490
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:359",
+        "code": "ARS",
+        "name": "Arsenal",
+        "providerTeamId": "359",
+        "providerTeamName": "Arsenal",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/359.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "17315597d7c94c72a30ad943503aa438b73953dc",
+        "file": "assets/teams/normalized/soccer/359.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "cfe705a184e313fa6bc79538ce77bf03f2f7daa728ccf36713d0e51428407150",
+        "bytes": 9680,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/359.png",
+          "sourceSha256": "92f1bb35662ff56dde09e1f8084221a458357a6df390bc97b2ed6495f6e39f53",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            47,
+            12,
+            454,
+            489
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:362",
+        "code": "AVL",
+        "name": "Aston Villa",
+        "providerTeamId": "362",
+        "providerTeamName": "Aston Villa",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/362.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "f0299bb4e79c15ac2a53dac96afad1930aafcd61",
+        "file": "assets/teams/normalized/soccer/362.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "e58d7e3ea578fa13dc77bcb6f95032a47041451db37ac3d04664445a77767dde",
+        "bytes": 7886,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/362.png",
+          "sourceSha256": "aad2e636ade60b485855deacfe74f831c8dcae46de72079c7f521b06c1b5865b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            82,
+            21,
+            418,
+            478
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:105",
+        "code": "ATA",
+        "name": "Atalanta",
+        "providerTeamId": "105",
+        "providerTeamName": "Atalanta",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/105.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/105.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "58d520f223b8d676f0d70538b5cc5d8063749e11",
+        "file": "assets/teams/normalized/soccer/105.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "ef30da12a575a5f472f27f7a2e18ab393cd06f144911118d45c209d19e032cea",
+        "bytes": 7650,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/105.png",
+          "sourceSha256": "d3626b9d4f0fd313cc101ab5013c4d872713786d1ece24361329059ea37134f6",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            107,
+            17,
+            393,
+            484
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:93",
+        "code": "ATH",
+        "name": "Athletic Club",
+        "providerTeamId": "93",
+        "providerTeamName": "Athletic Club",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/93.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/93.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "08bf5a932aad360c2dc3bcc83f3afb54a5d526b9",
+        "file": "assets/teams/normalized/soccer/93.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "42ab9b0ebd60eb572a033bac8c5150fd1ee95adec4bb890aab0b8ae53b832639",
+        "bytes": 8350,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/93.png",
+          "sourceSha256": "ce67012de7d0cef9323bb2afd7481258eee4c927ae1a4f2b9fd156ef66800eec",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            42,
+            18,
+            457,
+            484
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:1068",
+        "code": "ATM",
+        "name": "Atlético Madrid",
+        "providerTeamId": "1068",
+        "providerTeamName": "Atlético Madrid",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/1068.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/1068.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "1ba70aa79c5ff943ca90127f5f1d8889a453bdc1",
+        "file": "assets/teams/normalized/soccer/1068.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "1fc1dd4b66e30433d842ca02738afb397fcaa548897a120ff7c22cc349a6df41",
+        "bytes": 5368,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/1068.png",
+          "sourceSha256": "00e98bfb76fe09a385afc20f73ae0f9ac076f9a22cc559d32cee30fd492f0f10",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            71,
+            21,
+            429,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:83",
+        "code": "BAR",
+        "name": "Barcelona",
+        "providerTeamId": "83",
+        "providerTeamName": "Barcelona",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/83.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/83.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "5e3c8241058012d149998dddff8e0b0dfd74a9d1",
+        "file": "assets/teams/normalized/soccer/83.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "be1aec930e37b4af28c9f98f4322ed76c3f62c9ed839e8054c977efbd8fc093d",
+        "bytes": 8687,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/83.png",
+          "sourceSha256": "9987e9acd8f542f74402f5a62ac2bcbb350c5ed2bf38831779d56a375ae76eb9",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            15,
+            19,
+            485,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:131",
+        "code": "B04",
+        "name": "Bayer Leverkusen",
+        "providerTeamId": "131",
+        "providerTeamName": "Bayer Leverkusen",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/131.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/131.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "46d7dac2ad050782ffd3f2bbb3d74165e4abac94",
+        "file": "assets/teams/normalized/soccer/131.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "2e3dcf70590c4e41348bd128ead083ee5b3867b9e776d98384ba7b7457d34fc2",
+        "bytes": 9302,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/131.png",
+          "sourceSha256": "e0be43c3d770332d031309e661f127e22bc8202a1211993c467193444481cb4b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            22,
+            70,
+            479,
+            431
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:132",
+        "code": "MUN",
+        "name": "Bayern Munich",
+        "providerTeamId": "132",
+        "providerTeamName": "Bayern Munich",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/132.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/132.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "a3e111b46c5abccae96d728348343f89e6dd33da",
+        "file": "assets/teams/normalized/soccer/132.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "e3420d63036e01b5b67474bc9af68635b2710eb01c17d57ceabfa73e925634a0",
+        "bytes": 12394,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/132.png",
+          "sourceSha256": "97d9c68c3fbc44834e836b6b82afab725e450d0a7c5f5d6a328f4888297511ed",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            19,
+            20,
+            481,
+            482
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:1929",
+        "code": "SLB",
+        "name": "Benfica",
+        "providerTeamId": "1929",
+        "providerTeamName": "Benfica",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/1929.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/1929.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "97c299d6415138964086d9fbbada4ccc1d1332b3",
+        "file": "assets/teams/normalized/soccer/1929.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "37d4437de665de5db32c22e95283be965c6feb39e5426a456e864a8d750e0be6",
+        "bytes": 10727,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/1929.png",
+          "sourceSha256": "14458f14b5e115bfe8ed5540dd2ece5433bd9c1a6c645f83c9a7ea1f882b426e",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            19,
+            24,
+            481,
+            477
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:107",
+        "code": "BOL",
+        "name": "Bologna",
+        "providerTeamId": "107",
+        "providerTeamName": "Bologna",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/107.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/107.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "e4c31ba46104ac03f87f4d5c1c2f0536cbb06a3b",
+        "file": "assets/teams/normalized/soccer/107.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "666ab71dfc460d874bac6096bab427bcaa7cd9a1694b8a12e93bdd69e032a315",
+        "bytes": 5693,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/107.png",
+          "sourceSha256": "b7e9f6c4b3bec908c40315995fcf54dcc2d61997dd1daa2cc1263259f3aa231e",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            100,
+            21,
+            400,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:124",
+        "code": "DOR",
+        "name": "Borussia Dortmund",
+        "providerTeamId": "124",
+        "providerTeamName": "Borussia Dortmund",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/124.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/124.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "35afd82cdfaf7af316fc0e8a4b3f97c795519a58",
+        "file": "assets/teams/normalized/soccer/124.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "181bedfa1dabf16063148bb5813edd4e0f75bcebb094da3ed39ff1fff651a4c6",
+        "bytes": 6906,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/124.png",
+          "sourceSha256": "bd11d3d9f17caf5352cb44234961b89b8794a453b2fa9c355586b68a828facd8",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            20,
+            20,
+            480,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:268",
+        "code": "BMG",
+        "name": "Borussia Mönchengladbach",
+        "providerTeamId": "268",
+        "providerTeamName": "Borussia Mönchengladbach",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/268.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/268.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "47fe619ef26eee9e27125f818ff2353be2c9cc62",
+        "file": "assets/teams/normalized/soccer/268.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "dffeb41152f6e1ae17be06cc06fdc6225f7a0cbf42df6208f620eb894002132b",
+        "bytes": 5392,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/268.png",
+          "sourceSha256": "6c25f5093b31fead98e8149f1aed4ce9d8c2f41fb19eaade48111bd17afa6a48",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            104,
+            15,
+            397,
+            484
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:2994",
+        "code": "SCB",
+        "name": "Braga",
+        "providerTeamId": "2994",
+        "providerTeamName": "Braga",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2994.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/2994.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "575c136c2ee5685cb5728e391e3f8223395f01da",
+        "file": "assets/teams/normalized/soccer/2994.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "efedc37dc3d981f72a0442acf697eedd914a2301ae273611c41dd358c645bca6",
+        "bytes": 8480,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/2994.png",
+          "sourceSha256": "a3b002c9a4a5c6f4acfd43b206b70b5ae16771a8fac2ddedb73f999cd1da21ef",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            53,
+            17,
+            443,
+            483
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:337",
+        "code": "BRE",
+        "name": "Brentford",
+        "providerTeamId": "337",
+        "providerTeamName": "Brentford",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/337.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "cd240e776b7c51ada3f08854c5beff471254786c",
+        "file": "assets/teams/normalized/soccer/337.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "34fd04431f4214990b671dd0d8d9f95c48de01f4a18bcdf21f00489e15ad70df",
+        "bytes": 11740,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/337.png",
+          "sourceSha256": "7104e162e0e5158336ac94dd895435c66f9c4cbf1a66719b6d1948eb11c2fbb3",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            21,
+            479,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:6997",
+        "code": "BRE",
+        "name": "Brest",
+        "providerTeamId": "6997",
+        "providerTeamName": "Brest",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/6997.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "a5144a382a5bd5590308a9ef979d449363441088",
+        "file": "assets/teams/normalized/soccer/6997.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "7f081fe9447857185bab068e54e44547c5bb5af060c6e6a6adf14af6b9670c97",
+        "bytes": 8314,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/6997.png",
+          "sourceSha256": "3a3b9c059c3a2f5e2015eb72f75190ccba4618f9c6a3c2357e0a18193f4a273d",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            55,
+            18,
+            437,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:331",
+        "code": "BHA",
+        "name": "Brighton & Hove Albion",
+        "providerTeamId": "331",
+        "providerTeamName": "Brighton & Hove Albion",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/331.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "f5f1d7ed5e59c4e9ba1b0e2c664936fa81b0ce59",
+        "file": "assets/teams/normalized/soccer/331.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "d9cfd4899bce10bfe93f817a4d3e36e9b4c3de68186760e20e77298776d24bab",
+        "bytes": 9078,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/331.png",
+          "sourceSha256": "b1a7041908644caca2c328a329aa8494d6c531cc32f4b11b7fceba43bc93e484",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            21,
+            479,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:379",
+        "code": "BUR",
+        "name": "Burnley",
+        "aliases": [],
+        "sourceCode": "BUR",
+        "sourceFile": "assets/teams/sources/soccer-verified/379.png",
+        "sourceBlob": "f40a82369d0c3431b0d9eba2957c1076e87d3536",
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/379.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "sourcePool": "EPL",
+        "currentSeasonMembership": "NOT_ASSERTED",
+        "file": "assets/teams/normalized/soccer/379.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "53b7ab86beafc487de9135eda793d0e60f0453d61d4dda2e8afa0990098e0232",
+        "bytes": 8135,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/379.png",
+          "sourceSha256": "2a42d8838bc00f812f779fe30eefbc2bb159ba9bfce107eb412e3e6450fb60c5",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            51,
+            21,
+            449,
+            479
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/epl/bur.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/epl/bur.png",
+          "sourceBlob": "fd794f21b14fede9740327dbfabde9cec8b2ef50",
+          "use": "AUDIT_ONLY_NOT_ACTIVE_IDENTITY_UNTRUSTED"
+        },
+        "providerTeamId": "379",
+        "providerTeamName": "Burnley",
+        "identitySource": "ESPN public team metadata: country-league team directories; Leicester team endpoint /eng.2/teams/375",
+        "sourceStatus": "REPLACED_AFTER_VISUAL_IDENTITY_AUDIT",
+        "leagueIds": [],
+        "coverageRole": "LEGACY_EXTRA_NOT_IN_CURRENT_LEAGUE_SNAPSHOTS"
+      },
+      {
+        "id": "SOCCER:ESPN:3472",
+        "code": "CDN",
+        "name": "C.D. Nacional",
+        "providerTeamId": "3472",
+        "providerTeamName": "C.D. Nacional",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3472.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/3472.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "298a774abbdd2e66903a6a6fd1cf2f37d43b4ce2",
+        "file": "assets/teams/normalized/soccer/3472.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "75534e1d8109b912e8adddfd208ed88fd2b4f80a9f87a5cea18214ea033dcdb9",
+        "bytes": 11427,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/3472.png",
+          "sourceSha256": "f61630b416774b3e480d72fa380f49bc1989aae1f6b8883e4c2f0a8a8b93f04b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            12,
+            15,
+            485,
+            485
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:2925",
+        "code": "CAG",
+        "name": "Cagliari",
+        "providerTeamId": "2925",
+        "providerTeamName": "Cagliari",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2925.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/2925.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "819350dfe8559e453f168524a9e24058e2820c40",
+        "file": "assets/teams/normalized/soccer/2925.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "d3f1290aaacea28852284ae749c96e5a2522559bad6ba2e4f36a7801068e0a80",
+        "bytes": 8984,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/2925.png",
+          "sourceSha256": "29153286c972211ea64319d226a169774cd9f6f24692dbb6ee59015855a3accc",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            59,
+            20,
+            441,
+            481
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:21581",
+        "code": "CPAC",
+        "name": "Casa Pia",
+        "providerTeamId": "21581",
+        "providerTeamName": "Casa Pia",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/21581.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/21581.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "06ce743a6ceee6d90f585a25d1b67a0cba812cbb",
+        "file": "assets/teams/normalized/soccer/21581.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "5460a328026ad6d7f27482c7532b2cf7b0b6674ef7c5e810dbd6e091d5728f8b",
+        "bytes": 6312,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/21581.png",
+          "sourceSha256": "bdec35d924a62ecadbc99e1c99aa06be79e5efe395912f3873005b6d1e6fa272",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            31,
+            22,
+            469,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:85",
+        "code": "CEL",
+        "name": "Celta Vigo",
+        "providerTeamId": "85",
+        "providerTeamName": "Celta Vigo",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/85.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/85.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "13a18805eb558cf9c142ba63d095588827fa0267",
+        "file": "assets/teams/normalized/soccer/85.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "08aa442207eeb173e60ad4c1a582a72142ead758c13b9da68a503256846cf88f",
+        "bytes": 4025,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/85.png",
+          "sourceSha256": "3b539c13d57dd1e21c1c2c7f7347e5b3433cb03ed966eceec381ff4c1ff1e434",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            118,
+            20,
+            382,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:363",
+        "code": "CHE",
+        "name": "Chelsea",
+        "providerTeamId": "363",
+        "providerTeamName": "Chelsea",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/363.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "ae8abe5f39112e290f9ee8ac5c5d10e6db5e88b1",
+        "file": "assets/teams/normalized/soccer/363.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "7f3b1b9647bd414d0f32c8730fa39961facecdf53ff0edff09cad45679137a25",
+        "bytes": 12085,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/363.png",
+          "sourceSha256": "6f14d86b5e35074e91462c7ede6e822f6a6c9f6cb723cd04ea6b8d36f2fa5392",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            13,
+            14,
+            487,
+            487
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:2572",
+        "code": "COMO",
+        "name": "Como",
+        "providerTeamId": "2572",
+        "providerTeamName": "Como",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2572.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/2572.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "98083903a2abd22b3ac6b837b5a623d31e0d49dc",
+        "file": "assets/teams/normalized/soccer/2572.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "1793f8feba84eed0f6a9cb0b964fcb554f0a22c3ed395d9727b39576108af9e9",
+        "bytes": 7001,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/2572.png",
+          "sourceSha256": "5dd64170e48010d6a4089175e4391a86e86d6479eb188e86d3442cf0ef14b08f",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            19,
+            19,
+            482,
+            482
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:388",
+        "code": "COV",
+        "name": "Coventry City",
+        "providerTeamId": "388",
+        "providerTeamName": "Coventry City",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/388.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "3eeb89961640dd52cfa03cf70b6025ff81488ffe",
+        "file": "assets/teams/normalized/soccer/388.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "5f1b7bad25fdfad80e84fb90d5fd7ce90a45a191fe83a2a986aeeffad2264274",
+        "bytes": 12041,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/388.png",
+          "sourceSha256": "6959102823b1b8e3bad688a23bc24efed5cc02c606ff65a66a10c6ec15aa9b57",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            66,
+            22,
+            434,
+            478
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:384",
+        "code": "CRY",
+        "name": "Crystal Palace",
+        "providerTeamId": "384",
+        "providerTeamName": "Crystal Palace",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/384.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "e1a5ad12d9b8577bcb1ce637e19404224fccc2ec",
+        "file": "assets/teams/normalized/soccer/384.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "f291e42e39c6ac0e9e6f1312903dcdfba56156f02e497c971eb24647cd066990",
+        "bytes": 9977,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/384.png",
+          "sourceSha256": "bc829f12cbd54aa1116888d68fda2cfe8bf4c16adea80033af748ca54a153920",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            64,
+            19,
+            434,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:90",
+        "code": "DEP",
+        "name": "Deportivo",
+        "providerTeamId": "90",
+        "providerTeamName": "Deportivo",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/90.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/90.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "704e86c74bb6411a7895ea16e12d15cf05d5dd19",
+        "file": "assets/teams/normalized/soccer/90.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "96c4c8ddaf501f6d52fc193312f12ea6367722d93cf6476ee671643638db4a33",
+        "bytes": 9639,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/90.png",
+          "sourceSha256": "5f4255c6a0e0773c29fe1291390bb4ed4548f67e5f3fa249340d87af49967ccb",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            60,
+            13,
+            447,
+            486
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:125",
+        "code": "SGE",
+        "name": "Eintracht Frankfurt",
+        "providerTeamId": "125",
+        "providerTeamName": "Eintracht Frankfurt",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/125.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/125.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "73ad67f3aabc21c3efe3e45a9fe6365a3a518c40",
+        "file": "assets/teams/normalized/soccer/125.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "658892f4da1a93b273b4d8fb118f1f84359358d3c7eb2d06727ce3f191732f64",
+        "bytes": 11062,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/125.png",
+          "sourceSha256": "8ed093c2fc6ef46b7cc8e8ac58b0dd7f8fccbae719cba7514dffe7c40507f16c",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            21,
+            479,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:3751",
+        "code": "ELC",
+        "name": "Elche",
+        "providerTeamId": "3751",
+        "providerTeamName": "Elche",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3751.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/3751.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "c7d7594cd54136de46fdc1de67d481501991b5ef",
+        "file": "assets/teams/normalized/soccer/3751.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "202d55d32eff0d7bf569804004012d0abb90c80b258c79e5ed26ef069b690747",
+        "bytes": 7476,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/3751.png",
+          "sourceSha256": "2712d99239ae99768630326e29998ed57da381cc4e2c4acb25cde8d1d7299f8a",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            79,
+            10,
+            419,
+            489
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:88",
+        "code": "ESP",
+        "name": "Espanyol",
+        "providerTeamId": "88",
+        "providerTeamName": "Espanyol",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/88.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/88.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "cf27ff4c738ffeacef054976f1d5c850e1563386",
+        "file": "assets/teams/normalized/soccer/88.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "574c298471fa608a370e57f67dffbc8e9af030e02c584aac9a1b2adc2151c0d9",
+        "bytes": 7959,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/88.png",
+          "sourceSha256": "1b176c3f83401de41dc550160132b4cc777f9b5d74e68b52cd23e487277f5349",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            80,
+            15,
+            419,
+            484
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:12216",
+        "code": "EPF",
+        "name": "Estoril",
+        "providerTeamId": "12216",
+        "providerTeamName": "Estoril",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/12216.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/12216.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "bb8a42667aee3c98727490922d647ba9ee36f9c0",
+        "file": "assets/teams/normalized/soccer/12216.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "5c80e78b488d2e53bd6a8594bf9ce2d677dc08a02f9c68b0139b27c4f17cf719",
+        "bytes": 6633,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/12216.png",
+          "sourceSha256": "a23064baf93843a0d9a5ccff9377c557bc727e79586505d4a50ab4032f5af38e",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            70,
+            9,
+            430,
+            490
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:21610",
+        "code": "EST",
+        "name": "Estrela",
+        "providerTeamId": "21610",
+        "providerTeamName": "Estrela",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/21610.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/21610.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "8d0d73e73496877690d37b8e2398f35fea59b2bd",
+        "file": "assets/teams/normalized/soccer/21610.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "bd7fb749b74a62ec4358b975df6088215f684373dc3c24b99532cf6a1cc13804",
+        "bytes": 5982,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/21610.png",
+          "sourceSha256": "c0347734a7a83e3bd70c51bf09cdcef4d50808e3c095823609808d024a01dcc2",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            74,
+            19,
+            426,
+            482
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:368",
+        "code": "EVE",
+        "name": "Everton",
+        "providerTeamId": "368",
+        "providerTeamName": "Everton",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/368.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "af533734b3ca49431913a44c4310bbee0d1aae58",
+        "file": "assets/teams/normalized/soccer/368.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "0fea91883c6c33fc6101fdf0e0107c12ed30b2f596c28819ed9e9b1551fe2cd1",
+        "bytes": 11168,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/368.png",
+          "sourceSha256": "eaedbe5e3b18ddef08c09d07fdca62bcac65165b7bb9af4780acce36841aee20",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            20,
+            479,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:2566",
+        "code": "EXC",
+        "name": "Excelsior",
+        "providerTeamId": "2566",
+        "providerTeamName": "Excelsior",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2566.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/2566.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "c1f39decb3754a1cebdcfe3cfa67f90c72c3d09f",
+        "file": "assets/teams/normalized/soccer/2566.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "71e8ec6caae9cd2cb40b224d894306b1ba63b48017f825bcbbef47c9e2c37bea",
+        "bytes": 7320,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/2566.png",
+          "sourceSha256": "d8aa6615acf15704d30007c566929e9f2a932e5945d0eb8f47dd5fa43121a18f",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            18,
+            18,
+            482,
+            482
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:3841",
+        "code": "FCA",
+        "name": "FC Augsburg",
+        "providerTeamId": "3841",
+        "providerTeamName": "FC Augsburg",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3841.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/3841.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "d515e98fc2b298e6f12b13abcb1c65c8e6597e37",
+        "file": "assets/teams/normalized/soccer/3841.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "4ea983baf3974727665bb0361e59bb2e5617e29482b4e63679f25ba54216ed1d",
+        "bytes": 6418,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/3841.png",
+          "sourceSha256": "15defdc0576d2d60161d16b685c026e262de42f164a20cc8a191bfc685216581",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            70,
+            16,
+            430,
+            484
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:122",
+        "code": "KOE",
+        "name": "FC Cologne",
+        "providerTeamId": "122",
+        "providerTeamName": "FC Cologne",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/122.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/122.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "52702b658ca5dfca24d642d8c9ccfac925e58f4d",
+        "file": "assets/teams/normalized/soccer/122.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "e2d7687ccaded6e67b0147967b8813a248efd4c370a10547eb303e6a614074d2",
+        "bytes": 9086,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/122.png",
+          "sourceSha256": "180137781f4086f4f459f99ab4672d4b8904d4e997327f3fd640349d182ee058",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            45,
+            17,
+            456,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:12698",
+        "code": "FCF",
+        "name": "FC Famalicao",
+        "providerTeamId": "12698",
+        "providerTeamName": "FC Famalicao",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/12698.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/12698.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "4d49ef4cf255ec101218144c700ff13ac494dfb2",
+        "file": "assets/teams/normalized/soccer/12698.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "7d242d582257d0501f698ad7a0e4db9fb53fc846851cb242c5d921efdff80ba1",
+        "bytes": 10489,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/12698.png",
+          "sourceSha256": "fbc40d2ea5efbf25dc8d23762bcd09adc77b8396b3d7376bcbe2e561b51dcda3",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            27,
+            35,
+            473,
+            461
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:145",
+        "code": "GRO",
+        "name": "FC Groningen",
+        "providerTeamId": "145",
+        "providerTeamName": "FC Groningen",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/145.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/145.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "5410c932a81788fd7f4cf824d3d79d03a67e4442",
+        "file": "assets/teams/normalized/soccer/145.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "cef5e52a05cd1f8880641cd66078826cbb1bff095029a36ab769658f30081aa3",
+        "bytes": 7948,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/145.png",
+          "sourceSha256": "2c64202333f9384e23073a2bf99d33fb3a25d0ef32ae24873faec7980f5d2aab",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            21,
+            480,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:437",
+        "code": "FCP",
+        "name": "FC Porto",
+        "providerTeamId": "437",
+        "providerTeamName": "FC Porto",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/437.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/437.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "2d2787c8bd825422704b488f2b7b0d284a8837a4",
+        "file": "assets/teams/normalized/soccer/437.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "ed30305db7f4abd6504b2f54b246f6f82ed49716fb27b182367ca6e61513ac9c",
+        "bytes": 9410,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/437.png",
+          "sourceSha256": "a53d1181c5130a74c97c82518e855bda7893ce85d15d575ec51a712df8976368",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            70,
+            12,
+            431,
+            488
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:152",
+        "code": "TWE",
+        "name": "FC Twente",
+        "providerTeamId": "152",
+        "providerTeamName": "FC Twente",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/152.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/152.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "3152ce7a18c119f5973d4cc03228f4c87b2f659b",
+        "file": "assets/teams/normalized/soccer/152.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "59d0d8f7ce0926ffdb1f2286fbbbce5a40cf3276fb5a1f9cbff0a3df31ad80a2",
+        "bytes": 10126,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/152.png",
+          "sourceSha256": "8fca71492fa5e02c31ece3f4b1f84b4022b15a76b8fb202f8effb8bf7bdd4c7b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            67,
+            21,
+            433,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:153",
+        "code": "UTR",
+        "name": "FC Utrecht",
+        "providerTeamId": "153",
+        "providerTeamName": "FC Utrecht",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/153.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/153.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "2035e69fd0ab9919bf5cac03a9f8c7c1912a28b7",
+        "file": "assets/teams/normalized/soccer/153.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "72279c58139701d760dd9927b2dd3fc3b04de30ddba874cedcca17a4e269c0ab",
+        "bytes": 7088,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/153.png",
+          "sourceSha256": "14bbbbe40b098db024a700048150b3e0e7dfca1cf995b8c1e7bec97b11b07fa6",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            35,
+            18,
+            465,
+            482
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:142",
+        "code": "FEY",
+        "name": "Feyenoord Rotterdam",
+        "providerTeamId": "142",
+        "providerTeamName": "Feyenoord Rotterdam",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/142.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/142.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "278e1aa4df1ed9ae03c722d0598007a210ef0032",
+        "file": "assets/teams/normalized/soccer/142.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "730f8d5c27399ebc959c64b189d6e8b3e27a6f2593c70abbac25d4215f0b6f1b",
+        "bytes": 10375,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/142.png",
+          "sourceSha256": "d5d8fe372eb2d09045881a7e4bd802dcd727bb312ca060c97bf943ef0a9d9beb",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            10,
+            10,
+            490,
+            490
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:109",
+        "code": "FIO",
+        "name": "Fiorentina",
+        "providerTeamId": "109",
+        "providerTeamName": "Fiorentina",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/109.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/109.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "4fa1f49209076301ebd1c4290720dcc2d4fc1b69",
+        "file": "assets/teams/normalized/soccer/109.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "5a8621e8aab8c3105ebd9c0bde43a3cd73c2101fd9ffaf664a0325c4077fb86f",
+        "bytes": 5779,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/109.png",
+          "sourceSha256": "df0a545d8a7a51b6a8f7377c9fee771aea608ca0a98cad5fda114c2043a36b85",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            83,
+            12,
+            418,
+            488
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:143",
+        "code": "FOR",
+        "name": "Fortuna Sittard",
+        "providerTeamId": "143",
+        "providerTeamName": "Fortuna Sittard",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/143.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/143.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "8ca53e17295511304b856483e99597c2e5c1bcd0",
+        "file": "assets/teams/normalized/soccer/143.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "d41ffbf4a428adca69a47db4f09505e425afa0831fb4a4ffa9cf49d4530333fb",
+        "bytes": 9882,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/143.png",
+          "sourceSha256": "0fae198905cb7e25af670a14032575d64bc0be9bdb5498270c2ce57d8ee87b32",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            54,
+            11,
+            446,
+            489
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:4057",
+        "code": "FRO",
+        "name": "Frosinone",
+        "providerTeamId": "4057",
+        "providerTeamName": "Frosinone",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/4057.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/4057.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "b8e59b2b59c7f55728d7ea9577c945a6f09476c6",
+        "file": "assets/teams/normalized/soccer/4057.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "0612bf7828beb0b98f7eebb16f2bf4900bf41e3c75ea457dd7509172cd18fdf9",
+        "bytes": 9840,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/4057.png",
+          "sourceSha256": "2db80a1a58ec56eca422f861b1be12d1c6fc3f89da4a987f20aef6c048aeb669",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            47,
+            20,
+            450,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:370",
+        "code": "FUL",
+        "name": "Fulham",
+        "providerTeamId": "370",
+        "providerTeamName": "Fulham",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/370.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "24e3a5088cd67dc0504a1e806c0f6035cd863f15",
+        "file": "assets/teams/normalized/soccer/370.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "57537e859b0ab9884b00044017ad5f816bd98c9341604ba34fe68a465dab52ce",
+        "bytes": 5708,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/370.png",
+          "sourceSha256": "b9148eac6e2150c0498eca2924e755ae710d04d3fce66993050cf45942ca4a19",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            73,
+            14,
+            426,
+            487
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:3263",
+        "code": "GEN",
+        "name": "Genoa",
+        "providerTeamId": "3263",
+        "providerTeamName": "Genoa",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3263.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/3263.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "0e58b424442175a393d3a37aa04fbdc4f05f1042",
+        "file": "assets/teams/normalized/soccer/3263.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "5e7bb2d9fe0109bfda89f96a026ccdaee8cc82317cfbdf34e98e41f8f882ab01",
+        "bytes": 5438,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/3263.png",
+          "sourceSha256": "a696eac5d0cb3de16effd38280997078876fd5a563b767838f88b983e70bcc27",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            79,
+            13,
+            420,
+            487
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:2922",
+        "code": "GET",
+        "name": "Getafe",
+        "providerTeamId": "2922",
+        "providerTeamName": "Getafe",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2922.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/2922.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "8d02c41663d8f5d0275c0367a527262e3c302c14",
+        "file": "assets/teams/normalized/soccer/2922.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "df423aaa8c3f5f891f891746f4bdb60e7480c7e436894b413616367069e6826f",
+        "bytes": 11438,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/2922.png",
+          "sourceSha256": "24aa11bf23482930aa446cc8a60961dc2fa1a8efb21c89f51b0b866c6bd68ff8",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            30,
+            21,
+            470,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:3699",
+        "code": "GVFC",
+        "name": "Gil Vicente",
+        "providerTeamId": "3699",
+        "providerTeamName": "Gil Vicente",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3699.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/3699.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "7273531a9bdeab159556175e5df47517dcf46e7e",
+        "file": "assets/teams/normalized/soccer/3699.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "6015891e90cf84611ca1af719d9e565b258199448836bb91cc01a18673f3d6e6",
+        "bytes": 7956,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/3699.png",
+          "sourceSha256": "eb7da94fe6dd56da580a4a648011c22f5785ee268599fc0d4a9565fbb2ea9f17",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            74,
+            15,
+            426,
+            485
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:3706",
+        "code": "GAE",
+        "name": "Go Ahead Eagles",
+        "providerTeamId": "3706",
+        "providerTeamName": "Go Ahead Eagles",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3706.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/3706.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "f3d56fafab8e65d8ebfe0669558f3f4ce92652de",
+        "file": "assets/teams/normalized/soccer/3706.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "7b08c9ebe06c46123f5e8f32d314b61c0a10fbf1fbb84e236a8b66ca02f835cd",
+        "bytes": 11933,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/3706.png",
+          "sourceSha256": "67d619721d17bb7a48dde252340c632432259a1077b08770300ae273263270d9",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            40,
+            18,
+            459,
+            482
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:127",
+        "code": "HSV",
+        "name": "Hamburg SV",
+        "providerTeamId": "127",
+        "providerTeamName": "Hamburg SV",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/127.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/127.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "312d2edf1619360d53bf099dcb4a37bb17e07c23",
+        "file": "assets/teams/normalized/soccer/127.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "55b973c0af229fe292aa04991bc0a9f71aa386761aab50a9c36e6407872542af",
+        "bytes": 2650,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/127.png",
+          "sourceSha256": "39f948aa09e784443c3546f2248c19dfb1c15c19ecef3e588efc3128faa00a07",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            19,
+            76,
+            481,
+            423
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:146",
+        "code": "HEE",
+        "name": "Heerenveen",
+        "providerTeamId": "146",
+        "providerTeamName": "Heerenveen",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/146.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/146.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "d662e3b3f2cd6d22a70160ae2ec8eef966730602",
+        "file": "assets/teams/normalized/soccer/146.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "02b988138fa7d970eadd0dd08f7a56fde2ce59e33db0091dc881972dc17a61b7",
+        "bytes": 9678,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/146.png",
+          "sourceSha256": "f9c6ecafe8a5e5848d2ab5597e51966057b71466fd334057c7d8aa50a7ff24b7",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            32,
+            18,
+            468,
+            482
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:306",
+        "code": "HUL",
+        "name": "Hull City",
+        "providerTeamId": "306",
+        "providerTeamName": "Hull City",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/306.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "e4f2d4ee501892bc7c1cc232d0844a3dc733b6e1",
+        "file": "assets/teams/normalized/soccer/306.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "71445eb84be1c526f37a6da8b35dbc3ebb376e5e1f3f7ea98a47023e8ad0965b",
+        "bytes": 8234,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/306.png",
+          "sourceSha256": "8147c0d4c418e56f133dcc79e38120cd742aab84e7ce72fa3c873f872100ab65",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            45,
+            9,
+            455,
+            490
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:110",
+        "code": "INT",
+        "name": "Internazionale",
+        "providerTeamId": "110",
+        "providerTeamName": "Internazionale",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/110.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/110.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "aabd4f3ab5d79a051058875f2b9ff339602fdce6",
+        "file": "assets/teams/normalized/soccer/110.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "f649c26bc27b597304d1f9f0f5da93d4cee4e7ade80878d4b0e10146cce882a6",
+        "bytes": 6853,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/110.png",
+          "sourceSha256": "3020e0fba5c9391d6e8fa119ad67b93f1ad2fa77a2939a5dd42320495fd477a4",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            21,
+            479,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:373",
+        "code": "IPS",
+        "name": "Ipswich Town",
+        "providerTeamId": "373",
+        "providerTeamName": "Ipswich Town",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/373.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "3d0ff42d685c23b4cfdb299ec0251cb1152976d7",
+        "file": "assets/teams/normalized/soccer/373.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "11f386b8833ceed89b5f9f8eb9ead69ffb052844c8095219a9c2ddf7fbebacd9",
+        "bytes": 8485,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/373.png",
+          "sourceSha256": "e253aeaf39ff7c9d19f91ce78464de947b275fdbea4bf595e602d42367cea1b7",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            66,
+            17,
+            438,
+            482
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:111",
+        "code": "JUV",
+        "name": "Juventus",
+        "providerTeamId": "111",
+        "providerTeamName": "Juventus",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/111.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/111.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "b546b4bfcd5e9a184bcb51ccfe660d168e93dd26",
+        "file": "assets/teams/normalized/soccer/111.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "41e134cb1523fc557fc9013998cdbed5b7561cc8cf3e60321a412508443b6c07",
+        "bytes": 1356,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/111.png",
+          "sourceSha256": "6c190f73f8913b8d0c040e5773c377517a2e1e2e76b8145c87d73c3d2a9a87d3",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            106,
+            21,
+            394,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:112",
+        "code": "LAZ",
+        "name": "Lazio",
+        "providerTeamId": "112",
+        "providerTeamName": "Lazio",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/112.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/112.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "997965aca27f78149b961182410993a738f2a16f",
+        "file": "assets/teams/normalized/soccer/112.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "3679ed50c692aefdfaaf0a2b4f4a90f508262a213554b5021c5eb42eb9daa167",
+        "bytes": 4673,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/112.png",
+          "sourceSha256": "774df8a00d798e0647dd8198ab0bdc27fda7daf3ca5ffbea0870f2b653d3cfe1",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            97,
+            479,
+            403
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:3236",
+        "code": "HAC",
+        "name": "Le Havre AC",
+        "providerTeamId": "3236",
+        "providerTeamName": "Le Havre AC",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/3236.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "66c804eb13db2c0a76a3b1c89662c6ad4e6e1a88",
+        "file": "assets/teams/normalized/soccer/3236.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "de76f1a9185695261dbdae5bc2edbdd496bf8f65f7cb88ca9184f1fe4b2f39ac",
+        "bytes": 8239,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/3236.png",
+          "sourceSha256": "fdf43253adc2da2dd1d542bcf229e4cebcbc82e816abaa5adc977868dd0598f5",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            62,
+            21,
+            438,
+            478
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:2697",
+        "code": "MNS",
+        "name": "Le Mans",
+        "providerTeamId": "2697",
+        "providerTeamName": "Le Mans",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/2697.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "7cab45a9faacb2aa3502932dcd2173b72182f781",
+        "file": "assets/teams/normalized/soccer/2697.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "26cee21b309a322a5fc6e33dd16aa16e783f6a496a3b0eb720f5de267f9c6fbf",
+        "bytes": 9614,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/2697.png",
+          "sourceSha256": "de3e7ca04205bbdda86b44e1ab00f950b90975000d19e449330ce2ae7306258e",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            21,
+            477,
+            477
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:113",
+        "code": "LEC",
+        "name": "Lecce",
+        "providerTeamId": "113",
+        "providerTeamName": "Lecce",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/113.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/113.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "76f1daf8d0c06ab2378acd06c7f0448ca883573a",
+        "file": "assets/teams/normalized/soccer/113.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "16732c3631eac0c3fc61dee7181bd8c16e0254ffbe5fe4f24a00553be3eaed8e",
+        "bytes": 8027,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/113.png",
+          "sourceSha256": "17e9596761336c277f9f78253ae7b0ac2cdc324715a61ed53d12650b123bf8a6",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            56,
+            17,
+            444,
+            483
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:357",
+        "code": "LEE",
+        "name": "Leeds United",
+        "providerTeamId": "357",
+        "providerTeamName": "Leeds United",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/357.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "a56bc444eb0735ad1074172bc4a40eadcea484f8",
+        "file": "assets/teams/normalized/soccer/357.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "54262a167a5d2ca56c537aa99b70c64c6067a351a92a76e3c3d66f6510ca20dc",
+        "bytes": 10309,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/357.png",
+          "sourceSha256": "69d5d4251e740fc8d525c3c967e817575b0ac2e2af7be03f23e40d494c383790",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            56,
+            14,
+            437,
+            486
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:375",
+        "code": "LEI",
+        "name": "Leicester City",
+        "aliases": [],
+        "sourceCode": "LEI",
+        "sourceFile": "assets/teams/sources/soccer-verified/375.png",
+        "sourceBlob": "241c601b63c0d257fd031b1d401319aef366c4e0",
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/375.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "sourcePool": "EPL",
+        "currentSeasonMembership": "NOT_ASSERTED",
+        "file": "assets/teams/normalized/soccer/375.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "4fdbe5348a18799f29037850c77684081a7a83353f1458aab2d7d1df0281516b",
+        "bytes": 12986,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/375.png",
+          "sourceSha256": "a21568e549d0f9389f56469b75d0866281a39c1e32f37a4908c2727e0a53050f",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            13,
+            14,
+            486,
+            486
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/epl/lei.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/epl/lei.png",
+          "sourceBlob": "241c601b63c0d257fd031b1d401319aef366c4e0",
+          "use": "AUDIT_ONLY_NOT_ACTIVE_IDENTITY_UNTRUSTED"
+        },
+        "providerTeamId": "375",
+        "providerTeamName": "Leicester City",
+        "identitySource": "ESPN public team metadata: country-league team directories; Leicester team endpoint /eng.2/teams/375",
+        "sourceStatus": "REPLACED_AFTER_VISUAL_IDENTITY_AUDIT",
+        "leagueIds": [],
+        "coverageRole": "LEGACY_EXTRA_NOT_IN_CURRENT_LEAGUE_SNAPSHOTS"
+      },
+      {
+        "id": "SOCCER:ESPN:175",
+        "code": "RCL",
+        "name": "Lens",
+        "providerTeamId": "175",
+        "providerTeamName": "Lens",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/175.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/175.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "01f02dda49ad414cbb3dba5bdcae53f20856e85e",
+        "file": "assets/teams/normalized/soccer/175.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "1295d21af3f9f7b7546f0dcb233c5c453506d9c2dd4c8f3253bec950cd809578",
+        "bytes": 7477,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/175.png",
+          "sourceSha256": "4f4ba6f0e63826c16f62a4753e0874e54cc30077c62b8c19790cd4f4d01e0e20",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            74,
+            10,
+            425,
+            490
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:1538",
+        "code": "LEV",
+        "name": "Levante",
+        "providerTeamId": "1538",
+        "providerTeamName": "Levante",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/1538.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/1538.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "13b2ebd1dc00f1e1029a9e246e4d52b570598dd4",
+        "file": "assets/teams/normalized/soccer/1538.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "3c4ce43211a2aa9b415a8ea4d15d23bd115fe7efdc823309c05eb5b249ea722d",
+        "bytes": 9319,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/1538.png",
+          "sourceSha256": "2e50213517306c537d11929055c7bd01eb8d809854a63f78e0a29a0d09ae8de8",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            57,
+            19,
+            439,
+            483
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:166",
+        "code": "LILL",
+        "name": "Lille",
+        "providerTeamId": "166",
+        "providerTeamName": "Lille",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/166.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "d8faeb26813bf1b6280bd5d929961afc39702757",
+        "file": "assets/teams/normalized/soccer/166.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "8af3c8c6732cd25b5cb816f06f981bbf1832309c7d8bcc882c6b163e5fa8f1e2",
+        "bytes": 9090,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/166.png",
+          "sourceSha256": "95e0ee084cb4f8cd14407aa8a75e0db932d4f0558cd3a1dfac72f293cca86e69",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            19,
+            30,
+            481,
+            470
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:364",
+        "code": "LIV",
+        "name": "Liverpool",
+        "providerTeamId": "364",
+        "providerTeamName": "Liverpool",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/364.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "080712d8ff4b36f3c1e5afb515bf5ca46bc74505",
+        "file": "assets/teams/normalized/soccer/364.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "f9091f80fb8d2e88b4770a177865a52184121c7ee0d08ca7f76a76986f95125d",
+        "bytes": 5449,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/364.png",
+          "sourceSha256": "9f2c56faf3631eb32fb5cccd84d31827ba38fcd9dd3280f597b221711a8797de",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            124,
+            20,
+            375,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:273",
+        "code": "LOR",
+        "name": "Lorient",
+        "providerTeamId": "273",
+        "providerTeamName": "Lorient",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/273.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "0f6f9a8ada67f3b00e3c32599abfde3f2d8a8f3f",
+        "file": "assets/teams/normalized/soccer/273.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "b146daa67ed2282ddf7e0ef804fc05eb7fa92d410baf038d6cb5077dfd303d3d",
+        "bytes": 8096,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/273.png",
+          "sourceSha256": "e9aad5b8eac3ee5cb87908729d39572dd0799824dcb17c41fea8df0102be731f",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            90,
+            17,
+            416,
+            484
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:167",
+        "code": "LYON",
+        "name": "Lyon",
+        "providerTeamId": "167",
+        "providerTeamName": "Lyon",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/167.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "f2fbb26e421d58407fdb50726a8c8df9470c2f4e",
+        "file": "assets/teams/normalized/soccer/167.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "d89af74c161ac8ab62b52ef2bcd502d6931a5db9849c2537ea9610f3dbb07dfa",
+        "bytes": 8142,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/167.png",
+          "sourceSha256": "8d19c1378008637e0f7a75c4a56bd82610c719ae3bfdcb7c1305edfe81710bcf",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            46,
+            17,
+            449,
+            484
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:2950",
+        "code": "M05",
+        "name": "Mainz",
+        "providerTeamId": "2950",
+        "providerTeamName": "Mainz",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2950.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/2950.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "c2db20a82f004a551f6912f5020c4ab3296cca61",
+        "file": "assets/teams/normalized/soccer/2950.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "49cf7f0b26e1d3ac7497c53baf5eaf53d268ab21826208a187e0e0d84dc45e8e",
+        "bytes": 11332,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/2950.png",
+          "sourceSha256": "49d8054439ee37df533c9c88b9409c72a23647fdb7a9912d8d743482e4faced9",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            19,
+            17,
+            481,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:382",
+        "code": "MNC",
+        "name": "Manchester City",
+        "providerTeamId": "382",
+        "providerTeamName": "Manchester City",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/382.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "04e45f2190bc77f199fe6bdbd1b14fe039e1ad7d",
+        "file": "assets/teams/normalized/soccer/382.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "0c4fd411604c2819340cf51b6829b05d32fef4d1deeaf277d8c76a7bc1598be7",
+        "bytes": 11448,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/382.png",
+          "sourceSha256": "70e005bdab0ada41a153760398b4a2ef99f956bf9e72954686caa70da8c30c0b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            20,
+            20,
+            480,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:360",
+        "code": "MAN",
+        "name": "Manchester United",
+        "providerTeamId": "360",
+        "providerTeamName": "Manchester United",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/360.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "c95572cef4a6dbc5cc8e60ff42fa21d858a6e04a",
+        "file": "assets/teams/normalized/soccer/360.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "1517989ac5ee5c0a695549f2bc35ee6163b470685dd027078e0340c1ec5de519",
+        "bytes": 11968,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/360.png",
+          "sourceSha256": "03486cf5cf90d580d6132ab115cc747be7b2e3519fd6e08be56675cf5897f0b7",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            19,
+            16,
+            480,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:552",
+        "code": "MAR",
+        "name": "Maritimo",
+        "providerTeamId": "552",
+        "providerTeamName": "Maritimo",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/552.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/552.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "2ab8250e2ec41eff5c074cfd2cfde01e3903646c",
+        "file": "assets/teams/normalized/soccer/552.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "ffd105a883b0be94605a3a1ab77208577ac64eef678f00969a7889e46ddb0b37",
+        "bytes": 9192,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/552.png",
+          "sourceSha256": "72eeb71587468660c6fefb6d9d1bdd9a61b61de7ec14fa7e1b3a7b4bbb7988a9",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            71,
+            10,
+            429,
+            489
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:176",
+        "code": "OLM",
+        "name": "Marseille",
+        "providerTeamId": "176",
+        "providerTeamName": "Marseille",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/176.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/176.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "4701a16f1a8f89c70e43a48f5da005a00a4dea42",
+        "file": "assets/teams/normalized/soccer/176.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "2386542de9c61b643480c0de2a7c6da0a24e073ef60b67b8ce0ab4e15ceef906",
+        "bytes": 9110,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/176.png",
+          "sourceSha256": "55fde2ea6f3e0524ae9226ccbf9240cf1cc6f49f6a402ed444b147558040428e",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            21,
+            479,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:4007",
+        "code": "MON",
+        "name": "Monza",
+        "providerTeamId": "4007",
+        "providerTeamName": "Monza",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/4007.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/4007.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "3ba947170c73f27b7a75dabc59741030ee85bb92",
+        "file": "assets/teams/normalized/soccer/4007.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "b31d32b68da36b7a82b176eb64bccbe4cbbd178f1dd09ff6acd29d7d575f4cc1",
+        "bytes": 6814,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/4007.png",
+          "sourceSha256": "f7cf3e763787e4a3ca8d5d0dda906ec72f37adcfe2c28b23a5f751425b20ff00",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            88,
+            21,
+            412,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:3696",
+        "code": "MFC",
+        "name": "Moreirense",
+        "providerTeamId": "3696",
+        "providerTeamName": "Moreirense",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3696.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/3696.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "6e03e96bd8bcac07f06ea9b22cb47a2656f57213",
+        "file": "assets/teams/normalized/soccer/3696.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "01459ed47dc69191d2558201a0a4974076dbf00bd331f36ae137362b449856bc",
+        "bytes": 3979,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/3696.png",
+          "sourceSha256": "8265ac3f5a799977fd3d47303bd7aa3b7f85c058a2532f0366bf2c553b7b8378",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            4,
+            116,
+            497,
+            394
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:99",
+        "code": "MCF",
+        "name": "Málaga",
+        "providerTeamId": "99",
+        "providerTeamName": "Málaga",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/99.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/99.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "35bd34e5863d2ef6b615ee21b90f7166ac8b668f",
+        "file": "assets/teams/normalized/soccer/99.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "6c3b0ab597aa3062beb0f19c7bbb6d0fd9e7e4663a731fe7ef4c2ca117dfa45c",
+        "bytes": 10164,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/99.png",
+          "sourceSha256": "70c57c651fd431e97019c1c65234ce15e28a52a25abf9d11516eede56bb450a4",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            48,
+            15,
+            458,
+            481
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:147",
+        "code": "NEC",
+        "name": "NEC Nijmegen",
+        "providerTeamId": "147",
+        "providerTeamName": "NEC Nijmegen",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/147.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/147.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "4f765301c3b65602f44c9ca60350d09a84bae67c",
+        "file": "assets/teams/normalized/soccer/147.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "5876ed19e3bf174ed3958c5aad36bb24d84ce977249df27be8c5dd4eef3c2248",
+        "bytes": 11735,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/147.png",
+          "sourceSha256": "3a2cc8e602f2544c105c4c95fe71042b38c1528fbf6f42bd034f90e13ae88e5c",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            52,
+            54,
+            449,
+            445
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:114",
+        "code": "NAP",
+        "name": "Napoli",
+        "providerTeamId": "114",
+        "providerTeamName": "Napoli",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/114.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/114.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "bb507d48d01b973e7703d420f1edc67e2c1384e4",
+        "file": "assets/teams/normalized/soccer/114.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "7e1c114458ef181ac207fb979f8af3eb2e2c516686686f2047737707ffe07b40",
+        "bytes": 6870,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/114.png",
+          "sourceSha256": "e871ac8b6d9cf7acd850bfcf8e22e20d6258f55a45cf97023d937c5bdb515b4f",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            16,
+            17,
+            485,
+            483
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:361",
+        "code": "NEW",
+        "name": "Newcastle United",
+        "providerTeamId": "361",
+        "providerTeamName": "Newcastle United",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/361.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "e4a7cf91c524f4fb9eb9328f0bcdd59452653515",
+        "file": "assets/teams/normalized/soccer/361.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "b3010f1b091fefa4841e9b16cb1d42a50354efa4e4265dc48f94689a834446de",
+        "bytes": 11877,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/361.png",
+          "sourceSha256": "5e926d9f8c18b1b20e2e86a830ad56d4a9094673f172c0f8fabf617917e1910d",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            22,
+            22,
+            478,
+            478
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:2502",
+        "code": "NICE",
+        "name": "Nice",
+        "providerTeamId": "2502",
+        "providerTeamName": "Nice",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/2502.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "9f4281e14b45ece4ef2bba4d1d166282a599dd07",
+        "file": "assets/teams/normalized/soccer/2502.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "221903db1677bd0a2a9c8010e580d471fc8b334dce94d02f7b9d8df132172116",
+        "bytes": 10639,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/2502.png",
+          "sourceSha256": "4d799a2e63732e66bb9e447fa8f036440c48091621ca2e97c001c14eaa758fe8",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            64,
+            20,
+            435,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:393",
+        "code": "NFO",
+        "name": "Nottingham Forest",
+        "providerTeamId": "393",
+        "providerTeamName": "Nottingham Forest",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/393.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "489723184c9e77c4068b78008f950c550fa60d18",
+        "file": "assets/teams/normalized/soccer/393.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "480b7b62568321465f9d9bb122f73ad26201c7e29ec543c2452def89d80b31b3",
+        "bytes": 5106,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/393.png",
+          "sourceSha256": "766868d667069609a8904ba1ec6a66f09fccfe9fbad21300791bf778dd9ddaae",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            141,
+            21,
+            359,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:97",
+        "code": "OSA",
+        "name": "Osasuna",
+        "providerTeamId": "97",
+        "providerTeamName": "Osasuna",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/97.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/97.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "d3dd2ba9c90126b016783eecaa913f441a0f376a",
+        "file": "assets/teams/normalized/soccer/97.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "a40adb0c481e416ac3fccf2be4732a25d10019ff52ad33b569316963c15e23b7",
+        "bytes": 7805,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/97.png",
+          "sourceSha256": "e1d53ac19501c51bad348bce766cfa42d4f0660ca7d14ae972ca9cc0bff4de6c",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            78,
+            16,
+            432,
+            485
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:2565",
+        "code": "PEC",
+        "name": "PEC Zwolle",
+        "providerTeamId": "2565",
+        "providerTeamName": "PEC Zwolle",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2565.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/2565.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "5b813bce10ed246e756fcfa0f21077979bbf8a79",
+        "file": "assets/teams/normalized/soccer/2565.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "bb83d354e3752741e6baa7d47571bc0a3f641d3872a97e7c35409c945cb00399",
+        "bytes": 7538,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/2565.png",
+          "sourceSha256": "3d24db5d34f344717ab6ad0932d7a05820dc7cfd76ed9d2aecb23ccc8556e1e3",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            93,
+            65,
+            408,
+            457
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:148",
+        "code": "PSV",
+        "name": "PSV Eindhoven",
+        "providerTeamId": "148",
+        "providerTeamName": "PSV Eindhoven",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/148.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/148.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "c5c6f6bcf7ea4ec99a5ce0d70f9dc4287ac878c2",
+        "file": "assets/teams/normalized/soccer/148.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "83c2d9e829e0ff1da262b048e2bd57797cd50961205b186c6b369b2e9ac815ea",
+        "bytes": 8585,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/148.png",
+          "sourceSha256": "ea19561d9ae97eb761ab39f5b400b3ce5f64db43f934a595183e4208030f2d0b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            16,
+            59,
+            484,
+            441
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:6851",
+        "code": "PAR",
+        "name": "Paris FC",
+        "providerTeamId": "6851",
+        "providerTeamName": "Paris FC",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/6851.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "f69b4220cee70f3c8a7b8e7e7e048c436b487fa7",
+        "file": "assets/teams/normalized/soccer/6851.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "ace362de2ccd457087b8181875f8c4822a523fc88d25e29c11758a9ae10d676c",
+        "bytes": 9244,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/6851.png",
+          "sourceSha256": "f46a439b974261f722182dc7d9264461ce7e75e959eb2f9a8376b17ec844b27b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            58,
+            18,
+            442,
+            474
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:160",
+        "code": "PSG",
+        "name": "Paris Saint-Germain",
+        "providerTeamId": "160",
+        "providerTeamName": "Paris Saint-Germain",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/160.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "6f4cb17a1bd348b9a4e3dec8c4e1367bb433c93b",
+        "file": "assets/teams/normalized/soccer/160.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "11136800fea28eddb859bdf39a0c8933bd244c973d6716729bca3cf07bc772ab",
+        "bytes": 10442,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/160.png",
+          "sourceSha256": "d3c4321f76c2475d10dd76757e623367ab7549a9a55cdee7ced09cf6327d4f5b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            11,
+            11,
+            489,
+            489
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:115",
+        "code": "PAR",
+        "name": "Parma",
+        "providerTeamId": "115",
+        "providerTeamName": "Parma",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/115.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/115.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "a0b347e1e7f27ac74e4849c4e31dbc5b6dcc46bf",
+        "file": "assets/teams/normalized/soccer/115.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "3feed287d760317b614992cd92dd67e0369b8119a416b555e6056b4c46766241",
+        "bytes": 4432,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/115.png",
+          "sourceSha256": "844f97f605c596103b56b9734b5c932b2f1598b82bd2023e1d50e721a34cb744",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            65,
+            16,
+            444,
+            484
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:11420",
+        "code": "RBL",
+        "name": "RB Leipzig",
+        "providerTeamId": "11420",
+        "providerTeamName": "RB Leipzig",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/11420.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/11420.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "049dfb1426b02c12a02a9fd81f28fb5671efd6f8",
+        "file": "assets/teams/normalized/soccer/11420.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "10fed0e8c3ac6560b67e5837a3f4e59d31468c247cbd21008d1c9bed876dacd9",
+        "bytes": 6322,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/11420.png",
+          "sourceSha256": "0734f241fe3b1a5c94bd4beb659c186cbb6fcf01592ac00ecbfb2d5bd29ab0c3",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            104,
+            479,
+            396
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:87",
+        "code": "RAC",
+        "name": "Racing Santander",
+        "providerTeamId": "87",
+        "providerTeamName": "Racing Santander",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/87.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/87.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "0a5a57e9d0ee2d407ead8a93031bf749460e14d6",
+        "file": "assets/teams/normalized/soccer/87.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "d4f6a296a7f9545911bf71d04e420d1b5daf795026c63c37b7032e714907a262",
+        "bytes": 9245,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/87.png",
+          "sourceSha256": "52370c21a13a57593801b63c3aa23e826b2b3a397130a270479b2b5ca52b83cb",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            80,
+            16,
+            422,
+            487
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:101",
+        "code": "RAY",
+        "name": "Rayo Vallecano",
+        "providerTeamId": "101",
+        "providerTeamName": "Rayo Vallecano",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/101.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/101.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "ca0f8e775f89733a1ae02505da52514bd8c67685",
+        "file": "assets/teams/normalized/soccer/101.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "a286c32ef4e6dc67f5073e75356b7e8987d8f39be66a2c203068c7ef9b3c5df4",
+        "bytes": 9306,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/101.png",
+          "sourceSha256": "66aee2a6712de83310002c53c7b361a816b0d325f3944bbf3b9d728d6ed04251",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            14,
+            39,
+            485,
+            477
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:244",
+        "code": "BET",
+        "name": "Real Betis",
+        "providerTeamId": "244",
+        "providerTeamName": "Real Betis",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/244.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/244.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "96878479c129b411d6b61d09a3e0effa3f03fcb2",
+        "file": "assets/teams/normalized/soccer/244.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "f02c0edcde4d610c2832d49c5c3fed934b504c9de1369dcecd1251aff153c2d4",
+        "bytes": 6974,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/244.png",
+          "sourceSha256": "8a2e9a3db45280f3aa8be1737e140333493828c94c98283a5bcad458529369a6",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            14,
+            53,
+            484,
+            453
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:86",
+        "code": "RMA",
+        "name": "Real Madrid",
+        "providerTeamId": "86",
+        "providerTeamName": "Real Madrid",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/86.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/86.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "d47de797097ae12f71f409092b1d6c691d99d371",
+        "file": "assets/teams/normalized/soccer/86.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "7fd2757d5a4e0fcbc207f81e9ddedd607b31be21eb5df21ac5824c5b3656a49c",
+        "bytes": 9477,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/86.png",
+          "sourceSha256": "acdcaaf2c60c3cc65a270dac1bd59f3a2b52911b8c45510d4e7f86d47ed714ba",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            80,
+            16,
+            417,
+            483
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:89",
+        "code": "RSO",
+        "name": "Real Sociedad",
+        "providerTeamId": "89",
+        "providerTeamName": "Real Sociedad",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/89.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/89.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "08d2487d8e79bbc9ddc0aeff271290620fa0598f",
+        "file": "assets/teams/normalized/soccer/89.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "b32ef96e1ac02701013c98c90ceaae33f95f888b0058bdac05a045ff12e514b3",
+        "bytes": 10357,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/89.png",
+          "sourceSha256": "87b985ea790b3155b84fd5f09fdbc38b0da7853c4c61942eeaadbe2aa1db2d9c",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            41,
+            14,
+            459,
+            487
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:3822",
+        "code": "RAFC",
+        "name": "Rio Ave",
+        "providerTeamId": "3822",
+        "providerTeamName": "Rio Ave",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3822.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/3822.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "ecf269cecf698635a0f05b37905ec5985a72ecb6",
+        "file": "assets/teams/normalized/soccer/3822.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "25b8c65d64b14ccba8f3acc4701c9489362e51ff68c69872f952c76289b50aa4",
+        "bytes": 10042,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/3822.png",
+          "sourceSha256": "8a4f6205006664f6adbab012cfe4e6f49567138393a175b63c7fcf482a7e8fc4",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            58,
+            15,
+            448,
+            485
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:3736",
+        "code": "CAM",
+        "name": "SC Cambuur",
+        "providerTeamId": "3736",
+        "providerTeamName": "SC Cambuur",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3736.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/3736.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "c5d370d1b2288cedb98d81710e56372f9ec3b991",
+        "file": "assets/teams/normalized/soccer/3736.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "8589150c5a9e53b3c47e1bb32ca293d7e73c18097d99ae5d4b2acb9d35d9eebb",
+        "bytes": 6513,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/3736.png",
+          "sourceSha256": "a5942c7a0a2a69224286ce7ab4879f6b0bec1d80c8871bacd4edde42ec2ad50d",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            64,
+            10,
+            437,
+            492
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:126",
+        "code": "SCF",
+        "name": "SC Freiburg",
+        "providerTeamId": "126",
+        "providerTeamName": "SC Freiburg",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/126.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/126.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "6fb146622b92b3fae2c8b18c1deb86d036541401",
+        "file": "assets/teams/normalized/soccer/126.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "619fa3de012ff20dccd078e5d735990239f694b565d8014d4b3960a50d015332",
+        "bytes": 7428,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/126.png",
+          "sourceSha256": "53e64e30e43ff3c4a7a2f8c8802e439572afae543cf42d5ab70d0b694dfdf95b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            87,
+            17,
+            414,
+            482
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:3307",
+        "code": "SCP",
+        "name": "SC Paderborn 07",
+        "providerTeamId": "3307",
+        "providerTeamName": "SC Paderborn 07",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3307.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/3307.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "26db0044d6be3c3c1286054cebbc986dbf4ec404",
+        "file": "assets/teams/normalized/soccer/3307.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "ab6eb9680da851c737138ac773d3e191df08e1bdf0b71c66d5c2689ed2efe156",
+        "bytes": 5481,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/3307.png",
+          "sourceSha256": "2875d52faa8e27b811ffe2fa346231bb8006a5cc3f79c2360c26c253f67cb2ce",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            9,
+            85,
+            490,
+            416
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:10388",
+        "code": "ELV",
+        "name": "SV Elversberg",
+        "providerTeamId": "10388",
+        "providerTeamName": "SV Elversberg",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/10388.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/10388.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "69eb593617ceea8ca49c43a28789337d7e8bd96f",
+        "file": "assets/teams/normalized/soccer/10388.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "8dcedd574996dec17921af25b011eb1be8592c2f4083478a1c59ee86f2fc6f26",
+        "bytes": 8526,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/10388.png",
+          "sourceSha256": "8b6d58b3602555fb90065e7cf22b7ebae555363a9549ec060400e44e8c058d9b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            20,
+            20,
+            480,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:12215",
+        "code": "CDSC",
+        "name": "Santa Clara",
+        "providerTeamId": "12215",
+        "providerTeamName": "Santa Clara",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/12215.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/12215.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "557ccd820f2f234b47f48abb4b18fcbe9afc743c",
+        "file": "assets/teams/normalized/soccer/12215.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "ea7a295c83beba1ce653c288c47bf47a5518441610e273be143dc162302832cd",
+        "bytes": 12344,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/12215.png",
+          "sourceSha256": "b45cb7c8ef0061f415c035a1ef171ae63116f4682e0ae46e498b8224b815ec39",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            9,
+            9,
+            491,
+            491
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:3997",
+        "code": "SAS",
+        "name": "Sassuolo",
+        "providerTeamId": "3997",
+        "providerTeamName": "Sassuolo",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3997.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/3997.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "f6c2e8b63e686bfa8bb6d7541e1ea10ab89a0bd8",
+        "file": "assets/teams/normalized/soccer/3997.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "3e1bb0f34b16ae11ba8af349d396eb79d8b650d85f57d24d75198c7628ee69e8",
+        "bytes": 9878,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/3997.png",
+          "sourceSha256": "8b941afda4d138ffcc751c3cac8ac568c82430b7a880968dda0dc92b02428121",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            41,
+            21,
+            459,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:133",
+        "code": "S04",
+        "name": "Schalke 04",
+        "providerTeamId": "133",
+        "providerTeamName": "Schalke 04",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/133.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/133.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "b632db72a52b6b03046e66e1ebefa7f93d0d5a48",
+        "file": "assets/teams/normalized/soccer/133.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "7010075aed9ce0324b65d74b8b11b6fafc90568a81c6d4a16f8e201cb3936296",
+        "bytes": 7653,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/133.png",
+          "sourceSha256": "f938aab67187c8f154ad5da75cd41867bc92b5b4c0fbd9de0ac758df42d560a1",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            19,
+            22,
+            479,
+            481
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:243",
+        "code": "SEV",
+        "name": "Sevilla",
+        "providerTeamId": "243",
+        "providerTeamName": "Sevilla",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/243.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/243.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "7b16d3043a8f5f2d3252562c47a6add62ddc11c0",
+        "file": "assets/teams/normalized/soccer/243.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "dbbd37ea4356adef4b8f2f816bf5c78a2cc1af790b53d2840079f0e6903eef0d",
+        "bytes": 7711,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/243.png",
+          "sourceSha256": "992624b39a65ae153e9754ba302596d234faafe95062ca5d9b3095ac56211988",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            58,
+            17,
+            448,
+            487
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:376",
+        "code": "SOU",
+        "name": "Southampton",
+        "aliases": [],
+        "sourceCode": "SOU",
+        "sourceFile": "assets/teams/sources/soccer-verified/376.png",
+        "sourceBlob": "24d25134bcefc719f800c1395ff6b7662274dd38",
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/376.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "sourcePool": "EPL",
+        "currentSeasonMembership": "NOT_ASSERTED",
+        "file": "assets/teams/normalized/soccer/376.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "c6ed9363c7e41f356117f9807e0fff8c36c5e157bb450eab7e506c1ca0594451",
+        "bytes": 9810,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/376.png",
+          "sourceSha256": "09b41343b46d3941a946ce5c2696550ec654d54614b7dbd22cef0cde91970335",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            46,
+            18,
+            456,
+            483
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/epl/sou.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/epl/sou.png",
+          "sourceBlob": "24d25134bcefc719f800c1395ff6b7662274dd38",
+          "use": "AUDIT_ONLY_NOT_ACTIVE_IDENTITY_UNTRUSTED"
+        },
+        "providerTeamId": "376",
+        "providerTeamName": "Southampton",
+        "identitySource": "ESPN public team metadata: country-league team directories; Leicester team endpoint /eng.2/teams/375",
+        "sourceStatus": "REPLACED_AFTER_VISUAL_IDENTITY_AUDIT",
+        "leagueIds": [],
+        "coverageRole": "LEGACY_EXTRA_NOT_IN_CURRENT_LEAGUE_SNAPSHOTS"
+      },
+      {
+        "id": "SOCCER:ESPN:151",
+        "code": "SPA",
+        "name": "Sparta Rotterdam",
+        "providerTeamId": "151",
+        "providerTeamName": "Sparta Rotterdam",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/151.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/151.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "8a429fd81a2bf7a1fb3d819c6c271af7ae320c88",
+        "file": "assets/teams/normalized/soccer/151.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "d3f48c0626fda29c28d7af50dc35aaa9721771edad429c338d3af2b034583d20",
+        "bytes": 10109,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/151.png",
+          "sourceSha256": "1a54dad491e18231b3235e74598e2eddc48a9bcdfcc1108ec6060fee246e17ee",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            21,
+            479,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:2250",
+        "code": "SCP",
+        "name": "Sporting CP",
+        "providerTeamId": "2250",
+        "providerTeamName": "Sporting CP",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/2250.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/2250.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "f855936ab34ef698e90ad852f99288963d179a8c",
+        "file": "assets/teams/normalized/soccer/2250.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "af19b3863f91c1cafd7979f06401ebe066c714f638a76286727033c85f8b6634",
+        "bytes": 8662,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/2250.png",
+          "sourceSha256": "86fe536a68f5f6aecf29bd039af1319562fbb7a9b574b64c1269ac28449626bb",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            74,
+            15,
+            427,
+            486
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:169",
+        "code": "REN",
+        "name": "Stade Rennais",
+        "providerTeamId": "169",
+        "providerTeamName": "Stade Rennais",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/169.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/169.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "308ddb5c0932024cb789992d66174a8e84b63bd7",
+        "file": "assets/teams/normalized/soccer/169.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "b630730439833de376ffb860bece53c3001de0ed22472a376aa05e0f8e93a130",
+        "bytes": 8002,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/169.png",
+          "sourceSha256": "899d5d3df75bc0dba315d1bc81dcbf5b637dec04153f2491483fb4ba30412abc",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            59,
+            17,
+            441,
+            481
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:180",
+        "code": "STR",
+        "name": "Strasbourg",
+        "providerTeamId": "180",
+        "providerTeamName": "Strasbourg",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/180.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "83b9b35d1b2c26f75b049c3297ac02fbbd57acc8",
+        "file": "assets/teams/normalized/soccer/180.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "c333d6e994596bde2dc5f617d31415120ad4edf30cac461f30e82511fa463ccf",
+        "bytes": 11931,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/180.png",
+          "sourceSha256": "6ea9bb62bce52eddea2d274f60924b9d08641287fb13d2845b7b5b3d30ac814f",
+          "sourceSize": [
+            200,
+            200
+          ],
+          "sourceAlphaBounds": [
+            0,
+            0,
+            200,
+            200
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:366",
+        "code": "SUN",
+        "name": "Sunderland",
+        "providerTeamId": "366",
+        "providerTeamName": "Sunderland",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/366.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "db43eb81e30368f6a00f227c67ae74ffcfab73e2",
+        "file": "assets/teams/normalized/soccer/366.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "5e4dad2ab99a6ae7da491197cfdb13c9acdef3f4299de0652ab68b16a8b35fb6",
+        "bytes": 8840,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/366.png",
+          "sourceSha256": "aee718a79be592a8bb36ab68b0960a1dbb5763692f4d91c3f4249f95edbf19af",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            13,
+            50,
+            488,
+            440
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:7911",
+        "code": "TSG",
+        "name": "TSG Hoffenheim",
+        "providerTeamId": "7911",
+        "providerTeamName": "TSG Hoffenheim",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/7911.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/7911.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "823621292af4d69fe81336ab0d12f6def3af5205",
+        "file": "assets/teams/normalized/soccer/7911.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "251346796ab072ef8f5eec3170895286b2cdac905207a7a09516eed9d69b6470",
+        "bytes": 6785,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/7911.png",
+          "sourceSha256": "8fe1207f20c067ae8be9f8af4ce4e622824f9d392691df43c2d7c4cfc43b5462",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            49,
+            13,
+            451,
+            485
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:3735",
+        "code": "TEL",
+        "name": "Telstar",
+        "providerTeamId": "3735",
+        "providerTeamName": "Telstar",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/3735.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/3735.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "017fb25717dceb47d045668ec850a2ecc12d7eb4",
+        "file": "assets/teams/normalized/soccer/3735.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "64eeaceb8b4d47b407b38d87ffd54683b0aa6e97b5f1924d1339fb1267d359eb",
+        "bytes": 8148,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/3735.png",
+          "sourceSha256": "57fec3c81aecd2efc56494b85031e43041533e1240a6abef0cf618abf2804d44",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            60,
+            19,
+            440,
+            481
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:239",
+        "code": "TOR",
+        "name": "Torino",
+        "providerTeamId": "239",
+        "providerTeamName": "Torino",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/239.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/239.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "f89558e30bb58bcd470cb996ca50ca6da01438d8",
+        "file": "assets/teams/normalized/soccer/239.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "0af9cafce7db63393e6dc34f614c7f0ed3be114309195d9b9b01d48a88d94a8d",
+        "bytes": 8539,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/239.png",
+          "sourceSha256": "24bacdd110ee8a4a3599c120e81db8b002c375c5c08c95cd3d7bd41e93f84046",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            52,
+            10,
+            448,
+            490
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:367",
+        "code": "TOT",
+        "name": "Tottenham Hotspur",
+        "providerTeamId": "367",
+        "providerTeamName": "Tottenham Hotspur",
+        "leagueIds": [
+          "eng.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/367.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "sourceBlob": "6e315e172d9f9f094dcf750278a4d4c04a2711ef",
+        "file": "assets/teams/normalized/soccer/367.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "d539455031fa211eba266bb43c294198d32202d8997d81091e3ce540f77b8856",
+        "bytes": 4144,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/367.png",
+          "sourceSha256": "f66f956414b0fd99df6a7e29bed0bd8a849f11d41bd749a1e08ff8d032570d35",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            138,
+            21,
+            362,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:179",
+        "code": "TOU",
+        "name": "Toulouse",
+        "providerTeamId": "179",
+        "providerTeamName": "Toulouse",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/179.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "735c8b373de98acc6296ab7da3b64121b86076c7",
+        "file": "assets/teams/normalized/soccer/179.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "8913ca4097d26c4dd0e5e3fef5f8fea07197fec2451e453c072884d2a9954286",
+        "bytes": 12906,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/179.png",
+          "sourceSha256": "53782a7e221353360a53eef230873478ffe5454eb5afe771b1163376fbc5614f",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            23,
+            478,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:170",
+        "code": "TRY",
+        "name": "Troyes",
+        "providerTeamId": "170",
+        "providerTeamName": "Troyes",
+        "leagueIds": [
+          "fra.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/170.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "sourceBlob": "e7fc6e03ee2099203fe7fa69a5fe4ad140cde7e7",
+        "file": "assets/teams/normalized/soccer/170.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "494d0c1bd007266cc920565ed62d6adb4f41c2b65c9b865ffc8ed3b5ff39d477",
+        "bytes": 9735,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/170.png",
+          "sourceSha256": "34049d3fb98cc26bde433a4f28a0ebfb584a8e3b8d770eb6bc03f2cef06e08ad",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            63,
+            20,
+            435,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:118",
+        "code": "UDI",
+        "name": "Udinese",
+        "providerTeamId": "118",
+        "providerTeamName": "Udinese",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/118.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/118.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "0e08f7606105abda2a45f924b3c7f5279f8bf088",
+        "file": "assets/teams/normalized/soccer/118.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "ae665aae971b2e03c6ec7ff8a725679484cde67b70e4e1432e36b418f342c7d6",
+        "bytes": 11057,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/118.png",
+          "sourceSha256": "f9acfd56f4ffb566c583319cd9e2cfd0d66d2c77fa5a8cbfd96f1301b4a29ce7",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            13,
+            13,
+            487,
+            487
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:94",
+        "code": "VAL",
+        "name": "Valencia",
+        "providerTeamId": "94",
+        "providerTeamName": "Valencia",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/94.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/94.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "3b1bc06e758cd39b6a134f2d88d772a6264e58b6",
+        "file": "assets/teams/normalized/soccer/94.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "09a9c2d64fefbe1c878dd972bc0067d12ec9887cf42be37a7d3400a7dbe18f8e",
+        "bytes": 7058,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/94.png",
+          "sourceSha256": "4961f443b5d247b7a1ba5e2cc51bdea51633c4c0fe50a78f260e6f03b438b134",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            76,
+            21,
+            424,
+            479
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:17530",
+        "code": "VEN",
+        "name": "Venezia",
+        "providerTeamId": "17530",
+        "providerTeamName": "Venezia",
+        "leagueIds": [
+          "ita.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/17530.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/17530.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "sourceBlob": "31ee4a065e45e74e55175fb1d71e85ec3ed1d6dc",
+        "file": "assets/teams/normalized/soccer/17530.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "f1517908b91da0d8b46f4ad115ebd4b719fda4675519e7e3d6537ac1e613962c",
+        "bytes": 5395,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/17530.png",
+          "sourceSha256": "0607a31c4b325feb0f07ae7b6067c4bcccb902643141f026f3626b539ea99b7a",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            18,
+            72,
+            482,
+            431
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:134",
+        "code": "VFB",
+        "name": "VfB Stuttgart",
+        "providerTeamId": "134",
+        "providerTeamName": "VfB Stuttgart",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/134.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/134.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "2582a983e6c71a7ed3ff0fb0109fea25912fd22d",
+        "file": "assets/teams/normalized/soccer/134.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "08da2fa0ca19271144b939640677322a0caab09b096cfaf5b92f5e0733187f59",
+        "bytes": 9097,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/134.png",
+          "sourceSha256": "8a32c1caf1e7ebbd41e52ad28d3781002a789ab12826479b6abbbe78ec77c86b",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            43,
+            20,
+            456,
+            481
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:102",
+        "code": "VIL",
+        "name": "Villarreal",
+        "providerTeamId": "102",
+        "providerTeamName": "Villarreal",
+        "leagueIds": [
+          "esp.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/102.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/102.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "sourceBlob": "3aed9590b01f1f94fc3029628bddc2ee6fed53c1",
+        "file": "assets/teams/normalized/soccer/102.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "1a0608b3fdc1ab61a2937d1c295f62efccb01783e527f41e7ab60dcafaaa6999",
+        "bytes": 9587,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/102.png",
+          "sourceSha256": "69c1768ac26ad66621c5133c1ad5788cec94fc3ab7ad5645c23db16c37617539",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            64,
+            18,
+            436,
+            481
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:5309",
+        "code": "VSC",
+        "name": "Vitória de Guimaraes",
+        "providerTeamId": "5309",
+        "providerTeamName": "Vitória de Guimaraes",
+        "leagueIds": [
+          "por.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/5309.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/5309.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "sourceBlob": "fc28815dbd37ebd6ff2d9c74d3668acd4ab5f5a4",
+        "file": "assets/teams/normalized/soccer/5309.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "8cdc6e9465732bfe9e92c2b344eb846bb6cdca035a804e747927cf9fb0bd7321",
+        "bytes": 8419,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/5309.png",
+          "sourceSha256": "8699c1b9bba8936bc6e8b83314bdd739f42365423bf86a67abacc9fca3aef260",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            85,
+            11,
+            413,
+            493
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:137",
+        "code": "SVW",
+        "name": "Werder Bremen",
+        "providerTeamId": "137",
+        "providerTeamName": "Werder Bremen",
+        "leagueIds": [
+          "ger.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/137.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/137.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "sourceBlob": "c9739246b5177db228c0590a7f4fabb40e9184af",
+        "file": "assets/teams/normalized/soccer/137.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "19425b6b969dc504fce9abb9406677becc0017211a7d9918edf78aa01613c0ca",
+        "bytes": 6114,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/137.png",
+          "sourceSha256": "54937bfaf99876aef4942503e6131368294f32ad01ec6d04e1b8ac08ec9f91fe",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            97,
+            16,
+            403,
+            482
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:371",
+        "code": "WHU",
+        "name": "West Ham United",
+        "aliases": [],
+        "sourceCode": "WHU",
+        "sourceFile": "assets/teams/sources/soccer-verified/371.png",
+        "sourceBlob": "d663b7b5d4b72171556e6f3457d6ed165bee5aac",
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/371.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "sourcePool": "EPL",
+        "currentSeasonMembership": "NOT_ASSERTED",
+        "file": "assets/teams/normalized/soccer/371.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "c782c3ec01f6a6e3d5a8bc5a6f7950afad6975f014b51a1f8e188e9965b728d0",
+        "bytes": 8457,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/371.png",
+          "sourceSha256": "4e74106a88addf17a9f3f0af437cd9d85c28759e93e10da0f27dd00184c234b8",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            48,
+            23,
+            452,
+            473
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/epl/whu.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/epl/whu.png",
+          "sourceBlob": "d663b7b5d4b72171556e6f3457d6ed165bee5aac",
+          "use": "AUDIT_ONLY_NOT_ACTIVE_IDENTITY_UNTRUSTED"
+        },
+        "providerTeamId": "371",
+        "providerTeamName": "West Ham United",
+        "identitySource": "ESPN public team metadata: country-league team directories; Leicester team endpoint /eng.2/teams/375",
+        "sourceStatus": "REPLACED_AFTER_VISUAL_IDENTITY_AUDIT",
+        "leagueIds": [],
+        "coverageRole": "LEGACY_EXTRA_NOT_IN_CURRENT_LEAGUE_SNAPSHOTS"
+      },
+      {
+        "id": "SOCCER:ESPN:156",
+        "code": "WIL",
+        "name": "Willem II",
+        "providerTeamId": "156",
+        "providerTeamName": "Willem II",
+        "leagueIds": [
+          "ned.1"
+        ],
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/156.png",
+        "sourceFile": "assets/teams/sources/soccer-verified/156.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Provider-hosted team mark; commercial usage basis not established by download."
+        },
+        "identitySource": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "sourceBlob": "860c74e2344e84e9e23a6ac917c9d3cf85eb2e1f",
+        "file": "assets/teams/normalized/soccer/156.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "ee22423c56d5306b31fb3e2b0fb3a9d56116ec7e7fdf70bc49d87f5b14370c1a",
+        "bytes": 6569,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/156.png",
+          "sourceSha256": "1d693c20e28ab2b275d7e57635588e3784fad782f68429a11ca4d3c9136fa683",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            115,
+            20,
+            386,
+            480
+          ]
+        }
+      },
+      {
+        "id": "SOCCER:ESPN:380",
+        "code": "WOL",
+        "name": "Wolverhampton Wanderers",
+        "aliases": [],
+        "sourceCode": "WOL",
+        "sourceFile": "assets/teams/sources/soccer-verified/380.png",
+        "sourceBlob": "779438c819bc23714b4547a04f4bfff4f555bac3",
+        "sourceUrl": "https://a.espncdn.com/i/teamlogos/soccer/500/380.png",
+        "rights": {
+          "status": "UNVERIFIED",
+          "note": "Existing repository mark; commercial permission not established by copying."
+        },
+        "sourcePool": "EPL",
+        "currentSeasonMembership": "NOT_ASSERTED",
+        "file": "assets/teams/normalized/soccer/380.png",
+        "width": 80,
+        "height": 80,
+        "sha256": "2422a5a88f1cc778e6afaa45c3b6e8b9684e07614913d3817760e846716e5b2c",
+        "bytes": 6213,
+        "normalization": {
+          "canvas": [
+            80,
+            80
+          ],
+          "contentBox": [
+            72,
+            72
+          ],
+          "fit": "contain",
+          "position": "center",
+          "sourceFile": "assets/teams/sources/soccer-verified/380.png",
+          "sourceSha256": "a1a06a97b433a7e1b32f9ec9ae5f9d60acdb95dc85f70794351df4dea31adfe4",
+          "sourceSize": [
+            500,
+            500
+          ],
+          "sourceAlphaBounds": [
+            21,
+            52,
+            479,
+            447
+          ]
+        },
+        "legacyRepositorySource": {
+          "sourceFile": "assets/teams/sources/epl/wol.png",
+          "sourceUrl": "https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/frontend/public/logos/epl/wol.png",
+          "sourceBlob": "779438c819bc23714b4547a04f4bfff4f555bac3",
+          "use": "AUDIT_ONLY_NOT_ACTIVE_IDENTITY_UNTRUSTED"
+        },
+        "providerTeamId": "380",
+        "providerTeamName": "Wolverhampton Wanderers",
+        "identitySource": "ESPN public team metadata: country-league team directories; Leicester team endpoint /eng.2/teams/375",
+        "sourceStatus": "REPLACED_AFTER_VISUAL_IDENTITY_AUDIT",
+        "leagueIds": [],
+        "coverageRole": "LEGACY_EXTRA_NOT_IN_CURRENT_LEAGUE_SNAPSHOTS"
+      }
+    ]
+  },
+  "provenanceNote": "MLB uses verified repository originals; soccer uses corrected provider-mapped web assets; NHL uses official directory SVGs. Original repository files retained for audit, not trusted by filename.",
+  "soccerCoverage": {
+    "leagueSnapshots": [
+      {
+        "id": "eng.1",
+        "name": "Premier League",
+        "nameZh": "英超",
+        "expectedCount": 20,
+        "observedAt": "2026-10-28",
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams?limit=1000",
+        "teamIds": [
+          "349",
+          "359",
+          "362",
+          "337",
+          "331",
+          "363",
+          "388",
+          "384",
+          "368",
+          "370",
+          "306",
+          "373",
+          "357",
+          "364",
+          "382",
+          "360",
+          "361",
+          "393",
+          "366",
+          "367"
+        ]
+      },
+      {
+        "id": "esp.1",
+        "name": "LaLiga",
+        "nameZh": "西甲",
+        "expectedCount": 20,
+        "observedAt": "2026-10-28",
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams?limit=1000",
+        "teamIds": [
+          "96",
+          "93",
+          "1068",
+          "83",
+          "85",
+          "90",
+          "3751",
+          "88",
+          "2922",
+          "1538",
+          "99",
+          "97",
+          "87",
+          "101",
+          "244",
+          "86",
+          "89",
+          "243",
+          "94",
+          "102"
+        ]
+      },
+      {
+        "id": "ita.1",
+        "name": "Serie A",
+        "nameZh": "義甲",
+        "expectedCount": 20,
+        "observedAt": "2026-10-28",
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/teams?limit=1000",
+        "teamIds": [
+          "103",
+          "104",
+          "105",
+          "107",
+          "2925",
+          "2572",
+          "109",
+          "4057",
+          "3263",
+          "110",
+          "111",
+          "112",
+          "113",
+          "4007",
+          "114",
+          "115",
+          "3997",
+          "239",
+          "118",
+          "17530"
+        ]
+      },
+      {
+        "id": "ger.1",
+        "name": "Bundesliga",
+        "nameZh": "德甲",
+        "expectedCount": 18,
+        "observedAt": "2026-10-28",
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/teams?limit=1000",
+        "teamIds": [
+          "598",
+          "131",
+          "132",
+          "124",
+          "268",
+          "125",
+          "3841",
+          "122",
+          "127",
+          "2950",
+          "11420",
+          "126",
+          "3307",
+          "10388",
+          "133",
+          "7911",
+          "134",
+          "137"
+        ]
+      },
+      {
+        "id": "fra.1",
+        "name": "Ligue 1",
+        "nameZh": "法甲",
+        "expectedCount": 18,
+        "observedAt": "2026-10-28",
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=1000",
+        "teamIds": [
+          "172",
+          "174",
+          "7868",
+          "6997",
+          "3236",
+          "2697",
+          "175",
+          "166",
+          "273",
+          "167",
+          "176",
+          "2502",
+          "6851",
+          "160",
+          "169",
+          "180",
+          "179",
+          "170"
+        ]
+      },
+      {
+        "id": "por.1",
+        "name": "Primeira Liga",
+        "nameZh": "葡超",
+        "expectedCount": 18,
+        "observedAt": "2026-10-28",
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams?limit=1000",
+        "teamIds": [
+          "21607",
+          "21613",
+          "15784",
+          "1929",
+          "2994",
+          "3472",
+          "21581",
+          "12216",
+          "21610",
+          "12698",
+          "437",
+          "3699",
+          "552",
+          "3696",
+          "3822",
+          "12215",
+          "2250",
+          "5309"
+        ]
+      },
+      {
+        "id": "ned.1",
+        "name": "Eredivisie",
+        "nameZh": "荷甲",
+        "expectedCount": 18,
+        "observedAt": "2026-10-28",
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/teams?limit=1000",
+        "teamIds": [
+          "2726",
+          "140",
+          "139",
+          "2566",
+          "145",
+          "152",
+          "153",
+          "142",
+          "143",
+          "3706",
+          "146",
+          "147",
+          "2565",
+          "148",
+          "3736",
+          "151",
+          "3735",
+          "156"
+        ]
+      }
+    ],
+    "topFiveCount": 96,
+    "sevenLeagueCount": 132,
+    "additionalLegacyCount": 5,
+    "uniqueClubCount": 137,
+    "note": "Provider directory snapshots; UEFA participation is not inferred from domestic league or legacy UCL folders."
+  }
+};
