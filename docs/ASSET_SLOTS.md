@@ -103,3 +103,21 @@ Fallback happens per slot and is reported on the element as `data-state` and `da
   - It switches to that registry only if the registry validates and its `registryVersion` differs from the local copy.
   - An invalid remote registry is ignored, and the page keeps the bundled one. Both cases are covered by the browser suite.
 - Nothing in HTML, CSS or the components names a file, so a CMS changes art by publishing a new registry document.
+
+## Geometric native-size candidate v2
+
+The five standalone WEBPs from the Mosport UI Drive package
+`MOSPORT_B_Native_Illustration_Candidates_v2_20261028.zip` are registered as
+`native-illustration-v2`, all CANDIDATE. Source:
+https://drive.google.com/file/d/1ZpyBWjmQTlLXKB5gjzr-h5_cdV7L7am8/view
+
+Open `site/index.html?art=candidate:native-illustration-v2` for the desktop/mobile
+preview, or `site/match.html?game=DEMO-0041&art=candidate:native-illustration-v2`.
+Use `&slots=1` to inspect resolution, version and state; `&zones=1` shows safe zones.
+These are geometric procedural illustrations, not painterly final artwork. Native
+dimensions and SHA-256 were verified against the source package. No active version
+or approval record was changed. Production refuses the candidate. The unnamed
+`?art=candidate` continues to preview the earlier `chatgpt-art-v1` for comparison.
+
+Additional browser check: `node tests/e2e/native-candidate.js` (image loading,
+desktop/mobile/match geometry parity, overflow, production refusal and screenshots).

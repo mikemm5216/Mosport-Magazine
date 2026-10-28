@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "registryVersion": "2026-10-28.3",
-  "updatedAt": "2026-10-28T16:25:00+08:00",
-  "updatedBy": "MOSPORT-B engineering",
+  "registryVersion": "2026-10-28.3-native-v2-preview",
+  "updatedAt": "2026-10-28",
+  "updatedBy": "ChatGPT",
   "formats": [
     "webp",
     "png",
@@ -219,6 +219,58 @@
             "approvedBy": null,
             "approvedAt": null,
             "notes": "Crowds are distant, non-identifiable texture. Arena boards carry illegible glyph-like marks, no readable text or marks. Upscaled from a ~0.4 MP panel: soft at 100% on large screens. Alternative crop made by Claude Code from the same source sheet before the ChatGPT package arrived; kept for comparison only."
+          }
+        },
+        {
+          "id": "native-illustration-v2",
+          "status": "CANDIDATE",
+          "file": "assets/art/cover-desktop-art.v2.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1260,
+          "height": 2440,
+          "sha256": "95311122c4f291f6d9aa85e6ed70bb62ba41d845beef2219459940bcc3b3763c",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.62,
+                "y": 0.4
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.62,
+                "y": 0.4
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "arena",
+              "court",
+              "lights",
+              "geometry"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original procedural illustration candidate; internal design review only",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Native_Editorial_Art_v2 locally available generated illustration sources",
+            "generator": "procedural vector/raster illustration",
+            "generatorPrompt": "MOSPORT navy/orange basketball equipment and arena art; no people, text, or logos",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT MOSPORT-B visual review",
+            "addedAt": "2026-10-28T18:42:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "note": "Standalone native-size procedural illustration, NOT the painterly high-detail final approved artwork."
           }
         },
         {
@@ -443,6 +495,58 @@
           }
         },
         {
+          "id": "native-illustration-v2",
+          "status": "CANDIDATE",
+          "file": "assets/art/cover-mobile-art.v2.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1170,
+          "height": 2532,
+          "sha256": "affd79c41acb55c0f374c3d931bb881185a38b3311421fd120f61b2bd258caf0",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.7,
+                "y": 0.34
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.7,
+                "y": 0.34
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "arena",
+              "court",
+              "lights",
+              "geometry"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original procedural illustration candidate; internal design review only",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Native_Editorial_Art_v2 locally available generated illustration sources",
+            "generator": "procedural vector/raster illustration",
+            "generatorPrompt": "MOSPORT navy/orange basketball equipment and arena art; no people, text, or logos",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT MOSPORT-B visual review",
+            "addedAt": "2026-10-28T18:42:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "note": "Standalone native-size procedural illustration, NOT the painterly high-detail final approved artwork."
+          }
+        },
+        {
           "id": "chatgpt-art-v1",
           "status": "CANDIDATE",
           "file": "assets/art/cover-mobile-art.v1.webp",
@@ -650,6 +754,58 @@
             "approvedBy": null,
             "approvedAt": null,
             "notes": "Crowds are distant, non-identifiable texture. Arena boards carry illegible glyph-like marks, no readable text or marks. Upscaled from a ~0.4 MP panel: soft at 100% on large screens. Alternative crop made by Claude Code from the same source sheet before the ChatGPT package arrived; kept for comparison only."
+          }
+        },
+        {
+          "id": "native-illustration-v2",
+          "status": "CANDIDATE",
+          "file": "assets/art/today-feature-art.v2.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1600,
+          "height": 800,
+          "sha256": "9ad0fcfc3aebcf8b5fb83f0d334f291eeff503363f0ed324bbd05f5725475090",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.7
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.7
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "arena",
+              "court",
+              "lights",
+              "geometry"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original procedural illustration candidate; internal design review only",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Native_Editorial_Art_v2 locally available generated illustration sources",
+            "generator": "procedural vector/raster illustration",
+            "generatorPrompt": "MOSPORT navy/orange basketball equipment and arena art; no people, text, or logos",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT MOSPORT-B visual review",
+            "addedAt": "2026-10-28T18:42:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "note": "Standalone native-size procedural illustration, NOT the painterly high-detail final approved artwork."
           }
         },
         {
@@ -861,6 +1017,58 @@
           }
         },
         {
+          "id": "native-illustration-v2",
+          "status": "CANDIDATE",
+          "file": "assets/art/match-hero-art.v2.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 2560,
+          "height": 720,
+          "sha256": "4d3c0b8c005c467f89ecef5ca58c8d26c6e418fe298ff2f8c4c89be971dded64",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.6
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.5,
+                "y": 0.6
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "arena",
+              "court",
+              "lights",
+              "geometry"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original procedural illustration candidate; internal design review only",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Native_Editorial_Art_v2 locally available generated illustration sources",
+            "generator": "procedural vector/raster illustration",
+            "generatorPrompt": "MOSPORT navy/orange basketball equipment and arena art; no people, text, or logos",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT MOSPORT-B visual review",
+            "addedAt": "2026-10-28T18:42:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "note": "Standalone native-size procedural illustration, NOT the painterly high-detail final approved artwork."
+          }
+        },
+        {
           "id": "chatgpt-art-v1",
           "status": "CANDIDATE",
           "file": "assets/art/match-hero-art.v1.webp",
@@ -1017,6 +1225,58 @@
             "approvedBy": null,
             "approvedAt": null,
             "notes": "Crowds are distant, non-identifiable texture. Arena boards carry illegible glyph-like marks, no readable text or marks. Upscaled from a ~0.4 MP panel: soft at 100% on large screens. Alternative crop made by Claude Code from the same source sheet before the ChatGPT package arrived; kept for comparison only."
+          }
+        },
+        {
+          "id": "native-illustration-v2",
+          "status": "CANDIDATE",
+          "file": "assets/art/editorial-card-art.v2.webp",
+          "darkFile": null,
+          "format": "webp",
+          "width": 1200,
+          "height": 800,
+          "sha256": "fbd8d04878297ac05d4d6aaee5d0aedf306efe56c340b653b43240990595585f",
+          "crops": {
+            "desktop": {
+              "focal": {
+                "x": 0.8,
+                "y": 0.5
+              }
+            },
+            "mobile": {
+              "focal": {
+                "x": 0.8,
+                "y": 0.5
+              }
+            }
+          },
+          "content": {
+            "kinds": [
+              "equipment",
+              "arena",
+              "court",
+              "lights",
+              "geometry"
+            ],
+            "containsText": false,
+            "containsLogo": false,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "Original procedural illustration candidate; internal design review only",
+            "owner": "MOSPORT",
+            "source": "MOSPORT_B_Native_Editorial_Art_v2 locally available generated illustration sources",
+            "generator": "procedural vector/raster illustration",
+            "generatorPrompt": "MOSPORT navy/orange basketball equipment and arena art; no people, text, or logos",
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "ChatGPT MOSPORT-B visual review",
+            "addedAt": "2026-10-28T18:42:00+08:00",
+            "approvedBy": null,
+            "approvedAt": null,
+            "note": "Standalone native-size procedural illustration, NOT the painterly high-detail final approved artwork."
           }
         },
         {
