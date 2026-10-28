@@ -146,7 +146,7 @@ html[lang="en"] .sec-head h2 { font-family: 'Anton', Impact, sans-serif; font-we
 
 /* ======================= MOBILE ======================= */
 @media (max-width: 1023px) {
-  .page-home .topbar { display: none; }
+  .page-home #app:not(:has(> main.sheet)) .topbar { display: none; }  /* the cover carries its own top bar; a data-state page needs the shared one */
   .page-home { background: var(--paper); }
   .spread { display: flex; flex-direction: column; }
   .pg-cover { height: 100svh; min-height: 620px; max-height: 880px; }
@@ -219,3 +219,6 @@ html[lang="en"] .sec-head h2 { font-family: 'Anton', Impact, sans-serif; font-we
 /* Registry overlay "card-shade": keeps editorial-card-art behind the text side of the card readable. */
 .story-dark mo-art::after { content: ''; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(90deg, rgba(8, 19, 50, .94) 0%, rgba(8, 19, 50, .82) 50%, rgba(8, 19, 50, .25) 100%); }
+
+/* Non-OK data state on Today (no spread is drawn). */
+body.page-home main.sheet { max-width: 1240px; margin: 0 auto; padding: 20px 16px 48px; min-height: calc(100vh - 60px); }

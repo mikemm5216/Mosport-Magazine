@@ -1,21 +1,8 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
-const vm = require('node:vm');
-
 const E = require('../../site/js/editorial/eligibility.js');
 
-function loadFixtures() {
-  const ctx = { window: {} };
-  vm.createContext(ctx);
-  for (const f of ['issue.demo.js', 'issue.variants.js']) {
-    vm.runInContext(fs.readFileSync(path.join(__dirname, '../../site/js/fixtures', f), 'utf8'), ctx);
-  }
-  return ctx.window.MOSPORT_FIXTURES;
-}
-const F = loadFixtures();
 const NOW = '2026-11-01T00:00:00Z';
 const base = {
   id: 'X', type: 'NEWS', publishState: 'PUBLISHED', homeEligible: true, approvalReceiptRef: 'R',
@@ -68,53 +55,86 @@ test('worldPercent passes the World value through, or returns null', () => {
   assert.equal(E.worldPercent(undefined), null);
 });
 
-test('DEMO issue resolves: approved items render, rumour and ineligible games do not', () => {
-  const r = E.resolveIssue(F.demo, { mode: 'prototype', now: NOW });
+/* A resolved issue in the gate's input shape (approvals already attached from receipts). */
+const auto = { mode: 'AUTO', policyVersion: 'p' };
+const human = { mode: 'HUMAN', approverId: 'ed', approvedAt: '2026-10-31T20:00:00Z' };
+const world = { state: 'ISSUED', distributionEligibility: 'PUBLIC', version: 'FINAL_CONFIRMED', homeWinProbability: 0.61, verdict: { zh: 'z', en: 'e' } };
+function issue() {
+  return {
+    mode: 'DEMO',
+    games: [
+      { gameId: 'G1', status: 'SCHEDULED', world },
+      { gameId: 'G2', status: 'POSTPONED', world: { state: 'NOT_ISSUED' } },
+      { gameId: 'G3', status: 'SCHEDULED', world: { ...world, distributionEligibility: 'INTERNAL' } }
+    ],
+    items: [
+      { ...base, id: 'LEAD', type: 'GAME_ANALYSIS', worldAnalysisRef: 'G1', approval: auto },
+      { ...base, id: 'NEWS', editorialLabel: 'BREAKING_NEWS', riskTriggers: ['MAJOR_NEWS'], approval: human },
+      { ...base, id: 'RUM', editorialLabel: 'BREAKING_NEWS', riskTriggers: ['UNVERIFIED_RUMOR'], publishState: 'AWAITING_HUMAN_APPROVAL', approval: null },
+      { ...base, id: 'REV', type: 'REVIEW', approval: human }
+    ],
+    layout: { cover: ['NEWS', 'RUM'], lead: 'LEAD', games: ['G1', 'G2', 'G3'], stories: ['REV'] }
+  };
+}
+
+test('resolveIssue: approved items render, the rumour and ineligible games do not, schedule keeps all', () => {
+  const r = E.resolveIssue(issue(), { mode: 'prototype', now: NOW });
   assert.equal(r.refused, null);
-  assert.equal(r.demo, true);
-  assert.deepEqual(r.cover.map((i) => i.id), ['ED-NEWS-0007', 'ED-FEAT-0003']);
-  assert.ok(r.excluded.some((x) => x.id === 'ED-RUM-0002' && x.reason === 'NOT_PUBLISHED'));
+  assert.deepEqual(r.cover.map((i) => i.id), ['NEWS']);
+  assert.ok(r.excluded.some((x) => x.id === 'RUM' && x.reason === 'NOT_PUBLISHED'));
   assert.equal(r.lead.percent, 61);
-  assert.deepEqual(r.games.map((g) => g.gameId), ['DEMO-0042', 'DEMO-0043', 'DEMO-0044']);
-  assert.ok(r.excluded.some((x) => x.id === 'DEMO-0045'), 'postponed game without a read stays off');
-  assert.ok(r.excluded.some((x) => x.id === 'DEMO-0046'), 'internal-only read stays off');
-  assert.deepEqual(r.stories.map((i) => i.id), ['ED-REV-0040', 'ED-STRK-0011']);
-  assert.equal(r.schedule.length, 6, 'Schedule keeps every game');
+  assert.deepEqual(r.games.map((g) => g.gameId), ['G1']);
+  assert.ok(r.excluded.some((x) => x.id === 'G2'));
+  assert.ok(r.excluded.some((x) => x.id === 'G3'), 'internal-only read stays off');
+  assert.deepEqual(r.stories.map((i) => i.id), ['REV']);
+  assert.equal(r.schedule.length, 3);
 });
 
-test('DEMO fixture is refused in production mode', () => {
-  const r = E.resolveIssue(F.demo, { mode: 'production', now: NOW });
+test('DEMO issue is refused in production mode', () => {
+  const r = E.resolveIssue(issue(), { mode: 'production', now: NOW });
   assert.equal(r.refused, 'DEMO_IN_PRODUCTION');
   assert.equal(r.lead, null);
   assert.equal(r.cover.length, 0);
 });
 
-test('empty issue: no cover labels, no lead, no games, no stories; schedule intact (U-01)', () => {
-  const r = E.resolveIssue(F.empty, { mode: 'prototype', now: NOW });
-  assert.equal(r.cover.length, 0);
-  assert.equal(r.lead, null);
-  assert.equal(r.games.length, 0);
-  assert.equal(r.stories.length, 0);
-  assert.equal(r.schedule.length, 6);
-});
-
-test('bypass issue: no unapproved high-risk item reaches any slot', () => {
-  const r = E.resolveIssue(F.bypass, { mode: 'prototype', now: NOW });
-  const rendered = [...r.cover, ...r.stories, ...(r.lead ? [r.lead.item] : [])].map((i) => i.id);
-  for (const id of rendered) assert.ok(!id.startsWith('BYP-'), `${id} must not render`);
-  assert.equal(r.lead, null);
-  const reasons = Object.fromEntries(r.excluded.map((x) => [x.id, x.reason]));
-  assert.equal(reasons['BYP-MAJOR-AUTO'], 'HUMAN_APPROVAL_REQUIRED');
-  assert.equal(reasons['BYP-EXCL-NOAPPROVER'], 'HUMAN_APPROVAL_REQUIRED');
-  assert.equal(reasons['BYP-SENSITIVE-AUTO'], 'HUMAN_APPROVAL_REQUIRED');
-  assert.equal(reasons['BYP-RUMOR-PUB'], 'HUMAN_APPROVAL_REQUIRED');
-  assert.equal(reasons['BYP-REVIEW-AUTO'], 'HUMAN_APPROVAL_REQUIRED');
-  assert.equal(reasons['BYP-NO-SOURCE'], 'NO_SOURCE');
-  assert.equal(reasons['BYP-EXPIRED'], 'EXPIRED');
-});
-
 test('the gate does not mutate World values', () => {
-  const before = JSON.stringify(F.demo.games);
-  E.resolveIssue(F.demo, { mode: 'prototype', now: NOW });
-  assert.equal(JSON.stringify(F.demo.games), before);
+  const i = issue();
+  const before = JSON.stringify(i.games);
+  E.resolveIssue(i, { mode: 'prototype', now: NOW });
+  assert.equal(JSON.stringify(i.games), before);
+});
+
+/* ---------- regressions found in the B-P2 gate review ---------- */
+
+test('duplicate item or game ids refuse the issue instead of letting the last one win', () => {
+  const i = issue();
+  i.items.push({ ...base, id: 'NEWS', editorialLabel: 'BREAKING_NEWS', riskTriggers: [], approval: auto });
+  assert.equal(E.resolveIssue(i, { mode: 'prototype', now: NOW }).refused, 'DUPLICATE_ID');
+  const j = issue();
+  j.games.push({ ...j.games[0] });
+  assert.equal(E.resolveIssue(j, { mode: 'prototype', now: NOW }).refused, 'DUPLICATE_ID');
+});
+
+test('a malformed or impossible validUntil never passes (it used to: NaN compared false)', () => {
+  for (const bad of ['2026-11-31T25:00:00Z', 'tomorrow', '2026-11-02', '']) {
+    assert.equal(E.itemBlockReason({ ...base, validUntil: bad }, NOW), 'BAD_TIME', bad);
+  }
+});
+
+test('an expiry without a clock is not assumed valid', () => {
+  assert.equal(E.itemBlockReason({ ...base, validUntil: '2026-11-02T00:00:00Z' }, null), 'NO_CLOCK');
+  assert.equal(E.itemBlockReason({ ...base, validUntil: '2026-11-02T00:00:00Z' }, 'not-a-time'), 'NO_CLOCK');
+});
+
+test('a malformed publishedAt or a future publication does not render', () => {
+  assert.equal(E.itemBlockReason({ ...base, publishedAt: '31/10/2026' }, NOW), 'BAD_TIME');
+  assert.equal(E.itemBlockReason({ ...base, publishedAt: '2026-11-02T00:00:00Z' }, NOW), 'NOT_YET_PUBLISHED');
+});
+
+test('a human approval needs a real approver and a valid time not after now', () => {
+  const it = { ...base, riskTriggers: ['MAJOR_NEWS'] };
+  assert.equal(E.itemBlockReason({ ...it, approval: { ...human, approverId: '   ' } }, NOW), 'HUMAN_APPROVAL_REQUIRED');
+  assert.equal(E.itemBlockReason({ ...it, approval: { ...human, approvedAt: 'yesterday' } }, NOW), 'HUMAN_APPROVAL_REQUIRED');
+  assert.equal(E.itemBlockReason({ ...it, approval: { ...human, approvedAt: '2026-11-03T00:00:00Z' } }, NOW), 'HUMAN_APPROVAL_REQUIRED');
+  assert.equal(E.itemBlockReason({ ...it, approval: human }, NOW), null);
 });

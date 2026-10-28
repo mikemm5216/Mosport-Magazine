@@ -75,3 +75,11 @@ mo-art img { width: 100%; height: 100%; display: block; }
 .mo-zone-subject { border-color: #FF3EA5; background: rgba(255, 62, 165, .08); }
 .mo-zone span { position: absolute; left: 2px; top: 2px; font: 11px/1.2 monospace; color: #000; background: #36F1CD; padding: 1px 3px; }
 .mo-zone-subject span { background: #FF3EA5; color: #fff; }
+
+/* Data states (B-P2-03): loading, refused, invalid, load failure, expired, partial. */
+.state-msg { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin: 24px 0; padding: 20px 22px; border: 1px solid var(--rule); border-left: 4px solid var(--ink3); border-radius: 8px; background: var(--card); color: var(--ink); font-size: 16px; line-height: 1.55; max-width: 720px; }
+.state-msg p { margin: 0; }
+.state-invalid, .state-load_failed, .state-refused { border-left-color: var(--red); }
+.state-stale, .state-partial { border-left-color: var(--orange); }
+.state-partial { font-size: 14px; padding: 12px 16px; }
+main.sheet > .state-msg:first-child { margin-top: 40px; }
