@@ -7,6 +7,7 @@ for(const w of [1440,390]){
  const imgs=await p.evaluate(async()=>Promise.all([...document.images].map(async i=>{try{await i.decode();return i.naturalWidth>0&&i.naturalHeight>0}catch{return false}})));
  assert.equal(imgs.length,277);assert.ok(imgs.every(Boolean));checks++;
  assert.equal(await p.locator('#cpbl figure').count(),6);checks++;
+ assert.ok(await p.locator('#cpbl img').evaluateAll(is=>is.every(i=>i.naturalWidth===80&&i.naturalHeight===80&&i.getBoundingClientRect().width===80&&i.getBoundingClientRect().height===80)));checks++;
  assert.equal(await p.locator('#flags figure').count(),271);checks++;
  assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));checks++;
  assert.deepEqual(errors,[]);checks++;

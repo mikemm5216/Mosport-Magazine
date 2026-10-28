@@ -41,7 +41,7 @@ imitations of recognisable stars, team logos and text.
 | Slot | Deliver | Fit | Fallback |
 |---|---|---|---|
 | `brand-mark` (MOSPORT monogram) | 512 × 512 SVG or PNG | `contain` | Letter "M" in a rounded box |
-| `teamLogos.entries.<TRICODE>` | 512 × 512 transparent SVG, PNG or WebP, file `assets/teams/nba/<code>.png` | `contain`, never cropped | Tricode on the team colour |
+| `teamLogos.entries.<TRICODE>` | 80 × 80 transparent PNG; preserved original plus `assets/teams/normalized/nba/<code>.png` | `contain`, never cropped | Tricode on the team colour |
 
 Team-logo entries are empty until rights-cleared files exist (issue #5).
 
@@ -143,3 +143,17 @@ flags and sports federation/IOC symbols must not be silently interchanged.
 Open `site/asset-catalog.html` to inspect/search both collections. This adds an
 asset collection; it does not enable CPBL games or national-team pages in the NBA
 magazine. `npm run assets:check` and the browser asset suite verify the collection.
+
+## Uniform team-logo standard (Founder correction)
+
+All imported team marks use an **80×80 transparent canvas**. Trim transparent
+source margins, scale proportionally into a 72×72 content box, and centre with at
+least 4px padding. Never stretch a mark. The originals remain in their original
+paths; active records point to normalized derivatives with their own dimensions
+and hashes. `normalization` records source path, source dimensions, source hash
+and alpha bounds. This standard applies to future league-logo imports too.
+
+Rebuild NBA + CPBL derivatives: `python scripts/normalize-team-logos.py`, then
+`npm run registry:build`. The catalogue uses exactly 80×80 CSS pixels for every
+CPBL mark. The magazine retains its common per-role responsive sizes for team
+logos; every member of a role uses the same box and object-fit: contain.

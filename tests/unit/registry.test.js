@@ -130,3 +130,12 @@ test('repository NBA logos load in prototype, but unverified rights never enter 
     assert.equal(REG.teamLogos.entries[code].versions[0].rights.status, 'UNVERIFIED');
   }
 });
+
+test('all active team-mark canvases are 80×80; original versions stay available', () => {
+  for (const slot of Object.values(REG.teamLogos.entries)) {
+    const v=slot.versions.find(v=>v.id===slot.activeVersion);
+    assert.equal(v.width,80);assert.equal(v.height,80);
+    assert.equal(v.normalization.fit,'contain');
+    assert.ok(slot.versions.some(s=>s.file===v.normalization.sourceFile));
+  }
+});

@@ -46,7 +46,7 @@ site/                 static site (no build step); open site/index.html
   js/editorial/       eligibility gate (pure functions, unit-tested)
   js/fixtures/        DEMO and empty issue fixtures
   js/                 components (logo/cover slots), i18n, page renderers
-  assets/             fonts (OFL), brand mark, art/ (placeholder vectors), teams/nba (empty)
+  assets/             fonts (OFL), brand mark, art/ (placeholder vectors), teams/ (preserved originals + normalized derivatives)
 tests/unit/           node --test
 tests/e2e/            Playwright browser checks + screenshots
 docs/                 founder specs, ADRs, roadmap, reports
@@ -68,3 +68,8 @@ npm run test:e2e    # writes screenshots to artifacts/
 
 Before saying a change is done: run `npm test`, look at the screenshots, and
 compare them with the visual master. Compilation is not visual acceptance.
+
+Team-logo delivery standard: 80×80 transparent canvas, proportionally contained
+and centred in 72×72, preserving original sources and hashes. See ASSET_SLOTS.md
+and scripts/normalize-team-logos.py. Never copy arbitrary native dimensions into
+the active image registry as if they were a consistent delivery size.

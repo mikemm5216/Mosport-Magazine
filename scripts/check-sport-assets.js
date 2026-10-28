@@ -9,9 +9,15 @@ const seen=new Set();
 for(const a of [...cpbl.entries,...flags.entries]){
  assert.ok(!seen.has(a.file));seen.add(a.file);assert.ok(a.file.startsWith('assets/')&&!a.file.includes('..'));
  const b=fs.readFileSync(path.join(site,a.file));assert.ok(b.length>0);assert.equal(b.length,a.bytes);assert.equal(crypto.createHash('sha256').update(b).digest('hex'),a.sha256);
- if(a.file.endsWith('.png')){assert.equal(b.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert.equal(b.readUInt32BE(16),a.width);assert.equal(b.readUInt32BE(20),a.height);assert.ok(a.sourceUrl.startsWith('https://www.cpbl.com.tw/'));}
+ if(a.file.endsWith('.png')){assert.equal(b.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert.equal(b.readUInt32BE(16),a.width);assert.equal(b.readUInt32BE(20),a.height);assert.ok(a.sourceUrl.startsWith('https://www.cpbl.com.tw/'));assert.equal(a.width,80);assert.equal(a.height,80);const src=fs.readFileSync(path.join(site,a.normalization.sourceFile));assert.equal(crypto.createHash('sha256').update(src).digest('hex'),a.normalization.sourceSha256);}
  else {const svg=b.toString();assert.match(svg,/<svg\b/);assert.doesNotMatch(svg,/<script|<foreignObject|(?:href|src)\s*=\s*["'](?:https?:|\/\/|data:)/i);assert.equal(a.rights.licence,'MIT');}
 }
 for(const [stem,name] of [['cpbl-team-registry','MOSPORT_CPBL_ASSETS'],['flag-registry','MOSPORT_FLAG_ASSETS']]){const j=fs.readFileSync(path.join(site,'data',stem+'.json'),'utf8').trim();assert.equal(fs.readFileSync(path.join(site,'data',stem+'.js'),'utf8'),'window.'+name+' = '+j+';\n');}
 assert.match(fs.readFileSync(path.join(site,'assets/flags/LICENSE.txt'),'utf8'),/Permission is hereby granted/);
+const nba=JSON.parse(fs.readFileSync(path.join(site,'data/asset-registry.json')));
+for(const slot of Object.values(nba.teamLogos.entries)){
+ const a=slot.versions.find(v=>v.id===slot.activeVersion),b=fs.readFileSync(path.join(site,a.file));
+ assert.equal(a.width,80);assert.equal(a.height,80);assert.equal(b.readUInt32BE(16),80);assert.equal(b.readUInt32BE(20),80);
+ const src=fs.readFileSync(path.join(site,a.normalization.sourceFile));assert.equal(crypto.createHash('sha256').update(src).digest('hex'),a.normalization.sourceSha256);
+}
 console.log('Sport assets OK: 6 CPBL marks, 249 ISO flags + 22 additional symbols; hashes, dimensions, local copies and licence checked');
