@@ -8,6 +8,7 @@ Issue #5. Question from the independent review: can the 30 NBA PNGs already in
 | Item | Finding |
 |---|---|
 | Files | `frontend/public/logos/nba/*.png`: 31 files (30 teams plus both `was.png` and `wsh.png`). The same images also appear flat as `frontend/public/logos/nba-*.png`; `nba/lal.png` and `nba-lal.png` are byte-identical. |
+| Second copy | The path cited in Issue #5, `public/logos/nba/*.png` at the repo root, holds 30 files (no `wsh.png`). 27 are byte-identical to the `frontend/` copy. `gsw`, `nyk` and `sas` differ (also 500×500, Photoshop XMP): two editions of the same marks, with no record of which is current or where either came from. |
 | Format | 500×500 RGBA PNG. Embedded XMP says the files were edited in Adobe Photoshop 25. |
 | Content | Official NBA team marks (registered trademarks of the NBA and its teams). |
 | Recorded source / licence | **None.** There is no README, manifest, licence file or source URL next to the files. `scripts/generate-placeholders.js` only creates 1×1 stand-ins for missing paths, and the `Audit_Report.md` mentions logo remediation only for EPL stubs. The clone is shallow (single commit), so the commit that added the files and its message were not inspected. |
