@@ -137,8 +137,19 @@ window.MOSPORT_PAGE = {
         '<footer class="pg-foot">' + (R.demo ? '<span>' + demo + ' ' + esc(T('demoNote').replace(/^DEMO · /, '')) + '</span>' : '<span></span>') + '<b>' + String(I.page).padStart(2, '0') + '</b></footer>' +
       '</section>';
 
-    return c.topbar + '<main class="desk"><div class="spread">' + cover + mnav + inner + '</div></main>';
+    var bar =
+      '<div class="reader-bar" id="reader-bar" role="toolbar" aria-label="' + esc(T('zoomLabel')) + '" aria-controls="reader">' +
+        '<span class="rb-label">' + T('zoomLabel') + '</span>' +
+        '<button type="button" class="rb-btn rb-fit" data-zoom="fit" aria-pressed="true">' + T('zoomFit') + '</button>' +
+        '<button type="button" class="rb-btn rb-icon" data-zoom="out" aria-label="' + esc(T('zoomOut')) + '">−</button>' +
+        '<output class="rb-val" data-zoom-value aria-live="polite" aria-label="' + esc(T('zoomCurrent')) + '">100%</output>' +
+        '<button type="button" class="rb-btn rb-icon" data-zoom="in" aria-label="' + esc(T('zoomIn')) + '">+</button>' +
+        '<button type="button" class="rb-btn" data-zoom="reset" aria-label="' + esc(T('zoomReset')) + '">100%</button>' +
+        '<span class="rb-hint">' + T('zoomHint') + '</span>' +
+      '</div>';
+    return c.topbar + bar + '<main class="desk reader" id="reader" tabindex="0" aria-label="' + esc(T('readerLabel')) + '"><div class="sizer" id="sizer"><div class="spread">' + cover + mnav + inner + '</div></div></main>';
   },
+  after: function () { if (window.MOSPORT_READER) window.MOSPORT_READER.mount(); },
   onAct: function (act) {
     if (act === 'rail') {
       var r = document.getElementById('g-rail');

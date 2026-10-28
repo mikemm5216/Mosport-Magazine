@@ -28,7 +28,8 @@ async function open(browser, url, w, h, opts = {}) {
   return { ctx, page, errors };
 }
 const overflow = (page) => page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-const text = (page) => page.evaluate(() => document.body.innerText);
+/* Reader text without the zoom toolbar (its 100% / current % are controls, not content). */
+const text = (page) => page.evaluate(() => { const c = document.body.cloneNode(true); const b = c.querySelector('#reader-bar'); if (b) b.remove(); document.documentElement.appendChild(c); c.style.position = 'absolute'; c.style.left = '-99999px'; const t = c.innerText; c.remove(); return t; });
 const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelectorAll(s)].filter((e) => e.offsetParent !== null).map((e) => e.innerText).join('\n'), sel);
 
 (async () => {
@@ -66,7 +67,7 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
         }
         if (w >= 1024) {
           const spread = await page.evaluate(() => { const c = document.querySelector('.pg-cover').getBoundingClientRect(); const i = document.querySelector('.pg-inner').getBoundingClientRect(); return { cover: c.width, inner: i.width, sameRow: Math.abs(c.top - i.top) < 2 }; });
-          check(`${id}: open spread (cover left, TODAY right)`, spread.sameRow && spread.cover > 400 && spread.inner > spread.cover);
+          check(`${id}: open spread (cover left, TODAY right)`, spread.sameRow && spread.cover > 200 && spread.inner > spread.cover);
         } else {
           const first = await page.evaluate(() => { const c = document.querySelector('.pg-cover').getBoundingClientRect(); return { top: c.top, h: c.height, vh: window.innerHeight }; });
           check(`${id}: cover is the first screen`, first.top <= 1 && first.h >= first.vh * 0.75, JSON.stringify(first));
@@ -209,16 +210,20 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
     await ctx.close();
   }
 
-  /* 9. Side-by-side with the visual master (for human review; not an automated pass/fail) */
+  /* 9. Magazine Reader Zoom (Founder addendum) */
+  await require('./zoom-suite')(browser, check, open, OUT);
+
+  /* 10. Side-by-side with the visual master (for human review; not an automated pass/fail) */
   {
     const ref = 'data:image/png;base64,' + fs.readFileSync(REF).toString('base64');
-    const d = 'data:image/png;base64,' + fs.readFileSync(path.join(OUT, 'home-1440-zh-light.png')).toString('base64');
+    const d = 'data:image/png;base64,' + fs.readFileSync(path.join(OUT, 'zoom-1440-fit.png')).toString('base64');
+    const h = 'data:image/png;base64,' + fs.readFileSync(path.join(OUT, 'zoom-1440-100.png')).toString('base64');
     const m = 'data:image/png;base64,' + fs.readFileSync(path.join(OUT, 'home-390-zh-light.png')).toString('base64');
-    const ctx = await browser.newContext({ viewport: { width: 2400, height: 1100 } });
+    const ctx = await browser.newContext({ viewport: { width: 2500, height: 1100 } });
     const page = await ctx.newPage();
     await page.setContent(`<body style="margin:0;background:#222;display:flex;gap:16px;padding:16px;font:14px sans-serif;color:#fff">
       <figure style="margin:0"><figcaption>VISUAL_REFERENCE_CURRENT.png</figcaption><img src="${ref}" style="height:1024px"></figure>
-      <figure style="margin:0"><figcaption>Browser 1440 · zh · light (top)</figcaption><div style="height:1024px;overflow:hidden"><img src="${d}" style="width:720px"></div></figure>
+      <figure style="margin:0"><figcaption>Browser 1440×900 · Fit Page</figcaption><img src="${d}" style="width:820px;display:block"><figcaption style="margin-top:8px">Browser 1440×900 · 100%</figcaption><img src="${h}" style="width:820px;display:block"></figure>
       <figure style="margin:0"><figcaption>Browser 390 · zh · light (top)</figcaption><div style="height:1024px;overflow:hidden"><img src="${m}" style="width:260px"></div></figure></body>`);
     await page.waitForTimeout(300);
     await page.screenshot({ path: path.join(OUT, 'compare-visual-master.png'), fullPage: true });

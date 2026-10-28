@@ -43,7 +43,9 @@ window.MOSPORT_I18N = {
     readOpen: '查看判讀', readNone: '尚未發布',
     reviewTitle: '檢討', reviewIntro: '公開檢討只評估已鎖定的原判讀與官方結果，經人工核准後刊出；內部 Audit 不在此頁。',
     reviewEmpty: '目前沒有已核准的公開檢討。',
-    back: '回到今日'
+    back: '回到今日',
+    zoomLabel: '閱讀縮放', zoomFit: '整頁', zoomOut: '縮小', zoomIn: '放大', zoomReset: '回到 100%', zoomCurrent: '目前縮放比例',
+    zoomHint: '鍵盤：+ − 0 F', readerLabel: '雜誌跨頁（可縮放與捲動）'
   },
   en: {
     navLabel: 'Primary', today: 'Today', schedule: 'Schedule', review: 'Review',
@@ -79,6 +81,8 @@ window.MOSPORT_I18N = {
     readOpen: 'Open the read', readNone: 'Not published',
     reviewTitle: 'Review', reviewIntro: 'A public review judges only the locked original read against the official result, and is published after human approval. Internal audit is not shown here.',
     reviewEmpty: 'No approved public review yet.',
-    back: 'Back to Today'
+    back: 'Back to Today',
+    zoomLabel: 'Reader zoom', zoomFit: 'Fit page', zoomOut: 'Zoom out', zoomIn: 'Zoom in', zoomReset: 'Reset to 100%', zoomCurrent: 'Current zoom',
+    zoomHint: 'Keys: + − 0 F', readerLabel: 'Magazine spread (zoom and scroll)'
   }
 };

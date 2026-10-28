@@ -59,3 +59,12 @@ mo-cover-artwork img { width: 100%; height: 100%; object-fit: cover; display: bl
   .utils { margin-left: auto; }
   .ut-theme span { display: none; }
 }
+
+/* Narrow desktop: keep the top bar on one row so the reader keeps its height. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .topbar { flex-wrap: nowrap; gap: 8px; padding: 6px 12px; }
+  .tb-name { font-size: 19px; }
+  .sec { padding: 0 8px; font-size: 15px; }
+  .tb-almanac small, .ut-theme span { display: none; }
+  .sport { min-width: 0; padding: 2px 8px; }
+}
