@@ -270,3 +270,33 @@ test('publication boundary re-checks sources at publish time, after approval', (
   assert.equal(p.code, 'PUBLISH_BLOCKED');
   assert.ok(p.blockers.some((b) => /FACT_RECHECK/.test(b)));
 });
+
+test('Codex #9: self-approval cannot be bypassed with spacing or case', () => {
+  const wf = setup();
+  wf.createDraft({ commandId: wf.cmd(), item: clone(PC.CASES['M-05'].item), authorId: '  writer:demo ' });
+  qa(wf, 'CASE-M05', 1);
+  for (const who of [' writer:demo ', 'WRITER:DEMO', 'writer:demo\t']) {
+    assert.equal(wf.approve({ commandId: wf.cmd(), itemId: 'CASE-M05', revision: 1, approverId: who }).code, 'SELF_APPROVAL', JSON.stringify(who));
+  }
+  assert.equal(wf.status('CASE-M05').authors[1], 'writer:demo', 'stored trimmed');
+});
+
+test('Codex #9: an UNAVAILABLE source blocks QA, AUTO approval and publication for new revisions too', () => {
+  const wf = setup();
+  draft(wf, 'M-01'); qa(wf, 'CASE-M01', 1);
+  wf.recordSourceEvent({ commandId: wf.cmd(), event: { schema: C.SCHEMAS.sourceEvent, id: 'SEV-U', sourceId: 'S-OFF-FINAL', state: 'UNAVAILABLE', at: '2026-10-31T13:00:00Z', note: null, demo: true } });
+  assert.equal(wf.status('CASE-M01').publishState, 'HELD_FOR_EVIDENCE');
+  const v2 = clone(PC.CASES['M-01'].item); v2.en.summary = 'Edited to try again.';
+  wf.revise({ commandId: wf.cmd(), item: v2, expectedRevision: 1, authorId: 'writer:demo' });
+  const q = qa(wf, 'CASE-M01', 2);
+  assert.equal(q.qa.fact, 'FAIL');
+  assert.ok(q.reasons.fact.includes('SOURCE_UNAVAILABLE:S-OFF-FINAL'));
+  assert.equal(q.state, 'HELD_FOR_EVIDENCE');
+  /* A brand-new item on the same source is held as well; RESTORED lifts it. */
+  draft(wf, 'M-01', { id: 'CASE-M01-NEW' });
+  assert.equal(qa(wf, 'CASE-M01-NEW', 1).state, 'HELD_FOR_EVIDENCE');
+  wf.recordSourceEvent({ commandId: wf.cmd(), event: { schema: C.SCHEMAS.sourceEvent, id: 'SEV-R', sourceId: 'S-OFF-FINAL', state: 'RESTORED', at: '2026-10-31T14:00:00Z', note: null, demo: true } });
+  const v3 = clone(PC.CASES['M-01'].item); v3.id = 'CASE-M01-NEW'; v3.en.summary = 'After the source is back.';
+  wf.revise({ commandId: wf.cmd(), item: v3, expectedRevision: 1, authorId: 'writer:demo' });
+  assert.equal(qa(wf, 'CASE-M01-NEW', 2).state, 'APPROVED');
+});

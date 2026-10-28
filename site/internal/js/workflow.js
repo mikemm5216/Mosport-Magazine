@@ -44,6 +44,9 @@
     WITHDRAWN: []
   };
 
+  /* One normal form for recorded identities, so " Writer:Demo " and "writer:demo" are the same person. */
+  function normId(x) { return typeof x === 'string' ? x.trim() : ''; }
+  function sameId(a, b) { return normId(a).toLowerCase() === normId(b).toLowerCase() && normId(a) !== ''; }
   function fail(code, detail, extra) { var r = { ok: false, code: code, detail: detail || '' }; for (var k in extra) r[k] = extra[k]; return r; }
   function clone(o) { return o == null ? o : JSON.parse(JSON.stringify(o)); }
 
@@ -173,10 +176,10 @@
     /** New item, revision 1, DRAFT. cmd: { commandId, item, authorId } */
     function createDraft(cmd) {
       return command('createDraft', cmd, function () {
-        if (!cmd.authorId) return fail('MISSING_FIELD', 'authorId');
+        if (!normId(cmd.authorId)) return fail('MISSING_FIELD', 'authorId');
         if (store.status(cmd.item && cmd.item.id)) return fail('DUPLICATE_ID', 'item ' + cmd.item.id);
         var it = clone(cmd.item); it.revision = 1; it.publishState = 'DRAFT'; it.publishedAt = null; it.approvalReceiptRef = null;
-        var r = store.saveItem(it, { expectedRevision: 0, authorId: cmd.authorId });
+        var r = store.saveItem(it, { expectedRevision: 0, authorId: normId(cmd.authorId) });
         if (!r.ok) return r;
         return { ok: true, itemId: it.id, revision: 1, state: 'DRAFT' };
       });
@@ -187,14 +190,14 @@
       return command('revise', cmd, function () {
         var s = status(cmd.item && cmd.item.id);
         if (!s) return fail('DANGLING_REF', 'item');
-        if (!cmd.authorId) return fail('MISSING_FIELD', 'authorId');
+        if (!normId(cmd.authorId)) return fail('MISSING_FIELD', 'authorId');
         if (cmd.expectedRevision !== s.revision) return fail('REVISION_CONFLICT', 'expected ' + cmd.expectedRevision + ', item is at ' + s.revision);
         if (s.publishState === 'PUBLISHED') return fail('ILLEGAL_TRANSITION', 'a published item is changed through requestCorrection first');
         if (s.publishState === 'WITHDRAWN') return fail('ILLEGAL_TRANSITION', 'withdrawn');
         if (sameItemContent(cmd.item.id, Object.assign({}, cmd.item))) return fail('NO_CHANGE', 'content is identical to the current revision');
         var it = clone(cmd.item); it.revision = s.revision + 1; it.publishState = 'DRAFT'; it.publishedAt = null; it.approvalReceiptRef = null;
         if (s.lastPublishedRevision && it.correctionOfRevision == null) it.correctionOfRevision = s.lastPublishedRevision;
-        var r = store.saveItem(it, { expectedRevision: s.revision, authorId: cmd.authorId });
+        var r = store.saveItem(it, { expectedRevision: s.revision, authorId: normId(cmd.authorId) });
         if (!r.ok) return r;
         var t = status_(it.id, s.publishState, 'DRAFT', 'NEW_REVISION', cmd.commandId, cmd.authorId);
         if (!t.ok) return t;
@@ -270,7 +273,7 @@
         if (cmd.revision !== s.revision) return fail('REVISION_CONFLICT', 'decision is for revision ' + cmd.revision + ', item is at ' + s.revision);
         if (s.publishState !== 'AWAITING_HUMAN_APPROVAL') return fail('ILLEGAL_TRANSITION', 'nothing awaiting a human (' + s.publishState + ')');
         if (!(typeof cmd.approverId === 'string' && cmd.approverId.trim())) return fail('MISSING_FIELD', 'approverId');
-        if (s.authors && s.authors[s.revision] === cmd.approverId) return fail('SELF_APPROVAL', 'the author of a revision cannot approve it');
+        if (s.authors && sameId(s.authors[s.revision], cmd.approverId)) return fail('SELF_APPROVAL', 'the author of a revision cannot approve it');
         var q = qaFor(cmd.itemId, s.revision);
         /* A person cannot approve past a failed check: wrong facts, fake exclusives and
            bad rights stay blocked whatever the decision says (Founder instruction §2.4). */
