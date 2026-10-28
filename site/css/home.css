@@ -215,3 +215,7 @@ html[lang="en"] .sec-head h2 { font-family: 'Anton', Impact, sans-serif; font-we
   .rb-hint { margin-left: 10px; font-size: 12px; opacity: .7; }
 }
 @media (min-width: 1024px) and (max-width: 1279px) { .rb-hint { display: none; } .reader { padding: 16px 24px; } }
+
+/* Registry overlay "card-shade": keeps editorial-card-art behind the text side of the card readable. */
+.story-dark mo-art::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(8, 19, 50, .94) 0%, rgba(8, 19, 50, .82) 50%, rgba(8, 19, 50, .25) 100%); }

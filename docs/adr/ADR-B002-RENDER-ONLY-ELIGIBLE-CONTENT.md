@@ -33,3 +33,11 @@ The UI never invents, ranks by popularity, or computes.
 ## Not decided here
 
 Quantitative thresholds for "major", approver roles/SLA, source lists (spec 01 §E).
+
+## Scope limit (added after independent review, 2026-10-28)
+
+The gate above is a **client-side render gate for the prototype**. It is not a trusted
+publishing authority. The `?mode=` switch is a test toggle, and `containsPerson` and
+similar image flags are self-declared metadata, not image verification. Production
+publishing must enforce authorised release decisions upstream (P2/P3) and deliver only
+validated public data. The renderer then stays a second line of defence.

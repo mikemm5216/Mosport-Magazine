@@ -10,7 +10,8 @@
     "test:e2e": "node tests/e2e/run.js",
     "registry:build": "node scripts/build-registry.js",
     "registry:check": "node scripts/build-registry.js --check",
-    "setup:browsers": "playwright install chromium"
+    "setup:browsers": "playwright install chromium",
+    "evidence": "node tests/e2e/evidence.js"
   },
   "engines": {
     "node": ">=18"

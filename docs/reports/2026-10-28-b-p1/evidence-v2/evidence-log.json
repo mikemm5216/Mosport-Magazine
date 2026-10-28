@@ -1,0 +1,80 @@
+[
+  {
+    "name": "m390-zh-light",
+    "q": "lang=zh&theme=light",
+    "viewport": "390x844",
+    "fullPage": true,
+    "pageHeightBefore": 2375,
+    "pageHeightAfter": 2375
+  },
+  {
+    "name": "m390-en-dark",
+    "q": "lang=en&theme=dark",
+    "viewport": "390x844",
+    "fullPage": true,
+    "pageHeightBefore": 2463,
+    "pageHeightAfter": 2463
+  },
+  {
+    "name": "m360-zh-light",
+    "q": "lang=zh&theme=light",
+    "viewport": "360x740",
+    "fullPage": true,
+    "pageHeightBefore": 2287,
+    "pageHeightAfter": 2287
+  },
+  {
+    "name": "d1440-fit-zh-light",
+    "q": "lang=zh&theme=light&zoom=fit",
+    "viewport": "1440x900",
+    "fullPage": false,
+    "zoomBefore": "64",
+    "zoomAfter": "64",
+    "pageHeightBefore": 900,
+    "pageHeightAfter": 900
+  },
+  {
+    "name": "d1440-100-zh-light",
+    "q": "lang=zh&theme=light&zoom=100",
+    "viewport": "1440x1400",
+    "fullPage": false,
+    "zoomBefore": "100",
+    "zoomAfter": "100",
+    "pageHeightBefore": 1400,
+    "pageHeightAfter": 1400
+  },
+  {
+    "name": "d1440-100-en-dark",
+    "q": "lang=en&theme=dark&zoom=100",
+    "viewport": "1440x1400",
+    "fullPage": false,
+    "zoomBefore": "100",
+    "zoomAfter": "100",
+    "pageHeightBefore": 1400,
+    "pageHeightAfter": 1400
+  },
+  {
+    "name": "read-1440-fit",
+    "zoom": "64"
+  },
+  {
+    "name": "read-1440-100",
+    "zoom": "100"
+  },
+  {
+    "name": "read-1280-fit",
+    "zoom": "55"
+  },
+  {
+    "name": "read-1280-100",
+    "zoom": "100"
+  },
+  {
+    "name": "lead-copy-fit",
+    "effectiveFontPx": 9
+  },
+  {
+    "name": "lead-copy-100",
+    "effectiveFontPx": 14
+  }
+]

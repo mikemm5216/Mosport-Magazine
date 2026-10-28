@@ -81,6 +81,18 @@ Visible differences vs the master, for the Founder's call:
 
 Screenshots: `candidate-1440-fit.jpg`, `candidate-1440-100.jpg`, `candidate-1440-100-en-dark.jpg`, `candidate-1440-100-200-bottom-right.jpg`, `candidate-1024-fit.jpg`, `candidate-390-full.jpg`, `candidate-390-en-dark.jpg`, `candidate-390-pinch-2x.jpg`, `candidate-360.jpg`, `candidate-match-1440.jpg`, and `compare-visual-master-candidate.jpg`.
 
+## Response to the independent review (head 9c6b32a)
+
+| Point | Action | Evidence |
+|---|---|---|
+| 1. Native art resolution | Accepted as a P1 visual blocker on the art side. Upscaling cannot add detail, so the v1 files stay CANDIDATE; new high-detail per-slot art is needed from the art pipeline (ChatGPT) | — |
+| 2. Comparison evidence | The old `before-after-*.jpg` files were removed: the 390 pair compared a full page with a one-screen crop. `npm run evidence` now captures like-for-like pairs (same viewport, zoom, language, theme and full-page mode; only the art version differs) after decoding every image | `evidence-v2/*-pair.jpg`, `evidence-v2/evidence-log.json` |
+| — found while fixing 2 | Earlier captures could show off-screen art before it decoded (one mobile capture showed placeholder art in the lead card). Captures now walk the page and decode all images first | same |
+| — found while fixing 2 | On mobile the editorial card art ran behind the card text. Added the registry's `card-shade` overlay; layout unchanged (fallback-parity checks still pass) | `evidence-v2/m390-en-dark-pair.jpg` |
+| 3. Fit legibility | Measured: Fit at 1440×900 is 64% and puts lead body copy at about 9 px (14 px at 100%). Recommendation documented; **default not changed** | `docs/READER_DEFAULT_ZOOM.md`, `evidence-v2/read-*` |
+| 4. Team logos | Audited the Mosport-Terminal PNGs: official marks, no recorded source or licence. Not copied; fallback kept | `docs/LOGO_PROVENANCE_AUDIT.md` |
+| Release-safety caveat | Agreed and recorded as a scope limit in ADR-B002 | `docs/adr/ADR-B002-…` |
+
 ## Visual comparison
 
 `compare-visual-master.jpg`: visual master (left) next to the browser render at 1440×900

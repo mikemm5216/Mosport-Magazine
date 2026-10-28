@@ -8,7 +8,7 @@
 const path = require('node:path');
 
 const states = (page) => page.evaluate(() => [...document.querySelectorAll('mo-art')].map((e) => ({ slot: e.dataset.slot, state: e.dataset.state, v: e.dataset.version })));
-const loaded = (page) => page.evaluate(() => Promise.all([...document.querySelectorAll('mo-art img')].map((i) => i.complete ? i.naturalWidth > 0 : new Promise((ok) => { i.onload = () => ok(true); i.onerror = () => ok(false); }))));
+const loaded = (page) => page.evaluate(() => Promise.all([...document.querySelectorAll('mo-art img')].map((i) => i.decode().then(() => i.naturalWidth > 0, () => false))));
 const geom = (page) => page.evaluate(() => ['.cv-name', '.teaser', '.lead', '.lead .cta', '.pct', '.g-card', '.story', '.pg-foot', '.mnav'].map((k) => [...document.querySelectorAll(k)].filter((e) => e.getClientRects().length).map((e) => { const b = e.getBoundingClientRect(); return [b.left, b.top, b.width, b.height].map(Math.round).join(','); }).join('|')).join('#'));
 
 module.exports = async function candidateSuite(browser, check, open, OUT) {
@@ -35,6 +35,8 @@ module.exports = async function candidateSuite(browser, check, open, OUT) {
     await b.ctx.close();
     await a.page.screenshot({ path: path.join(OUT, `candidate-${name}.png`) });
     if (w < 1024) {
+      await a.page.evaluate(async () => { for (let y = 0; y < document.documentElement.scrollHeight; y += innerHeight / 2) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); } scrollTo(0, 0); await Promise.all([...document.images].map((i) => i.decode().catch(() => null))); });
+      await a.page.waitForTimeout(300);
       await a.page.screenshot({ path: path.join(OUT, `candidate-${name}-full.png`), fullPage: true });
       const cdp = await a.ctx.newCDPSession(a.page);
       await cdp.send('Emulation.setPageScaleFactor', { pageScaleFactor: 2 });
