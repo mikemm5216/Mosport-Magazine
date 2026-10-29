@@ -63,31 +63,28 @@ Existing relevant records: `docs/ROADMAP.md`,
 `docs/P2_CONTRACT_COMPATIBILITY.md`, and
 `docs/sources/FREE_SOURCE_INVENTORY.md`; recheck status before execution.
 
-## Founder clarification under discussion — Media, Coach and ordering
+## Founder architecture correction — 2026-10-29
 
-On 2026-10-29 the Founder proposed the conceptual flow:
-**Media Engine + crawler → data → causality → PMV/TMV → Physio/Psycho →
-World Engine → Coach Engine → Media Engine.** The two Media positions represent
-upstream evidence collection/processing and downstream production/distribution,
-not a second World decision. Source-backed media items are candidates only;
-A must accept evidence under its own identity, rights, chronology and feature
-contracts. B's evidence-candidate@0 is research-only and is not sent to A.
-Coach explains or supports participation using the locked World output; it must
-not change that output. Media cannot create or revise a World judgment.
+Founder direction: Media/crawler → sourced data and causal ownership →
+player physiology and observable psychological context contribute to PMV;
+TMV independently represents team value, never a sum or derivative of PMV;
+World incorporates environmental context and integrates the inputs once →
+Coach interpretation → Media presentation. Upstream and downstream Media
+are roles, not independent decision authorities. Do not assert an actual
+psychological or medical state from an unsupported proxy. Preserve source,
+availability, as-of and rights provenance. Account for common environmental
+facts and interactions without scoring the same effect twice.
 
-**Architecture discrepancy to resolve:** current A
-`src/domain/features/contract.ts` declares PHYSIO→PMV, PSYCHO→PMV,
-PHYSIO→TMV, PSYCHO→TMV, PMV→TMV and TMV→WORLD. The proposed conceptual order
-places PMV/TMV before Physio/Psycho. It must not be represented as the current
-implemented execution graph. Determine whether the Founder intends literal
-computational dependencies or a high-level functional view, and reconcile the
-contracts before any engine rewiring. This note does not implement or approve
-a graph change.
-
+Current A contract still permits PMV→TMV and PHYSIO/PSYCHO→TMV; this is an
+identified implementation discrepancy. This document records the Founder's
+accepted direction; it does not claim contracts, feature owners, runtime,
+validation, CI or public eligibility have already been changed. Implement and
+review those changes through a separate scoped A work package. B remains a
+read-only consumer of A's World judgment.
 
 ## Historical NBA topology evidence — checked 2026-10-29
 
-The Founder-recalled order has documentary support: Terminal
+The earlier Founder-recalled order has documentary support: Terminal
 [PR #485](https://github.com/mikemm5216/Mosport-Terminal/pull/485), merged
 2026-05-25, describes causality → TMV foundation → Physio/Psycho → World
 simulation. Its preceding readiness probe describes PMV *contribution evidence*
