@@ -24,7 +24,7 @@
   /** Validate one candidate. Returns a list of problem codes (empty = valid). */
   function validate(c) {
     var p = [];
-    if (!c || typeof c !== 'object') return ['WRONG_TYPE'];
+    if (!c || typeof c !== 'object' || Array.isArray(c)) return ['WRONG_TYPE'];
     if (c.schema !== SCHEMA) return ['SCHEMA_UNSUPPORTED'];
     Object.keys(c).forEach(function (k) { if (FIELDS.indexOf(k) === -1) p.push('UNKNOWN_FIELD:' + k); });
     FIELDS.forEach(function (k) { if (!(k in c)) p.push('MISSING_FIELD:' + k); });
@@ -42,8 +42,11 @@
     if (!Array.isArray(c.sourceRefs) || !c.sourceRefs.length) p.push('NO_SOURCE');
     if (!Array.isArray(c.subjects) || !c.subjects.length) p.push('NO_SUBJECT');
     else c.subjects.forEach(function (s, i) {
+      if (!s || typeof s !== 'object' || Array.isArray(s)) { p.push('WRONG_TYPE:subjects:' + i); return; }
       if (s.id == null && !s.missingReason) p.push('SUBJECT_ID_MISSING_WITHOUT_REASON:' + i);
     });
+    if (!c.assertion || typeof c.assertion !== 'object' || Array.isArray(c.assertion)) p.push('WRONG_TYPE:assertion');
+    if (!c.provenance || typeof c.provenance !== 'object' || Array.isArray(c.provenance)) p.push('WRONG_TYPE:provenance');
     if (!Array.isArray(c.missingReasons)) p.push('WRONG_TYPE:missingReasons');
     if (c.eventType === 'RUMOR_OBSERVED' && c.verificationState === 'CONFIRMED') p.push('RUMOR_MARKED_CONFIRMED');
     return p;
@@ -74,11 +77,29 @@
     if (isNaN(C.parseInstant(opts.observedAt))) return { ok: false, refused: 'BAD_OBSERVED_AT', candidates: [], unchanged: 0 };
     if (C.parseInstant(opts.observedAt) < C.parseInstant(parsed.report.publishedAt)) return { ok: false, refused: 'OBSERVED_BEFORE_PUBLISHED', candidates: [], unchanged: 0 };
     var latest = {};
-    (opts.previous || []).forEach(function (c) { latest[c.provenance.subjectKey] = c; });
+    var previous = opts.previous || [];
+    if (!Array.isArray(previous) || previous.some(function (c) {
+      return validate(c).length || !c.provenance.subjectKey || isNaN(C.parseInstant(c.sourcePublishedAt));
+    })) return { ok: false, refused: 'INVALID_PREVIOUS', candidates: [], unchanged: 0 };
+    /* Input order is not chronology. Retractions are not active status reports. */
+    previous.forEach(function (c) {
+      if (c.retractionOf || c.verificationState === 'RETRACTED') return;
+      var key = c.provenance.subjectKey, prev = latest[key];
+      if (!prev || C.parseInstant(c.sourcePublishedAt) > C.parseInstant(prev.sourcePublishedAt)) latest[key] = c;
+    });
     var out = [], unchanged = 0;
+    var chronologyError = null;
     parsed.rows.forEach(function (row) {
       var key = subjectKey(row);
       var prev = latest[key];
+      if (prev) {
+        var incomingTime = C.parseInstant(parsed.report.publishedAt), previousTime = C.parseInstant(prev.sourcePublishedAt);
+        if (incomingTime < previousTime) { chronologyError = 'STALE_REPORT'; return; }
+        if (C.parseInstant(opts.observedAt) < C.parseInstant(prev.availableAt)) { chronologyError = 'OBSERVATION_BEFORE_PREVIOUS'; return; }
+        if (incomingTime === previousTime && (prev.assertion.value !== row.status || prev.assertion.reason !== row.reason)) {
+          chronologyError = 'CONFLICTING_REPORT_TIME'; return;
+        }
+      }
       var cluster = 'EVC-' + C.sha256(key + '|injuryStatus|' + row.status).slice(0, 16);
       if (prev && prev.assertion.value === row.status && prev.assertion.reason === row.reason) { unchanged++; return; }
       var c = {
@@ -110,6 +131,7 @@
       out.push(c);
       latest[key] = c;
     });
+    if (chronologyError) return { ok: false, refused: chronologyError, candidates: [], unchanged: 0 };
     var bad = out.map(validate).filter(function (p) { return p.length; });
     if (bad.length) return { ok: false, refused: 'CANDIDATE_INVALID', candidates: [], unchanged: unchanged, problems: bad };
     return { ok: true, candidates: out, unchanged: unchanged };

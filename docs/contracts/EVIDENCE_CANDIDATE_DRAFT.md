@@ -41,6 +41,9 @@ rejected (`UNKNOWN_FIELD`).
 
 - **All or nothing.** A parse with any error imports nothing (`PARSE_NOT_CLEAN`).
 - **Chronology.** Observing before publication is refused (`OBSERVED_BEFORE_PUBLISHED`).
+- **History order.** The predecessor is selected by `sourcePublishedAt`, never array order. Malformed history is refused (`INVALID_PREVIOUS`).
+- **No rollback.** An older report is refused whole (`STALE_REPORT`), including unchanged rows. A same-time replay is deduplicated; changed status or reason at that timestamp is refused (`CONFLICTING_REPORT_TIME`). Observation time cannot precede the predecessor’s `availableAt` (`OBSERVATION_BEFORE_PREVIOUS`). A rejected batch emits no candidates.
+- **Malformed subjects.** Null, primitive or array subject entries return `WRONG_TYPE:subjects:<index>` instead of throwing.
 - **Counted once.** A later report repeating an unchanged status emits nothing new, so ten
   re-postings are not ten pieces of evidence.
 - **Changes are linked.** A changed status emits a new candidate with `supersedes` set; history is

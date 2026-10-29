@@ -123,3 +123,61 @@ test('a parse with any error imports nothing; a retracted source yields retracti
   assert.equal(ret.length, 6);
   assert.ok(ret.every((x) => x.verificationState === 'RETRACTED' && x.retractionOf && EV.validate(x).length === 0));
 });
+
+test('candidate validator returns typed problems for malformed subjects and nested records', () => {
+  const c = EV.fromInjuryReport(parse(TEXT), { sourceId: 'S', observedAt: '2026-10-31T21:40:00Z' }).candidates[0];
+  for (const subject of [null, undefined, [], 'TEAM', 7, false]) {
+    assert.deepEqual(EV.validate({ ...c, subjects: [subject] }), ['WRONG_TYPE:subjects:0']);
+  }
+  assert.deepEqual(EV.validate([]), ['WRONG_TYPE']);
+  assert.ok(EV.validate({ ...c, assertion: null }).includes('WRONG_TYPE:assertion'));
+  assert.ok(EV.validate({ ...c, provenance: null }).includes('WRONG_TYPE:provenance'));
+});
+
+test('older reports cannot supersede newer evidence, even when observed later; refusal is atomic', () => {
+  const newer = EV.fromInjuryReport(parse(TEXT.replace('05:30 PM', '06:30 PM')), {
+    sourceId: 'S2', observedAt: '2026-10-31T22:40:00Z'
+  }).candidates;
+  const before = JSON.stringify(newer);
+  for (const text of [TEXT, TEXT.replace('Questionable', 'Out         ')]) {
+    // The first row has no history and would be imported before the stale second row.
+    const r = EV.fromInjuryReport(parse(text), {
+      sourceId: 'OLD', observedAt: '2026-10-31T22:45:00Z', previous: [newer[1]]
+    });
+    assert.deepEqual([r.ok, r.refused, r.candidates, r.unchanged], [false, 'STALE_REPORT', [], 0]);
+  }
+  assert.equal(JSON.stringify(newer), before, 'history is never mutated');
+});
+
+test('history order does not choose the predecessor; same-time conflicts and observation rollback are refused', () => {
+  const first = EV.fromInjuryReport(parse(TEXT), { sourceId: 'S1', observedAt: '2026-10-31T21:40:00Z' }).candidates;
+  const laterText = TEXT.replace('05:30 PM', '06:30 PM').replace('Questionable', 'Out         ');
+  const second = EV.fromInjuryReport(parse(laterText), {
+    sourceId: 'S2', observedAt: '2026-10-31T22:40:00Z', previous: first
+  }).candidates;
+  const thirdText = TEXT.replace('05:30 PM', '07:30 PM').replace('Questionable', 'Probable    ');
+  for (const history of [[...second, ...first], [...first, ...second]]) {
+    const third = EV.fromInjuryReport(parse(thirdText), {
+      sourceId: 'S3', observedAt: '2026-10-31T23:40:00Z', previous: history
+    });
+    assert.equal(third.ok, true);
+    assert.equal(third.candidates[0].supersedes, second[0].id);
+  }
+  const replay = EV.fromInjuryReport(parse(TEXT), { sourceId: 'S1', observedAt: '2026-10-31T21:40:00Z', previous: first });
+  assert.deepEqual([replay.ok, replay.candidates.length, replay.unchanged], [true, 0, 6]);
+  const conflict = EV.fromInjuryReport(parse(TEXT.replace('Questionable', 'Out         ')), {
+    sourceId: 'S1', observedAt: '2026-10-31T21:45:00Z', previous: first
+  });
+  assert.equal(conflict.refused, 'CONFLICTING_REPORT_TIME');
+  const lateObservation = first.map(c => ({ ...c, availableAt: '2026-11-01T01:00:00Z' }));
+  assert.equal(EV.fromInjuryReport(parse(laterText), {
+    sourceId: 'S2', observedAt: '2026-10-31T22:40:00Z', previous: lateObservation
+  }).refused, 'OBSERVATION_BEFORE_PREVIOUS');
+});
+
+test('malformed history is refused without throwing or partially importing', () => {
+  for (const previous of [[null], [7], {}]) {
+    const r = EV.fromInjuryReport(parse(TEXT), { sourceId: 'S', observedAt: '2026-10-31T21:40:00Z', previous });
+    assert.deepEqual([r.ok, r.refused, r.candidates], [false, 'INVALID_PREVIOUS', []]);
+  }
+});

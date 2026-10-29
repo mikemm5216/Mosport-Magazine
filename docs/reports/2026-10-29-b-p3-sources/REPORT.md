@@ -40,3 +40,11 @@ As of 2026-10-29 Asia/Taipei. Day **OPEN**. Branch `feat/b-p3-sources`, stacked 
 - Evidence acceptance format, subject ids and `availableAt` semantics: MOSPORT-A
   (questions in the draft doc).
 - If both clear: a manual capture flow in the internal editor. Still no scheduling.
+
+## Review fixes (2026-10-29, Asia/Taipei)
+
+- Reject older reports atomically (`STALE_REPORT`); choose the predecessor by source publication time, independent of history array order. Same-time unchanged replays remain idempotent; contradictory status/reason is refused, as is observation rollback.
+- Malformed subject entries return typed validation problems instead of throwing. Malformed history is refused without partial output or history mutation.
+- Four regression tests added, covering null/primitive/array subjects, stale mixed batches, shuffled history, replay, timestamp conflicts and malformed history.
+- Fresh `npm test`: asset and registry checks PASS; 129/129 unit tests; 477/477 + 18 native-art + 50 catalogue browser checks PASS. `git diff --check` PASS. No reader UI or assets changed.
+- B-side offline research remains PARTIAL; no real source connector, A acceptance or production publication is enabled by these fixes.
