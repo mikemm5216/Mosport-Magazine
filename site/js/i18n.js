@@ -45,7 +45,19 @@ window.MOSPORT_I18N = {
     reviewEmpty: '目前沒有已核准的公開檢討。',
     back: '回到今日',
     zoomLabel: '閱讀縮放', zoomWidth: '符合寬度', zoomFit: '整頁', zoomOut: '縮小', zoomIn: '放大', zoomReset: '回到 100%', zoomCurrent: '目前縮放比例',
-    zoomHint: '鍵盤：+ − 0 F W', readerLabel: '雜誌跨頁（可縮放與捲動）'
+    zoomHint: '鍵盤：+ − 0 F W', readerLabel: '雜誌跨頁（可縮放與捲動）',
+    loading: '載入本期內容中…',
+    state_refused: '此期內容未取得發布資格，暫不顯示。',
+    state_invalid: '本期資料未通過格式檢查，暫不顯示。我們不會用替代內容填補。',
+    state_loadFailed: '本期資料載入失敗。請稍後再試；賽程與內容都不會以猜測補上。',
+    state_stale: '本期內容已過期，判讀暫不顯示。賽程仍可查看。',
+    invalidGames: '另有 {n} 場賽事資料格式錯誤，未顯示。',
+    scheduleEmpty: '本日沒有可顯示的賽事資料。',
+    readStale: '刊期已過期', cancelled: '取消',
+    humanApproved: '人工核准 · {at} · 收據 {ref}',
+    unknownGame: '找不到這場比賽。它可能不在本期資料中。',
+    noRead_POSTPONED: '比賽延期，沒有判讀。', noRead_CANCELLED: '比賽取消，沒有判讀。',
+    noRead_NOT_ISSUED: 'World 尚未發出本場判讀。', noRead_NOT_PUBLIC: '本場判讀尚未取得公開資格。', noRead_STALE: '刊期已過期。'
   },
   en: {
     navLabel: 'Primary', today: 'Today', schedule: 'Schedule', review: 'Review',
@@ -83,6 +95,18 @@ window.MOSPORT_I18N = {
     reviewEmpty: 'No approved public review yet.',
     back: 'Back to Today',
     zoomLabel: 'Reader zoom', zoomWidth: 'Fit width', zoomFit: 'Fit page', zoomOut: 'Zoom out', zoomIn: 'Zoom in', zoomReset: 'Reset to 100%', zoomCurrent: 'Current zoom',
-    zoomHint: 'Keys: + − 0 F W', readerLabel: 'Magazine spread (zoom and scroll)'
+    zoomHint: 'Keys: + − 0 F W', readerLabel: 'Magazine spread (zoom and scroll)',
+    loading: 'Loading this issue…',
+    state_refused: 'This issue is not cleared for publication.',
+    state_invalid: 'This issue failed its data checks and is not shown. Nothing is filled in its place.',
+    state_loadFailed: 'This issue could not be loaded. Please try again later; nothing is guessed in its place.',
+    state_stale: 'This issue has expired, so its reads are hidden. The schedule is still available.',
+    invalidGames: '{n} more game record(s) failed the data checks and are not shown.',
+    scheduleEmpty: 'No game data to show for this day.',
+    readStale: 'Issue expired', cancelled: 'Cancelled',
+    humanApproved: 'Human approval · {at} · receipt {ref}',
+    unknownGame: 'Game not found. It may not be part of this issue.',
+    noRead_POSTPONED: 'Game postponed; no read.', noRead_CANCELLED: 'Game cancelled; no read.',
+    noRead_NOT_ISSUED: 'World has not issued a read for this game.', noRead_NOT_PUBLIC: 'This read is not cleared for public release yet.', noRead_STALE: 'This issue has expired.'
   }
 };

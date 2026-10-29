@@ -43,8 +43,11 @@ site/                 static site (no build step); open site/index.html
   css/                tokens, components, page styles
   data/               asset-registry.json (source of truth for all imagery) + generated .js copy
   js/assets/          registry resolver (unit-tested) and loader (local or remote registry)
+  js/contracts/       B-owned contracts: validators, canonical JSON, SHA-256 (docs/contracts/)
+  js/data/            one data path for every page: providers → pipeline → public model
   js/editorial/       eligibility gate (pure functions, unit-tested)
-  js/fixtures/        DEMO and empty issue fixtures
+  js/fixtures/        DEMO issue and DEMO risk-case issues (contract-shaped)
+  internal/           editor-side code and pages; never loaded by the public reader
   js/                 components (logo/cover slots), i18n, page renderers
   assets/             fonts (OFL), brand mark, art/ (placeholder vectors), teams/ (preserved originals + normalized derivatives)
 tests/unit/           node --test

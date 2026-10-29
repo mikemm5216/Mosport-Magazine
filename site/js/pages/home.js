@@ -6,8 +6,8 @@
 window.MOSPORT_PAGE = {
   id: 'today',
   render: function (c) {
-    var T = c.T, esc = c.esc, L = c.lang, R = c.issue, I = c.fixture.issue, B = window.MOSPORT_BRAND, LB = window.MOSPORT_LABELS;
-    if (R.refused) return c.topbar + '<main class="refused"><p>' + esc(T('refused')) + '</p></main>';
+    var T = c.T, esc = c.esc, L = c.lang, R = c.issue, I = c.meta, B = window.MOSPORT_BRAND, LB = window.MOSPORT_LABELS;
+    if (R.status !== 'OK') return c.topbar + '<main class="sheet">' + c.stateMessage(R) + '</main>';
 
     var issueLine = T('issueLine', { vol: String(I.volume).padStart(2, '0'), no: I.number, date: c.issueDateLong(I.date) });
     var readCount = R.games.length + (R.lead ? 1 : 0);
@@ -22,8 +22,8 @@ window.MOSPORT_PAGE = {
     if (streak) lines.push(T('coverLineStreak', { h: streak[L].headline }));
 
     var teasers = R.cover.map(function (it) {
-      return '<article class="teaser teaser-' + it.editorialLabel.toLowerCase() + '">' +
-        '<p class="teaser-label">' + LB[it.editorialLabel] + '</p>' +
+      return '<article class="teaser teaser-' + esc(it.editorialLabel.toLowerCase()) + '">' +
+        '<p class="teaser-label">' + esc(LB[it.editorialLabel]) + '</p>' +
         '<h3 class="teaser-h">' + esc(it[L].headline) + '</h3>' +
         (it[L].summary ? '<p class="teaser-s">' + esc(it[L].summary) + '</p>' : '') +
       '</article>';
@@ -61,13 +61,13 @@ window.MOSPORT_PAGE = {
           '<div class="lead-art">' +
             '<mo-art slot-id="today-feature-art"></mo-art>' +
             '<div class="lead-teams">' +
-              '<div class="lead-team"><mo-team-logo code="' + g.away + '" size="lg"></mo-team-logo><p class="lt-code">' + g.away + '</p><p class="lt-name">' + esc(c.teamName(g.away)) + '</p></div>' +
+              '<div class="lead-team"><mo-team-logo code="' + esc(g.away) + '" size="lg"></mo-team-logo><p class="lt-code">' + esc(g.away) + '</p><p class="lt-name">' + esc(c.teamName(g.away)) + '</p></div>' +
               '<span class="lead-at">@</span>' +
-              '<div class="lead-team"><mo-team-logo code="' + g.home + '" size="lg"></mo-team-logo><p class="lt-code">' + g.home + '</p><p class="lt-name">' + esc(c.teamName(g.home)) + '</p></div>' +
+              '<div class="lead-team"><mo-team-logo code="' + esc(g.home) + '" size="lg"></mo-team-logo><p class="lt-code">' + esc(g.home) + '</p><p class="lt-name">' + esc(c.teamName(g.home)) + '</p></div>' +
             '</div>' +
           '</div>' +
           '<div class="lead-read">' +
-            '<p class="ver">' + T('ver_' + w.version) + '</p>' +
+            '<p class="ver">' + esc(T('ver_' + w.version)) + '</p>' +
             '<p class="lead-verdict">' + esc(w.verdict[L]) + '</p>' +
             (R.lead.percent != null ? '<p class="lead-pct"><span class="pct">' + R.lead.percent + '%</span><span class="pct-l">' + T('homeWin') + '</span></p>' : '') +
           '</div>' +
@@ -87,10 +87,10 @@ window.MOSPORT_PAGE = {
           R.games.map(function (g) {
             var st = g.status === 'LIVE'
               ? '<span class="st st-live">● ' + T('live') + '</span>'
-              : '<span class="st st-ver">' + T('ver_' + g.world.version) + '</span>';
-            var score = g.status === 'LIVE' && g.score ? '<p class="g-score">' + g.home + ' ' + g.score.home + ' – ' + g.score.away + '</p>' : '';
+              : '<span class="st st-ver">' + esc(T('ver_' + g.world.version)) + '</span>';
+            var score = g.status === 'LIVE' && g.score ? '<p class="g-score">' + esc(g.home) + ' ' + esc(g.score.home) + ' – ' + esc(g.score.away) + '</p>' : '';
             return '<a class="g-card" href="schedule.html' + c.keepQuery() + '">' +
-              '<div class="g-teams"><mo-team-logo code="' + g.away + '" size="sm"></mo-team-logo><span class="g-codes">' + g.away + ' <i>@</i> ' + g.home + '</span><mo-team-logo code="' + g.home + '" size="sm"></mo-team-logo></div>' +
+              '<div class="g-teams"><mo-team-logo code="' + esc(g.away) + '" size="sm"></mo-team-logo><span class="g-codes">' + esc(g.away) + ' <i>@</i> ' + esc(g.home) + '</span><mo-team-logo code="' + esc(g.home) + '" size="sm"></mo-team-logo></div>' +
               '<p class="g-time">' + esc(c.tipShort(g)) + '</p>' + st + score +
               '<p class="g-read">' + esc(g.world.verdict[L]) + '</p>' +
             '</a>';
@@ -105,8 +105,8 @@ window.MOSPORT_PAGE = {
       '<section class="story story-review" aria-labelledby="rv-h">' +
         '<div class="sec-head"><h2 id="rv-h">' + T('reviewHead') + '</h2><a class="pill" href="review.html' + c.keepQuery() + '">' + T('seeReview') + ' <span aria-hidden="true">→</span></a></div>' +
         '<div class="story-body">' +
-          '<div class="rv-top"><mo-team-logo code="' + review.teams[0] + '" size="sm"></mo-team-logo><mo-team-logo code="' + review.teams[1] + '" size="sm"></mo-team-logo>' +
-            '<div><p class="rv-codes">' + review.teams[0] + ' @ ' + review.teams[1] + '</p><h3>' + esc(review[L].headline) + '</h3></div></div>' +
+          '<div class="rv-top"><mo-team-logo code="' + esc(review.teams[0]) + '" size="sm"></mo-team-logo><mo-team-logo code="' + esc(review.teams[1]) + '" size="sm"></mo-team-logo>' +
+            '<div><p class="rv-codes">' + esc(review.teams[0]) + ' @ ' + esc(review.teams[1]) + '</p><h3>' + esc(review[L].headline) + '</h3></div></div>' +
           '<p class="story-s">' + esc(review[L].summary) + '</p>' +
           (review[L].meta ? '<p class="story-meta">' + esc(review[L].meta) + '</p>' : '') +
         '</div>' +
@@ -117,7 +117,7 @@ window.MOSPORT_PAGE = {
         '<div class="sec-head"><h2 id="sk-h">' + T('streakHead') + '</h2></div>' +
         '<div class="story-body story-dark"><mo-art slot-id="editorial-card-art"></mo-art>' +
           '<p class="teaser-label lbl-streak">' + LB.STREAK_WATCH + '</p>' +
-          '<div class="sk-top">' + (streak.linkedTeams || []).map(function (t) { return '<mo-team-logo code="' + t + '" size="md"></mo-team-logo>'; }).join('') +
+          '<div class="sk-top">' + (streak.linkedTeams || []).map(function (t) { return '<mo-team-logo code="' + esc(t) + '" size="md"></mo-team-logo>'; }).join('') +
             '<h3>' + esc(streak[L].headline) + '</h3></div>' +
           '<p class="story-s">' + esc(streak[L].summary) + '</p>' +
           '<p class="sk-dots" aria-hidden="true"><i></i><i></i><i></i></p>' +

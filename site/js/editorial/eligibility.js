@@ -7,6 +7,8 @@
  * unchanged (as a rounded percentage for display) or returns null.
  */
 (function (root) {
+  var C = typeof module !== 'undefined' && module.exports ? require('../contracts/contracts.js') : root.MOSPORT_CONTRACTS;
+  var at = function (s) { return C.parseInstant(s); };
   var HUMAN_TRIGGERS = ['MAJOR_NEWS', 'UNVERIFIED_RUMOR', 'SENSITIVE_NEWS', 'EXCLUSIVE_CLAIM'];
   /* Conservative default (spec 03 §4.2, PROPOSED): these labels always need a human. */
   var HUMAN_LABELS = ['BREAKING_NEWS', 'MOSPORT_EXCLUSIVE'];
@@ -19,9 +21,13 @@
     return (item.riskTriggers || []).some(function (t) { return HUMAN_TRIGGERS.indexOf(t) !== -1; });
   }
 
-  function humanApproved(item) {
+  /** A complete human approval: approver, a valid decision time, and not dated after `now`. */
+  function humanApproved(item, now) {
     var a = item && item.approval;
-    return !!(a && a.mode === 'HUMAN' && a.approverId && a.approvedAt);
+    if (!(a && a.mode === 'HUMAN' && typeof a.approverId === 'string' && a.approverId.trim())) return false;
+    var t = at(a.approvedAt);
+    if (isNaN(t)) return false;
+    return !(now && t > at(now));
   }
 
   /** Returns null when the item may render, otherwise the reason it may not. */
@@ -32,8 +38,15 @@
     if (!item.approvalReceiptRef) return 'NO_RECEIPT';
     if (!item.sourceRefs || item.sourceRefs.length === 0) return 'NO_SOURCE';
     if (!item.verifiedFacts || item.verifiedFacts.length === 0) return 'NO_VERIFIED_FACTS';
-    if (item.validUntil && now && Date.parse(item.validUntil) <= Date.parse(now)) return 'EXPIRED';
-    if (requiresHuman(item) && !humanApproved(item)) return 'HUMAN_APPROVAL_REQUIRED';
+    if (item.validUntil != null) {
+      /* A malformed or unchecked expiry never passes: no clock, no render. */
+      if (isNaN(at(item.validUntil))) return 'BAD_TIME';
+      if (!now || isNaN(at(now))) return 'NO_CLOCK';
+      if (at(item.validUntil) <= at(now)) return 'EXPIRED';
+    }
+    if (item.publishedAt != null && isNaN(at(item.publishedAt))) return 'BAD_TIME';
+    if (item.publishedAt && now && at(item.publishedAt) > at(now)) return 'NOT_YET_PUBLISHED';
+    if (requiresHuman(item) && !humanApproved(item, now)) return 'HUMAN_APPROVAL_REQUIRED';
     if (!item.approval || (item.approval.mode !== 'HUMAN' && item.approval.mode !== 'AUTO')) return 'NO_APPROVAL_MODE';
     return null;
   }
@@ -69,10 +82,11 @@
     if (fixture.mode === 'DEMO' && mode !== 'prototype') { out.refused = 'DEMO_IN_PRODUCTION'; return out; }
     out.demo = fixture.mode === 'DEMO';
 
-    var byId = {};
-    (fixture.items || []).forEach(function (it) { byId[it.id] = it; });
-    var gameById = {};
-    (fixture.games || []).forEach(function (g) { gameById[g.gameId] = g; });
+    /* Two records with one id: refuse rather than let the later one win. */
+    var byId = {}, gameById = {}, dup = null;
+    (fixture.items || []).forEach(function (it) { if (it && byId[it.id]) dup = it.id; if (it) byId[it.id] = it; });
+    (fixture.games || []).forEach(function (g) { if (g && gameById[g.gameId]) dup = g.gameId; if (g) gameById[g.gameId] = g; });
+    if (dup) { out.refused = 'DUPLICATE_ID'; out.demo = false; return out; }
     out.schedule = (fixture.games || []).slice();
 
     var take = function (id, slot) {

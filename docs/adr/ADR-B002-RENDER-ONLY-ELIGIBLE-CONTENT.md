@@ -41,3 +41,12 @@ publishing authority. The `?mode=` switch is a test toggle, and `containsPerson`
 similar image flags are self-declared metadata, not image verification. Production
 publishing must enforce authorised release decisions upstream (P2/P3) and deliver only
 validated public data. The renderer then stays a second line of defence.
+
+## Data path (added with B-P2, 2026-10-29)
+
+Every public page now renders from one path: provider → contract validation
+(`site/js/contracts/contracts.js`) → reference resolution → this gate → a public model
+(`site/js/data/pipeline.js`). The gate's `approval` input is built only from an ApprovalReceipt
+whose item id, revision and content hash all match. An approval embedded in an item is rejected
+as an unknown field. Duplicate ids refuse the whole issue. Malformed or unchecked times block the
+item. Pages receive no exclusion reasons, approver ids or source payloads.

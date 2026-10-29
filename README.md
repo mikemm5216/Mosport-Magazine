@@ -8,6 +8,8 @@ rendered read-only.
 - Founder decisions and visual master: [`docs/founder/2026-10-28-spec-lock/`](docs/founder/2026-10-28-spec-lock/)
 - Plan: [`docs/ROADMAP.md`](docs/ROADMAP.md)
 - Image slots and how to replace art: [`docs/ASSET_SLOTS.md`](docs/ASSET_SLOTS.md)
+- B-owned data contracts: [`docs/contracts/B_CONTRACTS_V1.md`](docs/contracts/B_CONTRACTS_V1.md)
+- MOSPORT-A World contract status: [`docs/P2_CONTRACT_COMPATIBILITY.md`](docs/P2_CONTRACT_COMPATIBILITY.md) (BLOCKED)
 
 ## Run
 
@@ -18,7 +20,11 @@ Open `site/index.html` in a browser. No build step, no server required.
 | `?lang=en` | English edition (brand strings stay English in both) |
 | `?theme=dark` | Night mode (also remembered from the toggle) |
 | `?fixture=empty` | An issue with no eligible content: slots disappear |
-| `?fixture=bypass` | Unapproved high-risk items injected: they must not render |
+| `?fixture=bypass` / `bypass2` | Unapproved, mis-approved or borrowed approvals: they must not render |
+| `?fixture=invalid` / `dupid` / `live` | Unsupported schema, duplicate ids, LIVE issue on prototype data: whole issue refused |
+| `?fixture=badtime` / `stale` / `staleapproval` / `retracted` / `slotmismatch` | Bad times, expired issue, content edited after approval, retracted source, wrong slot type |
+| `?fixture=longtitle` / `xss` / `loadfail` | Layout stress, markup in content (rendered as text), provider failure |
+| `?issue=<name>` | Load `data/issues/<name>.json` (prototype only, served over http) |
 | `?slots=1` | Outline image slots with id, state, version and reason |
 | `?art=fallback` | Show every art slot's fallback (layout must not change) |
 | `?art=candidate` | Preview CANDIDATE art awaiting Founder approval (prototype only) |
