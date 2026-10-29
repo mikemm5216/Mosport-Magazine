@@ -62,3 +62,25 @@ Cross-lane companion: `Mosport-NBA/docs/operations/REFERENCE-CANDIDATES-2026-10-
 Existing relevant records: `docs/ROADMAP.md`,
 `docs/P2_CONTRACT_COMPATIBILITY.md`, and
 `docs/sources/FREE_SOURCE_INVENTORY.md`; recheck status before execution.
+
+## Founder clarification under discussion — Media, Coach and ordering
+
+On 2026-10-29 the Founder proposed the conceptual flow:
+**Media Engine + crawler → data → causality → PMV/TMV → Physio/Psycho →
+World Engine → Coach Engine → Media Engine.** The two Media positions represent
+upstream evidence collection/processing and downstream production/distribution,
+not a second World decision. Source-backed media items are candidates only;
+A must accept evidence under its own identity, rights, chronology and feature
+contracts. B's evidence-candidate@0 is research-only and is not sent to A.
+Coach explains or supports participation using the locked World output; it must
+not change that output. Media cannot create or revise a World judgment.
+
+**Architecture discrepancy to resolve:** current A
+`src/domain/features/contract.ts` declares PHYSIO→PMV, PSYCHO→PMV,
+PHYSIO→TMV, PSYCHO→TMV, PMV→TMV and TMV→WORLD. The proposed conceptual order
+places PMV/TMV before Physio/Psycho. It must not be represented as the current
+implemented execution graph. Determine whether the Founder intends literal
+computational dependencies or a high-level functional view, and reconcile the
+contracts before any engine rewiring. This note does not implement or approve
+a graph change.
+
