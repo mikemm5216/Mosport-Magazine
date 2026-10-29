@@ -84,3 +84,29 @@ computational dependencies or a high-level functional view, and reconcile the
 contracts before any engine rewiring. This note does not implement or approve
 a graph change.
 
+
+## Historical NBA topology evidence — checked 2026-10-29
+
+The Founder-recalled order has documentary support: Terminal
+[PR #485](https://github.com/mikemm5216/Mosport-Terminal/pull/485), merged
+2026-05-25, describes causality → TMV foundation → Physio/Psycho → World
+simulation. Its preceding readiness probe describes PMV *contribution evidence*
+and TMV *foundation* rather than established PMV/TMV scores:
+[probe](https://github.com/mikemm5216/Mosport-Terminal/blob/ae608b26a9efb115b13b080904d1d9fd8bd5ec57/docs/engineering/nba-pmv-tmv-readiness-evidence-probe.md).
+
+A different later rolling chain is evidenced by Terminal
+[PR #506](https://github.com/mikemm5216/Mosport-Terminal/pull/506) and
+[PR #507](https://github.com/mikemm5216/Mosport-Terminal/pull/507), merged
+2026-05-27: causality → Physio/Psycho rerun → PMV/TMV foundation; #507 says it
+consumes #506. These are distinct historical workflows, not proof that either
+alone settled the Founder's final architecture.
+
+Current A [ADR-005](https://github.com/mikemm5216/Mosport-NBA/blob/main/docs/adr/ADR-005-SINGLE-DECISION-AUTHORITY.md)
+and [calculation audit](https://github.com/mikemm5216/Mosport-NBA/blob/main/docs/audit/reports/NBA-CIA-2026-10-001.md)
+report value-level double-counting and that the cited rolling chain's PMV/TMV
+and Physio/Psycho stages counted rows rather than propagating calculated values;
+the audit also reports target-game box-score leakage in a separate V16-B path.
+These are audit findings, not proof that all historical experiments are invalid.
+Current A's allowed edges and proposed Founder product flow still disagree;
+this documentation records the evidence without changing engine contracts,
+selecting a topology, or claiming runtime, accuracy or production readiness.
