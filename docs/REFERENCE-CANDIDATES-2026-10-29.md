@@ -6,10 +6,7 @@ publication policy, or runtime changes follow from this record.
 
 ## Architecture and product boundary
 
-Preserve the Founder's named architecture: **資料 → 因果鏈 → PMV/TMV →
-生理/心理 → World Engine**. This is a conceptual record, not a change to
-A's actual governed engine edges, scoring owners, or execution order.
-World Engine in A remains the only game-judgment authority; B renders eligible
+Founder direction: Physio/Psycho inform player PMV; TMV is independent team value; World incorporates environmental context. See the Founder architecture correction below. Current A code does not yet implement this direction. World Engine in A remains the only game-judgment authority; B renders eligible
 A outputs read-only and does not calculate, adjust, or invent predictions.
 
 The product goal is a real-game prediction whenever the A evidence and an
@@ -104,6 +101,6 @@ report value-level double-counting and that the cited rolling chain's PMV/TMV
 and Physio/Psycho stages counted rows rather than propagating calculated values;
 the audit also reports target-game box-score leakage in a separate V16-B path.
 These are audit findings, not proof that all historical experiments are invalid.
-Current A's allowed edges and proposed Founder product flow still disagree;
+Current A's allowed edges and the accepted Founder direction still disagree;
 this documentation records the evidence without changing engine contracts,
 selecting a topology, or claiming runtime, accuracy or production readiness.
