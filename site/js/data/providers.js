@@ -8,8 +8,10 @@
  *          prototype mode only. The name is restricted so a link cannot point the
  *          reader at an arbitrary URL. Served over http(s); file:// fails to load.
  *
- * There is no MOSPORT-A provider: A has no published game-level World package
- * (docs/P2_CONTRACT_COMPATIBILITY.md). `worldSource` stays PROTOTYPE_FIXTURE.
+ * There is no MOSPORT-A provider. A's world-analysis-package@1 is read only by the
+ * internal inspector (js/contracts/world-a1.js): v1 is INTERNAL and NOT_ISSUED, and
+ * A has no delivery transport or release rules yet (docs/P2_CONTRACT_COMPATIBILITY.md).
+ * `worldSource` stays PROTOTYPE_FIXTURE.
  */
 (function (root) {
   'use strict';

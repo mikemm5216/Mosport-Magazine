@@ -1,0 +1,25 @@
+{
+  "purpose": "Contract-test fixtures for B-P2-01a. Byte-exact copies of files MOSPORT-A publishes for consumers. Not a live feed, not a forecast, never rendered to the public reader.",
+  "sourceRepository": "mikemm5216/Mosport-NBA",
+  "sourceCommit": "4e56f0dc9aa180364b61d2062784e4e16ef6ea85",
+  "contractDoc": "docs/contracts/WORLD-ANALYSIS-PACKAGE-V1.md",
+  "files": [
+    {
+      "path": "real-401909893-20261029.json",
+      "sourcePath": "docs/contracts/samples/real-401909893-20261029.json",
+      "gitBlob": "32675fd5f7abfc0d1090d92d1dda504701b0855e",
+      "sha256": "7c3d76ac231f225c497f1d0189cc738a571d8c642b853d47260b70b8c3716eea",
+      "authentic": true,
+      "game": "CLE at ATL, espn:401909893, tipoff 2026-10-30T00:00:00.000Z",
+      "aQualification": "REAL_PREGAME_QUALIFIED for schedule receipt timing only (docs/contracts/world-analysis-package-v1-real-sample-status.json). World NOT_ISSUED, INTERNAL, rights UNVERIFIED."
+    },
+    {
+      "path": "synthetic-package.a.json",
+      "sourcePath": "tests/fixtures/world-package/synthetic-package.json",
+      "gitBlob": "4aaa17f0c2c1c3a73139faf330909ce366ad6341",
+      "sha256": "53b168d93bccf15d9164ff3471172ca0bfd6adc1e7bd7eee53ba084f10f43e6e",
+      "authentic": false,
+      "game": "A's synthetic consumer example (espn:999000001). Not real data."
+    }
+  ]
+}

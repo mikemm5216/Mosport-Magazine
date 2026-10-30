@@ -1,0 +1,107 @@
+{
+  "schema": "mosport-a/world-analysis-package@1",
+  "owner": "MOSPORT-A",
+  "producerVersion": "world-package/1.0.0",
+  "packageId": "mosport-a:espn:999000001",
+  "revision": "sha256:7cec37ceaad06338e50cd566e36f182e18f3a6b0e34902d4577c9894d7d0c1d6",
+  "fingerprint": "7cec37ceaad06338e50cd566e36f182e18f3a6b0e34902d4577c9894d7d0c1d6",
+  "asOf": "2027-10-14T20:11:00.000Z",
+  "lockAt": "2027-10-14T20:10:00.000Z",
+  "validUntil": "2027-10-14T20:15:00.000Z",
+  "game": {
+    "canonicalId": "espn:999000001",
+    "espnGameId": "999000001",
+    "nbaGameId": {
+      "status": "BLOCKED_MISSING",
+      "value": null,
+      "reason": "IDENTITY_UNRESOLVED"
+    },
+    "competition": "NBA_REGULAR_SEASON",
+    "home": {
+      "franchiseId": "MNBA-F16",
+      "espnTeamId": "18",
+      "displayCode": "NY"
+    },
+    "away": {
+      "franchiseId": "MNBA-F02",
+      "espnTeamId": "2",
+      "displayCode": "BOS"
+    },
+    "tipoffAt": "2027-10-14T23:00:00.000Z",
+    "venue": {
+      "venueId": "MNBA-V04",
+      "timeZone": "America/New_York",
+      "localDate": "2027-10-14",
+      "role": "HOME_DESIGNATED"
+    }
+  },
+  "evidence": {
+    "receipt": {
+      "provider": "ESPN_SCOREBOARD",
+      "sourceClass": "ESPN_PROVISIONAL",
+      "requestedDate": "20271014",
+      "sourceRef": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20271014",
+      "observedAt": "2027-10-14T20:00:00.000Z",
+      "sha256": "6461563e7c0ea82ce596e4da6e6c873b1a75b1b1c1adc42b6ef9a3e5aa92384a"
+    },
+    "observation": {
+      "observedAt": "2027-10-14T20:00:00.000Z",
+      "sha256": "f009ad7a90db5b4dc871b7a6f61583c37af3f3783ec01ffe901fb5f18124e2d3"
+    },
+    "snapshot": null,
+    "snapshotMissingReason": "SOURCE_NOT_PUBLISHED",
+    "franchiseRegistrySha256": "89f454ce9be91b8ddf2d10d85f0c3ff1f913478c5d5f718a7d2cd96de7ac0d80",
+    "venueRegistrySha256": "c092dd89152aca5cb9b01faa72607cbff7696ab596611bf853df0439ffc6fa54"
+  },
+  "qualification": {
+    "schedule": "OBSERVED_PROVISIONAL",
+    "reason": null,
+    "rights": "UNVERIFIED",
+    "schedulePublicEligible": false
+  },
+  "lifecycle": {
+    "state": "ACTIVE",
+    "supersededByReceipt": null,
+    "receipt": {
+      "sourceRef": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20271014",
+      "observedAt": "2027-10-14T20:00:00.000Z",
+      "sha256": "6461563e7c0ea82ce596e4da6e6c873b1a75b1b1c1adc42b6ef9a3e5aa92384a"
+    }
+  },
+  "world": {
+    "state": "NOT_ISSUED",
+    "homeWinProbability": null,
+    "interval60": null,
+    "verdict": null,
+    "why": {
+      "status": "BLOCKED_MISSING",
+      "value": null,
+      "reason": "SOURCE_NOT_PUBLISHED"
+    },
+    "missingReason": "FEATURE_PIPELINE_NOT_CONNECTED",
+    "engine": {
+      "status": "BLOCKED_MISSING",
+      "value": null,
+      "reason": "SOURCE_NOT_PUBLISHED"
+    },
+    "distributionEligibility": "INTERNAL",
+    "publiclyEligible": false
+  },
+  "follow": {
+    "status": {
+      "status": "BLOCKED_MISSING",
+      "value": null,
+      "reason": "SOURCE_NOT_PUBLISHED"
+    },
+    "score": {
+      "status": "BLOCKED_MISSING",
+      "value": null,
+      "reason": "POSTGAME_ONLY"
+    },
+    "settlement": {
+      "status": "BLOCKED_MISSING",
+      "value": null,
+      "reason": "SOURCE_NOT_PUBLISHED"
+    }
+  }
+}

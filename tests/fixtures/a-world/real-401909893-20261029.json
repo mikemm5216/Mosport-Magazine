@@ -1,0 +1,110 @@
+{
+  "asOf": "2026-10-29T08:47:38.083Z",
+  "evidence": {
+    "franchiseRegistrySha256": "89f454ce9be91b8ddf2d10d85f0c3ff1f913478c5d5f718a7d2cd96de7ac0d80",
+    "observation": {
+      "observedAt": "2026-10-29T08:47:37.799Z",
+      "sha256": "5f1c44b8a78a23ff158d27ff239febebfb2317a65f87b769184037fef38bbba2"
+    },
+    "receipt": {
+      "observedAt": "2026-10-29T08:47:37.799Z",
+      "provider": "ESPN_SCOREBOARD",
+      "requestedDate": "20261029",
+      "sha256": "7472b9ed579506ed4826dc746505e1da4f0e94bde05101b514f6c3c1f95e4add",
+      "sourceClass": "ESPN_PROVISIONAL",
+      "sourceRef": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261029"
+    },
+    "snapshot": {
+      "capturedAt": "2026-10-29T08:47:38.081Z",
+      "sha256": "6bae65fd8326e7e2cddb5dd75c45721d19218bd8aaf259172a1e025bc1ed5c38"
+    },
+    "snapshotMissingReason": null,
+    "venueRegistrySha256": "c092dd89152aca5cb9b01faa72607cbff7696ab596611bf853df0439ffc6fa54"
+  },
+  "fingerprint": "5aa4f3ef1295c0cc90cece9686b656272e0790aa8b3b13cc45ca30460b05c25e",
+  "follow": {
+    "score": {
+      "reason": "POSTGAME_ONLY",
+      "status": "BLOCKED_MISSING",
+      "value": null
+    },
+    "settlement": {
+      "reason": "SOURCE_NOT_PUBLISHED",
+      "status": "BLOCKED_MISSING",
+      "value": null
+    },
+    "status": {
+      "reason": "SOURCE_NOT_PUBLISHED",
+      "status": "BLOCKED_MISSING",
+      "value": null
+    }
+  },
+  "game": {
+    "away": {
+      "displayCode": "CLE",
+      "espnTeamId": "5",
+      "franchiseId": "MNBA-F03"
+    },
+    "canonicalId": "espn:401909893",
+    "competition": "NBA_REGULAR_SEASON",
+    "espnGameId": "401909893",
+    "home": {
+      "displayCode": "ATL",
+      "espnTeamId": "1",
+      "franchiseId": "MNBA-F01"
+    },
+    "nbaGameId": {
+      "reason": "IDENTITY_UNRESOLVED",
+      "status": "BLOCKED_MISSING",
+      "value": null
+    },
+    "tipoffAt": "2026-10-30T00:00:00.000Z",
+    "venue": {
+      "localDate": "2026-10-29",
+      "role": "HOME_DESIGNATED",
+      "timeZone": "America/New_York",
+      "venueId": "MNBA-V01"
+    }
+  },
+  "lifecycle": {
+    "receipt": {
+      "observedAt": "2026-10-29T08:47:37.799Z",
+      "sha256": "7472b9ed579506ed4826dc746505e1da4f0e94bde05101b514f6c3c1f95e4add",
+      "sourceRef": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261029"
+    },
+    "state": "ACTIVE",
+    "supersededByReceipt": null
+  },
+  "lockAt": "2026-10-29T08:47:38.081Z",
+  "owner": "MOSPORT-A",
+  "packageId": "mosport-a:espn:401909893",
+  "producerVersion": "world-package/1.0.0",
+  "qualification": {
+    "reason": null,
+    "rights": "UNVERIFIED",
+    "schedule": "OBSERVED_PROVISIONAL",
+    "schedulePublicEligible": false
+  },
+  "revision": "sha256:5aa4f3ef1295c0cc90cece9686b656272e0790aa8b3b13cc45ca30460b05c25e",
+  "schema": "mosport-a/world-analysis-package@1",
+  "validUntil": "2026-10-29T09:02:37.799Z",
+  "world": {
+    "distributionEligibility": "INTERNAL",
+    "engine": {
+      "reason": "SOURCE_NOT_PUBLISHED",
+      "status": "BLOCKED_MISSING",
+      "value": null
+    },
+    "homeWinProbability": null,
+    "interval60": null,
+    "missingReason": "FEATURE_PIPELINE_NOT_CONNECTED",
+    "publiclyEligible": false,
+    "state": "NOT_ISSUED",
+    "verdict": null,
+    "why": {
+      "reason": "SOURCE_NOT_PUBLISHED",
+      "status": "BLOCKED_MISSING",
+      "value": null
+    }
+  }
+}

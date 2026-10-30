@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MOSPORT · A 賽前包檢視（INTERNAL）</title>
+<link rel="icon" href="../assets/brand/mosport-mark.svg">
+<link rel="stylesheet" href="../css/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="css/editor.css">
+</head>
+<body class="page-editor">
+<!-- Internal tooling. The public reader pages never load anything under internal/.
+     This page reads a MOSPORT-A world-analysis-package@1 file the operator picks; it
+     fetches nothing, stores nothing and shows no number, interval or verdict. -->
+<header class="ed-top"><span class="ed-brand">MOSPORT</span><span class="ed-title">A 賽前包檢視 · A World package inspector</span></header>
+<div class="ed-banner">INTERNAL — 只檢查 A 交付的檔案，不是公開頁面、不是即時資料。Not a public page or live feed.</div>
+<main class="ed-main">
+  <label class="ap-pick">選擇 A 的 package JSON · Choose an A package file <input id="ap-file" type="file" accept="application/json,.json"></label>
+  <label class="ap-pick">讀取時間 · Read at (UTC ISO) <input id="ap-now" type="text" size="28" spellcheck="false"></label>
+  <section id="ap-out" aria-live="polite"><p>尚未載入 · No package loaded</p></section>
+</main>
+<script src="../js/contracts/contracts.js"></script>
+<script src="../js/contracts/world-a1.js"></script>
+<script src="js/a-package.js"></script>
+</body>
+</html>

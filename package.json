@@ -7,7 +7,7 @@
   "scripts": {
     "test": "npm run assets:check && npm run registry:check && npm run test:unit && npm run test:e2e",
     "test:unit": "node --test tests/unit/*.test.js",
-    "test:e2e": "node tests/e2e/run.js && node tests/e2e/native-candidate.js && node tests/e2e/sport-assets.js",
+    "test:e2e": "node tests/e2e/run.js && node tests/e2e/native-candidate.js && node tests/e2e/sport-assets.js && node tests/e2e/a-package.js",
     "registry:build": "node scripts/build-registry.js",
     "registry:check": "node scripts/build-registry.js --check",
     "setup:browsers": "playwright install chromium",

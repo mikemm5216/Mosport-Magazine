@@ -7,8 +7,9 @@
  * receipts, the Editor layout plan and the magazine issue that bundles them.
  * The game entries inside an issue use B's *prototype* World view
  * (`mosport-b/prototype-game@0`). That is a B fixture shape, NOT a MOSPORT-A
- * contract: A has no published game-level World package yet
- * (docs/P2_CONTRACT_COMPATIBILITY.md). Nothing here computes a World value.
+ * contract. A's real package, world-analysis-package@1, is checked separately by
+ * world-a1.js and cannot reach a magazine issue (docs/P2_CONTRACT_COMPATIBILITY.md).
+ * Nothing here computes a World value.
  *
  * Every validator returns a list of problems `{ code, path, detail }`;
  * an empty list means valid. Unknown fields are rejected, so a record cannot
