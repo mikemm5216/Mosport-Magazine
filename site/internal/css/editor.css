@@ -55,3 +55,10 @@ body.page-editor { background: var(--desk); color: var(--ink); font-family: var(
 .ed-slot { border: 1px solid var(--rule); border-radius: 8px; padding: 10px; background: var(--card); }
 .ed-slot ol { padding-left: 18px; margin: 6px 0; font-size: 14px; }
 .ed-slot select { max-width: 100%; }
+/* A World package inspector (internal/a-package.html). */
+.ap-pick { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; }
+.ap-pick input[type="text"] { min-height: 32px; padding: 0 8px; font-family: ui-monospace, monospace; max-width: 100%; }
+.ap-dl { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 16px; margin: 0; }
+@media (min-width: 900px) { .ap-dl { grid-template-columns: 260px minmax(0, 1fr); } }
+.ap-dl dt { font-weight: 700; color: var(--ink); }
+.ap-dl dd { margin: 0 0 8px; font-family: ui-monospace, monospace; font-size: 13px; overflow-wrap: anywhere; }

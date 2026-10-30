@@ -12,7 +12,7 @@ Order follows the Founder engineering instructions of 2026-10-28 and 2026-10-29:
 | Merged frontend | Magazine spread and mobile cover; Today / Schedule / Review / Match; zh/en; light/dark; Reader Zoom (Fit Width default, Fit Page, 50–200%); asset registry with CANDIDATE art; NBA marks wired in the prototype | `main` @ `b97144a` |
 | P2 this round | B-owned contracts, content store, one data path for every page, prototype adapter, World re-audit | PR "B-P2: contracts, store, unified data path" |
 | P3 this round | Editorial workflow, receipts, risk routing, M-01…M-07, internal editor prototype | PR "B-P3" (stacked on P2) |
-| A World contract | **BLOCKED**: A has no game-level package yet | `docs/P2_CONTRACT_COMPATIBILITY.md` |
+| A World contract | **PARTIAL**: A published `world-analysis-package@1` (NOT_ISSUED, INTERNAL only). B validates it and shows it on an internal inspector; nothing reaches the public reader | `docs/P2_CONTRACT_COMPATIBILITY.md` |
 | Real publishing | Not built: no identity system, no server-side release authority, no deployment | ADR-B002 scope limit; ADR-B003 |
 | Asset commercial basis | Not established: team marks and art are prototype-only (UNVERIFIED rights); Founder visual sign-off pending | #5, #7, `docs/LOGO_PROVENANCE_AUDIT.md` |
 | Other sports | Asset libraries only: no schedule, data or World support | `docs/FOUNDER_FOLLOWUP_20261028.md` |
@@ -31,7 +31,8 @@ Order follows the Founder engineering instructions of 2026-10-28 and 2026-10-29:
 | **B-P1-06** | Browser acceptance matrix and screenshots | B-P1-04, 05 | Merged (#6) |
 | **B-P1-07** | Reader Zoom (Fit Width default, Fit Page, ±, 100%) | B-P1-04 | Merged (#6); Codex URL/zoom finding fixed in B-P2 |
 | **B-P1-08** | Asset registry; CANDIDATE art; NBA marks in prototype | B-P1-02 | Merged (#6); final art (#7) and rights (#5) open |
-| B-P2-01 | Read-only adapter for an A World Analysis Package | A: SNAP-01, ENGINE-04, SERVE-01/02, REL-00 | **BLOCKED**: re-audit and questions for A in `docs/P2_CONTRACT_COMPATIBILITY.md` |
+| B-P2-01a | Read-only consumer of A `world-analysis-package@1` + internal inspector, tested on A's authentic CLE at ATL sample | A: VERTICAL-01a (merged, A #55) | PARTIAL, Draft PR: validator, read state, revision select, public projection (always closed in v1) |
+| B-P2-01b | Public Schedule → Match → Home rendering of an A package | A: ENGINE-04, SERVE-01/02, REL-00, rights, delivery transport | **BLOCKED** on A (`docs/P2_CONTRACT_COMPATIBILITY.md`) |
 | B-P2-02 | Editorial contracts and content store | B-P1-03 | In PR (P2) |
 | B-P2-03 | One data path (provider → contracts → references → gate → public model) for every page; prototype adapter | B-P2-02 | In PR (P2); real World data waits on B-P2-01 |
 | B-P3-01 | Workflow state machine, QA, publication receipts, correction/withdraw, local persistence | B-P2-02 | In PR (P3, stacked on #8); DEMO environment only, ADR-B003 |
