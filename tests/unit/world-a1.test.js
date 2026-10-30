@@ -150,6 +150,32 @@ test('chronology, identity, provenance and venue date are cross-checked', () => 
   assert.equal(code(snap), 'INVALID_SNAPSHOT_CHRONOLOGY');
 });
 
+test('each chronology, identity, lifecycle and qualification clause is enforced on its own', () => {
+  const edit = (f) => { const p = clone(REAL); f(p); return code(resign(p)); };
+  /* lock after as-of, tipoff still later */
+  assert.equal(edit((p) => { p.lockAt = '2026-10-29T08:47:38.090Z'; p.evidence.snapshot.capturedAt = '2026-10-29T08:47:38.085Z'; }), 'INVALID_PACKAGE_CHRONOLOGY');
+  /* receipt observed after as-of, everything else consistent */
+  assert.equal(edit((p) => { p.asOf = '2026-10-29T08:47:37.900Z'; p.lockAt = '2026-10-29T08:47:37.850Z'; p.evidence.snapshot.capturedAt = '2026-10-29T08:47:37.820Z'; p.evidence.receipt.observedAt = p.evidence.observation.observedAt = p.lifecycle.receipt.observedAt = '2026-10-29T08:47:37.950Z'; p.validUntil = '2026-10-29T09:02:37.950Z'; }), 'INVALID_PACKAGE_CHRONOLOGY');
+  /* tipoff before lock, as-of after both */
+  assert.equal(edit((p) => { p.game.tipoffAt = '2026-10-29T08:47:38.000Z'; p.game.venue.localDate = '2026-10-29'; p.validUntil = p.game.tipoffAt; }), 'INVALID_PACKAGE_CHRONOLOGY');
+  assert.equal(edit((p) => { p.game.away.espnTeamId = p.game.home.espnTeamId; }), 'IDENTITY_UNRESOLVED');
+  assert.equal(edit((p) => { p.game.canonicalId = 'espn:1'; p.packageId = 'mosport-a:espn:1'; }), 'GAME_ID_MISMATCH');
+  assert.equal(edit((p) => { p.lifecycle.receipt.observedAt = '2026-10-29T08:47:38.090Z'; }), 'INVALID_LIFECYCLE_PROVENANCE');
+  assert.equal(edit((p) => { p.lifecycle.receipt.sourceRef = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20261030'; }), 'INVALID_LIFECYCLE_PROVENANCE');
+  assert.equal(edit((p) => { p.lifecycle.state = 'SUPERSEDED'; p.lifecycle.supersededByReceipt = p.evidence.receipt.sha256; }), 'INVALID_SUPERSESSION');
+  assert.equal(edit((p) => { p.evidence.snapshot.capturedAt = '2026-10-29T08:47:38.082Z'; }), 'INVALID_SNAPSHOT_CHRONOLOGY');
+  assert.equal(edit((p) => { p.qualification.reason = 'POSTGAME_ONLY'; }), 'PRELOCK_EVIDENCE_REQUIRED');
+  assert.equal(edit((p) => { p.qualification.schedule = 'BLOCKED_MISSING'; }), 'MISSING_REASON_REQUIRED');
+  assert.equal(edit((p) => { p.qualification.schedule = 'BLOCKED_MISSING'; p.qualification.reason = 'TIMESTAMP_UNVERIFIED'; }), undefined);
+  /* validUntil uses the tipoff arm when tipoff is within 15 minutes of the receipt */
+  const near = clone(REAL); near.game.tipoffAt = '2026-10-29T08:50:00.000Z'; near.validUntil = near.game.tipoffAt; resign(near);
+  assert.equal(W.validate(near).ok, true);
+  near.validUntil = '2026-10-29T09:02:37.799Z'; resign(near);
+  assert.equal(code(near), 'INVALID_VALID_UNTIL');
+  /* a non-plain object is not a package */
+  assert.equal(code(Object.assign(Object.create({ x: 1 }), clone(REAL))), 'NOT_OBJECT');
+});
+
 test('a missing snapshot needs its typed reason; a reason without a missing snapshot is refused', () => {
   const ok = clone(REAL); ok.evidence.snapshot = null; ok.evidence.snapshotMissingReason = 'SOURCE_NOT_PUBLISHED'; resign(ok);
   assert.equal(W.validate(ok).ok, true);

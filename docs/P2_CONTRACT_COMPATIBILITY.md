@@ -27,7 +27,9 @@ correct display state, not a gap B should fill.
   `RIGHTS_UNVERIFIED`, and `READ_STALE` / `READ_WITHDRAWN` / `READ_SUPERSEDED`).
 
 What B **cannot** verify and does not claim (`CONSUMER_LIMITS`): who issued the file, A's
-franchise/venue registry digests (A replay is required), the source bytes, and live withdrawal
+franchise/venue registry digests and A's identity resolution (ESPN team id → franchise →
+display code at tipoff; venue zone and alias windows), which need A replay; the source
+bytes; and live withdrawal
 (A has no revocation transport; a saved file cannot announce a later withdrawal).
 
 ## One real game: CLE at ATL, `espn:401909893`

@@ -8,7 +8,9 @@
  * versions fail), canonical UTC instants, fingerprint and revision, chronology,
  * game id, provider provenance, venue local date, lifecycle and freshness rules.
  * B cannot check, and does not claim: who issued the file, A's franchise/venue
- * registry digests (A replay is required for that) or the source bytes themselves.
+ * registry digests, A's identity resolution (ESPN team id → franchise → display
+ * code at tipoff; venue zone and alias windows), all of which need A replay, or the
+ * source bytes themselves.
  *
  * v1 cannot carry an issued judgment: world.state is only NOT_ISSUED, every number
  * is null, distribution is INTERNAL and rights are UNVERIFIED. So nothing from a v1
@@ -24,7 +26,7 @@
   var FRESH_MS = 15 * 60 * 1000;
   var READ_STATES = ['ACTIVE', 'STALE', 'WITHDRAWN', 'SUPERSEDED'];
   /* What B cannot verify from the file alone. Shown with every internal view. */
-  var CONSUMER_LIMITS = ['ISSUER_NOT_AUTHENTICATED', 'REGISTRY_DIGESTS_NOT_VERIFIED_BY_B', 'SOURCE_BYTES_NOT_AVAILABLE_TO_B', 'NO_LIVE_REVOCATION_TRANSPORT'];
+  var CONSUMER_LIMITS = ['ISSUER_NOT_AUTHENTICATED', 'REGISTRY_DIGESTS_NOT_VERIFIED_BY_B', 'IDENTITY_NOT_RESOLVED_BY_B', 'SOURCE_BYTES_NOT_AVAILABLE_TO_B', 'NO_LIVE_REVOCATION_TRANSPORT'];
 
   /* ---------------- wire shape (mirrors A's strict schema) ---------------- */
 
