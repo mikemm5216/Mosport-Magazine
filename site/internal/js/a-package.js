@@ -9,8 +9,14 @@
   var out = document.getElementById('ap-out');
   var nowIn = document.getElementById('ap-now');
   var q = new URLSearchParams(location.search);
+  var pinnedClock = !!q.get('now');
   nowIn.value = q.get('now') || new Date().toISOString();
+  var clockMode = document.getElementById('ap-clock-mode');
+  function showClockMode() { clockMode.textContent = pinnedClock ? '歷史時間回放 · Replay clock (not live)' : '即時讀取 · Live clock'; }
+  showClockMode();
   var current = null;
+  var currentFacts = null;
+  var F = window.MOSPORT_PREGAME_FACTS;
 
   function el(tag, text, cls) { var e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; }
   function reason(m) { return m.status + ' · ' + m.reason; }
@@ -54,8 +60,26 @@
       ['B 無法驗證 · Not verified by B', v.consumerLimits.join(', '), 'limits']
     ]);
     out.appendChild(dl);
+    if (currentFacts) {
+      var facts = currentFacts.parseError ? { ok: false, reason: 'NOT_JSON' } : F.inspect(currentFacts.json, current.json, nowIn.value);
+      if (!facts.ok) { out.appendChild(el('p', '賽前事實不可顯示 · ' + facts.reason, 'ed-flash is-bad')); return; }
+      out.appendChild(el('h3', '賽前來源事實 · INTERNAL / ESPN'));
+      var table = el('dl', null, 'ap-dl');
+      [['home', '主隊'], ['away', '客隊']].forEach(function (entry) {
+        var side = facts.sides[entry[0]], values = side.statistics;
+        function display(value) { return value.status === 'OBSERVED' ? value.displayValue : '未提供'; }
+        rows(table, [[entry[1] + ' ' + side.team.displayCode, '戰績 ' + display(side.overallRecord) + ' · 場均得分 ' + display(values.avgPoints) + ' · 場均籃板 ' + display(values.avgRebounds) + ' · 場均助攻 ' + display(values.avgAssists) + ' · 投籃% ' + display(values.fieldGoalPct) + ' · 三分% ' + display(values.threePointPct)]]);
+      });
+      out.appendChild(table);
+      out.appendChild(el('p', '來源事實僅供內部檢視；權利未確認，未產生 World 預測。'));
+    }
   }
 
+  document.getElementById('ap-facts').addEventListener('change', function (e) {
+    var f = e.target.files && e.target.files[0];
+    if (!f) return;
+    f.text().then(function (t) { try { currentFacts = { json: JSON.parse(t) }; } catch (err) { currentFacts = { parseError: true }; } render(); });
+  });
   document.getElementById('ap-file').addEventListener('change', function (e) {
     var f = e.target.files && e.target.files[0];
     if (!f) return;
@@ -64,5 +88,6 @@
       render();
     });
   });
-  nowIn.addEventListener('change', render);
+  nowIn.addEventListener('change', function () { pinnedClock = true; showClockMode(); render(); });
+  setInterval(function () { if (!pinnedClock) { nowIn.value = new Date().toISOString(); render(); } }, 1000);
 })();
