@@ -12,8 +12,8 @@ normal clock refreshes once a second; a deliberately selected historical clock
 is explicitly marked replay. The existing limitation remains: no live revocation
 transport, so the inspector cannot detect a remote withdrawal not yet supplied.
 
-Cloud verification: 24 targeted Node tests cover the bridge, internal render,
-expiry, injection refusal and existing World consumer. An actual OKC at CLE
+Cloud verification: 25 targeted Node tests cover the bridge, internal render,
+expiry, injection refusal, preserving clock edits and existing World consumer. An actual OKC at CLE
 source record produced by NBA PR #69 was accepted by the bridge while active.
 No real source payload is included in this PR. Browser visual/e2e checks and
 independent exact-HEAD review remain required; public output is unchanged.

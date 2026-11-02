@@ -42,3 +42,10 @@ test('live inspector removes facts automatically when the source expires',async(
   assert.match(e['ap-out'].textContent,/121\.0/);assert.match(e['ap-clock-mode'].textContent,/Live clock/);
   e.advance(world.validUntil);assert.match(e['ap-out'].textContent,/READ_STALE/);assert.doesNotMatch(e['ap-out'].textContent,/121\.0/);
 });
+
+test('editing the replay clock is not overwritten by live refresh',async()=>{
+  const e=mount(true); await upload(e['ap-file'],world); await upload(e['ap-facts'],facts());
+  e['ap-now'].value='2027-10'; e['ap-now'].listeners.input();
+  e.advance(world.validUntil); assert.equal(e['ap-now'].value,'2027-10');
+  assert.match(e['ap-clock-mode'].textContent,/Replay clock/); assert.doesNotMatch(e['ap-out'].textContent,/121\.0/);
+});

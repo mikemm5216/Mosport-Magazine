@@ -88,6 +88,8 @@
       render();
     });
   });
-  nowIn.addEventListener('change', function () { pinnedClock = true; showClockMode(); render(); });
+  function pinEditedClock() { pinnedClock = true; showClockMode(); render(); }
+  nowIn.addEventListener('input', pinEditedClock);
+  nowIn.addEventListener('change', pinEditedClock);
   setInterval(function () { if (!pinnedClock) { nowIn.value = new Date().toISOString(); render(); } }, 1000);
 })();
