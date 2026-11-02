@@ -15,7 +15,7 @@
   function leader(v) {
     if (!plain(v)) return false;
     if (v.status === 'MISSING') return exact(v, ['status', 'reason']) && v.reason === 'LEADER_UNAVAILABLE';
-    return exact(v, ['status','nbaPersonId','name','points','rebounds','assists','identityMapping']) && v.status === 'OBSERVED' && /^\d+$/.test(v.nbaPersonId) && typeof v.name === 'string' && v.name.length > 0 && v.name.length <= 120 && v.identityMapping === 'NBA_ID_ONLY_UNMAPPED' && metric(v.points) && metric(v.rebounds) && metric(v.assists);
+    return exact(v, ['status','nbaPersonId','name','points','rebounds','assists','identityMapping']) && v.status === 'OBSERVED' && typeof v.nbaPersonId === 'string' && /^\d+$/.test(v.nbaPersonId) && typeof v.name === 'string' && v.name.length > 0 && v.name.length <= 120 && v.identityMapping === 'NBA_ID_ONLY_UNMAPPED' && metric(v.points) && metric(v.rebounds) && metric(v.assists);
   }
   function inspect(f, world, now) {
     try {
@@ -27,7 +27,7 @@
       var body={};Object.keys(f).forEach(function(k){if(k!=='fingerprint')body[k]=f[k];});
       if (typeof f.fingerprint !== 'string' || !/^[a-f0-9]{64}$/.test(f.fingerprint) || C.sha256(C.canonical(body)) !== f.fingerprint) return {ok:false,reason:'LEADER_FINGERPRINT_MISMATCH'};
       if (f.worldRevision !== world.revision || f.asOf !== world.asOf || f.lockAt !== world.lockAt || f.validUntil !== world.validUntil || !same(f.game, world.game)) return {ok:false,reason:'LEADER_WORLD_BINDING_MISMATCH'};
-      if (!/^00[245]\d{7}$/.test(f.nbaGameId) || !exact(f.source,['sourceRef','observedAt','sha256']) || !/^https:\/\/www\.nba\.com\/games\?date=\d{4}-\d{2}-\d{2}$/.test(f.source.sourceRef) || !/^[a-f0-9]{64}$/.test(f.source.sha256)) return {ok:false,reason:'LEADER_SOURCE_REFUSED'};
+      if (typeof f.nbaGameId !== 'string' || !/^00[245]\d{7}$/.test(f.nbaGameId) || !exact(f.source,['sourceRef','observedAt','sha256']) || typeof f.source.sourceRef !== 'string' || typeof f.source.observedAt !== 'string' || typeof f.source.sha256 !== 'string' || !/^https:\/\/www\.nba\.com\/games\?date=\d{4}-\d{2}-\d{2}$/.test(f.source.sourceRef) || !/^[a-f0-9]{64}$/.test(f.source.sha256)) return {ok:false,reason:'LEADER_SOURCE_REFUSED'};
       var observed=C.parseInstant(f.source.observedAt), lock=C.parseInstant(f.lockAt);
       if (!Number.isFinite(observed) || !Number.isFinite(lock) || observed >= lock || new Date(observed).toISOString() !== f.source.observedAt) return {ok:false,reason:'LEADER_CHRONOLOGY_REFUSED'};
       if (!leader(f.home) || !leader(f.away) || (f.home.status === 'OBSERVED' && f.away.status === 'OBSERVED' && f.home.nbaPersonId === f.away.nbaPersonId)) return {ok:false,reason:'LEADER_VALUE_REFUSED'};
