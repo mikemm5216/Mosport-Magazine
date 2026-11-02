@@ -6,6 +6,7 @@ const vm = require('node:vm');
 const C = require('../../site/js/contracts/contracts.js');
 const W = require('../../site/js/contracts/world-a1.js');
 const F = require('../../site/js/contracts/pregame-facts.js');
+const L = require('../../site/js/contracts/official-leaders.js');
 const world = require('../fixtures/a-world/synthetic-package.a.json');
 const clone = x => JSON.parse(JSON.stringify(x));
 function facts() {
@@ -16,10 +17,10 @@ function facts() {
 }
 function mount(live = false) {
   class El { constructor(tag){ this.tag=tag; this.children=[]; this.dataset={}; this.listeners={}; this.value=''; this._text=''; } set textContent(v){this._text=v;this.children=[];} get textContent(){return this._text+this.children.map(x=>x.textContent).join(' ');} appendChild(x){this.children.push(x);} addEventListener(name,fn){this.listeners[name]=fn;} }
-  const map = Object.fromEntries(['ap-out','ap-now','ap-file','ap-facts','ap-clock-mode'].map(id=>[id,new El('div')]));
+  const map = Object.fromEntries(['ap-out','ap-now','ap-file','ap-facts','ap-leaders','ap-clock-mode'].map(id=>[id,new El('div')]));
   let clock = world.asOf, tick = () => {};
   class Clock extends Date { constructor(...args) { super(...(args.length ? args : [clock])); } }
-  const ctx={window:{MOSPORT_WORLD_A1:W,MOSPORT_PREGAME_FACTS:F},document:{getElementById:id=>map[id],createElement:tag=>new El(tag)},URLSearchParams,location:{search:live ? '' : '?now='+encodeURIComponent(world.asOf)},Date:Clock,JSON,setInterval:fn=>{ tick=fn; return 0; }};
+  const ctx={window:{MOSPORT_WORLD_A1:W,MOSPORT_PREGAME_FACTS:F,MOSPORT_OFFICIAL_LEADERS:L},document:{getElementById:id=>map[id],createElement:tag=>new El(tag)},URLSearchParams,location:{search:live ? '' : '?now='+encodeURIComponent(world.asOf)},Date:Clock,JSON,setInterval:fn=>{ tick=fn; return 0; }};
   map.advance = value => { clock=value; tick(); };
   vm.runInNewContext(fs.readFileSync('site/internal/js/a-package.js','utf8'),ctx);
   return map;
@@ -48,4 +49,11 @@ test('editing the replay clock is not overwritten by live refresh',async()=>{
   e['ap-now'].value='2027-10'; e['ap-now'].listeners.input();
   e.advance(world.validUntil); assert.equal(e['ap-now'].value,'2027-10');
   assert.match(e['ap-clock-mode'].textContent,/Replay clock/); assert.doesNotMatch(e['ap-out'].textContent,/121\.0/);
+});
+test('official player observations appear only for matching World and stop at expiry',async()=>{
+  const e=mount(),lead={status:'OBSERVED',nbaPersonId:'111',name:'Player One',points:{status:'OBSERVED',displayValue:'20'},rebounds:{status:'MISSING',reason:'ABSENT_OR_INVALID'},assists:{status:'OBSERVED',displayValue:'4'},identityMapping:'NBA_ID_ONLY_UNMAPPED'};
+  const body={schema:'mosport/internal-official-leaders@1',distribution:'INTERNAL_UNQUALIFIED',rights:'UNVERIFIED',worldState:'NOT_ISSUED',worldRevision:world.revision,lockAt:world.lockAt,asOf:world.asOf,validUntil:world.validUntil,game:world.game,nbaGameId:'0022700001',source:{sourceRef:'https://www.nba.com/games?date=2027-10-14',observedAt:'2027-10-14T20:05:00.000Z',sha256:'a'.repeat(64)},home:lead,away:{status:'MISSING',reason:'LEADER_UNAVAILABLE'}};
+  await upload(e['ap-file'],world);await upload(e['ap-leaders'],{...body,fingerprint:C.sha256(C.canonical(body))});
+  assert.match(e['ap-out'].textContent,/Player One/);assert.match(e['ap-out'].textContent,/非先發或完整名單/);
+  e['ap-now'].value=world.validUntil;e['ap-now'].listeners.change();assert.doesNotMatch(e['ap-out'].textContent,/Player One/);assert.match(e['ap-out'].textContent,/READ_STALE/);
 });

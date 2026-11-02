@@ -16,6 +16,8 @@
   showClockMode();
   var current = null;
   var currentFacts = null;
+  var currentLeaders = null;
+  var L = window.MOSPORT_OFFICIAL_LEADERS;
   var F = window.MOSPORT_PREGAME_FACTS;
 
   function el(tag, text, cls) { var e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; }
@@ -73,8 +75,27 @@
       out.appendChild(table);
       out.appendChild(el('p', '來源事實僅供內部檢視；權利未確認，未產生 World 預測。'));
     }
+    if (currentLeaders) {
+      var leaders = currentLeaders.parseError ? { ok:false, reason:'NOT_JSON' } : L.inspect(currentLeaders.json, current.json, nowIn.value);
+      if (!leaders.ok) { out.appendChild(el('p', 'NBA 官方球員資料不可顯示 · ' + leaders.reason, 'ed-flash is-bad')); return; }
+      out.appendChild(el('h3', 'NBA 官方賽程頁球員觀測 · INTERNAL'));
+      var ld = el('dl', null, 'ap-dl');
+      [['home','主隊'],['away','客隊']].forEach(function (entry) {
+        var x = leaders[entry[0]];
+        function val(v) { return v.status === 'OBSERVED' ? v.displayValue : '未提供'; }
+        rows(ld, [[entry[1], x.status === 'OBSERVED' ? x.name + ' · NBA ID ' + x.nbaPersonId + ' · 得分 ' + val(x.points) + ' · 籃板 ' + val(x.rebounds) + ' · 助攻 ' + val(x.assists) : '未提供']]);
+      });
+      rows(ld, [['NBA 官方賽事', leaders.nbaGameId], ['NBA 來源紀錄', leaders.source.observedAt + ' · ' + leaders.source.sha256]]);
+      out.appendChild(ld);
+      out.appendChild(el('p', '球員為 NBA 官方賽程頁所列代表，非先發或完整名單；跨來源球員 ID 尚未對應。'));
+    }
   }
 
+  document.getElementById('ap-leaders').addEventListener('change', function (e) {
+    var f = e.target.files && e.target.files[0];
+    if (!f) return;
+    f.text().then(function (t) { try { currentLeaders = { json: JSON.parse(t) }; } catch (err) { currentLeaders = { parseError: true }; } render(); });
+  });
   document.getElementById('ap-facts').addEventListener('change', function (e) {
     var f = e.target.files && e.target.files[0];
     if (!f) return;
