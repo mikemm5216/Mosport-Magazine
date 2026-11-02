@@ -17,3 +17,14 @@ expiry, injection refusal, preserving clock edits and existing World consumer. A
 source record produced by NBA PR #69 was accepted by the bridge while active.
 No real source payload is included in this PR. Browser visual/e2e checks and
 independent exact-HEAD review remain required; public output is unchanged.
+
+Follow-up candidate: an optional NBA official leader file binds to the same
+World revision and requires an official observation strictly before lock. It
+shows the provider-designated players and displayed points/rebounds/assists,
+without calling them starters or a complete roster. NBA person IDs remain
+unmapped. Thirty-two focused Node tests cover both fact readers and the inspector;
+full browser visual/e2e checks remain pending. No live revocation transport is
+added. This depends on NBA PR #70 as well as #69 and Magazine PR #14.
+
+Independent review found non-string player IDs could bypass duplicate checks.
+The follow-up requires literal string identifiers and adds regression cases.
