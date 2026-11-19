@@ -73,3 +73,13 @@ M2 分別記錄兩項交付：**Magazine 雙角色 Beta** 可先發布已合格�
 鎖定流程統一為固定研究計算→持久化鎖定→角色內容發布；公開敘事不能先發布再補收據。角色整體成績與 feature 對 World 的增益分開記錄，後者保留同場固定條件對照要求。
 
 獨立唯讀文件覆核結果：PASS-with-scope。確認雙角色、發布先鎖定、M1 排序、兩種 Beta 交付範圍與 feature 增益條件一致；此結論不代表 GitHub 正式 approval、功能實作、模型有效或 runtime 驗收。
+
+## 同日補正：引擎球員價值直接支援評分與 Fantasy
+
+補正截至：2026-11-19T13:27:34+08:00（Asia/Taipei）；來源為 Founder 本輪說明：分數結合現有 feature／World Engine，不需額外評分規則，最後作 Fantasy 價格依據。
+
+本輪將關係寫入既有文件及下一步計畫：同一引擎的正式球員價值供 Magazine 展示與未來 Fantasy 定價引用，沿用 ENGINE-03／04 與 SERVE。撤回 assistant 在討論中另建 Rating 再餵回 PMV 的建議，沒有新增加減分權重、循環輸入或價格公式。賽前、賽後更新及當時價格保留時間版本；不從隊伍勝率反推球員分數。
+
+本輪只更新文件與計畫文字，尚未實作球員分數／Fantasy 定價。既有發布順序與能力狀態不升級；Fantasy 不增加首版上線條件。前節測試／CI 僅代表各自記錄的舊 HEAD，本輪驗證範圍另記。
+
+本輪驗證：Markdown 連結／fence／衝突標記與 whitespace 核對通過；NBA registry renderer／validator 通過，JSON 差異僅限下一步計畫欄位。獨立唯讀文件覆核 PASS-with-scope，確認同源分數、時間版本與 Fantasy 接線一致。未重跑與文字變更無關的整套本機 runtime／瀏覽器測試；此結果不是功能或正式 GitHub approval。

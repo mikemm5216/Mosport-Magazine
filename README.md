@@ -12,6 +12,8 @@ MOSPORT Magazine 有兩個產品角色：**A 生成文章；B 把 feature 驗證
 
 M2 分別記錄兩項交付：**Magazine 雙角色 Beta** 可先發布已合格的文章與角色 B 預測，完成賽前鎖定、發布及官方結算；**NBA 整合預測 Beta** 另須正式 World 數值、INITIAL／T−15 FINAL 與其公開閉環。正式 World 尚未合格，不阻擋已具自身發布資格的 A／B；Magazine 先完成也不代表整合 World 已完成。這是同一 roadmap 的範圍記錄，不新增 gate。
 
+球員評分共用現有 feature 與 World Engine 的正式球員價值：Magazine 呈現及解釋這份分數，Fantasy 後續以同一份價值紀錄作價格依據。這不是另外一套得分／助攻加減分規則；具體換價方式尚未定義，Fantasy 不延後目前上線。
+
 - [當前 roadmap、工作包與完成標準](docs/ROADMAP.md)
 - [跨 repo 契約：文章、官方 World 與研究預測](docs/P2_CONTRACT_COMPATIBILITY.md)
 - [2026-11-19 計畫與實際狀態，OPEN](docs/reports/2026-11-19-LAUNCH-FIRST-PLAN-VS-ACTUAL.md)
