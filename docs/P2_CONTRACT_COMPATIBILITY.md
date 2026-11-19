@@ -1,10 +1,10 @@
-# B-P2-01 — World 契約相容性與 NBA Beta 公開版接線
+# B-P2-01 — 文章、官方 World 與媒體角色研究預測的契約
 
 ## 2026-11-19：目前結論與工程方向
 
-**現有 v1 仍只供內部使用；公開數值版為待實作的版本化契約。** 這次 roadmap 更新沒有修改 schema、validator、`publicProjection` 或發布權限，也沒有將離線 consumer 宣稱為真實線上服務。
+**現有 World v1 仍只供內部使用；文章生成、研究角色預測與官方 World 公開讀取是不同資料用途。** 新增用途需要明確版本化的契約與 consumer。本次只更新設計文字，沒有修改 schema、validator、`publicProjection` 或發布權限，也沒有將離線 consumer 宣稱為真實線上服務。
 
-文件基線：Magazine `main@e4874cba32a7f91c110167bc3ea9e5f779294ed1`。工程優先順序依 [B #19](https://github.com/mikemm5216/Mosport-Magazine/issues/19)、[A #170](https://github.com/mikemm5216/Mosport-NBA/issues/170) 與 [A #73 共同主 roadmap](https://github.com/mikemm5216/Mosport-NBA/pull/73)。10/29、10/30 的相容性稽核保留在本文件後半，所有其中的「today／current／blocked」均指當時檢查範圍，不能單獨引用為 11/19 的全系統狀態。
+文件基線：Magazine `main@e4874cba32a7f91c110167bc3ea9e5f779294ed1`。11/19 Founder 明確區分產品角色 A「生成文章」、角色 B「feature 驗證，呈現為媒體／創作者預測」；這不是 repository A／B 的命名。更新沿用 [Magazine PR #20](https://github.com/mikemm5216/Mosport-Magazine/pull/20)、[B #19](https://github.com/mikemm5216/Mosport-Magazine/issues/19)、[NBA #170](https://github.com/mikemm5216/Mosport-NBA/issues/170) 與 [NBA #73 主 roadmap](https://github.com/mikemm5216/Mosport-NBA/pull/73)。10/29、10/30 歷史稽核保留在後半，其中的「today／current／blocked」僅指當時檢查範圍。
 
 | 對象 | 目前能證明的範圍 | NBA Beta 的接續 |
 |---|---|---|
@@ -13,12 +13,18 @@
 | [B #16](https://github.com/mikemm5216/Mosport-Magazine/pull/16) | lockedWorld 離線 consumer 的候選工作 | 重用驗證邏輯，補實際傳輸、發布者身分、撤回與公開資格 |
 | [A #168](https://github.com/mikemm5216/Mosport-NBA/pull/168) | PMV／獨立 TMV／World 的內部數值候選 | 模型 release 與公開契約須分別完成；不能將 INTERNAL_CANDIDATE 直接公開 |
 | 公開版契約（暫稱 v2） | 本節是需求設計，不是已存在的 schema | A 定義正式版本與 producer；B 嚴格依已發布 schema 增加 consumer，舊 v1 語意保持封閉 |
+| 研究預測公開 payload／persona 映射 | 本節新增設計，尚未實作；可承接既有研究 forecast／receipt | NBA 研究服務提供版本化的 pick／合格機率、規則與完整 ledger；Magazine 的角色內容引用它，不等待正式 World 採納 |
+| 文章與角色內容契約 | 既有 B-owned 內容契約／DEMO 工作流可承接 | 版本化擴充來源、文章生成、角色版本與 forecast 引用；以實際發布流程接線，不把 DEMO 視為 production |
 
-### A／B 責任與模型關係
+### Repository 分工與產品雙角色
 
 A 擁有 World 計算、模型版本、輸入時序與鎖定。PMV 與 TMV 獨立，World 整合兩者及環境；這是 [A #59](https://github.com/mikemm5216/Mosport-NBA/issues/59) 與 [#72 後續 Founder 決策](https://github.com/mikemm5216/Mosport-NBA/pull/72) 對 10/28 C-1 舊 `PMV → TMV` 文字的更新。歷史 Founder 原文不修改。
 
-B 只讀 A 發出的已核准輸出，不能計算、修正、補值或按新聞重調機率。這同時適用於 Current World 與 Experimental Challenger。Elo 比較結果也由 A 的評估工作提供；B 不以它替代缺失 World。
+**產品角色 A** 在 Magazine 從合格新聞、資料與事實生成文章，適用時引用 World；一般新聞文章不必先有一份 World 預測。來源、事實、文章版本與發布 receipt 可追溯。
+
+**產品角色 B** 將 feature 研究結果寫成 MOSPORT 自有媒體／創作者的預測專欄。NBA 研究服務按事先固定且版本化的規則產生 pick／合格機率；Magazine 生成文風、理由呈現與欄目，不任意改預測或增加數值。研究觀點可以與官方 World 相反，不必先被正式模型採納。正式 World 仍是唯一官方判讀，兩者以不同來源角色及契約語意呈現。
+
+Elo 及角色評估同由 NBA 的確定性評估工作提供；不以 Elo 替代缺失 World。產品 A／B 的內容發布與 repository A／B 的資料交換分別記錄，避免把文章作者角色當成服務發行身分。
 
 ### 公開版需要表達的最小語意
 
@@ -26,15 +32,20 @@ B 只讀 A 發出的已核准輸出，不能計算、修正、補值或按新聞
 
 | 類別 | 必要語意 | B 必須避免 |
 |---|---|---|
-| 識別／版本 | game、forecast、INITIAL／FINAL stage、模型／參數／特徵版本、快照指紋；實驗另有 experiment／cohort 識別 | 只用隊名或畫面時間串接；將兩個模型的預測覆蓋為同一筆 |
-| 角色／成熟度 | Current 或 Challenger、Beta 或 Experimental；各自的公開資格 | 把「實驗中」解讀成不需資料／來源／時序資格 |
+| 識別／版本 | game、forecast、預先登記的 stage、模型／規則／參數／feature 版本、快照指紋；研究有 experiment／cohort 識別 | 只用隊名或畫面時間串接；將不同規則的預測覆蓋為同一筆 |
+| 官方／研究用途 | 明確區分官方 World 與研究預測；研究的 persona ID／版本、展示名稱、方法入口及各自公開資格 | 以研究內容冒充官方 World，或要求先被正式 World 採納才能研究 |
 | 時序 | 賽程版本與 tipoff、資料 cutoff、觀測／取得 receipt、computed、locked、published 時間各自存在 | 把早取得的資料當成晚鎖定／晚發布的準時證明 |
-| 數值／缺失 | 合格機率或 typed missing；棄權、逾時、未結算、延期／取消的明確狀態 | 補 0、50%、平均值或舊版數值偽裝新 FINAL |
+| 輸出型別／缺失 | pick-only 或合格 numeric probability；pick-only 的機率為不適用；棄權、逾時、未結算、延期／取消明列 | 將 pick 換算成 0／1／50% 假機率，或讓 LLM 憑語氣生成百分比 |
 | 來源／發布 | 權利與發布決策、release receipt、發行者身分、允許公開的來源揭露 | 只驗 hash 就相信任意 JSON 是 A 正式發行 |
 | 保管／撤回 | 不可覆寫的 forecast ID／hash、FINAL 連結 INITIAL、完整 revision／撤回狀態及 correction event | 以較新值抹去原預測；以 stale 逾期刪除歷史成績證據 |
 | 結算／評估 | 官方結果版本、forecast 引用、計分規則與 evaluation 版本、母體與覆蓋率 | 將賽後資料塞回賽前封包；混合不同模型／stage 的命中率 |
+| 角色內容 | persona 與版本綁定假設／規則；文章或卡片引用 forecast receipt、當時理由、來源與發布時間 | 賽後更換角色方法，刪掉失敗預測，或捏造真人／真實媒體的引用 |
 
-### INITIAL、T−15 FINAL 與實際發布
+角色映射與實驗資料延伸既有研究 registry／ledger，不建立第二份互相競爭的真相來源。具體 schema 名稱與欄位由工程契約確認；本表沒有宣告某個新 schema 已經發布。
+
+### 官方雙鎖、研究截止與實際發布
+
+正式 World 延續 INITIAL／T−15 FINAL。研究角色在事先登記時固定預測 stage 與截止時間，若有更新／FINAL 則分別保管，不能因研究身份省略賽前鎖定，也不必先具備完整正式 World 版本才能測試單一 feature。
 
 - INITIAL 與 FINAL 分別保存，FINAL 指向自己的 INITIAL；更新資料不能回寫已鎖定版本。
 - T−15 的依據包含已使用的賽程版本與 cutoff。延期、取消與改期需由 A 明定重鎖／不計分規則，B 顯示實際狀態。
@@ -52,16 +63,22 @@ B 只讀 A 發出的已核准輸出，不能計算、修正、補值或按新聞
 
 ### 實驗預測、Review 與升版
 
-Current 與 Challenger 均由 A 產生且各自鎖定，後者在 Match Detail／Review 明示「實驗中」與相對 Current 的差異；首頁仍只出一個合格主數字。正式與實驗成績分開，對共同可評分賽事進行比較，另列所有預先納入場次、棄權、逾時與覆蓋率。
+角色 B 的前台是有名稱與觀點的媒體／創作者專欄或卡片：呈現 pick、理由、時間與歷史紀錄，方法與來源可查閱。首頁官方 World 主槽每場一個主勝率，**不限制獨立研究欄目展示不同觀點**；角色預測可進首頁、文章與 Match Detail，不縮成僅有 Challenger 表格。
+
+完整 ledger 保留所有事先納入賽事，包括未被編輯選稿、棄權與逾時；Research／QA 不等公開 Review 核准才評估。pick-only 計命中、錯誤、覆蓋率與適用的同場比較；Brier／log loss 只用事先鎖定的合格數值機率。各角色版本、官方 World 與基準分開計分，不用事後補出的機率計算研究成效。
 
 官方賽果與 evaluation 不改寫 forecast。官方結果修訂建立新的結算／評估版本，保留原因與舊版本。公開 Review（含 scorecard）沿用 HUMAN approval，計分可以先在內部自動完成。Media 不能因一批命中就把實驗升為正式模型；World 升版需新的時間外證據、獨立 QA 與 release 決策，只套用未來賽事。
 
+M2 分別記錄兩項交付：**Magazine 雙角色 Beta** 可先發布已合格的文章與角色 B 預測，完成賽前鎖定、發布及官方結算；**NBA 整合預測 Beta** 另須正式 World 數值、INITIAL／T−15 FINAL 與其公開閉環。正式 World 尚未合格，不阻擋已具自身發布資格的 A／B；Magazine 先完成也不代表整合 World 已完成。這是同一 roadmap 的範圍記錄，不新增 gate。
+
+角色成績與 feature 增益分開記錄。判斷是否改善 World 需同場、同 stage、固定其他條件的有／無 feature 對照；不能只看媒體角色命中率就升版。
+
 ### 接線驗收與相容性策略
 
-1. A 提供正式 schema、producer、具 provenance 的真實樣本及 release／撤回契約；B 不自行猜 endpoint 或狀態名稱。
+1. NBA 分別提供研究預測與官方 World 的版本化 schema、producer、真實樣本及 release／撤回契約；Magazine 依當次發布範圍配對 consumer。雙角色先用研究契約，不等待正式 World 公開契約；不能自行猜 endpoint 或狀態名稱。
 2. 保留 v1 既有負測與封閉 public projection。新版本用明確版本分派，未知版本／欄位拒絕，不用寬鬆解析兜底。
-3. 在真實未來賽事完成 INITIAL／FINAL → A 發布 → B 讀取 → 官方 settlement → 核准 Review，分別記錄鎖定與發布時間。
-4. 對此次接線的具體風險檢查：錯模型／錯 game、晚鎖／晚發布、撤回、過期、錯誤核准、重複送達、缺失與實驗／正式混用；核對手機與既有主頁單一數字規則。
+3. M1 同時完成第一篇角色 A 真實文章，以及角色 B 的未來賽事預測 → 鎖定 → 專欄發布 → 官方 settlement；公開 Review 經核准。正式 World 雙版依其契約並行接線，不能以等待 World 採納研究特徵延後角色 B。
+4. 對此次接線檢查：角色版本／規則／forecast 錯配、文章無來源、LLM 改 pick 或補機率、晚鎖／晚發布、撤回、錯誤核准、重複送達、編輯選稿改變研究分母與官方／研究混用；手機核對獨立欄目及官方主槽單一數字。
 5. 以實際程式、服務與 receipt 更新本節狀態；本次文件改寫不更動 capability，也不宣稱上述工程已完成。
 
 ---
