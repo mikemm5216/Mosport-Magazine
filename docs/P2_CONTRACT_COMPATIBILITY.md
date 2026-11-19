@@ -1,5 +1,90 @@
 # B-P2-01 — Beta-0 snapshot 接線與 Beta-1 後續契約
 
+## 2026-11-19 Beta-0：已保存賽程與 context template（Level 1，待獨立 review）
+
+本任務須遵守 Issue #170 的 Capacity / Boundary / Level 規則與 Beta-0 範圍。
+服務 [NBA #171](https://github.com/mikemm5216/Mosport-NBA/issues/171)；本輪沿
+`providers.js → contracts.js → pipeline.js → Schedule / Match`，沒有第二套 renderer、
+World engine 或 calculator。`eligibility.js`、`world-a1.js` 與 World@1 internal 邊界未改。
+
+### 可讀取的真實資料與使用方法
+
+`/schedule.html?schedule=0022600051&mode=production&lang=zh` 與
+`/match.html?schedule=0022600051&game=0022600051&mode=production&lang=zh`
+從同源 `site/data/schedules/0022600051.json` 載入已保存的 NBA 官方賽程觀測。
+這不是自動更新 production API，也不是已執行的 pregame capture。
+
+官方來源：<https://www.nba.com/game/sac-vs-lal-0022600051>。
+取得時間 `2026-11-19T07:58:50Z`；頁面所示 Nov 20, 2026 10 PM ET 對應
+`2026-11-21T03:00:00Z`／台北 `2026-11-21 11:00`。SAC 客隊、LAL 主隊。
+本輪僅保存比賽基本資訊；`contextSnapshot: null`，不推算 HOME/NEUTRAL。
+
+新 envelope `mosport-b/schedule-entry@1` 只包含 `schema / mode:LIVE /
+validUntil / game / source / contextSnapshot?`。`game` 限 ID、主客隊、tipoff、status，
+不得塞入 score、World 或偽造刊期／版號。`source` 重用 SourceReceipt@1，限相符的 NBA
+官方 game URL、OFFICIAL_FACT、OFFICIAL_PAGE、CONFIRMED、非 DEMO 與可連結來源權利。
+本路徑的 `contentFingerprint` 是 `{game,originalUrl,observedAt}` 的 canonical JSON
+SHA-256，**不是完整網頁或 NBA snapshot 的雜湊**；validator 檢查此觀測綁定。
+
+`validUntil=2026-11-20T07:58:50Z` 是這份保存觀測的 24 小時讀取期限，不是 NBA 宣告的
+更新 SLA。到期仍可查看標成「歷史觀測」的基本資訊；不宣稱其狀態仍為即時真值。
+Provider 拒絕多個 schedule、混用 fixture/issue、路徑穿越與回傳 ID 不符，不回退 DEMO。
+新 `SCHEDULE_ONLY` public model 只供同一 Schedule/Match；其餘頁面使用既有 state message
+引導至賽程，不新增完整四頁內容。
+
+### Snapshot 接點對應與目前明確缺口
+
+既有 NBA `NbaSliceStore.snapshots()` 的 `gameId` 是 **ESPN event ID**，不是 NBA game ID。
+本場 NBA `0022600051` 必須經來源支持的 crosswalk 綁定 ESPN ID；不能更名、直接相等比較，
+或把手填兩個 ID 當成已驗證 crosswalk。本輪 input 分開保留兩者；目前公開流程 fail closed。
+
+| Context input | NBA 既有欄位／證據 | 處理 |
+|---|---|---|
+| `nbaGameId` | 外部 verified NBA↔ESPN crosswalk 的 NBA ID | 必須與 schedule.gameId 相符；正式公開 adapter 仍須驗證 crosswalk receipt |
+| `gameId` | snapshot.payload.game.gameId（ESPN ID） | 保留原 ID namespace；不可用 NBA ID 代填 |
+| `snapshotId` | snapshots 表 persisted fingerprint／`persistedSnapshotFingerprint(payload)` | 64 位 SHA-256；資料匯出需提供已保存 payload 的證據，不生成新 capture |
+| `snapshotVersion` | snapshot.payload.snapshotVersion | 限既有版本 2 |
+| `capturedAt` | snapshot.capturedAt | 與 observedAt、tipoff、讀取時間核對 |
+| `scheduledStartAt` | snapshot.payload.game.scheduledStartAt | 必須與該 schedule tipoff 相符 |
+| `homeCourt.featureId` | `features['NBA.G.HOME_COURT']` 的 key | 固定既有 feature，不新增 calculator |
+| `homeCourt.formulaVersion` | features[key].formulaVersion | 限現有 1；畫面 HOME_COURT@1 |
+| `homeCourt.evidence` | features[key].evidence | 限現有 PRIOR_DERIVED + HOME/NEUTRAL；不從主隊／場館重算 |
+| `homeCourt.sourceClass / observedAt / sourceFingerprint` | features[key] 的同名欄位 | 保留 authority、來源時刻與完整性證據 |
+| `source` | upstream receipt → B 既有 SourceReceipt@1 | 原始 URL、publisher、observedAt；不得假填 publishedAt |
+| 公開 release | **既有 snapshot v2 沒有對應公開核准欄位** | 目前不得將結構正確或 scoring authority 當公開資格 |
+
+Chronology 必須滿足 `source.observedAt = homeCourt.observedAt < capturedAt < scheduledStartAt`
+且 `capturedAt <= now`。錯 ID／版本／時刻、非相符來源、proxy／DEMO、額外 `public:true` 或
+World 欄位均不能顯示 context。Schedule 的基本資訊可獨立存在；bad context 被留在 diagnostics，
+不傳 raw evidence、概率、snapshot ID 或 internal reason 到讀者 model。
+
+**目前沒有可達的 production public-data-ready snapshot 狀態。** NBA
+`src/serving/worldPackage.ts` 的 World@1 固定 `rights:UNVERIFIED`、
+`schedulePublicEligible:false`、`publiclyEligible:false` 與 `distributionEligibility:INTERNAL`；
+`dataSlice.ts` snapshot v2 沒有公開 release receipt；`readContract.ts` 的私有 attestation 是
+engine 消費資格，不能改作發布權限。
+
+唯一待接位置是 `pipeline.js: contextPublicRelease()`。目前明確回傳
+`BLOCKED_MISSING / PUBLIC_QUALIFICATION_UNAVAILABLE`，即使候選資料 validation 通過也不發布。
+上游須先提供由既有治理核准的版本化 release contract，能綁定 game/crosswalk、snapshot
+fingerprint/version、來源／權利與有效時段；屆時更新 context input 的明確 release 欄位
+validation 及此 adapter。未來不得只接受 boolean。`contextSnapshotView()` 已將驗證後的
+資料轉為既有版面所需欄位；它是 serializer，**不是資格判定器**。
+
+Schedule/Match 的同一 `pregameRecord()` 已具備 HOME/NEUTRAL、snapshot ID/version、保存時間、
+source/observedAt 的呈現；取得正式公開資格後不用改版面。無合格 snapshot 的唯一顯示是
+「賽前紀錄尚未提供公開顯示」。不補 0、平均值、DEMO 或 World 機率。
+
+### 驗證界線
+
+`tests/fixtures/context-snapshot-v2.json` 使用假想 NBA `0022600999` / ESPN `401999999`，
+只作隔離資料／版面 contract 測試；不由網站 provider 載入，也不宣稱真實 capture 或公開核准。
+HOME/NEUTRAL 正向 renderer 測試不等於整條 public pipeline 驗收。真實 0051 的 integration
+測試明確驗證 schedule 可見與 snapshot missing；來源失效、到期、錯 ID 仍有誠實狀態。
+
+本輪執行結果與環境限制見 [11/19 OPEN 日報](reports/2026-11-19-LAUNCH-FIRST-PLAN-VS-ACTUAL.md)。
+
+
 ## 2026-11-19：目前結論與工程方向
 
 **Beta-0 只要求真實 schedule 或誠實 missing、至少一場未來比賽的持久化賽前 snapshot、Magazine 呈現它或明確 missing，以及同 game ID 的官方賽後結果。** 可以沒有 World 勝率，使用少數現有 feature 即可。現有 World v1 保持內部限制；不得為了呈現 snapshot 把 v1 改標為公開。共用 API／資格契約由 NBA 提供，先依 EIC 重用既有 snapshot／receipt／consumer，不新開 calculator 或模型實驗。

@@ -24,7 +24,7 @@
     onAct: function (act, el, rerender) { if (act === 'first') { showFirst = !showFirst; rerender(); } },
     render: function (c) {
       var T = c.T, esc = c.esc, L = c.lang, R = c.issue;
-      if (R.status !== 'OK') return c.topbar + '<main class="sheet">' + c.stateMessage(R) + '</main>';
+      if (R.status !== 'OK' && R.status !== 'SCHEDULE_ONLY' && !(R.status === 'STALE' && c.meta && c.meta.scheduleOnly)) return c.topbar + '<main class="sheet">' + c.stateMessage(R) + '</main>';
       var id = new URLSearchParams(location.search).get('game');
       /* An unknown game id shows a not-found state; it never falls back to another game. */
       var g = id ? R.schedule.filter(function (x) { return x.gameId === id; })[0] : (R.lead && R.lead.game);
@@ -48,12 +48,14 @@
           '</div>' +
         '</section>';
 
-      var top = '<div class="m-top"><a class="back" href="' + c.href('index.html') + '">‹ ' + T('back') + '</a>' + (R.demo ? '<span class="demo-line"><span class="demo-badge">DEMO</span> ' + esc(d ? d.demo : T('demoNote')) + '</span>' : '') + '</div>';
+      var top = '<div class="m-top"><a class="back" href="' + c.href(g.source ? 'schedule.html' : 'index.html') + '">‹ ' + T(g.source ? 'openSchedule' : 'back') + '</a>' + (R.demo ? '<span class="demo-line"><span class="demo-badge">DEMO</span> ' + esc(d ? d.demo : T('demoNote')) + '</span>' : '') + '</div>';
 
       if (!eligible) {
         return c.topbar + '<main class="sheet">' + top + head +
-          '<section class="card"><p class="lbl">② World · Coach Read</p><p class="na-big">' + (L === 'zh' ? '本場尚無可公開的判讀。' : 'No public read for this game.') +
-          '</p><p class="pv">' + esc(T('noRead_' + g.noReadReason)) + '</p></section></main>';
+          (R.status === 'STALE' ? c.stateMessage(R) : '') +
+          (g.source ? '<section class="card"><p>' + esc(T('savedSchedule')) + ' · ' + esc(T(g.status === 'SCHEDULED' ? 'scheduled' : g.status.toLowerCase())) + '</p><p class="pv">NBA game ID ' + esc(g.gameId) + '</p>' + c.sourceNote(g.source) + '</section>' : '') +
+          '<section class="card"><p class="lbl">' + esc(T('pregameTitle')) + '</p>' + c.pregameRecord(g) +
+          (g.source ? '' : '<p class="pv">' + esc(T('noRead_' + g.noReadReason)) + '</p>') + '</section></main>';
       }
 
       var read =

@@ -9,7 +9,7 @@
  * diagnostics (problems, exclusions) are returned separately for tests and the
  * internal editor, never handed to a page.
  *
- * Status: OK | REFUSED | INVALID | STALE | LOAD_FAILED. Only OK renders magazine
+ * Status: OK | SCHEDULE_ONLY | REFUSED | INVALID | STALE | LOAD_FAILED. Only OK renders magazine
  * content. STALE and INVALID keep the page usable (Schedule still lists valid games
  * for STALE) and never substitute invented content.
  */
@@ -59,6 +59,52 @@
     return { status: status, reason: reason || null, demo: false, meta: null, cover: [], lead: null, games: [], stories: [], schedule: [], invalidGames: 0 };
   }
 
+  function publicSource(source) {
+    return { publisher: source.publisher, url: source.originalUrl, observedAt: source.observedAt };
+  }
+
+  /* Serialization only, NOT qualification. Used after the release adapter below;
+     exposed for isolated template contract tests, never accepts/creates a release. */
+  function contextSnapshotView(snapshot) {
+    return {
+      snapshotId: snapshot.snapshotId, snapshotVersion: snapshot.snapshotVersion,
+      capturedAt: snapshot.capturedAt, homeCourt: snapshot.homeCourt.evidence.value,
+      featureId: snapshot.homeCourt.featureId, formulaVersion: snapshot.homeCourt.formulaVersion,
+      source: publicSource(snapshot.source)
+    };
+  }
+
+  /* Sole pending integration point. NBA snapshot v2 has no public-release receipt;
+     World@1 is INTERNAL / publiclyEligible:false / rights:UNVERIFIED. A validated
+     candidate is not publication permission. Replace this adapter only when the
+     upstream versioned release contract exists; no page/layout change is needed. */
+  function contextPublicRelease(snapshot) {
+    return { state: 'BLOCKED_MISSING', reason: 'PUBLIC_QUALIFICATION_UNAVAILABLE' };
+  }
+
+  function scheduleModel(raw, opts, diag) {
+    diag.fatal = C.validateSchedule(raw, opts);
+    if (diag.fatal.length) return { model: emptyModel('INVALID', diag.fatal[0].code), diagnostics: diag };
+    var stale = C.parseInstant(opts.now) >= C.parseInstant(raw.validUntil);
+    var model = emptyModel(stale ? 'STALE' : 'SCHEDULE_ONLY', stale ? 'SCHEDULE_EXPIRED' : null);
+    model.meta = { scheduleOnly: true, observedAt: raw.source.observedAt, validUntil: raw.validUntil };
+    var game = publicGame(raw.game, false);
+    game.source = publicSource(raw.source);
+    game.pregameSnapshot = null;
+    if (stale) game.noReadReason = 'STALE';
+    if (raw.contextSnapshot) {
+      var problems = C.validateContextSnapshot(raw.contextSnapshot, raw.game, opts.now);
+      diag.problems = problems;
+      if (!problems.length && !stale) {
+        var release = contextPublicRelease(raw.contextSnapshot);
+        if (release.state === 'PUBLIC') game.pregameSnapshot = contextSnapshotView(raw.contextSnapshot);
+        else diag.excluded.push({ slot: 'pregameSnapshot', id: raw.game.gameId, reason: release.reason });
+      }
+    }
+    model.schedule = [game];
+    return { model: model, diagnostics: diag };
+  }
+
   /**
    * raw  : the issue as loaded (or { __loadError }).
    * opts : { mode: 'prototype'|'production', now: ISO instant }
@@ -70,6 +116,8 @@
     if (raw == null || raw.__loadError) return { model: emptyModel('LOAD_FAILED', 'LOAD_FAILED'), diagnostics: Object.assign(diag, { loadError: raw && raw.__loadError || 'NO_DATA' }) };
     if (raw.mode === 'DEMO' && mode !== 'prototype') return { model: emptyModel('REFUSED', 'DEMO_IN_PRODUCTION'), diagnostics: diag };
     if (isNaN(C.parseInstant(opts.now))) return { model: emptyModel('INVALID', 'NO_CLOCK'), diagnostics: Object.assign(diag, { fatal: [{ code: 'NO_CLOCK', path: 'opts.now' }] }) };
+
+    if (raw.schema === C.SCHEMAS.schedule) return scheduleModel(raw, opts, diag);
 
     var v = C.validateIssue(raw, { mode: mode });
     diag.fatal = v.fatal; diag.problems = v.problems;
@@ -141,7 +189,7 @@
     return { model: model, diagnostics: diag };
   }
 
-  var api = { run: run, publicReason: publicReason };
+  var api = { run: run, publicReason: publicReason, contextSnapshotView: contextSnapshotView };
   if (node) module.exports = api;
   else root.MOSPORT_PIPELINE = api;
 })(typeof window !== 'undefined' ? window : globalThis);

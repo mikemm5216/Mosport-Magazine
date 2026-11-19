@@ -131,3 +131,7 @@ details summary { cursor: pointer; min-height: 44px; display: flex; align-items:
   .sch tr { padding: 10px 0; border-bottom: 1px solid var(--rule); }
   .sch td { border: 0; padding: 3px 0; }
 }
+
+/* Beta-0 saved schedule and future qualified context use the same page cards. */
+.pregame-record code { overflow-wrap: anywhere; }
+.pregame-missing { margin: 0 0 8px; }

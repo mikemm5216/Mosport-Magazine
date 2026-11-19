@@ -26,7 +26,8 @@
     layout: 'mosport-b/layout-plan@1',
     issue: 'mosport-b/magazine-issue@1',
     publication: 'mosport-b/publication-receipt@1',
-    game: 'mosport-b/prototype-game@0'
+    game: 'mosport-b/prototype-game@0',
+    schedule: 'mosport-b/schedule-entry@1'
   };
 
   var ENUM = {
@@ -372,6 +373,78 @@
     publications: { t: 'array', maxItems: 1000 }
   };
 
+  /* Beta-0 factual schedule + optional context candidate. This is not a World issue.
+     Source receipts, strict shape/time helpers and public projection stay shared. */
+  SHAPES.schedule = {
+    schema: { t: 'string', req: true },
+    mode: { t: 'string', req: true, enum: ['LIVE'] },
+    validUntil: { t: 'string', req: true, time: true },
+    game: { t: 'object', req: true, shape: {
+      gameId: { t: 'string', req: true, re: /^\d{10}$/ },
+      away: Object.assign({ req: true }, teamRule), home: Object.assign({ req: true }, teamRule),
+      status: SHAPES.game.status, tipoff: SHAPES.game.tipoff
+    } },
+    source: { t: 'object', req: true },
+    contextSnapshot: { t: 'object', nul: true }
+  };
+  var CONTEXT_SHAPE = {
+    nbaGameId: { t: 'string', req: true, re: /^\d{10}$/ },
+    gameId: { t: 'string', req: true, re: /^\d{9}$/ },
+    snapshotId: { t: 'string', req: true, re: RE.hex64 },
+    snapshotVersion: { t: 'int', req: true, enum: [2] },
+    capturedAt: { t: 'string', req: true, time: true },
+    scheduledStartAt: { t: 'string', req: true, time: true },
+    homeCourt: { t: 'object', req: true, shape: {
+      featureId: { t: 'string', req: true, enum: ['NBA.G.HOME_COURT'] },
+      formulaVersion: { t: 'int', req: true, enum: [1] },
+      evidence: { t: 'object', req: true, shape: {
+        status: { t: 'string', req: true, enum: ['PRIOR_DERIVED'] },
+        value: { t: 'string', req: true, enum: ['HOME', 'NEUTRAL'] },
+        sourceId: { t: 'string', req: true, enum: ['NBA_OFFICIAL', 'ESPN_SCOREBOARD'] }
+      } },
+      sourceClass: { t: 'string', req: true, enum: ['NBA_OFFICIAL', 'ESPN_PROVISIONAL'] },
+      observedAt: { t: 'string', req: true, time: true },
+      sourceFingerprint: { t: 'string', req: true, re: RE.hex64 }
+    } },
+    source: { t: 'object', req: true }
+  };
+
+  function validateContextSnapshot(snapshot, game, now) {
+    var out = [];
+    checkShape(snapshot, CONTEXT_SHAPE, 'contextSnapshot', out);
+    if (out.length) return out;
+    out = validateRecord('source', snapshot.source, 'contextSnapshot.source');
+    if (out.length) return out;
+    var f = snapshot.homeCourt, source = snapshot.source;
+    if (snapshot.nbaGameId !== game.gameId || parseInstant(snapshot.scheduledStartAt) !== parseInstant(game.tipoff)) out.push(P('CONTEXT_GAME_MISMATCH', 'contextSnapshot.nbaGameId'));
+    if (!(parseInstant(source.observedAt) === parseInstant(f.observedAt) && parseInstant(f.observedAt) < parseInstant(snapshot.capturedAt) && parseInstant(snapshot.capturedAt) < parseInstant(game.tipoff))) out.push(P('CONTEXT_CHRONOLOGY', 'contextSnapshot.capturedAt'));
+    if (isNaN(parseInstant(now)) || parseInstant(snapshot.capturedAt) > parseInstant(now)) out.push(P('CONTEXT_FUTURE', 'contextSnapshot.capturedAt'));
+    if (source.demo || source.accessMethod === 'DEMO' || source.verificationState !== 'CONFIRMED') out.push(P('CONTEXT_SOURCE_UNVERIFIED', 'contextSnapshot.source'));
+    var official = f.sourceClass === 'NBA_OFFICIAL';
+    if (f.evidence.sourceId !== (official ? 'NBA_OFFICIAL' : 'ESPN_SCOREBOARD')) out.push(P('CONTEXT_AUTHORITY_MISMATCH', 'contextSnapshot.homeCourt'));
+    var expectedUrl = 'https://www.nba.com/game/' + game.away.toLowerCase() + '-vs-' + game.home.toLowerCase() + '-' + game.gameId;
+    if (official ? (source.publisher !== 'NBA' || source.kind !== 'OFFICIAL_FACT' || source.originalUrl !== expectedUrl) : (source.publisher !== 'ESPN' || !/^https:\/\/site\.api\.espn\.com\/apis\/site\/v2\/sports\/basketball\/nba\/scoreboard\?dates=\d{8}$/.test(source.originalUrl))) out.push(P('CONTEXT_SOURCE_MISMATCH', 'contextSnapshot.source.originalUrl'));
+    return out;
+  }
+
+  function validateSchedule(entry, opts) {
+    opts = opts || {};
+    var out = [];
+    if (!typeOk(entry, 'object') || entry.schema !== SCHEMAS.schedule) return [P('SCHEMA_UNSUPPORTED', 'schedule.schema')];
+    checkShape(entry, SHAPES.schedule, 'schedule', out);
+    if (out.length) return out;
+    out = validateRecord('source', entry.source, 'schedule.source');
+    if (out.length) return out;
+    var g = entry.game, source = entry.source;
+    if (g.away === g.home) out.push(P('BAD_FORMAT', 'schedule.game.home'));
+    var url = 'https://www.nba.com/game/' + g.away.toLowerCase() + '-vs-' + g.home.toLowerCase() + '-' + g.gameId;
+    if (source.contentFingerprint !== sha256(canonical({ game: g, originalUrl: source.originalUrl, observedAt: source.observedAt }))) out.push(P('HASH_MISMATCH', 'schedule.source.contentFingerprint'));
+    if (source.originalUrl !== url || source.publisher !== 'NBA' || source.kind !== 'OFFICIAL_FACT' || source.accessMethod !== 'OFFICIAL_PAGE') out.push(P('SCHEDULE_SOURCE_MISMATCH', 'schedule.source'));
+    if (source.demo || source.verificationState !== 'CONFIRMED' || ['OWNED', 'LICENSED', 'PERMITTED_QUOTE', 'LINK_ONLY'].indexOf(source.rightsStatus) === -1) out.push(P('SCHEDULE_SOURCE_UNVERIFIED', 'schedule.source'));
+    if (parseInstant(entry.validUntil) <= parseInstant(source.observedAt) || isNaN(parseInstant(opts.now)) || parseInstant(source.observedAt) > parseInstant(opts.now)) out.push(P('BAD_TIME', 'schedule.source.observedAt'));
+    return out;
+  }
+
   function validateRecord(kind, rec, path) {
     var out = [];
     path = path || kind;
@@ -551,7 +624,8 @@
     LAYOUT_SLOT_TYPES: LAYOUT_SLOT_TYPES,
     parseInstant: parseInstant, isDate: isDate, canonical: canonical, sha256: sha256,
     contentHash: contentHash, publicationHash: publicationHash, safeUrl: safeUrl,
-    validateRecord: validateRecord, validateIssue: validateIssue, effectiveSourceStates: effectiveSourceStates
+    validateRecord: validateRecord, validateIssue: validateIssue, effectiveSourceStates: effectiveSourceStates,
+    validateSchedule: validateSchedule, validateContextSnapshot: validateContextSnapshot
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.MOSPORT_CONTRACTS = api;

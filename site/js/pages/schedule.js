@@ -7,7 +7,7 @@ window.MOSPORT_PAGE = {
   id: 'schedule',
   render: function (c) {
     var T = c.T, esc = c.esc, R = c.issue, I = c.meta;
-    if (R.status !== 'OK' && R.status !== 'STALE') return c.topbar + '<main class="sheet">' + c.stateMessage(R) + '</main>';
+    if (R.status !== 'OK' && R.status !== 'STALE' && R.status !== 'SCHEDULE_ONLY') return c.topbar + '<main class="sheet">' + c.stateMessage(R) + '</main>';
     var rows = R.schedule.slice().sort(function (a, b) { return Date.parse(a.tipoff) - Date.parse(b.tipoff); }).map(function (g) {
       var st = g.status === 'LIVE' ? '<span class="st st-live">● ' + T('live') + (g.score ? ' · ' + esc(g.home) + ' ' + esc(g.score.home) + '–' + esc(g.score.away) : '') + '</span>'
         : g.status === 'POSTPONED' ? '<span class="st st-off">' + T('postponed') + '</span>'
@@ -17,7 +17,8 @@ window.MOSPORT_PAGE = {
       var read = c.onMagazine(g)
         ? '<a class="pill" href="' + c.href('match.html', { game: g.gameId }) + '">' + T('readOpen') + ' →</a>'
         : '<span class="muted">' + esc(T(g.noReadReason === 'STALE' ? 'readStale' : 'readNone')) + '</span>';
-      return '<tr><td><span class="sch-m"><mo-team-logo code="' + esc(g.away) + '" size="sm"></mo-team-logo><b>' + esc(g.away) + ' @ ' + esc(g.home) + '</b><span class="muted">' + esc(c.teamName(g.away, 'nick') + ' @ ' + c.teamName(g.home, 'nick')) + '</span><mo-team-logo code="' + esc(g.home) + '" size="sm"></mo-team-logo></span></td>' +
+      if (g.source) read = c.pregameRecord(g) + '<a class="pill" href="' + c.href('match.html', { game: g.gameId }) + '">' + esc(T('gameDetails')) + ' →</a>';
+      return '<tr><td><span class="sch-m"><mo-team-logo code="' + esc(g.away) + '" size="sm"></mo-team-logo><b>' + esc(g.away) + ' @ ' + esc(g.home) + '</b><span class="muted">' + esc(c.teamName(g.away, 'nick') + ' @ ' + c.teamName(g.home, 'nick')) + '</span><mo-team-logo code="' + esc(g.home) + '" size="sm"></mo-team-logo></span>' + (g.source ? '<p class="pv">NBA game ID ' + esc(g.gameId) + '</p>' + c.sourceNote(g.source) : '') + '</td>' +
         '<td>' + esc(c.tipShort(g)) + '</td><td>' + st + '</td><td>' + read + '</td></tr>';
     }).join('');
     var invalid = R.invalidGames ? '<p class="state-msg state-partial" role="status">' + esc(T('invalidGames', { n: R.invalidGames })) + '</p>' : '';
@@ -25,7 +26,7 @@ window.MOSPORT_PAGE = {
       ? '<div class="table-wrap"><table class="sch"><thead><tr><th>' + T('colMatch') + '</th><th>' + T('colTime') + '</th><th>' + T('colStatus') + '</th><th>' + T('colRead') + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>'
       : '<p class="today-empty">' + esc(T('scheduleEmpty')) + '</p>';
     return c.topbar + '<main class="sheet">' +
-      '<header class="sheet-head"><p class="kicker">MOSPORT · ' + esc(c.issueDate(I.date)) + (R.demo ? ' <span class="demo-badge">DEMO</span>' : '') + '</p><h1>' + T('scheduleTitle') + '</h1><p class="muted">' + T('scheduleIntro') + '</p></header>' +
+      '<header class="sheet-head"><p class="kicker">MOSPORT · ' + esc(I.scheduleOnly ? T('savedSchedule') : c.issueDate(I.date)) + (R.demo ? ' <span class="demo-badge">DEMO</span>' : '') + '</p><h1>' + T('scheduleTitle') + '</h1><p class="muted">' + T(I.scheduleOnly ? 'savedScheduleIntro' : 'scheduleIntro') + '</p></header>' +
       (R.status === 'STALE' ? c.stateMessage(R) : '') + invalid + table +
     '</main>';
   }

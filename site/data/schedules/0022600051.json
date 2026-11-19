@@ -1,0 +1,27 @@
+{
+  "schema": "mosport-b/schedule-entry@1",
+  "mode": "LIVE",
+  "validUntil": "2026-11-20T07:58:50Z",
+  "game": {
+    "gameId": "0022600051",
+    "away": "SAC",
+    "home": "LAL",
+    "status": "SCHEDULED",
+    "tipoff": "2026-11-21T03:00:00Z"
+  },
+  "source": {
+    "schema": "mosport-b/source-receipt@1",
+    "id": "NBA-SCHEDULE-0022600051-20261119",
+    "kind": "OFFICIAL_FACT",
+    "originalUrl": "https://www.nba.com/game/sac-vs-lal-0022600051",
+    "publisher": "NBA",
+    "observedAt": "2026-11-19T07:58:50Z",
+    "rightsStatus": "LINK_ONLY",
+    "accessMethod": "OFFICIAL_PAGE",
+    "contentFingerprint": "50dc9f45bd7a16eb14327d19140b13bd46f2e748ddf8eadf02585a211b05d516",
+    "language": "en",
+    "verificationState": "CONFIRMED",
+    "demo": false
+  },
+  "contextSnapshot": null
+}
