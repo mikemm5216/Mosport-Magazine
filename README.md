@@ -2,17 +2,23 @@
 
 MOSPORT Magazine 有兩個產品角色：**A 生成文章；B 把 feature 驗證做成媒體／創作者的賽前預測內容。** 這裡的 A／B 是產品角色，與 Mosport-NBA／Mosport-Magazine 的 repository A／B 分工不同。NBA 先行，沿用 Today、Schedule、Match Detail 與 Review。
 
-## 目前方向：先上線 NBA 預測 Beta，再用真實賽事持續驗證
+## 目前方向：2–3 週內完成 Beta-0 真資料閉環
 
-2026-11-19 的首版同時交付兩條路徑：**合格新聞／事實 → 生成文章 → 發布**，以及 **feature 假設與固定規則 → 研究計算 → 持久化鎖定 → 媒體／創作者預測發布 → 官方結果 → 驗證**。第一篇真實文章與第一個可結算的角色預測並行實作，203 項特徵研究持續進行，不等全部驗證完或先證明實驗有效才上線。
+最新 Founder 決定將 **Beta-0 目標設為自 2026-11-19 起 2–3 週，即 12/03–12/10**。這是目標窗口，不是已啟用排程或工期保證。第一版只要求：真實 schedule 或誠實 missing、至少一場真正未來比賽的持久化賽前 snapshot、Magazine 呈現該 snapshot 或明確 missing，以及賽後以同一 game ID 對上官方結果。少數現有 feature 即可，沒有 World 勝率也可以。
+
+**底層至少一筆真 snapshot 與官方結果的證據不可由 missing 取代。** Beta-0 不要求 T−15 雙鎖、多 feature、角色 B 或完整文章流程。Beta-0 真資料跑過且已上線後，Beta-1 才接續 INITIAL／T−15 FINAL、更多 feature 與角色 B；角色 A 可獨立使用已合格來源產文，不新增為 Beta-0 必需條件。
+
+Beta-0 上線前，Research 僅修補能直接解除 Launch 缺口的既有實作，**不新增 feature calculator 或模型實驗**。203 項清單保留，但此階段不再並行擴寫。Launch／Research 是工作線，不增加部門。
 
 角色 A 根據合格來源生成真正可讀的新聞、分析與專題，適用時引用 World。角色 B 讓讀者看到有名字與觀點的 MOSPORT 專欄／創作者預測：看好誰、為什麼、何時發出、過去表現如何；後台將每個角色版本綁定 feature 假設、固定預測規則與實驗紀錄。研究預測可以與正式 World 不同，不必先被 World 採納才能測試。
 
 正式 World 仍是唯一官方賽事判讀來源，首頁每場一個「官方主勝率」槽位；另設的媒體／創作者卡片可以並列不同觀點，不受這個數字槽位限制。預測計算由 NBA 研究服務按版本化規則執行，Magazine 生成表述；只有 pick 的研究不補百分比。角色名稱採 MOSPORT 自有專欄／創作者設定，方法與來源可查閱。後續完整 MVP 的 Coach Arena、影音與通用 World Engine 能力繼續保留。
 
-M2 分別記錄兩項交付：**Magazine 雙角色 Beta** 可先發布已合格的文章與角色 B 預測，完成賽前鎖定、發布及官方結算；**NBA 整合預測 Beta** 另須正式 World 數值、INITIAL／T−15 FINAL 與其公開閉環。正式 World 尚未合格，不阻擋已具自身發布資格的 A／B；Magazine 先完成也不代表整合 World 已完成。這是同一 roadmap 的範圍記錄，不新增 gate。
+Magazine 在既有 MEDIA 責任內擔任產品 owner，自排文章、reader flow 與驗收，不必等待完整版 World；共用 API 與數值仍由 NBA 提供，工作同受 Beta-0 範圍及容量限制。先前將雙角色首版與整合預測 Beta 同時列為 M2 的排序已被 Beta-0／Beta-1 取代，兩個產品角色本身保留。
 
-球員評分共用現有 feature 與 World Engine 的正式球員價值：Magazine 呈現及解釋這份分數，Fantasy 後續以同一份價值紀錄作價格依據。這不是另外一套得分／助攻加減分規則；具體換價方式尚未定義，Fantasy 不延後目前上線。
+球員評分共用現有 feature 與 World Engine 的正式球員價值：Magazine 呈現及解釋這份分數，Fantasy 後續以同一份價值紀錄作價格依據。這不是另外一套得分／助攻加減分規則；具體換價方式尚未定義，Fantasy 不是 Beta-0／Beta-1 前置條件。
+
+每個 Launch PR 必填 **Existing Implementation Check**：searched、found、reuse／why not reused；缺漏或空泛不能 ready／merge。Capacity／Control 在派出新任務前只讀檢查該紀錄、預估消耗／上限／quota 與 Launch 優先衝突，有開工否決權；無 ALLOW 不開始寫 code。QA 內的 Boundary／Anti-Duplication 角色在開 PR 前檢查 EIC，於 review 阻擋重複實作。Founder 按實際影響採 L0 委派審查、L1 摘要與關鍵 diff、L2 親決；[AGENTS](AGENTS.md) 與 [PR template](.github/pull_request_template.md) 記錄具體要求。
 
 - [當前 roadmap、工作包與完成標準](docs/ROADMAP.md)
 - [跨 repo 契約：文章、官方 World 與研究預測](docs/P2_CONTRACT_COMPATIBILITY.md)
@@ -29,7 +35,7 @@ M2 分別記錄兩項交付：**Magazine 雙角色 Beta** 可先發布已合格�
 - [圖片插槽與素材替換](docs/ASSET_SLOTS.md)
 - [B-owned 內容契約](docs/contracts/B_CONTRACTS_V1.md)
 
-**架構更新優先順序：**10/28 原文快照保留不改寫；其中 C-1 的 `PMV → TMV` 舊文字，已由 [NBA #59](https://github.com/mikemm5216/Mosport-NBA/issues/59) 與 [#72 記錄的後續 Founder 決策](https://github.com/mikemm5216/Mosport-NBA/pull/72) 修正為 **PMV 與 TMV 獨立，World 整合兩者及環境**。11/19 Founder 進一步明確指定 Magazine 的文章／feature 驗證雙角色，取代先前將它縮成 World 展示頁與 Challenger 表格的解讀。World 唯一官方判讀、官方主槽單一數字、公開 Review 人工核准及既有品牌視覺規則繼續有效。
+**架構更新優先順序：**10/28 原文快照保留不改寫；其中 C-1 的 `PMV → TMV` 舊文字，已由 [NBA #59](https://github.com/mikemm5216/Mosport-NBA/issues/59) 與 [#72 記錄的後續 Founder 決策](https://github.com/mikemm5216/Mosport-NBA/pull/72) 修正為 **PMV 與 TMV 獨立，World 整合兩者及環境**。11/19 的文章／feature 驗證雙角色是產品方向；同日最新 Beta-0／Beta-1 與容量／防重複／分級決策取代早先雙角色首版及 203 並行政策。World 唯一官方判讀、官方主槽單一數字、公開 Review 人工核准及既有品牌視覺規則繼續有效。
 
 ## 本機原型
 

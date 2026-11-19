@@ -1,20 +1,31 @@
-# B-P2-01 — 文章、官方 World 與媒體角色研究預測的契約
+# B-P2-01 — Beta-0 snapshot 接線與 Beta-1 後續契約
 
 ## 2026-11-19：目前結論與工程方向
 
-**現有 World v1 仍只供內部使用；文章生成、研究角色預測與官方 World 公開讀取是不同資料用途。** 新增用途需要明確版本化的契約與 consumer。本次只更新設計文字，沒有修改 schema、validator、`publicProjection` 或發布權限，也沒有將離線 consumer 宣稱為真實線上服務。
+**Beta-0 只要求真實 schedule 或誠實 missing、至少一場未來比賽的持久化賽前 snapshot、Magazine 呈現它或明確 missing，以及同 game ID 的官方賽後結果。** 可以沒有 World 勝率，使用少數現有 feature 即可。現有 World v1 保持內部限制；不得為了呈現 snapshot 把 v1 改標為公開。共用 API／資格契約由 NBA 提供，先依 EIC 重用既有 snapshot／receipt／consumer，不新開 calculator 或模型實驗。
+
+Beta-0 目標為 2026-11-19 起 2–3 週（12/03–12/10），非已排程或工期保證。畫面 missing 不能代替底層至少一筆真 snapshot 及同 game ID 官方結果的證據。**INITIAL／T−15 FINAL、更多 feature 與角色 B 是 Beta-1 才要求**，須等 Beta-0 真資料跑過且已上線；角色 A 可用已合格來源獨立產文，不加成 Beta-0 新依賴。本次沒有修改 schema、validator、`publicProjection`、runtime 或發布權限。
 
 文件基線：Magazine `main@e4874cba32a7f91c110167bc3ea9e5f779294ed1`。11/19 Founder 明確區分產品角色 A「生成文章」、角色 B「feature 驗證，呈現為媒體／創作者預測」；這不是 repository A／B 的命名。更新沿用 [Magazine PR #20](https://github.com/mikemm5216/Mosport-Magazine/pull/20)、[B #19](https://github.com/mikemm5216/Mosport-Magazine/issues/19)、[NBA #170](https://github.com/mikemm5216/Mosport-NBA/issues/170) 與 [NBA #73 主 roadmap](https://github.com/mikemm5216/Mosport-NBA/pull/73)。10/29、10/30 歷史稽核保留在後半，其中的「today／current／blocked」僅指當時檢查範圍。
 
-| 對象 | 目前能證明的範圍 | NBA Beta 的接續 |
+| 對象 | 目前能證明的範圍 | Beta-0／Beta-1 的接續 |
 |---|---|---|
 | A `mosport-a/world-analysis-package@1` | `NOT_ISSUED`、數值 `null`、`INTERNAL`、權利 `UNVERIFIED`；B 有嚴格 consumer 與內部 inspector | 保持不變；不以 UI 開關或改布林值公開 |
 | B #14／#15 | 內部球隊事實與球員觀測的候選讀取工作 | 核對實際 HEAD／相依性；過去出場觀測不能當成當場確認名單 |
 | [B #16](https://github.com/mikemm5216/Mosport-Magazine/pull/16) | lockedWorld 離線 consumer 的候選工作 | 重用驗證邏輯，補實際傳輸、發布者身分、撤回與公開資格 |
 | [A #168](https://github.com/mikemm5216/Mosport-NBA/pull/168) | PMV／獨立 TMV／World 的內部數值候選 | 模型 release 與公開契約須分別完成；不能將 INTERNAL_CANDIDATE 直接公開 |
-| 公開版契約（暫稱 v2） | 本節是需求設計，不是已存在的 schema | A 定義正式版本與 producer；B 嚴格依已發布 schema 增加 consumer，舊 v1 語意保持封閉 |
-| 研究預測公開 payload／persona 映射 | 本節新增設計，尚未實作；可承接既有研究 forecast／receipt | NBA 研究服務提供版本化的 pick／合格機率、規則與完整 ledger；Magazine 的角色內容引用它，不等待正式 World 採納 |
-| 文章與角色內容契約 | 既有 B-owned 內容契約／DEMO 工作流可承接 | 版本化擴充來源、文章生成、角色版本與 forecast 引用；以實際發布流程接線，不把 DEMO 視為 production |
+| Beta-0 snapshot／結果讀取 | 先查現有 snapshot、receipt、game ID 與官方結果路徑；本文件未完成 runtime 驗收 | 重用或直接修補既有資料／consumer；保存真實賽前時間、持久化與同 ID 官方結果；不要求機率或雙鎖 |
+| 正式數值公開契約（暫稱 v2） | 後續需求設計，不是已存在的 schema | Beta-1 由 NBA 定義版本與 producer、Magazine 配對 consumer；v1 仍封閉，不加為 Beta-0 前置 |
+| 研究預測公開 payload／persona 映射 | 保留產品設計；可承接既有研究 forecast／receipt | Beta-1 在容量 ALLOW 後實作；NBA 提供固定規則與完整 ledger，Magazine 引用；Beta-0 前不開新模型實驗 |
+| 文章與角色內容契約 | 既有 B-owned 內容契約／DEMO 工作流可承接 | 角色 A 可用已合格來源獨立產文；完整流程與角色 B 擴充屬後續，不阻擋 Beta-0 |
+
+### Beta-0 最小語意與缺失處理
+
+沿用可核對的 game ID、來源／取得時間、snapshot 版本或指紋、持久化 receipt 及官方結果引用。snapshot 必須在真正未來賽事開打前取得並保存，不能把賽後擷取資料回填成賽前證據。Magazine 接收已合格的最小讀取內容；若沒有公開資格或尚未取得資料，明確顯示 missing，而不是補勝率或假裝收到 snapshot。
+
+Beta-0 完成證據仍要包含至少一筆可讀回的底層真 snapshot，以及同 game ID 官方結果。真實 schedule、snapshot 呈現／missing 與賽後結果各自記錄，不能以全 missing 畫面替代完整資料閉環。完整文章、角色 B 與公開 Review 不列為新增必要路徑；若公開 Review，現行人工核准規則仍適用。
+
+每個 Launch PR 先做 searched／found／reuse 三項 EIC，Capacity／Control 只讀核對消耗上限、quota（未知即 UNKNOWN）與 Launch 衝突，無 ALLOW 不開始寫 code。共用 API／契約變更按 L1 提供 Founder 摘要與關鍵 diff；發布或權限政策按 L2 親決，不因文件格式降級。
 
 ### Repository 分工與產品雙角色
 
@@ -22,7 +33,7 @@ A 擁有 World 計算、模型版本、輸入時序與鎖定。PMV 與 TMV 獨�
 
 **產品角色 A** 在 Magazine 從合格新聞、資料與事實生成文章，適用時引用 World；一般新聞文章不必先有一份 World 預測。來源、事實、文章版本與發布 receipt 可追溯。
 
-**產品角色 B** 將 feature 研究結果寫成 MOSPORT 自有媒體／創作者的預測專欄。NBA 研究服務按事先固定且版本化的規則產生 pick／合格機率；Magazine 生成文風、理由呈現與欄目，不任意改預測或增加數值。研究觀點可以與官方 World 相反，不必先被正式模型採納。正式 World 仍是唯一官方判讀，兩者以不同來源角色及契約語意呈現。
+**產品角色 B（Beta-1）** 將 feature 研究結果寫成 MOSPORT 自有媒體／創作者預測專欄。NBA 研究服務按固定且版本化的規則產生 pick／合格機率；Magazine 生成文風與理由呈現，不任意改預測或增加數值。研究可與官方 World 相反，不必先被正式模型採納；World 仍是唯一官方判讀。Beta-0 前只修補直接解除 Launch 缺口的既有實作，不以本節設計啟動新研究。
 
 Elo 及角色評估同由 NBA 的確定性評估工作提供；不以 Elo 替代缺失 World。產品 A／B 的內容發布與 repository A／B 的資料交換分別記錄，避免把文章作者角色當成服務發行身分。
 
@@ -32,11 +43,11 @@ Elo 及角色評估同由 NBA 的確定性評估工作提供；不以 Elo 替代
 
 NBA 由既有 ENGINE-03／04 提供可核對的球員層價值，Magazine 透過既有 provider／公開讀取路徑呈現與解釋。後續正式契約需表達球員 ID、適用比賽／時間窗口、資料截止、引擎與 feature 版本、分數／尺度及來源紀錄；Fantasy 價格再引用所使用的價值版本與生效時間。這些是語意要求，實際欄位名沿用配對契約，沒有新增平行 registry。
 
-Magazine 不從球隊勝率反推球員分數、不自行改評分權重；不把球員分數除以 10 當勝率。角色 B 的研究輸出不直接取代正式定價依據。賽後更新不覆寫賽前分數、當時價格或已鎖紀錄。分數換價格的單位／時機尚未定義，沒有新增供需、交易或球員 box-score 預測規則；Fantasy 仍是後續交付，不阻擋雙角色 Beta。
+Magazine 不從球隊勝率反推球員分數、不自行改評分權重；不把球員分數除以 10 當勝率。角色 B 的研究輸出不直接取代正式定價依據。賽後更新不覆寫賽前分數、當時價格或已鎖紀錄。分數換價格的單位／時機尚未定義，沒有新增供需、交易或球員 box-score 預測規則；Fantasy 不是 Beta-0／Beta-1 前置條件。
 
-### 公開版需要表達的最小語意
+### Beta-1 數值／研究公開契約的語意
 
-以下是欄位需求與驗收條件，不是允許 B 先接受未知欄位的 schema 草案。A 應在正式契約中確定名稱、型別、狀態與相容性；B 配對版本實作。
+以下是 Beta-1 及後續欄位需求，不是 Beta-0 驗收清單，也不是允許 Magazine 接受未知欄位的 schema 草案。NBA 確定名稱、型別、狀態與相容性，Magazine 配對版本實作；不得為此在 Beta-0 前新增 calculator／模型實驗。
 
 | 類別 | 必要語意 | B 必須避免 |
 |---|---|---|
@@ -51,9 +62,9 @@ Magazine 不從球隊勝率反推球員分數、不自行改評分權重；不�
 
 角色映射與實驗資料延伸既有研究 registry／ledger，不建立第二份互相競爭的真相來源。具體 schema 名稱與欄位由工程契約確認；本表沒有宣告某個新 schema 已經發布。
 
-### 官方雙鎖、研究截止與實際發布
+### Beta-1 的官方雙鎖、研究截止與實際發布
 
-正式 World 延續 INITIAL／T−15 FINAL。研究角色在事先登記時固定預測 stage 與截止時間，若有更新／FINAL 則分別保管，不能因研究身份省略賽前鎖定，也不必先具備完整正式 World 版本才能測試單一 feature。
+INITIAL／T−15 FINAL 是 Beta-1 的正式 World 交付要求，Beta-0 只需至少一筆持久化的真實賽前 snapshot。Beta-1 研究角色事先固定 stage 與截止時間，更新／FINAL 分別保管，不省略賽前鎖定，也不必先被正式 World 採納才測試。
 
 - INITIAL 與 FINAL 分別保存，FINAL 指向自己的 INITIAL；更新資料不能回寫已鎖定版本。
 - T−15 的依據包含已使用的賽程版本與 cutoff。延期、取消與改期需由 A 明定重鎖／不計分規則，B 顯示實際狀態。
@@ -69,7 +80,7 @@ Magazine 不從球隊勝率反推球員分數、不自行改評分權重；不�
 
 正式排程、鎖定、傳輸及結算以雲端運行為目標，不依賴 MichaelPC、互動式對話或 LLM 剩餘額度。延伸既有 provider → validator → gate → public model 路徑，不建立平行 consumer／dispatcher。
 
-### 實驗預測、Review 與升版
+### Beta-1 實驗預測、Review 與升版
 
 角色 B 的前台是有名稱與觀點的媒體／創作者專欄或卡片：呈現 pick、理由、時間與歷史紀錄，方法與來源可查閱。首頁官方 World 主槽每場一個主勝率，**不限制獨立研究欄目展示不同觀點**；角色預測可進首頁、文章與 Match Detail，不縮成僅有 Challenger 表格。
 
@@ -77,16 +88,16 @@ Magazine 不從球隊勝率反推球員分數、不自行改評分權重；不�
 
 官方賽果與 evaluation 不改寫 forecast。官方結果修訂建立新的結算／評估版本，保留原因與舊版本。公開 Review（含 scorecard）沿用 HUMAN approval，計分可以先在內部自動完成。Media 不能因一批命中就把實驗升為正式模型；World 升版需新的時間外證據、獨立 QA 與 release 決策，只套用未來賽事。
 
-M2 分別記錄兩項交付：**Magazine 雙角色 Beta** 可先發布已合格的文章與角色 B 預測，完成賽前鎖定、發布及官方結算；**NBA 整合預測 Beta** 另須正式 World 數值、INITIAL／T−15 FINAL 與其公開閉環。正式 World 尚未合格，不阻擋已具自身發布資格的 A／B；Magazine 先完成也不代表整合 World 已完成。這是同一 roadmap 的範圍記錄，不新增 gate。
+目前依 Beta-0／Beta-1 排序：M0–M2 先跑真 snapshot／reader／官方結果並上線；M3 才做 Beta-1 雙鎖與角色 B。先前 M2 同時列雙角色 Beta／整合數值 Beta 的範圍已被取代，不能要求 Beta-0 先完成這兩條產品鏈。
 
 角色成績與 feature 增益分開記錄。判斷是否改善 World 需同場、同 stage、固定其他條件的有／無 feature 對照；不能只看媒體角色命中率就升版。
 
 ### 接線驗收與相容性策略
 
-1. NBA 分別提供研究預測與官方 World 的版本化 schema、producer、真實樣本及 release／撤回契約；Magazine 依當次發布範圍配對 consumer。雙角色先用研究契約，不等待正式 World 公開契約；不能自行猜 endpoint 或狀態名稱。
+1. Beta-0 先 EIC 查現有 snapshot／結果／consumer，重用並修補直接缺口；共用 API／數值由 NBA 提供。Beta-1 再配對正式 World／研究預測的版本化契約，不猜 endpoint 或放寬 v1。
 2. 保留 v1 既有負測與封閉 public projection。新版本用明確版本分派，未知版本／欄位拒絕，不用寬鬆解析兜底。
-3. M1 同時完成第一篇角色 A 真實文章，以及角色 B 的未來賽事預測 → 鎖定 → 專欄發布 → 官方 settlement；公開 Review 經核准。正式 World 雙版依其契約並行接線，不能以等待 World 採納研究特徵延後角色 B。
-4. 對此次接線檢查：角色版本／規則／forecast 錯配、文章無來源、LLM 改 pick 或補機率、晚鎖／晚發布、撤回、錯誤核准、重複送達、編輯選稿改變研究分母與官方／研究混用；手機核對獨立欄目及官方主槽單一數字。
+3. Beta-0 完成至少一場真正未來比賽的持久化賽前 snapshot → Magazine 呈現／明確 missing → 同 game ID 官方結果，並取得實際上線證據。缺勝率不阻擋，missing 不能代替底層真證據；雙鎖、角色 B 與完整文章流程不列為前置。
+4. Beta-0 針對實際改動檢查 game ID／時間／持久化／missing／結果 join 與 reader flow；Beta-1 才補雙鎖、角色規則錯配、LLM 改 pick、機率資格與研究分母案例。依容量上限做必要檢查，不擴成新模型實驗。
 5. 以實際程式、服務與 receipt 更新本節狀態；本次文件改寫不更動 capability，也不宣稱上述工程已完成。
 
 ---

@@ -1,5 +1,43 @@
 # 2026-11-19 Magazine：Launch-first 計畫與實際狀態
 
+## 最新決定：Beta-0／Beta-1 與窄範圍治理
+
+**當前狀態：OPEN。** 本輪起始核對時間：2026-11-19T14:55:43+08:00（Asia/Taipei）。來源為 Founder 本輪直接決定；本次按已授權方向修改文件／治理，並非 runtime 完成。
+
+| 當前事項 | 最新生效範圍 |
+|---|---|
+| Beta-0 目標 | 11/19 起 2–3 週，即 12/03–12/10；不是已排程或工期保證 |
+| Beta-0 必要成果 | 真實 schedule 或誠實 missing；至少一場真正未來比賽的持久化賽前 snapshot；Magazine 呈現它或明確 missing；賽後同 game ID 對官方結果 |
+| Beta-0 不要求 | World 勝率、T−15 雙鎖、多 feature、角色 B、完整文章流程；但 missing 不能取代至少一筆底層真 snapshot 與官方結果證據 |
+| Beta-1 | Beta-0 真資料跑過且上線後，再補 INITIAL／T−15 FINAL、更多 feature 與角色 B |
+| Research | Beta-0 上線前只修補直接解除 Launch 缺口的既有東西；禁新 calculator／模型實驗；203 清單保留，不並行擴寫 |
+| Magazine owner | 位於既有 MEDIA 責任內，自排文章／reader flow／驗收，不等 World 完整版；API／數值由 NBA 提供，仍守 Beta-0 與容量範圍 |
+| 容量與防重複 | Capacity／Control 為有開工否決權的窄只讀守門者；Boundary／Anti-Duplication 是 QA 內窄角色，可阻擋 ready／merge，不寫產品程式或改派工／架構 |
+| Founder 分級 | L0 已授權文件／測試／明確修補依指定獨立 review 與委派處理、Founder 抽查；L1 摘要＋關鍵 diff；L2 架構／Gate／公開／付費／權限政策 Founder 親決；按最高實際影響分類 |
+| 保留方向 | 文章／研究雙角色、PMV 與 TMV 獨立、同源 World 球員分數→Magazine／Fantasy；Fantasy 非 Beta-0／Beta-1 前置 |
+
+先前「M1 雙角色首版」「M2 雙角色 Beta＋整合數值 Beta」及「203 項並行擴寫」排序已被本節取代。README、roadmap、compatibility 正文同步改寫；下方歷史紀錄保留當時原文，不再當作現行排程。
+
+### Existing Implementation Check（修改前已完成）
+
+- **searched：**一次批次讀取 README、ROADMAP、compatibility、當日日報、AGENTS 與 `.github/pull_request_template.md`；以 `rg -n` 搜尋 EIC／Beta-0／Beta-1／M1／203／CAPACITY／Research／merge／Fantasy；記錄讀取檔案 SHA-256，執行 `git rev-parse HEAD`。既有 PR 為 Magazine #20／NBA #73；本輪禁止 web，沒有宣稱刷新遠端 HEAD。
+- **found：**前五檔均存在，仍有雙角色首版／203 並行與雙鎖前置文字；缺完整 EIC／容量否決／QA 邊界／分級規則。PR template 缺少。本機不是 git checkout，local HEAD 無法取得；沿用檔內固定來源 `main@e4874cba32a7f91c110167bc3ea9e5f779294ed1`，不將它冒稱為 PR 最新 HEAD。
+- **reuse / why not reused：**直接修改五份現有文件，保留歷史 audit／日報與既有 source／runtime／schema／素材。既有適用文件全部重用，未重用項：無。僅因本 repo 缺少 PR template 新增該模板，不另建治理檔、dashboard、queue 或 workflow。
+
+每個 Launch PR 必須具體填齊同一 EIC 三項；不得以 N/A 或空泛描述取代。開 PR 前由 QA Boundary 檢查，review 抓重複實作，缺漏／未解決重複即不合格，不得 ready／merge。
+
+### 本輪容量／操作範圍
+
+root 已轉述 Capacity 守門對本任務束的 **ALLOW**：只准上述 5 份現有文件與 1 份缺少的模板，一輪修改、最多一次必要修正；供應商 quota **UNKNOWN**，遇限制立即停並保存，不重試碰撞。本輪不跑 npm、不用 web、不開 runtime／新 calculator／新 workflow，也不遠端操作。
+
+政策方向雖以 Markdown 記錄，實際涉及架構／權限政策，按 L2 辨識；本次具體方向已由 Founder 在對話親自授權，不再次詢問。此記錄不是獨立 review PASS、merge 或公開授權；本輪不 merge。指定獨立 review 與整合後實際核對由交付者另記。
+
+驗證範圍限於文件一致性、相對連結、fence、變更路徑及 EIC；不以舊 npm／CI 結果證明本輪產品功能。Beta-0 真 snapshot／官方結果／實際發布仍待工程與 runtime 證據。
+
+## 歷史紀錄（保留原文；排程以本頁最新決定為準）
+
+以下保留 11:39、12:31 與 13:27 各輪決策、檢查及當時的驗收範圍。雙角色與同源球員分數的產品方向仍保留，早先首版排程／203 並行政策已由本頁最新決定取代；歷史 PASS 不代表本輪已獲獨立審查。
+
 **狀態：OPEN**  
 As-of：2026-11-19T12:31:36+08:00，Asia/Taipei；先前基線檢查截至 11:39:20。  
 Magazine 基線：`main@e4874cba32a7f91c110167bc3ea9e5f779294ed1`。本報告記錄文件改寫範圍，不是當日全部工程結案。
@@ -83,3 +121,9 @@ M2 分別記錄兩項交付：**Magazine 雙角色 Beta** 可先發布已合格�
 本輪只更新文件與計畫文字，尚未實作球員分數／Fantasy 定價。既有發布順序與能力狀態不升級；Fantasy 不增加首版上線條件。前節測試／CI 僅代表各自記錄的舊 HEAD，本輪驗證範圍另記。
 
 本輪驗證：Markdown 連結／fence／衝突標記與 whitespace 核對通過；NBA registry renderer／validator 通過，JSON 差異僅限下一步計畫欄位。獨立唯讀文件覆核 PASS-with-scope，確認同源分數、時間版本與 Fantasy 接線一致。未重跑與文字變更無關的整套本機 runtime／瀏覽器測試；此結果不是功能或正式 GitHub approval。
+
+### 本輪必要核對與 Boundary 修正
+
+兩 repo 共16份目標文件／模板的連結、fence、衝突標記與 whitespace 核對通過；NBA registry renderer／validator 通過一次，state／evidence／dependencies未變。未跑新feature研究或整套本機runtime／瀏覽器測試；既有PR CI依新HEAD執行一輪，未手動重跑。
+
+Boundary final指出2項實質矛盾：NBA README末尾仍要求Founder逐一merge；Magazine AGENTS第8條與L0列未清楚允許委派合併。已修為最高影響分級、L0指定獨立review後在明確委派範圍處理／合併、禁止自審與全面無範圍自動合併。本輪仍是L2，未執行merge；修正依原review指示逐句核對，無需重跑registry。這是文件治理核對，不是runtime驗收或GitHub正式approval。
