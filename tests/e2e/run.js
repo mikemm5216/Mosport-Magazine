@@ -23,7 +23,14 @@ async function open(browser, url, w, h, opts = {}) {
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => { if (m.type() === 'error' && !(opts.allow404 && /ERR_FILE_NOT_FOUND|Failed to load resource/.test(m.text()))) errors.push(m.text()); });
-  await page.goto(SITE + url);
+  // These legacy suites exercise the labelled DEMO fixture. The real default
+  // saved-schedule entrance is covered separately by schedule-context.js via HTTP.
+  const target = new URL(SITE + url);
+  if (/\/(index|schedule|match|review)\.html$/.test(target.pathname) &&
+      !['fixture', 'issue', 'schedule'].some(key => target.searchParams.has(key))) {
+    target.searchParams.set('fixture', 'demo');
+  }
+  await page.goto(target.href);
   await page.waitForTimeout(350);
   return { ctx, page, errors };
 }
@@ -85,7 +92,7 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
     check('empty: no teaser/lead/game/story DOM', Object.values(counts).every((n) => n === 0), JSON.stringify(counts));
     check('empty: no percentage anywhere', !/\d+\s*%/.test(await text(page)));
     await page.screenshot({ path: path.join(OUT, 'home-1440-empty.png'), fullPage: true });
-    await page.click('.today-empty .cta');
+    await page.click('.today-empty a[href^="schedule.html"]');
     await page.waitForTimeout(250);
     check('empty: schedule still lists every game', (await page.locator('.sch tbody tr').count()) === 6);
     await ctx.close();

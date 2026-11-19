@@ -39,7 +39,7 @@ module.exports = async function dataSuite(browser, check, open, OUT) {
   {
     const { ctx, page } = await open(browser, 'index.html?fixture=stale', 1440, 900);
     const t = await bodyText(page);
-    check('data stale home: expired notice + schedule link, no %', /已過期/.test(t) && !/\d+\s*%/.test(t) && (await page.locator('.state-msg a[href*="schedule.html"]').count()) === 1);
+    check('data stale home: expired notice + schedule link, no %', /已過期/.test(t) && !/\d+\s*%/.test(t) && (await page.locator('.pg-inner a[href*="schedule.html"]').count()) >= 1);
     await ctx.close();
     const s = await open(browser, 'schedule.html?fixture=stale&lang=en', 1440, 900);
     const rows = await s.page.locator('table.sch tbody tr').count();

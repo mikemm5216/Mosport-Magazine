@@ -3,7 +3,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
-const { C, clone, loadFixtures } = require('./helpers.js');
+const { C, clone, loadFixtures, renderPage } = require('./helpers.js');
 const PL = require('../../site/js/data/pipeline.js');
 const schedule = require('../../site/data/schedules/0022600051.json');
 // Synthetic 0999 fixture is never bundled into the public provider.
@@ -117,31 +117,6 @@ test('legacy DEMO and raw World v1 are not promoted by the new schedule input', 
   assert.equal(run(bool).model.status, 'INVALID');
 });
 
-
-function renderPage(raw, page, query, projected) {
-  const mount = { innerHTML: '' };
-  const document = { documentElement: { dataset: {} }, addEventListener() {}, getElementById: () => mount };
-  class FixedDate extends Date { constructor(...args) { super(...(args.length ? args : [now])); } }
-  const window = {
-    MOSPORT_I18N: null, MOSPORT_PIPELINE: PL, MOSPORT_CONFIG: { mode: 'production' },
-    MOSPORT_PROVIDERS: { select: () => ({}), load: (_, done) => done(clone(raw)) },
-    MOSPORT_TEAMS: { get: () => null }, MOSPORT_FIXTURES: {}
-  };
-  const context = { window, document, Date: FixedDate, URLSearchParams, Intl,
-    location: { search: query || '?game=' + raw.game.gameId, pathname: page + '.html', hash: '' },
-    localStorage: { getItem: () => null, setItem() {} }, history: { replaceState() {} } };
-  vm.createContext(context);
-  for (const f of ['site/js/i18n.js', 'site/js/pages/' + page + '.js']) vm.runInContext(fs.readFileSync(f, 'utf8'), context);
-  if (projected) {
-    const render = window.MOSPORT_PAGE.render;
-    window.MOSPORT_PAGE.render = c => {
-      const issue = Object.assign({}, c.issue, { schedule: c.issue.schedule.map(g => Object.assign({}, g, { pregameSnapshot: projected })) });
-      return render(Object.assign({}, c, { issue }));
-    };
-  }
-  vm.runInContext(fs.readFileSync('site/js/app.js', 'utf8'), context);
-  return mount.innerHTML;
-}
 
 test('existing Schedule/Match templates display actual fields, exact missing and retained schedule navigation', () => {
   for (const page of ['schedule', 'match']) {

@@ -1,5 +1,16 @@
 # 2026-11-19 Magazine：Launch-first 計畫與實際狀態
 
+## 最新回合：Magazine 首頁跨頁入口（Level 1，視覺驗收 BLOCKED）
+
+本任務須遵守 Issue #170 的 Capacity / Boundary / Level 規則與 Beta-0 範圍。
+
+Founder 要求首頁保留桌面左封面＋右 TODAY、手機封面優先；已重用原首頁、reader、registry 與保存賽程0051完成程式修補。一般入口不再以 Schedule 表格或 generic missing 訊息頁取代雜誌結構。167/167 unit 通過；optional real-team helper 加入後 targeted22/22通過。
+
+替代靜態圖4張已產出，但 WeasyPrint 的 TODAY lead 卡仍失真成窄條，不能作整頁 visual PASS，也不是 browser E2E。缺少真 snapshot 不是阻礙。Capacity於2/2修正回合用完後明確DENY第三輪修正；停止新增修正、rerender及browser fallback，保留Draft並保存現有程式與失敗證據。詳見[本輪EIC、Capacity、測試與對照報告](2026-11-19-home-spread/README.md)。此狀態不覆蓋下方舊輪消耗／超額紀錄，不代表公開資料、合併或發布完成。
+
+最後獨立審查另發現 `npm run evidence` 的既有 `tests/e2e/evidence.js` 仍把無 selector 的 file:// 首頁當 DEMO，隨後等待不存在的 lead；這是尚未修正的具體測試腳本回歸，即使瀏覽器恢復仍會阻擋。依已用完的修正上限保存為 BLOCK，不把它歸因於環境或渲染器。
+
+
 ## 最新回合：#171 任務 2 的 Schedule/Match 模板與資料接點（OPEN）
 
 本任務須遵守 Issue #170 的 Capacity / Boundary / Level 規則與 Beta-0 範圍。

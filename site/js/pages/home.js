@@ -1,15 +1,19 @@
 /*
  * Home: the open magazine. Left page = cover, right page = TODAY.
  * Mobile (< 1024px): the cover is the first screen; TODAY follows on scroll.
- * Renders only what resolveIssue() returned. An absent slot emits no markup.
+ * Renders only the public model. Missing content keeps the magazine shell;
+ * an absent editorial slot emits no markup and never borrows fixture copy.
  */
 window.MOSPORT_PAGE = {
   id: 'today',
   render: function (c) {
     var T = c.T, esc = c.esc, L = c.lang, R = c.issue, I = c.meta, B = window.MOSPORT_BRAND, LB = window.MOSPORT_LABELS;
-    if (R.status !== 'OK') return c.topbar + '<main class="sheet">' + c.stateMessage(R) + '</main>';
-
-    var issueLine = T('issueLine', { vol: String(I.volume).padStart(2, '0'), no: I.number, date: c.issueDateLong(I.date) });
+    var hasIssue = !!(I && !I.scheduleOnly);
+    var savedGame = I && I.scheduleOnly ? R.schedule[0] : null;
+    var issueLine = hasIssue ? T('issueLine', { vol: String(I.volume).padStart(2, '0'), no: I.number, date: c.issueDateLong(I.date) }) : T(savedGame ? 'savedSchedule' : 'pregameTitle');
+    var topic = hasIssue ? I.topic : { line1: 'NBA', line2: 'TODAY' };
+    var edition = hasIssue ? I.edition[L] : T('nba');
+    var pageNumber = hasIssue ? '<b>' + String(I.page).padStart(2, '0') + '</b>' : '';
     var readCount = R.games.length + (R.lead ? 1 : 0);
     var review = R.stories.filter(function (s) { return s.type === 'REVIEW'; })[0];
     var streak = R.stories.filter(function (s) { return s.type === 'STREAK'; })[0];
@@ -36,16 +40,22 @@ window.MOSPORT_PAGE = {
         '<div class="cv-mob-top">' +
           '<a class="cv-mark" href="index.html' + c.keepQuery() + '"><mo-brand-logo tone="on-dark"></mo-brand-logo></a>' + c.utilButtons() +
         '</div>' +
-        '<div class="cv-meta"><span>' + esc(issueLine) + '</span><span>' + esc(I.edition[L]) + '</span></div>' +
+        '<div class="cv-meta"><span>' + esc(issueLine) + '</span><span>' + esc(edition) + '</span></div>' +
         '<h1 class="cv-mast"><span class="cv-name">' + B.name + '</span><span class="cv-slogan">' + B.slogan + '</span></h1>' +
         '<div class="cv-topic">' +
-          '<p class="cv-this">' + T('thisIssue') + '</p>' +
-          '<p class="cv-t1">' + esc(I.topic.line1) + '</p><p class="cv-t2">' + esc(I.topic.line2) + '</p>' +
+          '<p class="cv-this">' + T(hasIssue ? 'thisIssue' : 'pregameTitle') + '</p>' +
+          '<p class="cv-t1">' + esc(topic.line1) + '</p><p class="cv-t2">' + esc(topic.line2) + '</p>' +
           '<p class="cv-tag">' + T('tagline').map(esc).join('<br>') + '</p>' +
         '</div>' +
+        (!hasIssue || R.status !== 'OK' ? '<div class="cv-brief">' +
+          (savedGame ? '<p class="cv-game">' + esc(savedGame.away + ' @ ' + savedGame.home) + '</p><p class="cv-time">' + esc(c.tipShort(savedGame)) + '</p>' : '') +
+          '<p class="cv-status">' + esc(T(savedGame && savedGame.pregameSnapshot ? 'pregameTitle' : 'pregameMissing')) + '</p></div>' : '') +
         (teasers ? '<div class="cv-teasers">' + teasers + '</div>' : '') +
         '<div class="cv-foot">' +
-          (lines.length ? '<div class="cv-lines"><span class="cv-plus" aria-hidden="true">+</span><ul>' + lines.map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></div>' : '<span></span>') +
+          '<div class="cv-guide">' + demo +
+            (lines.length ? '<div class="cv-lines"><span class="cv-plus" aria-hidden="true">+</span><ul>' + lines.map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></div>' : '') +
+            '<a class="cv-next" href="#today">' + esc(T('openToday')) + ' <span aria-hidden="true">↓</span></a>' +
+          '</div>' +
           '<p class="cv-coach">' + B.coach.split(' ').reduce(function (a, w, i) { return a + (i === 2 ? ' <br>' : i ? ' ' : '') + w; }, '') + '</p>' +
         '</div>' +
       '</section>';
@@ -53,19 +63,22 @@ window.MOSPORT_PAGE = {
     var mnav = '<div class="mnav">' + c.navLinks('today', 'mnav-sec') + c.sportButtons('mnav-sports') + '</div>';
 
     /* ---------- TODAY page ---------- */
+    function leadArt(g) {
+      return '<div class="lead-art">' +
+        '<mo-art slot-id="today-feature-art"></mo-art>' +
+        '<div class="lead-teams">' +
+          '<div class="lead-team"><mo-team-logo code="' + esc(g.away) + '" size="lg"></mo-team-logo><p class="lt-code">' + esc(g.away) + '</p><p class="lt-name">' + esc(c.teamName(g.away)) + '</p></div>' +
+          '<span class="lead-at">@</span>' +
+          '<div class="lead-team"><mo-team-logo code="' + esc(g.home) + '" size="lg"></mo-team-logo><p class="lt-code">' + esc(g.home) + '</p><p class="lt-name">' + esc(c.teamName(g.home)) + '</p></div>' +
+        '</div>' +
+      '</div>';
+    }
     var lead = '';
     if (R.lead) {
       var g = R.lead.game, w = g.world;
       lead =
         '<article class="lead" aria-label="' + esc(c.teamName(g.away) + ' @ ' + c.teamName(g.home)) + '">' +
-          '<div class="lead-art">' +
-            '<mo-art slot-id="today-feature-art"></mo-art>' +
-            '<div class="lead-teams">' +
-              '<div class="lead-team"><mo-team-logo code="' + esc(g.away) + '" size="lg"></mo-team-logo><p class="lt-code">' + esc(g.away) + '</p><p class="lt-name">' + esc(c.teamName(g.away)) + '</p></div>' +
-              '<span class="lead-at">@</span>' +
-              '<div class="lead-team"><mo-team-logo code="' + esc(g.home) + '" size="lg"></mo-team-logo><p class="lt-code">' + esc(g.home) + '</p><p class="lt-name">' + esc(c.teamName(g.home)) + '</p></div>' +
-            '</div>' +
-          '</div>' +
+          leadArt(g) +
           '<div class="lead-read">' +
             '<p class="ver">' + esc(T('ver_' + w.version)) + '</p>' +
             '<p class="lead-verdict">' + esc(w.verdict[L]) + '</p>' +
@@ -76,6 +89,15 @@ window.MOSPORT_PAGE = {
             '<a class="cta" href="' + c.href('match.html', { game: g.gameId }) + '">' + T('open') + ' <span aria-hidden="true">→</span></a>' +
           '</div>' +
         '</article>';
+    } else if (savedGame) {
+      lead =
+        '<article class="lead lead-schedule" aria-label="' + esc(c.teamName(savedGame.away) + ' @ ' + c.teamName(savedGame.home)) + '">' +
+          leadArt(savedGame) +
+          '<div class="lead-read"><p class="ver">' + esc(T(savedGame.status.toLowerCase())) + '</p><h3 class="lead-record-title">' + esc(T('pregameTitle')) + '</h3>' + c.pregameRecord(savedGame) + '</div>' +
+          '<div class="lead-foot"><div><p class="lead-time">' + esc(c.tipLine(savedGame)) + '</p><p class="lead-game-id">NBA game ID ' + esc(savedGame.gameId) + '</p></div>' +
+            '<a class="pill" href="' + c.href('match.html', { game: savedGame.gameId }) + '">' + esc(T('gameDetails')) + ' <span aria-hidden="true">→</span></a></div>' +
+        '</article>' +
+        '<div class="lead-source"><p>' + esc(T('savedSchedule')) + '</p>' + c.sourceNote(savedGame.source) + '</div>';
     }
 
     var games = '';
@@ -125,16 +147,20 @@ window.MOSPORT_PAGE = {
       '</section>' : '';
 
     var stories = (reviewCard || streakCard) ? '<div class="stories' + (reviewCard && streakCard ? '' : ' stories-one') + '">' + reviewCard + streakCard + '</div>' : '';
-    var emptyMsg = !R.lead && !R.games.length && !R.stories.length
-      ? '<div class="today-empty"><p>' + esc(T('emptyToday')) + '</p><a class="cta" href="schedule.html' + c.keepQuery() + '">' + T('openSchedule') + ' <span aria-hidden="true">→</span></a></div>' : '';
+    var emptyMsg = !lead && !R.games.length && !R.stories.length
+      ? '<div class="today-empty"><p>' + esc(T(R.status === 'OK' ? 'emptyToday' : 'pregameMissing')) + '</p><a class="pill" href="schedule.html' + c.keepQuery() + '">' + T('openSchedule') + ' <span aria-hidden="true">→</span></a></div>' : '';
+    var stateNote = R.status === 'OK' || R.status === 'SCHEDULE_ONLY' ? '' : c.stateMessage(R, { scheduleLink: false });
+    var date = hasIssue ? c.issueDate(I.date) : savedGame ? c.tipDate(savedGame) : '';
+    var slate = hasIssue ? T('slate', { total: R.schedule.length, read: readCount }) : T(savedGame ? 'savedSchedule' : 'pregameTitle');
 
     var inner =
-      '<section class="pg pg-inner" id="today" aria-labelledby="today-h">' +
-        '<div class="runhead"><span>MOSPORT · ' + esc(I.topic.line1 + ' ' + I.topic.line2) + '</span><span class="rh-right"><span>' + esc(issueLine) + '</span><b>' + String(I.page).padStart(2, '0') + '</b></span></div>' +
+      '<section class="pg pg-inner" id="today" tabindex="-1" aria-labelledby="today-h">' +
+        '<div class="runhead"><span>MOSPORT · ' + esc(topic.line1 + ' ' + topic.line2) + '</span><span class="rh-right"><span>' + esc(issueLine) + '</span>' + pageNumber + '</span></div>' +
         '<div class="today-head"><h2 id="today-h" class="today-mast">' + T('todayMast') + '</h2>' +
-          '<div class="today-date"><p class="td-d">' + esc(c.issueDate(I.date)) + '</p><p class="td-s">' + esc(T('slate', { total: R.schedule.length, read: readCount })) + '</p></div></div>' +
-        lead + games + stories + emptyMsg +
-        '<footer class="pg-foot">' + (R.demo ? '<span>' + demo + ' ' + esc(T('demoNote').replace(/^DEMO · /, '')) + '</span>' : '<span></span>') + '<b>' + String(I.page).padStart(2, '0') + '</b></footer>' +
+          '<div class="today-date">' + (date ? '<p class="td-d">' + esc(date) + '</p>' : '') + '<p class="td-s">' + esc(slate) + '</p></div></div>' +
+        stateNote + lead + games + stories + emptyMsg +
+        '<footer class="pg-foot">' + (R.demo ? '<span>' + demo + ' ' + esc(T('demoNote').replace(/^DEMO · /, '')) + '</span>' : '<span>' + esc(B.slogan) + '</span>') +
+          (savedGame ? '<a class="pill" href="schedule.html' + c.keepQuery() + '">' + esc(T('openSchedule')) + ' <span aria-hidden="true">→</span></a>' : '') + pageNumber + '</footer>' +
       '</section>';
 
     var bar =

@@ -94,7 +94,7 @@ module.exports = async function assetSuite(browser, check, open, OUT) {
     newer.registryVersion = 'remote-test.1';
     newer.slots['cover-desktop-art'].activeVersion = null;          /* e.g. a CMS retired the art */
     S.set(JSON.stringify(newer));
-    await page.goto(`http://127.0.0.1:${S.port}/index.html`);
+    await page.goto(`http://127.0.0.1:${S.port}/index.html?fixture=demo`);
     await page.waitForTimeout(600);
     let cover = await page.evaluate(() => { const e = document.querySelector('mo-art[data-slot="cover-desktop-art"]'); return { state: e.dataset.state, reason: e.dataset.reason, v: window.MOSPORT_REG.registryVersion }; });
     check('remote registry: newer valid registry is applied', cover.v === 'remote-test.1' && cover.state === 'fallback' && cover.reason === 'NO_ACTIVE_VERSION', JSON.stringify(cover));
@@ -103,7 +103,7 @@ module.exports = async function assetSuite(browser, check, open, OUT) {
     bad.registryVersion = 'remote-test.bad';
     bad.slots['cover-desktop-art'].versions[0].content.containsPerson = true;   /* must be rejected */
     S.set(JSON.stringify(bad));
-    await page.goto(`http://127.0.0.1:${S.port}/index.html`);
+    await page.goto(`http://127.0.0.1:${S.port}/index.html?fixture=demo`);
     await page.waitForTimeout(600);
     cover = await page.evaluate(() => { const e = document.querySelector('mo-art[data-slot="cover-desktop-art"]'); return { state: e.dataset.state, v: window.MOSPORT_REG.registryVersion }; });
     check('remote registry: invalid registry (person in art) is ignored', cover.v === base.registryVersion && cover.state === 'art', JSON.stringify(cover));
