@@ -23,5 +23,25 @@
     "verificationState": "CONFIRMED",
     "demo": false
   },
-  "contextSnapshot": null
+  "contextSnapshot": null,
+  "editorial": {
+    "schema": "mosport-b/schedule-editorial@1",
+    "nbaGameId": "0022600051",
+    "kind": "CUP_REMATCH",
+    "group": "WEST_C",
+    "observedAt": "2026-11-19T10:42:38Z",
+    "previous": {
+      "gameId": "0022600185",
+      "away": "LAL",
+      "home": "SAC",
+      "awayPoints": 116,
+      "homePoints": 103,
+      "playedOn": "2026-11-04"
+    },
+    "sources": {
+      "matchupUrl": "https://www.nba.com/game/sac-vs-lal-0022600051",
+      "previousUrl": "https://www.nba.com/game/lal-vs-sac-0022600185"
+    },
+    "factsFingerprint": "2748a1a46f2fe34af84eb0959172019676bf491e52c9b760b6fcaa524feac513"
+  }
 }

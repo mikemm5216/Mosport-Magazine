@@ -17,6 +17,20 @@ window.MOSPORT_PAGE = {
     var readCount = R.games.length + (R.lead ? 1 : 0);
     var review = R.stories.filter(function (s) { return s.type === 'REVIEW'; })[0];
     var demo = R.demo ? '<span class="demo-badge">' + T('demoBadge') + '</span>' : '';
+    /* No editorial facts are borrowed from the DEMO or from a missing/stale source. */
+    var ed = savedGame && savedGame.editorial && savedGame.editorial.kind === 'CUP_REMATCH' ? savedGame.editorial : null;
+    var storyTitle = '', storyLede = '';
+    if (ed) {
+      var prev = ed.previous, awayName = c.teamName(savedGame.away, 'nick'), homeName = c.teamName(savedGame.home, 'nick');
+      var lastDate = new Intl.DateTimeFormat(L === 'zh' ? 'zh-TW' : 'en-US',
+        { month: 'short', day: 'numeric', timeZone: 'UTC' }).format(new Date(prev.playedOn + 'T12:00:00Z'));
+      var storyVars = {
+        away: awayName, home: homeName, gap: String(prev.awayPoints - prev.homePoints),
+        loserPoints: String(prev.homePoints), winnerPoints: String(prev.awayPoints), date: lastDate
+      };
+      storyTitle = T('cupRematchTitle', storyVars);
+      storyLede = T('cupRematchLede', storyVars);
+    }
 
     /* ---------- cover lines: derived only from what actually renders ---------- */
     var lines = [];
@@ -46,7 +60,7 @@ window.MOSPORT_PAGE = {
           '<p class="cv-tag">' + T('tagline').map(esc).join('<br>') + '</p>' +
         '</div>' +
         (savedGame ? '<div class="cv-brief">' +
-          ('<p class="cv-game">' + esc(c.teamName(savedGame.away, 'nick') + ' @ ' + c.teamName(savedGame.home, 'nick')) + '</p><p class="cv-time">' + esc(c.tipShort(savedGame)) + '</p>') +
+          ('<p class="cv-game' + (storyTitle ? ' is-editorial' : '') + '">' + esc(storyTitle || c.teamName(savedGame.away, 'nick') + ' @ ' + c.teamName(savedGame.home, 'nick')) + '</p><p class="cv-time">' + esc(c.tipShort(savedGame)) + '</p>') +
           '<p class="cv-status">' + esc(T(savedGame.pregameSnapshot ? 'context_' + savedGame.pregameSnapshot.homeCourt : 'pregameMissing', { team: c.teamName(savedGame.home, 'nick') })) + '</p></div>' : '') +
         (teasers ? '<div class="cv-teasers">' + teasers + '</div>' : '') +
         '<div class="cv-foot">' +
@@ -91,11 +105,13 @@ window.MOSPORT_PAGE = {
       lead =
         '<article class="lead lead-schedule" aria-label="' + esc(c.teamName(savedGame.away) + ' @ ' + c.teamName(savedGame.home)) + '">' +
           leadArt(savedGame) +
-          '<div class="lead-read"><p class="ver">' + esc(T(savedGame.status.toLowerCase())) + '</p><h3 class="lead-record-title">' + esc(T(savedGame.pregameSnapshot ? 'gameFacts' : 'pregameTitle')) + '</h3>' + c.pregameRecord(savedGame, { reader: true }) + '</div>' +
+          '<div class="lead-read' + (storyTitle ? ' has-editorial' : '') + '"><p class="ver">' + esc(T(savedGame.status.toLowerCase())) + '</p><h3 class="lead-record-title">' + esc(storyTitle || T(savedGame.pregameSnapshot ? 'gameFacts' : 'pregameTitle')) + '</h3>' +
+            (storyLede ? '<p class="lead-story">' + esc(storyLede) + '</p>' : '') + c.pregameRecord(savedGame, { reader: true }) + '</div>' +
           '<div class="lead-foot"><div><p class="lead-time">' + esc(c.tipLine(savedGame)) + '</p></div>' +
             '<a class="pill" href="' + c.href('match.html', { game: savedGame.gameId }) + '">' + esc(T('gameDetails')) + ' <span aria-hidden="true">→</span></a></div>' +
         '</article>' +
-        '<div class="lead-source">' + c.sourceNote(savedGame.source, { reader: true }) + '</div>';
+        '<div class="lead-source">' + c.sourceNote(savedGame.source, { reader: true }) +
+          (ed ? '<p class="pv">' + esc(T('cupRematchSource')) + ' <a href="' + esc(ed.sources.previousUrl) + '" rel="noopener noreferrer">NBA</a> · ' + esc(T('notLive')) + '</p>' : '') + '</div>';
     }
 
     var games = '';

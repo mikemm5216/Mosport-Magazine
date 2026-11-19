@@ -31,6 +31,7 @@
 .cv-tag { margin-top: 2.4cqw; font-size: max(14px, 3.7cqw); line-height: 1.35; font-weight: 500; color: #F2F5FB; }
 .cv-brief { margin-top: auto; padding: 5cqw 6cqw 0; }
 .cv-game { font-family: var(--f-cond); font-size: max(26px, 7cqw); font-weight: 800; letter-spacing: .03em; }
+.cv-game.is-editorial { font-size: max(19px, 4.4cqw); line-height: 1.26; letter-spacing: 0; overflow-wrap: anywhere; }
 .cv-time { margin-top: 1cqw; font-size: max(14px, 3cqw); color: #E6ECF8; }
 .cv-status { margin-top: 2cqw; max-width: 24em; font-size: max(16px, 3.8cqw); line-height: 1.55; font-weight: 600; }
 
@@ -86,6 +87,9 @@ html[lang="en"] .teaser-h { font-family: 'Anton', Impact, sans-serif; font-weigh
 .lead-why { margin-top: 4px; font-size: 14px; line-height: 1.55; color: var(--on2); }
 .lead-schedule .lead-read { min-width: 0; }
 .lead-record-title { font-size: 14px; font-weight: 600; color: var(--on2); }
+.lead-schedule .lead-read.has-editorial .lead-record-title { font-size: clamp(22px, 2.4vw, 32px); font-weight: 800; line-height: 1.26; color: var(--on); }
+.lead-schedule .lead-story { margin-top: 12px; max-width: 54ch; font-size: 15px; line-height: 1.72; color: var(--on2); }
+.lead-schedule .lead-read.has-editorial .pregame-missing { margin-top: 14px; font-size: 13px; font-weight: 500; line-height: 1.5; color: var(--on2); }
 .lead-schedule .pregame-missing { font-size: 22px; font-weight: 700; line-height: 1.5; }
 .lead-schedule .pregame-record { font-size: 16px; line-height: 1.55; overflow-wrap: anywhere; }
 .lead-schedule .pregame-record .pv { margin-top: 10px; font-size: 12px; color: var(--on2); }

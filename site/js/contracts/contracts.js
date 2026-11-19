@@ -385,6 +385,26 @@
       status: SHAPES.game.status, tipoff: SHAPES.game.tipoff
     } },
     source: { t: 'object', req: true },
+    /* Fact-only, official NBA Cup rematch angle. This is editorial evidence, never a World read. */
+    editorial: { t: 'object', nul: true, shape: {
+      schema: { t: 'string', req: true, enum: ['mosport-b/schedule-editorial@1'] },
+      nbaGameId: { t: 'string', req: true, re: /^\d{10}$/ },
+      factsFingerprint: { t: 'string', req: true, re: RE.hex64 },
+      kind: { t: 'string', req: true, enum: ['CUP_REMATCH'] },
+      group: { t: 'string', req: true, enum: ['WEST_C'] },
+      observedAt: { t: 'string', req: true, time: true },
+      previous: { t: 'object', req: true, shape: {
+        gameId: { t: 'string', req: true, re: /^\d{10}$/ },
+        away: Object.assign({ req: true }, teamRule), home: Object.assign({ req: true }, teamRule),
+        awayPoints: { t: 'int', req: true, min: 0, max: 400 },
+        homePoints: { t: 'int', req: true, min: 0, max: 400 },
+        playedOn: { t: 'string', req: true, date: true }
+      } },
+      sources: { t: 'object', req: true, shape: {
+        matchupUrl: { t: 'string', req: true, url: true },
+        previousUrl: { t: 'string', req: true, url: true }
+      } }
+    } },
     contextSnapshot: { t: 'object', nul: true }
   };
   var CONTEXT_SHAPE = {
@@ -442,6 +462,27 @@
     if (source.originalUrl !== url || source.publisher !== 'NBA' || source.kind !== 'OFFICIAL_FACT' || source.accessMethod !== 'OFFICIAL_PAGE') out.push(P('SCHEDULE_SOURCE_MISMATCH', 'schedule.source'));
     if (source.demo || source.verificationState !== 'CONFIRMED' || ['OWNED', 'LICENSED', 'PERMITTED_QUOTE', 'LINK_ONLY'].indexOf(source.rightsStatus) === -1) out.push(P('SCHEDULE_SOURCE_UNVERIFIED', 'schedule.source'));
     if (parseInstant(entry.validUntil) <= parseInstant(source.observedAt) || isNaN(parseInstant(opts.now)) || parseInstant(source.observedAt) > parseInstant(opts.now)) out.push(P('BAD_TIME', 'schedule.source.observedAt'));
+    if (entry.editorial) {
+      var ed = entry.editorial, previous = ed.previous;
+      /* A real saved matchup must be the subject; the only supported angle is
+         a documented cup rematch where the current visitors lost the prior meeting. */
+      if (ed.factsFingerprint !== sha256(canonical({
+        nbaGameId: ed.nbaGameId, kind: ed.kind, group: ed.group,
+        observedAt: ed.observedAt, previous: ed.previous, sources: ed.sources
+      }))) out.push(P('HASH_MISMATCH', 'schedule.editorial.factsFingerprint'));
+      if (ed.nbaGameId !== g.gameId || previous.gameId === g.gameId ||
+          previous.away !== g.home || previous.home !== g.away ||
+          previous.awayPoints <= previous.homePoints)
+        out.push(P('EDITORIAL_GAME_MISMATCH', 'schedule.editorial.previous'));
+      if (ed.sources.matchupUrl !== url ||
+          ed.sources.previousUrl !== 'https://www.nba.com/game/' +
+            previous.away.toLowerCase() + '-vs-' + previous.home.toLowerCase() + '-' + previous.gameId)
+        out.push(P('EDITORIAL_SOURCE_MISMATCH', 'schedule.editorial.sources'));
+      if (parseInstant(ed.observedAt) < parseInstant(source.observedAt) ||
+          parseInstant(ed.observedAt) >= parseInstant(entry.validUntil) ||
+          Date.parse(previous.playedOn + 'T23:59:59Z') >= parseInstant(g.tipoff))
+        out.push(P('EDITORIAL_CHRONOLOGY', 'schedule.editorial'));
+    }
     return out;
   }
 

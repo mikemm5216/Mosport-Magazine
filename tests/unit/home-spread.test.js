@@ -193,3 +193,21 @@ test('cover-only stories are not contradicted by the TODAY empty state, and stal
   const today = demoHome('stale').split('id="today"')[1];
   assert.ok(/href="schedule\.html/.test(today));
 });
+
+test('official NBA Cup rematch headline reaches the real default homepage after sourced observation', () => {
+  const clock = '2026-11-19T10:45:00Z';
+  const actual = home(schedule, '', null, { mode: 'production', now: clock, realTeams: true });
+  assertSpread(actual);
+  assert.ok(actual.includes('13 分差距能追回嗎？國王盃賽再戰湖人'));
+  assert.ok(actual.includes('103：116') && actual.includes('NBA 盃西區 C 組'));
+  assert.ok(actual.includes('這場的賽前判讀還沒出來。'));
+  assert.ok(actual.includes('https://www.nba.com/game/lal-vs-sac-0022600185'));
+  assert.ok(!/61%|52%|homeWinProbability|World · Coach Read|DEMO/.test(text(actual)));
+  const english = home(schedule, '?lang=en', null, { mode: 'production', now: clock, realTeams: true });
+  assert.ok(english.includes('13-point gap') && english.includes('NBA Cup West Group C'));
+  assert.ok(english.includes('103–116') && english.includes('The pregame read for this matchup is not out yet.'));
+  const earlier = home(schedule, '', null, { mode: 'production', now: '2026-11-19T08:10:00Z', realTeams: true });
+  assert.ok(!earlier.includes('13 分差距') && earlier.includes('賽前看點'));
+  const stale = home(schedule, '', null, { mode: 'production', now: schedule.validUntil, realTeams: true });
+  assert.ok(stale.includes('先前的賽程') && !stale.includes('13 分差距'));
+});

@@ -91,6 +91,17 @@
     var game = publicGame(raw.game, false);
     game.source = publicSource(raw.source);
     game.pregameSnapshot = null;
+    /* Curated official matchup facts may appear before a public World release;
+       they are suppressed before observation and on expired saved schedules. */
+    game.editorial = null;
+    if (!stale && raw.editorial && C.parseInstant(opts.now) >= C.parseInstant(raw.editorial.observedAt)) {
+      var ed = raw.editorial, prev = ed.previous;
+      game.editorial = {
+        kind: ed.kind, group: ed.group, observedAt: ed.observedAt,
+        previous: { awayPoints: prev.awayPoints, homePoints: prev.homePoints, playedOn: prev.playedOn },
+        sources: { matchupUrl: ed.sources.matchupUrl, previousUrl: ed.sources.previousUrl }
+      };
+    }
     if (stale) game.noReadReason = 'STALE';
     if (raw.contextSnapshot) {
       var problems = C.validateContextSnapshot(raw.contextSnapshot, raw.game, opts.now);

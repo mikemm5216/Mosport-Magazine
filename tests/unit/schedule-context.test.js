@@ -156,3 +156,41 @@ test('templates escape projected source labels and snapshot IDs; missing and unk
     assert.ok(output.includes('先前的賽程') && output.includes('這場的賽前判讀還沒出來。'));
   }
 });
+
+test('factual rematch passes source/identity checks and remains separate from any World read', () => {
+  const later = '2026-11-19T10:45:00Z';
+  assert.deepEqual(C.validateSchedule(schedule, { now: later }), []);
+  const model = run(schedule, later).model;
+  const game = model.schedule[0];
+  assert.equal(model.status, 'SCHEDULE_ONLY');
+  assert.equal(game.editorial.kind, 'CUP_REMATCH');
+  assert.equal(game.editorial.previous.awayPoints - game.editorial.previous.homePoints, 13);
+  assert.equal(game.editorial.sources.previousUrl, 'https://www.nba.com/game/lal-vs-sac-0022600185');
+  assert.equal(game.hasRead, false);
+  assert.equal(game.world, undefined);
+  assert.equal(game.pregameSnapshot, null);
+  const early = run(schedule).model.schedule[0];
+  assert.equal(early.editorial, null);
+  const stale = run(schedule, schedule.validUntil).model.schedule[0];
+  assert.equal(stale.editorial, null);
+});
+
+test('wrong prior game, altered result, future source, and unknown editorial fields are rejected', () => {
+  const later = '2026-11-19T10:45:00Z';
+  for (const change of [
+    r => { r.editorial.nbaGameId = '0022609999'; },
+    r => { r.editorial.previous.awayPoints = 90; },
+    r => { r.editorial.previous.home = 'NYK'; },
+    r => { r.editorial.previous.gameId = r.game.gameId; },
+    r => { r.editorial.sources.matchupUrl = 'https://nba.com.evil.test/game/sac-vs-lal-0022600051'; },
+    r => { r.editorial.sources.previousUrl = 'https://www.nba.com/game/lal-vs-sac-9999999999'; },
+    r => { r.editorial.observedAt = '2026-11-21T00:00:00Z'; },
+    r => { r.editorial.previous.unknown = 'inject'; },
+    r => { r.editorial.previous.awayPoints = 118; },
+    r => { r.editorial.factsFingerprint = '0'.repeat(64); }
+  ]) {
+    const x = clone(schedule); change(x);
+    assert.equal(run(x, later).model.status, 'INVALID');
+    assert.equal(run(x, later).model.schedule.length, 0);
+  }
+});
