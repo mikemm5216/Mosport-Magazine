@@ -1,3 +1,10 @@
+本任務須遵守 Issue #170 的 Capacity / Boundary / Level 規則與 Beta-0 範圍。
+
+Policy: [#170 Current execution policy](https://github.com/mikemm5216/Mosport-NBA/issues/170#current-execution-policy)
+
+- Policy read at / issue updated_at:
+- Implementer / independent reviewer / merge executor (actual IDs):
+
 ## Purpose and scope
 
 - Problem and resulting behaviour:
@@ -34,30 +41,30 @@ Missing/vague content or `N/A` is not qualified for ready/merge.
 - Each non-reused item and reason; if all applicable work is reused, explicitly
   write that there are no non-reused items:
 
-## Capacity / Control before dispatch
+## Capacity Check
 
-- Decision: ALLOW / STOP; reviewer and record/time:
-- EIC checked:
-- Estimated consumption and hard task cap:
-- Quota observation and reset information; unknown values must say UNKNOWN:
-- Launch-priority conflict check:
-- Stop/save condition; no retries into an exhausted limit:
+- Task / owner / reviewer / checked at:
+- EIC 完成？ Y / N + link:
+- 預估消耗 / 估算依據 / 硬上限:
+- Quota 狀態 / reset 證據（未知填 UNKNOWN）:
+- Launch 優先衝突？ Y / N + reason（含 Research 凍結與其他寫入工作）:
+- 判定：ALLOW / DENY + reason:
+- 允許範圍與停止條件:
 
-No ALLOW means no code writing. ALLOW is limited to the recorded task scope; it
-does not approve public release, spend or a new workflow. Before Beta-0 launch,
-Research only repairs existing work that directly unblocks Launch: no new
-feature calculators or model experiments, and no parallel expansion of the
-203-feature inventory.
+EIC 未完成、已知 quota 不足或有優先衝突即 DENY；未 ALLOW 不開始寫 code。
+UNKNOWN 不代表足額；限定允許範圍、上限與停止點。範圍或估算增加須重查。
 
-## Boundary / Anti-Duplication review
+## Boundary Check
 
-- Pre-PR EIC check, independent QA reviewer and result:
-- Duplicate implementation findings and how each was resolved:
-- Exact reviewed HEAD / diff:
-- Ready/merge blockers remaining:
+- Reviewer / checked at / exact reviewed HEAD:
+- EIC 三段是否完整且非空泛？ Y / N + evidence:
+- Diff 是否有未說明的重複實作？ Y / N + paths / findings:
+- 判定：PASS / BLOCK + reason:
+- Remaining blockers / resolution links / review scope:
 
-This QA role can block ready/merge. It does not write product code or change
-architecture or dispatch priority. An implementer cannot approve their own work.
+EIC 缺漏或空泛、未說明的重複實作、未解決阻擋均為 BLOCK，不得 ready／merge。
+實作者不得擔任自己的獨立 reviewer；HEAD 變更後覆核受影響差異並更新收據。
+PASS 只覆蓋所記錄的範圍，不能代替必要測試、Founder L1／L2 決定或發布授權。
 
 ## Founder level and authority
 
@@ -84,3 +91,6 @@ policy. Record an existing applicable decision instead of asking for it again.
 State separately what was documented, implemented, reviewed and deployed. Do not
 reuse another HEAD's tests as proof for this change. Keep the daily report OPEN
 until a genuine day-end record; document-only work does not complete runtime.
+
+Use the named Level 0 execution and review procedure in AGENTS.md. Do not implement
+Dispatcher automatic interception for the current Beta-0 policy task.

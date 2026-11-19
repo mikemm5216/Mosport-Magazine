@@ -32,7 +32,7 @@ media/editorial workflow. It is a separate product line from MOSPORT-A
    issue, not into A's repo.
 8. **No self-approval or blanket automatic merge.** Follow the impact-based delegation
    below. A green test, a Markdown extension or Capacity ALLOW does not grant
-   merge authority. This documentation/governance round does not merge.
+   merge authority. Apply the current scope-specific Founder authorisation.
 
 ## Current launch scope — Founder decision, 2026-11-19
 
@@ -106,8 +106,55 @@ Classify by the highest actual impact. Policy written in `.md` is not L0 merely
 because it is documentation. The concrete Beta-0 and governance direction in
 this round was authorised by the Founder in the conversation; do not ask for the
 same decision again. Record that authority and the actual independent review;
-do not turn this direction into permission to merge, publish, pay or modify
-runtime beyond the specified scope.
+perform only the operations explicitly authorised for that scope. The latest
+Founder instruction authorises merging PR #20 and NBA PR #73 after review and
+required checks; it does not authorise public deployment, spend or new runtime.
+
+## Required task preamble and current policy
+
+Every new task or dispatch description must begin with this exact sentence:
+
+> 本任務須遵守 Issue #170 的 Capacity / Boundary / Level 規則與 Beta-0 範圍。
+
+Link [Issue #170 Current execution policy](https://github.com/mikemm5216/Mosport-NBA/issues/170#current-execution-policy) and record the policy
+read time / updated_at, the task's highest actual-impact level, permitted scope
+and named implementer / independent reviewer. Include the Capacity ALLOW receipt
+before implementation. If the current policy or receipt is unavailable, record
+the missing check and hold coding. Use `.github/pull_request_template.md` for the
+copyable Capacity Check and Boundary Check.
+
+The Founder explicitly authorised merging NBA PR #73 and Magazine PR #20 after
+independent review and required checks on 2026-11-19. This supersedes the earlier
+document-only round's no-merge scope for those two PRs; it does not authorise
+runtime expansion, public deployment or spend. **Do not implement Dispatcher
+automatic interception in this round.** Use task / PR discipline.
+
+## Named Level 0 execution and review procedure
+
+Use the existing implementation / QA / integration responsibilities; these are
+per-task assignments, not new departments or persistent workers.
+
+- **Implementer:** the ChatGPT / Codex implementation agent assigned to the task.
+  Record its actual session / agent ID and permitted files before work.
+- **Independent reviewer:** a separately invoked `boundary_review` QA agent,
+  distinct from the implementer. It reviews the exact HEAD, EIC, duplication,
+  actual impact level and necessary verification, then records PASS / BLOCK.
+  If unavailable or technically unable to review, hold the change for another
+  explicitly named independent QA reviewer; do not send every L0 to Founder.
+- **Merge executor:** the active ChatGPT root / integration agent. For an already
+  authorised L0, it may merge only after the independent PASS, Capacity record,
+  required checks and absence of unresolved blockers, using the reviewed HEAD
+  as the merge lease. It may execute a merge of its own authored change only
+  on another reviewer's PASS; it cannot issue its own independent approval.
+- **Founder:** spot-checks L0. Contract / calculator / display changes remain L1;
+  architecture / Gate / public release / spend / authority changes remain L2.
+  A task title or Markdown extension cannot downgrade the actual impact.
+
+Every task records actual implementer, reviewer and merge executor identities;
+an unfilled role is not evidence that an agent is running. Use the same PR for
+receipts. An independent agent review is not a GitHub APPROVED review unless an
+actual separate GitHub reviewer submitted it. Existing platform protections
+remain in force.
 
 ## Source of truth
 

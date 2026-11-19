@@ -1,5 +1,33 @@
 # 2026-11-19 Magazine：Launch-first 計畫與實際狀態
 
+## 最新回合：政策推進 main 與第一場任務（合併前紀錄）
+
+截至 2026-11-19T15:23:03+08:00（Asia/Taipei）；狀態 OPEN。此段取代下方較早回合的
+「本輪不 merge」操作範圍，歷史文字保留。Founder 最新明確授權核對後合併 NBA #73／
+Magazine #20，並要求可複製守門模板、具名 L0 流程、每次派工必引 #170；本輪禁 Dispatcher
+自動攔截，不擴張 runtime／calculator／公開部署／付費。
+
+本任務須遵守 Issue #170 的 Capacity / Boundary / Level 規則與 Beta-0 範圍。
+
+- EIC：已讀兩 repo AGENTS、PR template、roadmap／CODEX、registry 及兩 PR 完整 changed-file
+  patch／tree。NBA 原 HEAD `60bd6883a917f534d314ba54de22e3e214df5474`、Magazine 原 HEAD
+  `a8e1cd8972aeee94e734d79b1c380c4c73f95f1f`；本地 16 個 PR 檔案 hash 全部相符。
+  直接補強原模板、政策和日報，沒有不重用項；不建立新文件系統／queue。
+- Capacity：獨立 `capacity_guard` 已 ALLOW 限本輪文件／兩原 PR 合併／真實任務盤點。
+  GitHub 預估 35–55 次、上限 70；本地輕量命令預估 10–16 組、上限 20；官方／web 讀取
+  預估 2–5 次、上限 8，均含子 agent。quota UNKNOWN，遇限額／付費或超範圍即保存停止。
+- 分工：root 為文件作者／整合者；`boundary_review` 是另一個獨立 QA；
+  `beta0_slice_inventory` 只讀既有 feature、call site 與真實賽事來源。角色有本輪實際實例，
+  不宣稱常駐自動服務。後續 L0 使用 AGENTS 的同一指示並記錄當次實際身分。
+- 審查與 CI：原 NBA HEAD 的 CI #44477466008 成功；Magazine 原 HEAD 無 workflow run。
+  兩 PR 當時均無 GitHub 正式 reviews／threads。獨立 agent 覆核不冒充 GitHub APPROVED。
+  本輪最終 HEAD 的必要檢查、Boundary 結論、merge SHA 與 main 讀回以兩原 PR 及 #170 收據為準；
+  此合併前紀錄不預先宣稱完成。
+- 第一場任務的 game ID、來源、既有 feature、Magazine 最小顯示與官方結果串接，寫入 #170
+  所連具體任務。未來場次真 pregame 與歷史串接演練分開，不虛構現有持久化／結果證據。
+
+---
+
 ## 最新決定：Beta-0／Beta-1 與窄範圍治理
 
 **當前狀態：OPEN。** 本輪起始核對時間：2026-11-19T14:55:43+08:00（Asia/Taipei）。來源為 Founder 本輪直接決定；本次按已授權方向修改文件／治理，並非 runtime 完成。

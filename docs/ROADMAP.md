@@ -124,7 +124,7 @@ Beta-0 是 M0–M2 的真資料閉環；Beta-1 是達成真資料與實際上線
 | B-P1-02 | BrandLogo／TeamLogo／CoverArtwork 插槽 | 使用已合格素材與可讀 fallback |
 | B-P1-03 | 呈現資格 gate | main 有原型；正式發布仍需上游可信權限 |
 | B-P1-04 | 桌面跨頁／手機封面與 Today | Beta-0 重用既有 reader 呈現 snapshot／missing；角色欄目接 Beta-1 |
-| B-P1-05 | Schedule／Review／Match／Almanac 入口 | 本輪聚焦 NBA 四頁閉環 |
+| B-P1-05 | Schedule／Review／Match／Almanac 入口 | 保留既有四頁導覽；Beta-0 只驗收所選同場顯示／missing／官方結果，不要求四頁全部完成 |
 | B-P1-06 | 瀏覽器矩陣與截圖 | 真實 consumer 接線後核對核心流程與手機；歷史原型截圖不能替代 |
 | B-P1-07 | Reader Zoom | 保留 Fit Width／Fit Page 與手機原生 pinch |
 | B-P1-08 | 素材 registry 與候選美術 | #5／#7 既有權利與視覺事項按實際選用素材處理；未清權利就 fallback |
@@ -162,7 +162,7 @@ Forecast、角色文章／卡片、官方結果、evaluation 與 editorial appro
 
 ## 7. 容量與實際限制
 
-**Capacity／Control 是派出新任務前的窄只讀守門者，有開工否決權。** 檢查 EIC、預估消耗／硬上限／quota 狀態與 Launch 優先衝突，留下 ALLOW 或 STOP；沒有 ALLOW 不開始寫 code。資料未知記 UNKNOWN，不能冒稱額度足夠。先用簡單既有任務紀錄，不建新 dashboard、queue 或 workflow；守門者不更動架構或派工優先。
+**Capacity／Control 是派出新任務前的窄只讀守門者，有開工否決權。** 檢查 EIC、預估消耗／硬上限／quota 狀態與 Launch 優先衝突，留下 ALLOW 或 DENY；沒有 ALLOW 不開始寫 code。資料未知記 UNKNOWN，不能冒稱額度足夠。先用簡單既有任務紀錄，不建新 dashboard、queue 或 workflow；守門者不更動架構或派工優先。
 
 容量不足或遇限額就停、保存進度，不重試碰撞限制；恢復前重新核對可用條件與窄任務範圍。Grok C1 handoff 已列為停止工作，不是上線依賴，也沒有宣稱外部 Routine 已被遠端關閉。目標雲端 runtime 與 LLM 研發工作分開，對話額度用完不應讓產品停止結算。
 
@@ -180,7 +180,7 @@ QA 內的 **Boundary／Anti-Duplication** 在開 PR 前強制檢查 EIC，review
 | L1 | 契約／calculator／顯示邏輯 | 提供 Founder 摘要與關鍵 diff，由其決定；仍需獨立 review |
 | L2 | 架構／Gate／公開／付費／權限政策 | Founder 親決；仍需獨立 review |
 
-按最高實際影響分級，不因副檔名為 `.md` 降成 L0。本次具體政策方向已獲 Founder 在對話授權，不反覆詢問；授權範圍、獨立 review 與實際操作分別留證，本輪不 merge。
+按最高實際影響分級，不因副檔名為 `.md` 降成 L0。本次具體政策方向已獲 Founder 在對話授權，不反覆詢問；授權範圍、獨立 review 與實際操作分別留證。Founder 最新已授權 #20／NBA #73 在獨立 review 與必要檢查後合併；公開部署另按 L2 決定。本輪不實作 Dispatcher 自動攔截。
 
 本機模型可在有任務基準後承接適合的草稿／整理工作；先量測瓶頸，再提出硬體或軟體升級。現有文件未提供完整主機規格、額度或 production host，不猜測，不把購買設備或新增付費服務當成本次文件的既成事實。
 
@@ -189,3 +189,12 @@ QA 內的 **Boundary／Anti-Duplication** 在開 PR 前強制檢查 EIC，review
 沿用 U-01、U-04…U-07 與 M-01…M-07：空內容移除、主頁單一數字、Logo fallback、中英／日夜／手機可讀、無球員肖像、錯誤核准不可通過。新增的真實契約、撤回、雙鎖、結算與實驗版本案例，在對應工程 PR 加入有針對性的測試；文件更新不創造測試通過證據。
 
 每次交付列明實際 SHA、完成範圍、未完成依賴與下一工作包。當日 [plan-versus-actual](reports/2026-11-19-LAUNCH-FIRST-PLAN-VS-ACTUAL.md) 維持 OPEN，直到有真正的當日結束紀錄；不因一次回覆或 PR 完成而宣稱整日任務結案。
+
+## 派工與 Level 0 的固定入口
+
+本任務須遵守 Issue #170 的 Capacity / Boundary / Level 規則與 Beta-0 範圍。
+
+每次派工與 PR 描述以此句開頭，引用 [#170 Current execution policy](https://github.com/mikemm5216/Mosport-NBA/issues/170#current-execution-policy)；
+標準 Capacity／Boundary 格式使用 `.github/pull_request_template.md`。Level 0 作者為當次
+指定的 ChatGPT／Codex agent，另一個 `boundary_review` QA agent 負責獨立審查，主執行者
+只在通過收據與必要檢查後依授權合併；實際身分、HEAD 與範圍必填，詳見 `AGENTS.md`。
