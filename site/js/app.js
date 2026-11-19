@@ -57,13 +57,15 @@
   }
   function tipShort(g) { return T('taipei') + ' ' + fmt(g.tipoff, 'Asia/Taipei', g.source ? { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' } : { hour: '2-digit', minute: '2-digit' }); }
   function tipDate(g) { return fmt(g.tipoff, 'Asia/Taipei', { year: 'numeric', month: '2-digit', day: '2-digit' }); }
-  function sourceNote(source) {
+  function sourceNote(source, options) {
     if (!source) return '';
+    if (options && options.reader) return '<p class="pv">' + esc(T('dataSource')) + ' <a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.publisher) + '</a> · ' + esc(T('notLive')) + '</p>';
     return '<p class="pv">' + esc(T('dataSource')) + ' <a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.publisher) + '</a> · ' + esc(T('observedAt')) + ' <time datetime="' + esc(source.observedAt) + '">' + esc(source.observedAt) + '</time></p>';
   }
-  function pregameRecord(g) {
+  function pregameRecord(g, options) {
     var snapshot = g.pregameSnapshot;
     if (!snapshot) return '<p class="pregame-missing">' + esc(T('pregameMissing')) + '</p>';
+    if (options && options.reader) return '<p class="pregame-context">' + esc(T('context_' + snapshot.homeCourt, { team: teamName(g.home, 'nick') })) + '</p>';
     return '<div class="pregame-record"><p><b>' + esc(snapshot.homeCourt) + '</b> · HOME_COURT@' + esc(snapshot.formulaVersion) + '</p><p class="pv">' + esc(T('savedSnapshot')) + ' <time datetime="' + esc(snapshot.capturedAt) + '">' + esc(snapshot.capturedAt) + '</time></p><p class="pv">' + esc(T('snapshotId')) + ' <code>' + esc(snapshot.snapshotId) + '</code> · v' + esc(snapshot.snapshotVersion) + '</p>' + sourceNote(snapshot.source) + '</div>';
   }
   function issueDate(iso) {

@@ -30,7 +30,7 @@ test('normal index entry selects the existing 0051 schedule in each existing mod
     assert.equal(selection.url, 'data/schedules/0022600051.json');
     assertSpread(html);
     assert.ok(html.includes('lead-schedule'));
-    for (const value of ['SAC', 'LAL', '2026/11/21', '11:00', '07:58:50Z', 'NBA game ID 0022600051', '賽前紀錄尚未提供公開顯示', '已保存賽程（非即時）']) assert.ok(html.includes(value), value);
+    for (const value of ['SAC', 'LAL', '2026/11/21', '11:00', '這場的賽前判讀還沒出來。', '非即時更新']) assert.ok(html.includes(value), value);
     assert.ok(html.includes('href="https://www.nba.com/game/sac-vs-lal-0022600051"'));
     assert.ok(!/DEMO|VOL\.|第 \d+ 期|61%|52%|0\.5|World · Coach Read|BREAKING NEWS|MOSPORT EXCLUSIVE|三層/.test(text(html)));
     assert.ok(!html.includes('class="teaser ') && !html.includes('class="stories'));
@@ -61,7 +61,7 @@ test('ambiguous or invalid explicit selection stays failed, with no fallback gam
     assert.ok(html.includes('state-load_failed'));
     assert.ok(!html.includes('lead-schedule'));
     assert.ok(!text(html).includes('SAC'));
-    assert.ok(html.includes('賽前紀錄尚未提供公開顯示'));
+    assert.ok(html.includes('這一期暫時打不開。'));
   }
 });
 
@@ -71,7 +71,7 @@ test('validated candidate remains missing on the actual public pipeline and home
   assert.deepEqual(result.diagnostics.excluded.map(e => e.reason), ['PUBLIC_QUALIFICATION_UNAVAILABLE']);
   const html = home(candidate, '?schedule=0022600999');
   assertSpread(html);
-  assert.ok(html.includes('賽前紀錄尚未提供公開顯示'));
+  assert.ok(html.includes('這場的賽前判讀還沒出來。'));
   for (const forbidden of [candidate.contextSnapshot.snapshotId, 'HOME_COURT@', 'homeWinProbability', '61%', '0.5']) assert.ok(!text(html).includes(forbidden), forbidden);
 });
 
@@ -82,20 +82,21 @@ test('isolated homepage projection renders HOME and NEUTRAL through the existing
     const projected = PL.contextSnapshotView(snapshot);
     const html = home(candidate, '?schedule=0022600999', projected);
     assertSpread(html);
-    for (const expected of [value, 'HOME_COURT@1', snapshot.snapshotId, '08:05:00Z', '08:00:00Z']) assert.ok(html.includes(expected), expected);
-    assert.ok(!text(html).includes('賽前紀錄尚未提供公開顯示'));
+    assert.ok(html.includes(value === 'HOME' ? 'LAL在主場出賽。' : '本場在中立場地進行。'));
+    for (const hidden of ['HOME_COURT@1', snapshot.snapshotId, '08:05:00Z', '08:00:00Z']) assert.ok(!text(html).includes(hidden), hidden);
+    assert.ok(!text(html).includes('這場的賽前判讀還沒出來。'));
     assert.ok(!/61%|0\.5|homeWinProbability/.test(text(html)));
   }
   assert.equal(PL.run(clone(candidate), { mode: 'production', now }).model.schedule[0].pregameSnapshot, null);
 });
 
-test('isolated homepage projection escapes source labels and snapshot IDs', () => {
+test('homepage hides technical snapshot IDs and source payloads', () => {
   const projected = PL.contextSnapshotView(candidate.contextSnapshot);
   projected.snapshotId = '<script>evil</script>';
   projected.source.publisher = '<img src=x onerror=evil>';
   const html = home(candidate, '?schedule=0022600999', projected);
-  assert.ok(html.includes('&lt;script&gt;evil&lt;/script&gt;'));
-  assert.ok(html.includes('&lt;img src=x onerror=evil&gt;'));
+  assert.ok(!html.includes('&lt;script&gt;evil&lt;/script&gt;'));
+  assert.ok(!html.includes('&lt;img src=x onerror=evil&gt;'));
   assert.ok(!html.includes('<script>evil') && !html.includes('<img src=x'));
 });
 
@@ -105,7 +106,8 @@ test('no source, no payload and load failure keep the magazine without borrowed 
     const html = home(raw);
     assertSpread(html);
     assert.ok(html.includes(expected));
-    assert.ok(html.includes('賽前紀錄尚未提供公開顯示'));
+    assert.ok(!text(html).includes('這場'));
+    assert.ok(!html.includes('class="today-empty"'));
     assert.ok(!html.includes('class="td-d"'));
     assert.ok(!/DEMO|VOL\.|SAC|LAL|2026\/11\/21|61%|HOME_COURT@/.test(text(html)));
     assert.ok(!html.includes('lead-schedule') && !html.includes('class="teaser '));
@@ -115,7 +117,7 @@ test('no source, no payload and load failure keep the magazine without borrowed 
 test('expired saved schedule remains labelled history with missing pregame record', () => {
   const html = home(candidate, '?schedule=0022600999', null, { now: candidate.validUntil });
   assertSpread(html);
-  for (const expected of ['state-stale', '歷史觀測', '已保存賽程（非即時）', '賽前紀錄尚未提供公開顯示', 'NBA game ID 0022600999']) assert.ok(html.includes(expected));
+  for (const expected of ['state-stale', '先前的賽程', '非即時更新', '這場的賽前判讀還沒出來。']) assert.ok(html.includes(expected));
   assert.ok(!html.includes(candidate.contextSnapshot.snapshotId));
   assert.ok(!/VOL\.|61%|0\.5|HOME_COURT@/.test(text(html)));
 });
@@ -123,13 +125,14 @@ test('expired saved schedule remains labelled history with missing pregame recor
 test('eligible explicit DEMO keeps its original editorial output and visible DEMO marks', () => {
   const html = demoHome('demo');
   assertSpread(html);
-  for (const expected of ['61%', '湖人主場較有利', '湖人主場戰關鍵戰', '勇士新陣容化學反應', 'class="story story-review"', 'class="story story-streak"', 'class="demo-badge"']) assert.ok(html.includes(expected), expected);
+  for (const expected of ['61%', '湖人主場較有利', '湖勇交手，傷兵牽動戰局', '勇士新陣容，變化在哪裡？', 'class="story story-review"', 'class="demo-badge"']) assert.ok(html.includes(expected), expected);
   assert.ok(html.indexOf('class="demo-badge"') < html.indexOf('id="today"'));
-  assert.ok(!/52%|60% 區間|三層內容|HOME_COURT@/.test(text(html)));
+  assert.ok(!/52%|60% 區間|三層內容|HOME_COURT@|World|Evidence|External|snapshot|receipt|資格|Falsifier|Turning Point|三連勝/i.test(text(html)));
+  assert.ok(!html.includes('story-streak'));
   const refused = home(F.demo, '?fixture=demo&mode=production', null, { fixtures: F });
   assertSpread(refused);
   assert.ok(refused.includes('state-refused'));
-  assert.ok(!/61%|湖人主場較有利|湖人主場戰關鍵戰|勇士新陣容化學反應/.test(text(refused)));
+  assert.ok(!/61%|湖人主場較有利|湖勇交手，傷兵牽動戰局|勇士新陣容，變化在哪裡？/.test(text(refused)));
 });
 
 test('empty, unapproved and stale issues retain eligibility decisions inside the magazine', () => {
@@ -148,7 +151,7 @@ test('TODAY anchor and secondary navigation preserve the selected schedule and a
   const html = home(schedule, query, null, { hash: '#today' });
   assertSpread(html);
   assert.ok(html.includes('Read TODAY'));
-  assert.ok(html.includes('Pregame record is not yet available for public display'));
+  assert.ok(html.includes('The pregame read for this matchup is not out yet.'));
   assert.ok(!text(html).replace(/繁中/g, '').match(/[\u3400-\u9fff]/));
   const links = [...html.matchAll(/href="([^"]+)"/g)].map(m => m[1]);
   for (const page of ['index.html', 'schedule.html', 'match.html']) {
@@ -165,4 +168,28 @@ test('TODAY anchor and secondary navigation preserve the selected schedule and a
   const back = links.find(href => href.startsWith('index.html?'));
   home(schedule, new URL(back, 'https://mosport.test/').search, null, { onSelect: s => selectedAgain.push(s.name) });
   assert.deepEqual(selectedAgain, ['0022600051']);
+});
+
+test('home status copy is reader-facing in both editions without leaking technical metadata', () => {
+  for (const lang of ['zh', 'en']) {
+    const cases = [home(schedule, '?lang=' + lang), home(null, '?lang=' + lang), ...['demo', 'empty', 'stale', 'invalid', 'bypass'].map(name => home(F[name], '?fixture=' + name + '&lang=' + lang, null, { mode: 'prototype', fixtures: F }))];
+    for (const html of cases) assert.ok(!/World|Evidence|External|snapshot|receipt|資格|分層|HOME_COURT@|NBA game ID|UTC|格式檢查|載入失敗|Falsifier|Turning Point/i.test(text(html)), lang);
+  }
+});
+
+test('saved-schedule review page explains the missing review in reader language', () => {
+  const html = renderPage(schedule, 'review', '?schedule=0022600051');
+  assert.ok(html.includes('這一期的賽後檢討還沒出來。'));
+  assert.ok(!/資格|receipt|snapshot|World|先看對戰/.test(text(html)));
+});
+
+test('cover-only stories are not contradicted by the TODAY empty state, and stale issues keep a schedule exit', () => {
+  const coverOnly = clone(F.demo);
+  coverOnly.layout.lead = null; coverOnly.layout.games = []; coverOnly.layout.stories = [];
+  const html = home(coverOnly, '?fixture=demo', null, { mode: 'prototype', fixtures: F });
+  assert.ok(html.includes('class="teaser '));
+  assert.ok(html.includes('本期暫無賽前判讀。先看賽程。'));
+  assert.ok(!html.includes('報導還沒出來'));
+  const today = demoHome('stale').split('id="today"')[1];
+  assert.ok(/href="schedule\.html/.test(today));
 });

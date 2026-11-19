@@ -31,8 +31,8 @@ for (const [viewport, width, height] of [['desktop', 1440, 900], ['mobile', 390,
       const query = '?schedule=' + raw.game.gameId + '&game=' + raw.game.gameId + '&mode=production&lang=zh';
       const rendered = renderPage(raw, page, query, projection);
       assert.ok(rendered.includes(raw.game.gameId));
-      assert.ok(rendered.includes(state === 'MISSING' ? '賽前紀錄尚未提供公開顯示' : state));
-      if (state !== 'MISSING') assert.ok(!rendered.includes('0022600051') && !rendered.includes('賽前紀錄尚未提供公開顯示'));
+      assert.ok(rendered.includes(state === 'MISSING' ? '這場的賽前判讀還沒出來。' : state));
+      if (state !== 'MISSING') assert.ok(!rendered.includes('0022600051') && !rendered.includes('這場的賽前判讀還沒出來。'));
       const label = '靜態 HTML/CSS 排版檢視 · ' + width + 'px · 非瀏覽器截圖／非互動驗收 · ' +
         (state === 'MISSING' ? '已保存賽程 0022600051' : '隔離 fixture 0022600999 · ' + state + ' · 非真實 snapshot／非公開資格驗收');
       let html = fs.readFileSync(path.join(ROOT, 'site', page + '.html'), 'utf8')

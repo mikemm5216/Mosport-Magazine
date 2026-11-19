@@ -14,11 +14,11 @@ const bodyText = (page) => page.evaluate(() => { const b = document.getElementBy
 module.exports = async function dataSuite(browser, check, open, OUT) {
   /* 1. Bad-data states on every page, desktop and mobile: usable, no errors, no invention. */
   const states = [
-    ['invalid', /未通過格式檢查|failed its data checks/],
-    ['dupid', /未通過格式檢查|failed its data checks/],
-    ['live', /未通過格式檢查|failed its data checks/],
-    ['loadfail', /載入失敗|could not be loaded/],
-    ['nosuchfixture', /載入失敗|could not be loaded/]
+    ['invalid', /暫時無法閱讀|unavailable for now/],
+    ['dupid', /暫時無法閱讀|unavailable for now/],
+    ['live', /暫時無法閱讀|unavailable for now/],
+    ['loadfail', /暫時打不開|will not open right now/],
+    ['nosuchfixture', /暫時打不開|will not open right now/]
   ];
   for (const [fx, msg] of states) {
     for (const p of PAGES) {
@@ -39,12 +39,12 @@ module.exports = async function dataSuite(browser, check, open, OUT) {
   {
     const { ctx, page } = await open(browser, 'index.html?fixture=stale', 1440, 900);
     const t = await bodyText(page);
-    check('data stale home: expired notice + schedule link, no %', /已過期/.test(t) && !/\d+\s*%/.test(t) && (await page.locator('.pg-inner a[href*="schedule.html"]').count()) >= 1);
+    check('data stale home: expired notice + schedule link, no %', /已不適用/.test(t) && !/\d+\s*%/.test(t) && (await page.locator('.pg-inner a[href*="schedule.html"]').count()) >= 1);
     await ctx.close();
     const s = await open(browser, 'schedule.html?fixture=stale&lang=en', 1440, 900);
     const rows = await s.page.locator('table.sch tbody tr').count();
     const st = await bodyText(s.page);
-    check('data stale schedule: all six games, no read links, expired notice', rows === 6 && (await s.page.locator('a[href*="match.html"]').count()) === 0 && /expired/i.test(st), `${rows} rows`);
+    check('data stale schedule: all six games, no read links, expired notice', rows === 6 && (await s.page.locator('a[href*="match.html"]').count()) === 0 && /out of date/i.test(st), `${rows} rows`);
     await s.page.screenshot({ path: path.join(OUT, 'data-stale-schedule-1440.png'), fullPage: true });
     await s.ctx.close();
     const m = await open(browser, 'match.html?fixture=stale&game=DEMO-0041', 1440, 900);
@@ -59,7 +59,7 @@ module.exports = async function dataSuite(browser, check, open, OUT) {
     await ctx.close();
     const h = await open(browser, 'index.html?fixture=badtime', 1440, 900);
     const t = await bodyText(h.page);
-    check('data badtime home: malformed-time story and streak are absent; others stay', !/湖人主場戰關鍵戰/.test(t) && !/塞爾提克三連勝/.test(t) && /勇士新陣容化學反應/.test(t));
+    check('data badtime home: malformed-time story and streak are absent; others stay', !/湖勇交手，傷兵牽動戰局/.test(t) && !/塞爾提克三連勝/.test(t) && /勇士新陣容，變化在哪裡？/.test(t));
     await h.ctx.close();
   }
 
@@ -74,7 +74,7 @@ module.exports = async function dataSuite(browser, check, open, OUT) {
   }
   {
     const { ctx, page } = await open(browser, 'index.html?fixture=retracted', 1440, 900);
-    check('data retracted: the story on a retracted source is gone, the other cover story stays', !/湖人主場戰關鍵戰/.test(await bodyText(page)) && /勇士新陣容化學反應/.test(await bodyText(page)));
+    check('data retracted: the story on a retracted source is gone, the other cover story stays', !/湖勇交手，傷兵牽動戰局/.test(await bodyText(page)) && /勇士新陣容，變化在哪裡？/.test(await bodyText(page)));
     await ctx.close();
   }
 
@@ -87,7 +87,7 @@ module.exports = async function dataSuite(browser, check, open, OUT) {
   }
   {
     const { ctx, page } = await open(browser, 'match.html?game=DEMO-0046&lang=en', 1440, 900);
-    check('data match internal: public wording, no internal reason code', /not cleared for public release/.test(await bodyText(page)) && !/DISTRIBUTION|INTERNAL/.test(await bodyText(page)));
+    check('data match internal: public wording, no internal reason code', /pregame read for this matchup is not out yet/.test(await bodyText(page)) && !/DISTRIBUTION|INTERNAL/.test(await bodyText(page)));
     await ctx.close();
   }
 

@@ -122,7 +122,7 @@ test('existing Schedule/Match templates display actual fields, exact missing and
   for (const page of ['schedule', 'match']) {
     const html = renderPage(schedule, page, '?schedule=0022600051&game=0022600051&mode=production&lang=zh');
     assert.ok(/SAC.*?@.*?LAL/.test(html));
-    for (const value of ['0022600051', '11:00', '11/21', '已保存賽程', '07:58:50Z', '賽前紀錄尚未提供公開顯示']) assert.ok(html.includes(value), page + ': missing ' + value);
+    for (const value of ['0022600051', '11:00', '11/21', '賽程資訊', '07:58:50Z', '這場的賽前判讀還沒出來。']) assert.ok(html.includes(value), page + ': missing ' + value);
     assert.ok(html.includes('href="https://www.nba.com/game/sac-vs-lal-0022600051"'));
     assert.ok(html.includes('schedule=0022600051'));
     assert.ok(!/DEMO|homeWinProbability|HOME_COURT@|61%|0\.5|World · Coach Read/.test(html.replace(/<[^>]*>/g, '')));
@@ -136,7 +136,7 @@ test('isolated renderer contracts display HOME/NEUTRAL with saved/source times; 
     for (const page of ['schedule', 'match']) {
       const html = renderPage(candidate, page, '?schedule=0022600999&game=0022600999&mode=production&lang=zh', projection);
       for (const expected of [value, 'HOME_COURT@1', '08:05:00Z', '08:00:00Z', snap.snapshotId, '0022600999']) assert.ok(html.includes(expected), page + ': missing ' + expected);
-      assert.ok(!/賽前紀錄尚未提供公開顯示|0\.5|61%/.test(html.replace(/<[^>]*>/g, '')));
+      assert.ok(!/這場的賽前判讀還沒出來。|0\.5|61%/.test(html.replace(/<[^>]*>/g, '')));
     }
   }
 });
@@ -153,6 +153,6 @@ test('templates escape projected source labels and snapshot IDs; missing and unk
   const stale = clone(schedule); stale.validUntil = '2026-11-19T08:00:00Z';
   for (const page of ['schedule', 'match']) {
     const output = renderPage(stale, page);
-    assert.ok(output.includes('歷史觀測') && output.includes('賽前紀錄尚未提供公開顯示'));
+    assert.ok(output.includes('先前的賽程') && output.includes('這場的賽前判讀還沒出來。'));
   }
 });

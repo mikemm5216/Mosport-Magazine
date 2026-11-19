@@ -128,7 +128,7 @@ for item in inputs['cases']:
     target = OUT / (item['name'] + '.png')
     pixmap.save(target)
     text = pdf_page.get_text()
-    expected = item.get('expectedText', ['賽前紀錄尚未提供公開顯示' if item['state'] == 'MISSING' else item['state']])
+    expected = item.get('expectedText', ['這場的賽前判讀還沒出來。' if item['state'] == 'MISSING' else item['state']])
     # PDF text order is not a browser DOM test; retain the extracted text as evidence.
     (OUT / (item['name'] + '.txt')).write_text(text)
     warnings = warning_stream.getvalue()[warning_start:]

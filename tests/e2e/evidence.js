@@ -50,8 +50,8 @@ async function pair(browser, a, b, la, lb, file) {
   const browser = await chromium.launch();
   const log = [];
   const both = async (name, q, w, h, full) => {
-    const m1 = await shot(browser, `index.html?${q}`, w, h, full, `${name}-before.png`);
-    const m2 = await shot(browser, `index.html?${q}&art=candidate`, w, h, full, `${name}-after.png`);
+    const m1 = await shot(browser, `index.html?fixture=demo&${q}`, w, h, full, `${name}-before.png`);
+    const m2 = await shot(browser, `index.html?fixture=demo&${q}&art=candidate`, w, h, full, `${name}-after.png`);
     log.push({ name, q, viewport: `${w}x${h}`, fullPage: full, zoomBefore: m1.zoom, zoomAfter: m2.zoom, pageHeightBefore: m1.h, pageHeightAfter: m2.h });
     const label = `${w}×${h} · ${q.replace(/&/g, ' · ')}${full ? ' · full page' : ''}`;
     await pair(browser, `${name}-before.png`, `${name}-after.png`, `BEFORE placeholder-v1 · ${label}`, `AFTER chatgpt-art-v1 (CANDIDATE) · ${label}`, `${name}-pair.png`);
@@ -69,7 +69,7 @@ async function pair(browser, a, b, la, lb, file) {
   /* Fit Page vs readable zoom, same art (candidate), same viewport */
   for (const [w, h] of [[1440, 900], [1280, 800]]) {
     for (const z of ['fit', '100']) {
-      const m = await shot(browser, `index.html?lang=zh&theme=light&art=candidate&zoom=${z}`, w, h, false, `read-${w}-${z}.png`);
+      const m = await shot(browser, `index.html?fixture=demo&lang=zh&theme=light&art=candidate&zoom=${z}`, w, h, false, `read-${w}-${z}.png`);
       log.push({ name: `read-${w}-${z}`, zoom: m.zoom });
     }
     await pair(browser, `read-${w}-fit.png`, `read-${w}-100.png`, `Fit Page · ${w}×${h}`, `100% (readable, scroll) · ${w}×${h}`, `read-${w}-fit-vs-100.png`);
@@ -78,7 +78,7 @@ async function pair(browser, a, b, la, lb, file) {
   for (const z of ['fit', '100']) {
     const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const page = await ctx.newPage();
-    await page.goto(SITE + `index.html?lang=zh&theme=light&art=candidate&zoom=${z}`);
+    await page.goto(SITE + `index.html?fixture=demo&lang=zh&theme=light&art=candidate&zoom=${z}`);
     await page.waitForTimeout(400);
     const el = page.locator('.lead-foot');
     await el.scrollIntoViewIfNeeded();

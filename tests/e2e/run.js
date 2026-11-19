@@ -115,7 +115,7 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
   {
     const { ctx, page } = await open(browser, 'index.html?mode=production', 1440, 900);
     const t = await text(page);
-    check('production: DEMO issue refused, no lead, no %', (await page.locator('.lead').count()) === 0 && !/\d+\s*%/.test(t) && /未取得發布資格|not cleared/.test(t));
+    check('production: DEMO issue refused, no lead, no %', (await page.locator('.lead').count()) === 0 && !/\d+\s*%/.test(t) && /這一期尚未發布|not out yet/.test(t));
     await ctx.close();
   }
 

@@ -1,0 +1,1800 @@
+{
+  "method": "WEASYPRINT_STATIC_HTML_CSS",
+  "rendererVersion": "65.1",
+  "sourceHead": "c1b19c42968914dea1dbf959c2233a5cfb32136f",
+  "baseHead": "c1b19c42968914dea1dbf959c2233a5cfb32136f",
+  "pageClock": "2026-11-19T08:10:00Z",
+  "sourceFiles": [
+    {
+      "path": "site/index.html",
+      "sha256": "dbd37852c4cc32b5bcddfd9e8fa2ba7cead0c2a3c375aa5e7514c30cb6cea764",
+      "gitBlobSha": "09e9eb7dc7b780ebf5d01ef3fd6532eaf9b67678"
+    },
+    {
+      "path": "site/js/app.js",
+      "sha256": "c27640c01a3d55e567ff15be95d46e497b00f7256fae0375b752cc507b6b1ed3",
+      "gitBlobSha": "83ae1803c84ae3ac38147f2de42530a3ce75b003"
+    },
+    {
+      "path": "site/js/pages/home.js",
+      "sha256": "04cc710f4000bcef6d940dc91df58df56c8103f88308f98af3bc8e73435f9a33",
+      "gitBlobSha": "64369dd4cf2aa951af0b43a4d0f6a64e554984b2"
+    },
+    {
+      "path": "site/js/reader.js",
+      "sha256": "f9a2009abd8c5de6945474b69b3a90713df4b280d37b5b8e9eb6b1f4f64e6c49",
+      "gitBlobSha": "fc3232aa47d862328d323382d97c1a6de0ff7e85"
+    },
+    {
+      "path": "site/js/i18n.js",
+      "sha256": "5ac22b015b46ddb7ae129bee4cbcb5dce96acfa352cb458f4e988585c6bed8eb",
+      "gitBlobSha": "dce5ef4127c5bec3d29096a1c8db096c245b5c09"
+    },
+    {
+      "path": "site/js/fixtures/issue.demo.js",
+      "sha256": "06cd21cd79158b1b95193db6c59181f301697635d179af3943f97423cf57ff0a",
+      "gitBlobSha": "6d59ec3ff70ee979d606fa784811e4094f445e69"
+    },
+    {
+      "path": "site/js/data/providers.js",
+      "sha256": "01d61e5870267323c82177483bae322914f555ff2dcf49dd0f5aa0be33ce0e58",
+      "gitBlobSha": "2bbdb160fec35b689b9cb1646e889d850254b3e0"
+    },
+    {
+      "path": "site/js/data/pipeline.js",
+      "sha256": "9ab0a708235352eaa09b6309bca8418c85b94295f640d5bd2004c35e754b9b3a",
+      "gitBlobSha": "c2e0649a93f4d4e6609f4dd1a2c10fabb3198c54"
+    },
+    {
+      "path": "site/js/contracts/contracts.js",
+      "sha256": "3af54d6635c89c144a7ba9275cd8f5d2f52770e02104c42bff4b1697cd12fe1e",
+      "gitBlobSha": "b9e93a016e88a8cd368bb09efdf7c43354174377"
+    },
+    {
+      "path": "site/js/components.js",
+      "sha256": "8f8b16557e5eab453e6659290f1db580fb5836a205a7cde5b2b086a321fa8bf2",
+      "gitBlobSha": "29293ff6a2d7248c13d44ee7d0a8adee8babbaac"
+    },
+    {
+      "path": "site/js/teams.nba.js",
+      "sha256": "c41bd823e5d50d7319e454e9bae2273d1e95e49c51daea2bacfc544443352414",
+      "gitBlobSha": "3a07c45b2da9fa7e01fbebc3d03e62157f8f9967"
+    },
+    {
+      "path": "site/js/assets/registry.js",
+      "sha256": "595b2142a3f97e1de732c72582bfd555fb7fe9fc51df2c55737ea54b8868fbc3",
+      "gitBlobSha": "97a0363acc9838450bdeff1d14e60a947de0605b"
+    },
+    {
+      "path": "site/data/asset-registry.json",
+      "sha256": "2f5ec2435ff6e49e537eef3714b6ba5eb65748c6ade9f7acaeaac77c60378a60",
+      "gitBlobSha": "ecb205b69b527dfce9a7f59d6c34f742e6d3fe08"
+    },
+    {
+      "path": "site/data/schedules/0022600051.json",
+      "sha256": "939550f6a21924db611586b12a3ff880c371691fede4c519661f6f6950215ad4",
+      "gitBlobSha": "9e9b7e0e1976f0f3769bfecef7c2bcca45f1a226"
+    },
+    {
+      "path": "site/css/fonts.css",
+      "sha256": "b449059abe6124004b3a8d669b259c335d957cf2378a7f45f728b1282538884c",
+      "gitBlobSha": "bfe18dfdcc633877c9aa6abb9f5166f8b14c0256"
+    },
+    {
+      "path": "site/css/tokens.css",
+      "sha256": "b290c6344bee57d310f4f3cce7691115ec5b08921a7d90e17a4b2a79e25c3df8",
+      "gitBlobSha": "803d49fbdba25810b18a0fb34be7e4e9476ee53b"
+    },
+    {
+      "path": "site/css/components.css",
+      "sha256": "04a399d981915a5d058a19da03d6e4cd651411eec0250203aa62c764f36766a5",
+      "gitBlobSha": "122f757e9001e9d5a85e207d264dd6f1159f6f29"
+    },
+    {
+      "path": "site/css/home.css",
+      "sha256": "ebecf11d7b3bf4145dc3945b0ae153066998dbd89efad888ab08f7917422881f",
+      "gitBlobSha": "10af9444d11408d629a611d25add2ea9aea01279"
+    },
+    {
+      "path": "tests/unit/helpers.js",
+      "sha256": "61cf0a6775a0f55b993f0dbab6f560b160a2733f923fdd511df2dc460c4a33a9",
+      "gitBlobSha": "44d78c97b7c694ab3208a35450da65fab2ed919c"
+    },
+    {
+      "path": "tests/e2e/static-components.js",
+      "sha256": "4ed9e7fa05d76d8edfbb14ce8c36748c302dbfb147c89807ebb6786de3977930",
+      "gitBlobSha": "3fa804d5e7b205986dd9bc7e1157e66edbcdedbe"
+    },
+    {
+      "path": "tests/e2e/home-spread-static.js",
+      "sha256": "77a50d77b703314a305c5bbefca7fbca61dd1ad8b7ab6f062755e0c04d00312c",
+      "gitBlobSha": "b3550334bdf04577794914c88b9e40d21d138b3b"
+    },
+    {
+      "path": "tests/e2e/render-schedule-static.py",
+      "sha256": "cbdd41d3b1080c85d4d08c27536cb9cdfb48572de3a5dd716ebbe851ef0143dd",
+      "gitBlobSha": "c62b0dd7f1b0fbfda8b96853e32ebdfb15cee646"
+    }
+  ],
+  "componentSerialization": "ORIGINAL_RENDER_METHODS_ONLY; NO_BROWSER_LIFECYCLE",
+  "browserE2E": false,
+  "webComponentsExecuted": false,
+  "interactiveBehaviorVerified": false,
+  "publicQualification": "NOT_ASSERTED",
+  "mediaQueries": "EXPLICIT_SOURCE_RULE_SELECTION_FOR_EVIDENCE_WIDTH",
+  "viewportUnits": "EXPLICIT_TEST_OUTPUT_TRANSLATION",
+  "screenshots": [
+    {
+      "name": "home-saved-desktop",
+      "width": 1440,
+      "viewportHeight": 1000,
+      "mode": "prototype",
+      "state": "MISSING",
+      "lang": "zh",
+      "page": "index.html",
+      "viewport": "desktop",
+      "input": "SAVED_SCHEDULE",
+      "nbaGameId": "0022600051",
+      "derivedWidths": {
+        "contentWidth": 645.1827956989248,
+        "artWidth": 392.1699346405229,
+        "readWidth": 253.01286105840188
+      },
+      "containerWidth": 628.8172043010752,
+      "staticCss": ".lead{width:645.1827956989248px;grid-template-columns:392.1699346405229px 253.01286105840188px}.lead-art{grid-column:1;grid-row:1;width:392.1699346405229px}.lead-read{width:253.01286105840188px}.lead-foot{width:645.1827956989248px;grid-column:1/-1}.stories{width:645.1827956989248px;grid-template-columns:314.5913978494624px 314.5913978494624px}.cv-t2{background:none;color:#FF7A1A}.lead{display:block}.qa-lead-row{display:table;table-layout:fixed;width:645.1827956989248px}.lead-art,.lead-read{display:table-cell;vertical-align:middle}.lead-art{height:230px}.lead-read>*+*{margin-top:10px}.lead-foot{display:block}.lead-foot>a{margin-top:10px}.lead-foot>.lead-time{margin:0}.story{display:block;width:314.5913978494624px}.story-body{display:block;width:314.5913978494624px}.story-body>*{max-width:280.5913978494624px;white-space:normal;overflow-wrap:anywhere}.story-s,.story-meta{width:280.5913978494624px;margin-top:10px}.rv-top{display:block}.rv-top>mo-team-logo{display:inline-block}.rv-top>div{display:block}.g-card{display:block}.g-card>*{max-width:100%;white-space:normal}.g-card .st{display:inline-block;width:auto;white-space:nowrap}.g-time,.g-score,.g-read{margin-top:6px}.g-teams{display:block}.g-teams mo-team-logo,.g-codes{display:inline-block}.g-rail-wrap{overflow:hidden}.g-rail{display:table;table-layout:fixed;border-spacing:12px 0;margin-left:-12px;width:12px}.g-card{display:table-cell;vertical-align:top;width:207.0609318996416px}.g-card>*{width:177.0609318996416px;max-width:177.0609318996416px}.g-card .st{width:auto}.g-teams{width:177.0609318996416px}.g-codes{display:inline}.g-teams mo-team-logo{vertical-align:middle}body.page-home{height:auto;overflow:visible}.page-home #app{height:auto;display:block}#reader{display:block;overflow:visible}#sizer{width:1360px;height:auto}#sizer .spread{position:relative;transform:none;grid-template-columns:628.8172043010752px 731.1827956989248px}.pg-cover{grid-column:1;grid-row:1}.pg-inner{grid-column:2;grid-row:1}.lead-read{grid-column:2;grid-row:1}.lead-foot{grid-row:2}",
+      "staticGeometry": "NATIVE_READER_WIDTH_UNSCALED_FULL_CONTENT; EXPLICIT_SOURCE_GRID_PLACEMENT; not browser zoom/scroll acceptance",
+      "rendererDeviations": [
+        "WeasyPrint nested fr columns collapse to zero; source-derived widths use a test-only table row/block stack, same DOM content/order; footer action stacks in static output",
+        "Unsupported clipped orange gradient text uses its source first color #FF7A1A",
+        "Static story flex descendants use source-derived block widths; game rail uses source-derived table tracks with clipped horizontal overflow; shadows, navigation/controls and browser interactions are not verified"
+      ],
+      "expectedText": [
+        "MOSPORT",
+        "賽前紀錄尚未提供公開顯示"
+      ],
+      "htmlSha256": "5716fa92680c223e7cb62409f830e28e89862d57d16a1e35b51b77fffac375ec",
+      "componentSlots": [
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "cover-desktop-art",
+          "state": "art",
+          "version": "placeholder-v1",
+          "reason": "",
+          "slotLabel": "cover-desktop-art · art · placeholder-v1 · assets/art/cover-art.placeholder-v1.svg"
+        },
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "today-feature-art",
+          "state": "art",
+          "version": "placeholder-v1",
+          "reason": "",
+          "slotLabel": "today-feature-art · art · placeholder-v1 · assets/art/arena-art.placeholder-v1.svg"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:SAC",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:SAC · art · normalized-80-v1 · assets/teams/normalized/nba/sac.png"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:LAL",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:LAL · art · normalized-80-v1 · assets/teams/normalized/nba/lal.png"
+        }
+      ],
+      "file": "home-saved-desktop.png",
+      "imageWidth": 1440,
+      "imageHeight": 1322,
+      "sha256": "b8d2278270f899f942e9adfd1dd3a6527f501efdb277e32f083e679373a41699",
+      "cssTranslation": [
+        {
+          "source": "site/css/components.css",
+          "media": "(max-width: 1023px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/components.css",
+          "media": "(min-width: 1024px) and (max-width: 1279px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/components.css",
+          "viewportLength": "100vw",
+          "translated": "1440px"
+        },
+        {
+          "source": "site/css/components.css",
+          "calculation": "calc(1440px - 32px)",
+          "translated": "1408px"
+        },
+        {
+          "source": "site/css/components.css",
+          "numericLimit": "min(560px, 1408px)",
+          "translated": "560px"
+        },
+        {
+          "source": "site/css/components.css",
+          "shorthand": "inset:0",
+          "translated": "top:0;right:0;bottom:0;left:0"
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(min-width: 1024px)",
+          "applied": true
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "100vh",
+          "translated": "1000px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "100dvh",
+          "translated": "1000px"
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(max-width: 1023px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(min-width: 640px) and (max-width: 1023px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(min-width: 1024px)",
+          "applied": true
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(min-width: 1024px) and (max-width: 1279px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.2cqw",
+          "translated": "26.4103px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "37.729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2.3cqw",
+          "translated": "14.4628px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1cqw",
+          "translated": "6.28817px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "31.4409px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "25.5cqw",
+          "translated": "160.348px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": ".6cqw",
+          "translated": "3.7729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2cqw",
+          "translated": "12.5763px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.4cqw",
+          "translated": "8.80344px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.4cqw",
+          "translated": "8.80344px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.6cqw",
+          "translated": "28.9256px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "37.729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "37.729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": ".5cqw",
+          "translated": "3.14409px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.6cqw",
+          "translated": "10.0611px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2.9cqw",
+          "translated": "18.2357px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.6cqw",
+          "translated": "10.0611px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "17cqw",
+          "translated": "106.899px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "12.5cqw",
+          "translated": "78.6022px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2.4cqw",
+          "translated": "15.0916px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.7cqw",
+          "translated": "23.2662px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "31.4409px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "37.729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "7cqw",
+          "translated": "44.0172px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1cqw",
+          "translated": "6.28817px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3cqw",
+          "translated": "18.8645px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2cqw",
+          "translated": "12.5763px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.8cqw",
+          "translated": "23.8951px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "31.4409px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "37.729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.6cqw",
+          "translated": "28.9256px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.2cqw",
+          "translated": "7.54581px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": ".3cqw",
+          "translated": "1.88645px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2cqw",
+          "translated": "12.5763px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.4cqw",
+          "translated": "27.668px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6.4cqw",
+          "translated": "40.2443px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.8cqw",
+          "translated": "23.8951px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4cqw",
+          "translated": "25.1527px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "31.4409px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "37.729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "31.4409px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1cqw",
+          "translated": "6.28817px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "8cqw",
+          "translated": "50.3054px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.2cqw",
+          "translated": "26.4103px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": ".8cqw",
+          "translated": "5.03054px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.1cqw",
+          "translated": "19.4933px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.5cqw",
+          "translated": "22.0086px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3cqw",
+          "translated": "18.8645px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "100vh",
+          "translated": "1000px"
+        },
+        {
+          "source": "site/css/home.css",
+          "calculation": "calc(1000px - 60px)",
+          "translated": "940px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(12px, 14.4628px)",
+          "translated": "14.4628px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(12px, 18.2357px)",
+          "translated": "18.2357px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(14px, 23.2662px)",
+          "translated": "23.2662px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(26px, 44.0172px)",
+          "translated": "44.0172px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(14px, 18.8645px)",
+          "translated": "18.8645px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(16px, 23.8951px)",
+          "translated": "23.8951px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(14px, 27.668px)",
+          "translated": "27.668px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(18px, 40.2443px)",
+          "translated": "40.2443px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(13px, 23.8951px)",
+          "translated": "23.8951px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(13px, 19.4933px)",
+          "translated": "19.4933px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(13px, 22.0086px)",
+          "translated": "22.0086px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(14px, 18.8645px)",
+          "translated": "18.8645px"
+        },
+        {
+          "source": "site/css/home.css",
+          "shorthand": "inset:0",
+          "translated": "top:0;right:0;bottom:0;left:0"
+        },
+        {
+          "staticReaderGeometry": "NATIVE_READER_WIDTH_UNSCALED_FULL_CONTENT; EXPLICIT_SOURCE_GRID_PLACEMENT; not browser zoom/scroll acceptance",
+          "css": ".lead{width:645.1827956989248px;grid-template-columns:392.1699346405229px 253.01286105840188px}.lead-art{grid-column:1;grid-row:1;width:392.1699346405229px}.lead-read{width:253.01286105840188px}.lead-foot{width:645.1827956989248px;grid-column:1/-1}.stories{width:645.1827956989248px;grid-template-columns:314.5913978494624px 314.5913978494624px}.cv-t2{background:none;color:#FF7A1A}.lead{display:block}.qa-lead-row{display:table;table-layout:fixed;width:645.1827956989248px}.lead-art,.lead-read{display:table-cell;vertical-align:middle}.lead-art{height:230px}.lead-read>*+*{margin-top:10px}.lead-foot{display:block}.lead-foot>a{margin-top:10px}.lead-foot>.lead-time{margin:0}.story{display:block;width:314.5913978494624px}.story-body{display:block;width:314.5913978494624px}.story-body>*{max-width:280.5913978494624px;white-space:normal;overflow-wrap:anywhere}.story-s,.story-meta{width:280.5913978494624px;margin-top:10px}.rv-top{display:block}.rv-top>mo-team-logo{display:inline-block}.rv-top>div{display:block}.g-card{display:block}.g-card>*{max-width:100%;white-space:normal}.g-card .st{display:inline-block;width:auto;white-space:nowrap}.g-time,.g-score,.g-read{margin-top:6px}.g-teams{display:block}.g-teams mo-team-logo,.g-codes{display:inline-block}.g-rail-wrap{overflow:hidden}.g-rail{display:table;table-layout:fixed;border-spacing:12px 0;margin-left:-12px;width:12px}.g-card{display:table-cell;vertical-align:top;width:207.0609318996416px}.g-card>*{width:177.0609318996416px;max-width:177.0609318996416px}.g-card .st{width:auto}.g-teams{width:177.0609318996416px}.g-codes{display:inline}.g-teams mo-team-logo{vertical-align:middle}body.page-home{height:auto;overflow:visible}.page-home #app{height:auto;display:block}#reader{display:block;overflow:visible}#sizer{width:1360px;height:auto}#sizer .spread{position:relative;transform:none;grid-template-columns:628.8172043010752px 731.1827956989248px}.pg-cover{grid-column:1;grid-row:1}.pg-inner{grid-column:2;grid-row:1}.lead-read{grid-column:2;grid-row:1}.lead-foot{grid-row:2}"
+        }
+      ],
+      "expectedTextFoundInPdf": true,
+      "anchors": {
+        "reader": [
+          0,
+          266.8310546875,
+          1440.0,
+          1297.1676399375
+        ],
+        "today": [
+          668.8172043010752,
+          290.8310546875,
+          1400.0,
+          1273.1676399375
+        ],
+        "qa-render-end": [
+          0,
+          1297.1676399375,
+          1440.0,
+          1297.1676399375
+        ]
+      },
+      "warnings": [
+        "Ignored `background-clip: text` at 30:117, invalid value.",
+        "Ignored `background: repeating-linear-gradient(90deg, #C9CDD5 0 1px, #EEF0F3 1px 3px)` at 156:33, invalid value.",
+        "Ignored `background: repeating-linear-gradient(90deg, #EEF0F3 0 2px, #C9CDD5 2px 3px)` at 157:33, invalid value.",
+        "Ignored `box-shadow: 0 10px 30px rgba(0, 0, 0, .35)` at 44:271, unknown property.",
+        "Ignored `box-shadow: 0 2px 6px rgba(0, 0, 0, .12)` at 119:274, unknown property.",
+        "Ignored `box-shadow: 0 30px 60px rgba(0, 0, 0, .45), 0 0 0 1px rgba(255, 255, 255, .04)` at 153:179, unknown property.",
+        "Ignored `box-shadow: 0 8px 24px rgba(5, 12, 32, .22)` at 70:162, unknown property.",
+        "Ignored `box-shadow: inset 0 0 0 calc(var(--logo, var(--logo-default, 52px)) * .06) var(--stripe)` at 8:64, unknown property.",
+        "Ignored `container-type: inline-size` at 10:41, unknown property.",
+        "Ignored `filter: brightness(1.08)` at 50:14, unknown property.",
+        "Ignored `grid-auto-columns: calc((100% - 24px) / 3)` at 106:50, invalid value.",
+        "Ignored `overflow-x: auto` at 106:105, unknown property.",
+        "Ignored `text-shadow: 0 2px 10px rgba(0, 0, 0, .5)` at 43:117, unknown property.",
+        "Ignored `text-shadow: 0 3.7729px 12.5763px rgba(0, 0, 0, .45)` at 23:134, unknown property.",
+        "Invalid or unsupported selector, '.g-rail::-webkit-scrollbar '"
+      ]
+    },
+    {
+      "name": "home-saved-mobile",
+      "width": 390,
+      "viewportHeight": 844,
+      "mode": "prototype",
+      "state": "MISSING",
+      "lang": "zh",
+      "page": "index.html",
+      "viewport": "mobile",
+      "input": "SAVED_SCHEDULE",
+      "nbaGameId": "0022600051",
+      "derivedWidths": {
+        "contentWidth": 362,
+        "artWidth": 362,
+        "readWidth": 362
+      },
+      "containerWidth": 390,
+      "staticCss": ".lead{width:362px;grid-template-columns:362px}.lead-art{grid-column:1;grid-row:1;width:362px}.lead-read{width:362px}.lead-foot{width:362px;grid-column:1/-1}.stories{width:362px;grid-template-columns:362px}.cv-t2{background:none;color:#FF7A1A}.lead{display:block}.qa-lead-row{display:block;width:362px}.lead-art,.lead-read{display:block}.lead-art{height:180px}.lead-read>*+*{margin-top:10px}.lead-foot{display:block}.lead-foot>a{margin-top:10px}.lead-foot>.lead-time{margin:0}.story{display:block;width:362px}.story-body{display:block;width:362px}.story-body>*{max-width:328px;white-space:normal;overflow-wrap:anywhere}.story-s,.story-meta{width:328px;margin-top:10px}.rv-top{display:block}.rv-top>mo-team-logo{display:inline-block}.rv-top>div{display:block}.g-card{display:block}.g-card>*{max-width:100%;white-space:normal}.g-card .st{display:inline-block;width:auto;white-space:nowrap}.g-time,.g-score,.g-read{margin-top:6px}.g-teams{display:block}.g-teams mo-team-logo,.g-codes{display:inline-block}.g-rail-wrap{overflow:hidden}.g-rail{display:table;table-layout:fixed;border-spacing:12px 0;margin-left:-12px;width:12px}.g-card{display:table-cell;vertical-align:top;width:267.88px}.g-card>*{width:237.88px;max-width:237.88px}.g-card .st{width:auto}.g-teams{width:237.88px}.g-codes{display:inline}.g-teams mo-team-logo{vertical-align:middle}.pg-inner{width:100%}.lead-read{grid-column:1;grid-row:2}.lead-foot{grid-row:3}.pg-inner>.state-msg,.pg-inner>.today-empty{width:100%}",
+      "staticGeometry": "SOURCE_MOBILE_FLOW_WITH_EXPLICIT_GRID_PLACEMENT",
+      "rendererDeviations": [
+        "WeasyPrint nested fr columns collapse to zero; source-derived widths use a test-only table row/block stack, same DOM content/order; footer action stacks in static output",
+        "Unsupported clipped orange gradient text uses its source first color #FF7A1A",
+        "Static story flex descendants use source-derived block widths; game rail uses source-derived table tracks with clipped horizontal overflow; shadows, navigation/controls and browser interactions are not verified"
+      ],
+      "expectedText": [
+        "MOSPORT",
+        "賽前紀錄尚未提供公開顯示"
+      ],
+      "htmlSha256": "7f7fff58dc440796f471f3aba0df4c78c4206448374681ed874bbe44e792908a",
+      "componentSlots": [
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "cover-mobile-art",
+          "state": "art",
+          "version": "placeholder-v1",
+          "reason": "",
+          "slotLabel": "cover-mobile-art · art · placeholder-v1 · assets/art/cover-art.placeholder-v1.svg"
+        },
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "today-feature-art",
+          "state": "art",
+          "version": "placeholder-v1",
+          "reason": "",
+          "slotLabel": "today-feature-art · art · placeholder-v1 · assets/art/arena-art.placeholder-v1.svg"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:SAC",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:SAC · art · normalized-80-v1 · assets/teams/normalized/nba/sac.png"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:LAL",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:LAL · art · normalized-80-v1 · assets/teams/normalized/nba/lal.png"
+        }
+      ],
+      "file": "home-saved-mobile.png",
+      "imageWidth": 390,
+      "imageHeight": 1856,
+      "sha256": "d3f869a0e48d3b7bb57da93821683f1ff6bb2b85bbb4c6dce083908382bcc6fa",
+      "cssTranslation": [
+        {
+          "source": "site/css/components.css",
+          "media": "(max-width: 1023px)",
+          "applied": true
+        },
+        {
+          "source": "site/css/components.css",
+          "media": "(min-width: 1024px) and (max-width: 1279px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/components.css",
+          "viewportLength": "100vw",
+          "translated": "390px"
+        },
+        {
+          "source": "site/css/components.css",
+          "calculation": "calc(390px - 32px)",
+          "translated": "358px"
+        },
+        {
+          "source": "site/css/components.css",
+          "numericLimit": "min(560px, 358px)",
+          "translated": "358px"
+        },
+        {
+          "source": "site/css/components.css",
+          "shorthand": "inset:0",
+          "translated": "top:0;right:0;bottom:0;left:0"
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(min-width: 1024px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(max-width: 1023px)",
+          "applied": true
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "100svh",
+          "translated": "844px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2cqw",
+          "translated": "7.8px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.5cqw",
+          "translated": "17.55px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "26cqw",
+          "translated": "101.4px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.4cqw",
+          "translated": "17.16px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.4cqw",
+          "translated": "17.16px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "19.5px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "23.4px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.6cqw",
+          "translated": "17.94px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "7.2cqw",
+          "translated": "28.08px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4cqw",
+          "translated": "15.6px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "19.5px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "19.5px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4cqw",
+          "translated": "15.6px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "19.5px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.6cqw",
+          "translated": "14.04px"
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(min-width: 640px) and (max-width: 1023px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(min-width: 1024px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(min-width: 1024px) and (max-width: 1279px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.2cqw",
+          "translated": "16.38px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "23.4px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2.3cqw",
+          "translated": "8.97px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1cqw",
+          "translated": "3.9px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "19.5px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "25.5cqw",
+          "translated": "99.45px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": ".6cqw",
+          "translated": "2.34px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2cqw",
+          "translated": "7.8px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.4cqw",
+          "translated": "5.46px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.4cqw",
+          "translated": "5.46px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.6cqw",
+          "translated": "17.94px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "23.4px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "23.4px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": ".5cqw",
+          "translated": "1.95px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.6cqw",
+          "translated": "6.24px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2.9cqw",
+          "translated": "11.31px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.6cqw",
+          "translated": "6.24px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "17cqw",
+          "translated": "66.3px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "12.5cqw",
+          "translated": "48.75px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2.4cqw",
+          "translated": "9.36px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.7cqw",
+          "translated": "14.43px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "19.5px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "23.4px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "7cqw",
+          "translated": "27.3px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1cqw",
+          "translated": "3.9px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3cqw",
+          "translated": "11.7px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2cqw",
+          "translated": "7.8px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.8cqw",
+          "translated": "14.82px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "19.5px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "23.4px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.6cqw",
+          "translated": "17.94px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.2cqw",
+          "translated": "4.68px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": ".3cqw",
+          "translated": "1.17px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2cqw",
+          "translated": "7.8px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.4cqw",
+          "translated": "17.16px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6.4cqw",
+          "translated": "24.96px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.8cqw",
+          "translated": "14.82px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4cqw",
+          "translated": "15.6px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "19.5px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "23.4px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "19.5px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1cqw",
+          "translated": "3.9px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "8cqw",
+          "translated": "31.2px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.2cqw",
+          "translated": "16.38px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": ".8cqw",
+          "translated": "3.12px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.1cqw",
+          "translated": "12.09px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.5cqw",
+          "translated": "13.65px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3cqw",
+          "translated": "11.7px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "100vh",
+          "translated": "844px"
+        },
+        {
+          "source": "site/css/home.css",
+          "calculation": "calc(844px - 60px)",
+          "translated": "784px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(12px, 8.97px)",
+          "translated": "12px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(12px, 11.31px)",
+          "translated": "12px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(14px, 14.43px)",
+          "translated": "14.43px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(26px, 27.3px)",
+          "translated": "27.3px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(14px, 11.7px)",
+          "translated": "14px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(16px, 14.82px)",
+          "translated": "16px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(14px, 17.16px)",
+          "translated": "17.16px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(18px, 24.96px)",
+          "translated": "24.96px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(13px, 14.82px)",
+          "translated": "14.82px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(13px, 12.09px)",
+          "translated": "13px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(13px, 13.65px)",
+          "translated": "13.65px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(14px, 11.7px)",
+          "translated": "14px"
+        },
+        {
+          "source": "site/css/home.css",
+          "shorthand": "inset:0",
+          "translated": "top:0;right:0;bottom:0;left:0"
+        },
+        {
+          "staticReaderGeometry": "SOURCE_MOBILE_FLOW_WITH_EXPLICIT_GRID_PLACEMENT",
+          "css": ".lead{width:362px;grid-template-columns:362px}.lead-art{grid-column:1;grid-row:1;width:362px}.lead-read{width:362px}.lead-foot{width:362px;grid-column:1/-1}.stories{width:362px;grid-template-columns:362px}.cv-t2{background:none;color:#FF7A1A}.lead{display:block}.qa-lead-row{display:block;width:362px}.lead-art,.lead-read{display:block}.lead-art{height:180px}.lead-read>*+*{margin-top:10px}.lead-foot{display:block}.lead-foot>a{margin-top:10px}.lead-foot>.lead-time{margin:0}.story{display:block;width:362px}.story-body{display:block;width:362px}.story-body>*{max-width:328px;white-space:normal;overflow-wrap:anywhere}.story-s,.story-meta{width:328px;margin-top:10px}.rv-top{display:block}.rv-top>mo-team-logo{display:inline-block}.rv-top>div{display:block}.g-card{display:block}.g-card>*{max-width:100%;white-space:normal}.g-card .st{display:inline-block;width:auto;white-space:nowrap}.g-time,.g-score,.g-read{margin-top:6px}.g-teams{display:block}.g-teams mo-team-logo,.g-codes{display:inline-block}.g-rail-wrap{overflow:hidden}.g-rail{display:table;table-layout:fixed;border-spacing:12px 0;margin-left:-12px;width:12px}.g-card{display:table-cell;vertical-align:top;width:267.88px}.g-card>*{width:237.88px;max-width:237.88px}.g-card .st{width:auto}.g-teams{width:237.88px}.g-codes{display:inline}.g-teams mo-team-logo{vertical-align:middle}.pg-inner{width:100%}.lead-read{grid-column:1;grid-row:2}.lead-foot{grid-row:3}.pg-inner>.state-msg,.pg-inner>.today-empty{width:100%}"
+        }
+      ],
+      "expectedTextFoundInPdf": true,
+      "anchors": {
+        "reader": [
+          0,
+          69.34375,
+          390.0,
+          1831.4632031249998
+        ],
+        "today": [
+          0,
+          1027.34375,
+          390.0,
+          1831.4632031249998
+        ],
+        "qa-render-end": [
+          0,
+          1831.4632031249998,
+          390.0,
+          1831.4632031249998
+        ]
+      },
+      "warnings": [
+        "Ignored `background-clip: text` at 30:115, invalid value.",
+        "Ignored `box-shadow: 0 10px 30px rgba(0, 0, 0, .35)` at 44:271, unknown property.",
+        "Ignored `box-shadow: 0 2px 6px rgba(0, 0, 0, .12)` at 119:274, unknown property.",
+        "Ignored `box-shadow: 0 8px 24px rgba(5, 12, 32, .22)` at 70:162, unknown property.",
+        "Ignored `box-shadow: inset 0 0 0 calc(var(--logo, var(--logo-default, 52px)) * .06) var(--stripe)` at 8:64, unknown property.",
+        "Ignored `container-type: inline-size` at 10:41, unknown property.",
+        "Ignored `filter: brightness(1.08)` at 50:14, unknown property.",
+        "Ignored `grid-auto-columns: calc((100% - 24px) / 3)` at 106:50, invalid value.",
+        "Ignored `overflow-x: auto` at 106:105, unknown property.",
+        "Ignored `overflow-x: auto` at 57:36, unknown property.",
+        "Ignored `text-shadow: 0 2.34px 7.8px rgba(0, 0, 0, .45)` at 23:132, unknown property.",
+        "Ignored `text-shadow: 0 2px 10px rgba(0, 0, 0, .5)` at 43:115, unknown property.",
+        "Invalid or unsupported selector, '.g-rail::-webkit-scrollbar '"
+      ]
+    },
+    {
+      "name": "home-demo-desktop",
+      "width": 1440,
+      "viewportHeight": 1100,
+      "mode": "prototype",
+      "state": "DEMO",
+      "lang": "zh",
+      "page": "index.html",
+      "viewport": "desktop",
+      "input": "SAVED_SCHEDULE",
+      "nbaGameId": null,
+      "derivedWidths": {
+        "contentWidth": 645.1827956989248,
+        "artWidth": 392.1699346405229,
+        "readWidth": 253.01286105840188
+      },
+      "containerWidth": 628.8172043010752,
+      "staticCss": ".lead{width:645.1827956989248px;grid-template-columns:392.1699346405229px 253.01286105840188px}.lead-art{grid-column:1;grid-row:1;width:392.1699346405229px}.lead-read{width:253.01286105840188px}.lead-foot{width:645.1827956989248px;grid-column:1/-1}.stories{width:645.1827956989248px;grid-template-columns:314.5913978494624px 314.5913978494624px}.cv-t2{background:none;color:#FF7A1A}.lead{display:block}.qa-lead-row{display:table;table-layout:fixed;width:645.1827956989248px}.lead-art,.lead-read{display:table-cell;vertical-align:middle}.lead-art{height:230px}.lead-read>*+*{margin-top:10px}.lead-foot{display:block}.lead-foot>a{margin-top:10px}.lead-foot>.lead-time{margin:0}.story{display:block;width:314.5913978494624px}.story-body{display:block;width:314.5913978494624px}.story-body>*{max-width:280.5913978494624px;white-space:normal;overflow-wrap:anywhere}.story-s,.story-meta{width:280.5913978494624px;margin-top:10px}.rv-top{display:block}.rv-top>mo-team-logo{display:inline-block}.rv-top>div{display:block}.g-card{display:block}.g-card>*{max-width:100%;white-space:normal}.g-card .st{display:inline-block;width:auto;white-space:nowrap}.g-time,.g-score,.g-read{margin-top:6px}.g-teams{display:block}.g-teams mo-team-logo,.g-codes{display:inline-block}.g-rail-wrap{overflow:hidden}.g-rail{display:table;table-layout:fixed;border-spacing:12px 0;margin-left:-12px;width:669.1827956989248px}.g-card{display:table-cell;vertical-align:top;width:207.0609318996416px}.g-card>*{width:177.0609318996416px;max-width:177.0609318996416px}.g-card .st{width:auto}.g-teams{width:177.0609318996416px}.g-codes{display:inline}.g-teams mo-team-logo{vertical-align:middle}body.page-home{height:auto;overflow:visible}.page-home #app{height:auto;display:block}#reader{display:block;overflow:visible}#sizer{width:1360px;height:auto}#sizer .spread{position:relative;transform:none;grid-template-columns:628.8172043010752px 731.1827956989248px}.pg-cover{grid-column:1;grid-row:1}.pg-inner{grid-column:2;grid-row:1}.lead-read{grid-column:2;grid-row:1}.lead-foot{grid-row:2}",
+      "staticGeometry": "NATIVE_READER_WIDTH_UNSCALED_FULL_CONTENT; EXPLICIT_SOURCE_GRID_PLACEMENT; not browser zoom/scroll acceptance",
+      "rendererDeviations": [
+        "WeasyPrint nested fr columns collapse to zero; source-derived widths use a test-only table row/block stack, same DOM content/order; footer action stacks in static output",
+        "Unsupported clipped orange gradient text uses its source first color #FF7A1A",
+        "Static story flex descendants use source-derived block widths; game rail uses source-derived table tracks with clipped horizontal overflow; shadows, navigation/controls and browser interactions are not verified"
+      ],
+      "expectedText": [
+        "MOSPORT",
+        "DEMO"
+      ],
+      "htmlSha256": "894e8f08a5edcbfeb0d11c430ce46defb6136e478c8e235e240004d44d9af088",
+      "componentSlots": [
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "cover-desktop-art",
+          "state": "art",
+          "version": "placeholder-v1",
+          "reason": "",
+          "slotLabel": "cover-desktop-art · art · placeholder-v1 · assets/art/cover-art.placeholder-v1.svg"
+        },
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "today-feature-art",
+          "state": "art",
+          "version": "placeholder-v1",
+          "reason": "",
+          "slotLabel": "today-feature-art · art · placeholder-v1 · assets/art/arena-art.placeholder-v1.svg"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:GSW",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:GSW · art · normalized-80-v1 · assets/teams/normalized/nba/gsw.png"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:LAL",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:LAL · art · normalized-80-v1 · assets/teams/normalized/nba/lal.png"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:BOS",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:BOS · art · normalized-80-v1 · assets/teams/normalized/nba/bos.png"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:NYK",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:NYK · art · normalized-80-v1 · assets/teams/normalized/nba/nyk.png"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:DEN",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:DEN · art · normalized-80-v1 · assets/teams/normalized/nba/den.png"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:OKC",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:OKC · art · normalized-80-v1 · assets/teams/normalized/nba/okc.png"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:PHI",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:PHI · art · normalized-80-v1 · assets/teams/normalized/nba/phi.png"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:TOR",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:TOR · art · normalized-80-v1 · assets/teams/normalized/nba/tor.png"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:SAC",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:SAC · art · normalized-80-v1 · assets/teams/normalized/nba/sac.png"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:PHX",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:PHX · art · normalized-80-v1 · assets/teams/normalized/nba/phx.png"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "editorial-card-art",
+          "state": "fallback",
+          "version": "",
+          "reason": "NO_ACTIVE_VERSION",
+          "slotLabel": "editorial-card-art · fallback · NO_ACTIVE_VERSION"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:BOS",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:BOS · art · normalized-80-v1 · assets/teams/normalized/nba/bos.png"
+        }
+      ],
+      "file": "home-demo-desktop.png",
+      "imageWidth": 1440,
+      "imageHeight": 1678,
+      "sha256": "1744e589e7f429452e11b1a9fd50684724f6d05f1f21bde06e209929ad6a0173",
+      "cssTranslation": [
+        {
+          "source": "site/css/components.css",
+          "media": "(max-width: 1023px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/components.css",
+          "media": "(min-width: 1024px) and (max-width: 1279px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/components.css",
+          "viewportLength": "100vw",
+          "translated": "1440px"
+        },
+        {
+          "source": "site/css/components.css",
+          "calculation": "calc(1440px - 32px)",
+          "translated": "1408px"
+        },
+        {
+          "source": "site/css/components.css",
+          "numericLimit": "min(560px, 1408px)",
+          "translated": "560px"
+        },
+        {
+          "source": "site/css/components.css",
+          "shorthand": "inset:0",
+          "translated": "top:0;right:0;bottom:0;left:0"
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(min-width: 1024px)",
+          "applied": true
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "100vh",
+          "translated": "1100px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "100dvh",
+          "translated": "1100px"
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(max-width: 1023px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(min-width: 640px) and (max-width: 1023px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(min-width: 1024px)",
+          "applied": true
+        },
+        {
+          "source": "site/css/home.css",
+          "media": "(min-width: 1024px) and (max-width: 1279px)",
+          "applied": false
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.2cqw",
+          "translated": "26.4103px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "37.729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2.3cqw",
+          "translated": "14.4628px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1cqw",
+          "translated": "6.28817px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "31.4409px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "25.5cqw",
+          "translated": "160.348px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": ".6cqw",
+          "translated": "3.7729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2cqw",
+          "translated": "12.5763px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.4cqw",
+          "translated": "8.80344px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.4cqw",
+          "translated": "8.80344px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.6cqw",
+          "translated": "28.9256px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "37.729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "37.729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": ".5cqw",
+          "translated": "3.14409px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.6cqw",
+          "translated": "10.0611px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2.9cqw",
+          "translated": "18.2357px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.6cqw",
+          "translated": "10.0611px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "17cqw",
+          "translated": "106.899px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "12.5cqw",
+          "translated": "78.6022px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2.4cqw",
+          "translated": "15.0916px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.7cqw",
+          "translated": "23.2662px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "31.4409px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "37.729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "7cqw",
+          "translated": "44.0172px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1cqw",
+          "translated": "6.28817px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3cqw",
+          "translated": "18.8645px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2cqw",
+          "translated": "12.5763px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.8cqw",
+          "translated": "23.8951px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "31.4409px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "37.729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.6cqw",
+          "translated": "28.9256px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1.2cqw",
+          "translated": "7.54581px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": ".3cqw",
+          "translated": "1.88645px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "2cqw",
+          "translated": "12.5763px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.4cqw",
+          "translated": "27.668px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6.4cqw",
+          "translated": "40.2443px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.8cqw",
+          "translated": "23.8951px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4cqw",
+          "translated": "25.1527px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "31.4409px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "6cqw",
+          "translated": "37.729px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "5cqw",
+          "translated": "31.4409px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "1cqw",
+          "translated": "6.28817px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "8cqw",
+          "translated": "50.3054px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "4.2cqw",
+          "translated": "26.4103px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": ".8cqw",
+          "translated": "5.03054px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.1cqw",
+          "translated": "19.4933px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3.5cqw",
+          "translated": "22.0086px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "3cqw",
+          "translated": "18.8645px"
+        },
+        {
+          "source": "site/css/home.css",
+          "viewportLength": "100vh",
+          "translated": "1100px"
+        },
+        {
+          "source": "site/css/home.css",
+          "calculation": "calc(1100px - 60px)",
+          "translated": "1040px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(12px, 14.4628px)",
+          "translated": "14.4628px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(12px, 18.2357px)",
+          "translated": "18.2357px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(14px, 23.2662px)",
+          "translated": "23.2662px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(26px, 44.0172px)",
+          "translated": "44.0172px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(14px, 18.8645px)",
+          "translated": "18.8645px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(16px, 23.8951px)",
+          "translated": "23.8951px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(14px, 27.668px)",
+          "translated": "27.668px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(18px, 40.2443px)",
+          "translated": "40.2443px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(13px, 23.8951px)",
+          "translated": "23.8951px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(13px, 19.4933px)",
+          "translated": "19.4933px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(13px, 22.0086px)",
+          "translated": "22.0086px"
+        },
+        {
+          "source": "site/css/home.css",
+          "numericLimit": "max(14px, 18.8645px)",
+          "translated": "18.8645px"
+        },
+        {
+          "source": "site/css/home.css",
+          "shorthand": "inset:0",
+          "translated": "top:0;right:0;bottom:0;left:0"
+        },
+        {
+          "staticReaderGeometry": "NATIVE_READER_WIDTH_UNSCALED_FULL_CONTENT; EXPLICIT_SOURCE_GRID_PLACEMENT; not browser zoom/scroll acceptance",
+          "css": ".lead{width:645.1827956989248px;grid-template-columns:392.1699346405229px 253.01286105840188px}.lead-art{grid-column:1;grid-row:1;width:392.1699346405229px}.lead-read{width:253.01286105840188px}.lead-foot{width:645.1827956989248px;grid-column:1/-1}.stories{width:645.1827956989248px;grid-template-columns:314.5913978494624px 314.5913978494624px}.cv-t2{background:none;color:#FF7A1A}.lead{display:block}.qa-lead-row{display:table;table-layout:fixed;width:645.1827956989248px}.lead-art,.lead-read{display:table-cell;vertical-align:middle}.lead-art{height:230px}.lead-read>*+*{margin-top:10px}.lead-foot{display:block}.lead-foot>a{margin-top:10px}.lead-foot>.lead-time{margin:0}.story{display:block;width:314.5913978494624px}.story-body{display:block;width:314.5913978494624px}.story-body>*{max-width:280.5913978494624px;white-space:normal;overflow-wrap:anywhere}.story-s,.story-meta{width:280.5913978494624px;margin-top:10px}.rv-top{display:block}.rv-top>mo-team-logo{display:inline-block}.rv-top>div{display:block}.g-card{display:block}.g-card>*{max-width:100%;white-space:normal}.g-card .st{display:inline-block;width:auto;white-space:nowrap}.g-time,.g-score,.g-read{margin-top:6px}.g-teams{display:block}.g-teams mo-team-logo,.g-codes{display:inline-block}.g-rail-wrap{overflow:hidden}.g-rail{display:table;table-layout:fixed;border-spacing:12px 0;margin-left:-12px;width:669.1827956989248px}.g-card{display:table-cell;vertical-align:top;width:207.0609318996416px}.g-card>*{width:177.0609318996416px;max-width:177.0609318996416px}.g-card .st{width:auto}.g-teams{width:177.0609318996416px}.g-codes{display:inline}.g-teams mo-team-logo{vertical-align:middle}body.page-home{height:auto;overflow:visible}.page-home #app{height:auto;display:block}#reader{display:block;overflow:visible}#sizer{width:1360px;height:auto}#sizer .spread{position:relative;transform:none;grid-template-columns:628.8172043010752px 731.1827956989248px}.pg-cover{grid-column:1;grid-row:1}.pg-inner{grid-column:2;grid-row:1}.lead-read{grid-column:2;grid-row:1}.lead-foot{grid-row:2}"
+        }
+      ],
+      "expectedTextFoundInPdf": true,
+      "anchors": {
+        "reader": [
+          0,
+          266.8310546875,
+          1440.0,
+          1653.6819726562499
+        ],
+        "today": [
+          668.8172043010752,
+          290.8310546875,
+          1400.0,
+          1629.6819726562499
+        ],
+        "qa-render-end": [
+          0,
+          1653.6819726562499,
+          1440.0,
+          1653.6819726562499
+        ]
+      },
+      "warnings": [
+        "Ignored `background-clip: text` at 30:117, invalid value.",
+        "Ignored `background: repeating-linear-gradient(90deg, #C9CDD5 0 1px, #EEF0F3 1px 3px)` at 156:33, invalid value.",
+        "Ignored `background: repeating-linear-gradient(90deg, #EEF0F3 0 2px, #C9CDD5 2px 3px)` at 157:33, invalid value.",
+        "Ignored `box-shadow: 0 10px 30px rgba(0, 0, 0, .35)` at 44:271, unknown property.",
+        "Ignored `box-shadow: 0 2px 6px rgba(0, 0, 0, .12)` at 119:274, unknown property.",
+        "Ignored `box-shadow: 0 30px 60px rgba(0, 0, 0, .45), 0 0 0 1px rgba(255, 255, 255, .04)` at 153:179, unknown property.",
+        "Ignored `box-shadow: 0 8px 24px rgba(5, 12, 32, .22)` at 70:162, unknown property.",
+        "Ignored `box-shadow: inset 0 0 0 calc(var(--logo, var(--logo-default, 52px)) * .06) var(--stripe)` at 8:64, unknown property.",
+        "Ignored `container-type: inline-size` at 10:41, unknown property.",
+        "Ignored `filter: brightness(1.08)` at 50:14, unknown property.",
+        "Ignored `grid-auto-columns: calc((100% - 24px) / 3)` at 106:50, invalid value.",
+        "Ignored `overflow-x: auto` at 106:105, unknown property.",
+        "Ignored `text-shadow: 0 2px 10px rgba(0, 0, 0, .5)` at 43:117, unknown property.",
+        "Ignored `text-shadow: 0 3.7729px 12.5763px rgba(0, 0, 0, .45)` at 23:134, unknown property.",
+        "Invalid or unsupported selector, '.g-rail::-webkit-scrollbar '"
+      ]
+    }
+  ]
+}

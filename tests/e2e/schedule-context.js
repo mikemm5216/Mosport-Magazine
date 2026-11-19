@@ -54,8 +54,8 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
       await page.goto(entrance);
       await page.waitForSelector('.lead-schedule .pregame-missing');
       const text = await page.locator('.spread').innerText();
-      assert.ok(/SAC\s*@\s*LAL/.test(text) && text.includes('0022600051') && text.includes('11:00')); checks++;
-      assert.ok(text.includes('賽前紀錄尚未提供公開顯示') && text.includes('07:58:50Z')); checks++;
+      assert.ok(text.includes('SAC') && text.includes('LAL') && text.includes('11:00') && !text.includes('NBA game ID')); checks++;
+      assert.ok(text.includes('這場的賽前判讀還沒出來。') && text.includes('非即時更新') && !/NBA game ID|UTC|HOME_COURT@/.test(text)); checks++;
       assert.ok(!/\d+\s*%|DEMO/.test(text) && await page.locator('.spread table').count() === 0); checks++;
       const geometry = await page.evaluate(() => {
         const cover = document.querySelector('.pg-cover').getBoundingClientRect();
@@ -82,7 +82,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
       await page.route('**/data/schedules/0022600051.json', route => route.fulfill({ status: 503, body: 'isolated test failure' }));
       await page.goto(entrance); await page.waitForSelector('.pg-inner .state-msg');
       const failed = await page.locator('.spread').innerText();
-      assert.ok(failed.includes('載入失敗') && failed.includes('賽前紀錄尚未提供公開顯示')); checks++;
+      assert.ok(failed.includes('暫時打不開') && !failed.includes('這場的賽前判讀還沒出來。')); checks++;
       assert.equal(await page.locator('.pg-cover').count(), 1); checks++;
       assert.ok(!/0022600051|\d+\s*%|DEMO/.test(failed)); checks++;
       assert.deepEqual(errors, []); checks++;
@@ -108,7 +108,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
       await page.waitForSelector('.pregame-missing');
       let text = await content(page);
       assert.ok(/SAC\s*@\s*LAL/.test(text) && /0022600051/.test(text) && /11:00/.test(text) && /11\/21/.test(text), text); checks++;
-      assert.ok(text.includes('賽前紀錄尚未提供公開顯示') && text.includes('NBA') && text.includes('07:58:50Z')); checks++;
+      assert.ok(text.includes('這場的賽前判讀還沒出來。') && text.includes('NBA') && text.includes('07:58:50Z')); checks++;
       assert.ok(noNumbers(text), text); checks++;
       assert.equal(await page.locator('a[href="https://www.nba.com/game/sac-vs-lal-0022600051"]').count(), 1); checks++;
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)); checks++;
@@ -117,7 +117,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
       assert.ok((await page.locator(link).first().getAttribute('href')).includes('schedule=0022600051')); checks++;
       await page.locator(link).first().click();
       await page.waitForSelector('.pregame-missing');
-      assert.ok((await content(page)).includes('0022600051') && (await content(page)).includes('賽前紀錄尚未提供公開顯示')); checks++;
+      assert.ok((await content(page)).includes('0022600051') && (await content(page)).includes('這場的賽前判讀還沒出來。')); checks++;
       // Isolated 0999 provider fixture stays missing through the real public pipeline.
       // Only the renderer receives a test projection; no release gate is changed.
       await page.route('**/data/schedules/0022600999.json', route => route.fulfill({ json: candidate }));
@@ -142,7 +142,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
         }, { candidate, value });
         const ready = await content(page);
         assert.ok(ready.includes(value) && ready.includes('HOME_COURT@1') && ready.includes('08:05:00Z') && ready.includes('08:00:00Z') && ready.includes('bbbbbbbb')); checks++;
-        assert.ok(!ready.includes('賽前紀錄尚未提供公開顯示') && !/\d+\s*%/.test(ready)); checks++;
+        assert.ok(!ready.includes('這場的賽前判讀還沒出來。') && !/\d+\s*%/.test(ready)); checks++;
         assert.ok(ready.includes('0022600999') && !ready.includes('0022600051')); checks++;
         assert.ok((await page.locator('#qa-fixture-label').innerText()).includes(value)); checks++;
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)); checks++;
@@ -155,10 +155,10 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
     await page.clock.setFixedTime(new Date(now));
     const url = base + 'match.html?schedule=0022600051&game=0022600051&mode=production&lang=zh';
     for (const [label, mutate, message] of [
-      ['missing source', r => { delete r.source; }, '未通過格式檢查'],
-      ['wrong ID', r => { r.game.gameId = '0022600999'; }, '載入失敗'],
-      ['stale source', r => { r.validUntil = '2026-11-19T08:00:00Z'; }, '歷史觀測'],
-      ['boolean is not release', r => { r.contextSnapshot = { public: true }; }, '賽前紀錄尚未提供公開顯示']
+      ['missing source', r => { delete r.source; }, '暫時無法閱讀'],
+      ['wrong ID', r => { r.game.gameId = '0022600999'; }, '暫時打不開'],
+      ['stale source', r => { r.validUntil = '2026-11-19T08:00:00Z'; }, '先前的賽程'],
+      ['boolean is not release', r => { r.contextSnapshot = { public: true }; }, '這場的賽前判讀還沒出來。']
     ]) {
       const raw = JSON.parse(JSON.stringify(saved)); mutate(raw);
       await page.route('**/data/schedules/0022600051.json', route => route.fulfill({ json: raw }));

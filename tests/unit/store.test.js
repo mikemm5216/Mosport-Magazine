@@ -51,7 +51,7 @@ test('revisions must advance one by one; a stale editor gets REVISION_CONFLICT',
   const late = draft('ED-NEWS-0007', { revision: 2 }); late.en.summary = 'stale edit';
   assert.equal(s.saveItem(late, { expectedRevision: 1 }).code, 'REVISION_CONFLICT');
   assert.equal(s.itemHistory('ED-NEWS-0007').length, 2);
-  assert.equal(s.itemHistory('ED-NEWS-0007')[0].en.summary, 'Latest injury update and what it changes', 'history kept, not overwritten');
+  assert.equal(s.itemHistory('ED-NEWS-0007')[0].en.summary, 'Who can play, and who takes on more? Start with the injury picture.', 'history kept, not overwritten');
 });
 
 test('an item keeps its type; a correction must point at an earlier revision that exists', () => {

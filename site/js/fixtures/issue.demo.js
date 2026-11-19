@@ -35,8 +35,8 @@
         snapshotId: '4f9c2a1e', homeWinProbability: 0.61, interval60: [0.54, 0.67],
         verdict: { zh: '湖人主場較有利。', en: 'The Lakers at home are favoured.' },
         why: {
-          zh: '勇士背靠背第二晚，賽前移動 560 公里，並少了 31.5 分鐘的輪替時間；湖人休息兩天、輪替完整。',
-          en: 'Golden State is on the second night of a back-to-back after 560 km of travel and is missing 31.5 rotation minutes; the Lakers are rested with a full rotation.'
+          zh: '勇士背靠背再戰，湖人休息兩天、輪替完整。560 公里的移動與 31.5 分鐘的輪替缺口，讓勇士的體能與人手成為本場看點。',
+          en: 'Golden State plays on consecutive nights; the Lakers have had two days off and a full rotation. With 560 km of travel and 31.5 rotation minutes missing, the Warriors’ energy and depth are worth watching.'
         }
       }
     }),
@@ -50,7 +50,7 @@
       gameId: 'DEMO-0043', away: 'DEN', home: 'OKC', status: 'LIVE', score: { away: 29, home: 34 },
       tipoff: '2026-11-01T01:00:00Z', venueTz: 'America/Chicago',
       world: { state: 'ISSUED', distributionEligibility: 'PUBLIC', version: 'FINAL_CONFIRMED', snapshotId: 'c55e0b21', homeWinProbability: 0.58,
-        verdict: { zh: '賽前判讀已鎖定，比賽中不重算。', en: 'Pregame read locked; not recomputed during play.' } }
+        verdict: { zh: '回看開賽前的判讀。', en: 'Revisit the pregame read.' } }
     }),
     game({
       gameId: 'DEMO-0044', away: 'PHI', home: 'TOR', status: 'SCHEDULED',
@@ -101,13 +101,13 @@
     item({ id: 'ED-NEWS-0007', type: 'NEWS', editorialLabel: 'BREAKING_NEWS', riskTriggers: ['MAJOR_NEWS'],
       sourceRefs: ['src:demo-official-injury-report'], verifiedFacts: ['official-injury-report'],
       publishedAt: '2026-10-31T22:10:00Z', validUntil: '2026-11-01T06:00:00Z', approvalReceiptRef: 'RCPT-DEMO-002',
-      zh: { headline: '湖人主場戰關鍵戰', summary: '最新傷兵更新與戰力影響解析', meta: null },
-      en: { headline: 'Lakers home showdown', summary: 'Latest injury update and what it changes', meta: null } }),
+      zh: { headline: '湖勇交手，傷兵牽動戰局', summary: '誰能上場、誰得多扛一些？先看傷兵帶來的變數。', meta: null },
+      en: { headline: 'Lakers–Warriors: injuries shape the matchup', summary: 'Who can play, and who takes on more? Start with the injury picture.', meta: null } }),
     item({ id: 'ED-FEAT-0003', type: 'FEATURE', editorialLabel: 'MOSPORT_EXCLUSIVE', riskTriggers: ['EXCLUSIVE_CLAIM'],
       sourceRefs: ['src:mosport-original-demo'], verifiedFacts: ['original-analysis'], publishedAt: '2026-10-31T20:00:00Z',
       approvalReceiptRef: 'RCPT-DEMO-003',
-      zh: { headline: '勇士新陣容化學反應', summary: '數據揭露 3 個決定性變化', meta: null },
-      en: { headline: 'The Warriors’ new-lineup chemistry', summary: 'Three decisive changes in the numbers', meta: null } }),
+      zh: { headline: '勇士新陣容，變化在哪裡？', summary: '從數據看三個變化，讀懂新陣容。', meta: null },
+      en: { headline: 'What changes with the Warriors’ new lineup?', summary: 'Three changes in the numbers help explain the new lineup.', meta: null } }),
     item({ id: 'ED-STRK-0011', type: 'STREAK', editorialLabel: 'STREAK_WATCH', linkedTeams: ['BOS'],
       sourceRefs: ['src:demo-official-results-1029', 'src:demo-official-results-1030', 'src:demo-official-results-1031'],
       verifiedFacts: ['official-final-x3'], publishedAt: '2026-10-31T16:00:00Z', approvalReceiptRef: 'RCPT-DEMO-004',
@@ -116,10 +116,10 @@
     item({ id: 'ED-REV-0040', type: 'REVIEW', linkedGameIds: ['DEMO-0040'], teams: ['SAC', 'PHX'],
       sourceRefs: ['world:DEMO-0040@final-lock', 'src:demo-official-final-0040'], verifiedFacts: ['official-final'],
       publishedAt: '2026-10-31T09:00:00Z', approvalReceiptRef: 'RCPT-DEMO-005',
-      zh: { headline: '太陽守住主場', summary: '官方比分 112–107。鎖定的最終版判讀中，三個 Falsifier 都沒有觸發，兩個 Turning Point 發生了一個。',
-        meta: '對照 15:30 ET 鎖定的最終版 · 官方修訂 1 次 · 原判讀不改寫' },
-      en: { headline: 'Phoenix holds at home', summary: 'Official score 112–107. In the locked final read, none of the three falsifiers triggered, and one of two turning points occurred.',
-        meta: 'Against the final read locked 15:30 ET · 1 official revision · original read not rewritten' } }),
+      zh: { headline: '太陽守住主場，賽前看準了什麼？', summary: '112–107，太陽拿下主場。賽前關注的兩個轉折出現一個，三項風險都沒發生；回看勝負，也檢查當時的理由。',
+        meta: '回看賽前判讀，對照終場結果。' },
+      en: { headline: 'Phoenix holds at home. What did the preview get right?', summary: 'Phoenix won 112–107. One of two key moments highlighted before tip-off occurred, and none of the three risks materialized. Revisit the result and the reasoning behind the preview.',
+        meta: 'The pregame read, revisited against the final score.' } }),
     /* Rumour waiting for a human: tracked internally, never rendered. */
     item({ id: 'ED-RUM-0002', type: 'NEWS', editorialLabel: 'BREAKING_NEWS', riskTriggers: ['UNVERIFIED_RUMOR'],
       publishState: 'AWAITING_HUMAN_APPROVAL', homeEligible: false, sourceRefs: ['src:demo-anonymous-post'], verifiedFacts: [],
