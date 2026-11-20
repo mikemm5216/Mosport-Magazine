@@ -53,6 +53,17 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
       const entrance = base + 'index.html?mode=production&lang=zh';
       await page.goto(entrance);
       await page.waitForSelector('.lead-schedule .pregame-missing');
+      for (const slot of ['cover-' + viewport + '-art', 'today-feature-art']) {
+        const art = page.locator('mo-art[data-slot="' + slot + '"]');
+        assert.equal(await art.getAttribute('data-version'), 'claude-crop-v1');
+        const image = art.locator('img');
+        assert.ok(await image.isVisible(), slot);
+        assert.ok(await image.evaluate(async img => {
+          await img.decode();
+          return img.naturalWidth > 0 && img.naturalHeight > 0;
+        }), slot);
+        checks++;
+      }
       const text = await page.locator('.spread').innerText();
       assert.ok(text.includes('SAC') && text.includes('LAL') && text.includes('11:00') && !text.includes('NBA game ID')); checks++;
       assert.ok(text.includes('這場的賽前判讀還沒出來。') && text.includes('核對（台北）') && !/NBA game ID|UTC|HOME_COURT@/.test(text)); checks++;
