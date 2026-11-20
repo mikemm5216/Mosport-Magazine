@@ -13,7 +13,7 @@ const serializeComponents = require(path.join(ROOT, 'tests/e2e/static-components
 const saved = require(path.join(ROOT, 'site/data/schedules/0022600051.json'));
 const fixtures = loadFixtures();
 const OUT = process.env.MOSPORT_EVIDENCE_OUTPUT || path.join(GENERATOR_ROOT, 'docs/reports/2026-11-19-home-copy/static');
-const clock = '2026-11-19T08:10:00Z';
+const clock = process.env.MOSPORT_EVIDENCE_CLOCK || new Date(Date.parse(saved.editorial ? saved.editorial.observedAt : saved.source.observedAt) + 60000).toISOString();
 const sourceCss = fs.readFileSync(path.join(ROOT, 'site/css/home.css'), 'utf8');
 const naturalWidth = Number(fs.readFileSync(path.join(ROOT, 'site/js/reader.js'), 'utf8').match(/var NATURAL_WIDTH = (\d+)/)[1]);
 const spreadRule = sourceCss.match(/\.spread\s*\{[^}]*grid-template-columns:[^}]+\}/)[0];
@@ -30,21 +30,25 @@ const configs = [
   { name: 'home-production-desktop', width: 1440, viewportHeight: 1000, mode: 'production', state: 'MISSING', lang: 'zh' },
   { name: 'home-demo-mobile', width: 390, viewportHeight: 844, mode: 'prototype', state: 'DEMO', lang: 'zh' },
   { name: 'home-missing-mobile-en', width: 360, viewportHeight: 780, mode: 'prototype', state: 'MISSING', lang: 'en' },
-  { name: 'home-load-failed-mobile', width: 390, viewportHeight: 844, mode: 'production', state: 'LOAD_FAILED', lang: 'zh' }
+  { name: 'home-load-failed-mobile', width: 390, viewportHeight: 844, mode: 'production', state: 'LOAD_FAILED', lang: 'zh' },
+  { name: 'home-stale-mobile', width: 390, viewportHeight: 844, mode: 'production', state: 'STALE', lang: 'zh' }
 ];
-for (const config of BEFORE ? configs.slice(0, 3) : configs) {
+const requested = process.env.MOSPORT_EVIDENCE_CASES ? process.env.MOSPORT_EVIDENCE_CASES.split(',') : null;
+for (const config of (BEFORE ? configs.slice(0, 3) : configs).filter(c => !requested || requested.includes(c.name))) {
   const raw = config.state === 'LOAD_FAILED' ? { __loadError: 'STATIC_QA_LOAD_FAILURE' } : config.state === 'DEMO' ? fixtures.demo : clone(saved);
   const query = '?' + (config.state === 'DEMO' ? 'fixture=demo' : 'schedule=0022600051') + '&mode=' + config.mode + '&lang=' + config.lang;
-  const rendered = renderPage(raw, 'home', query, null, { mode: config.mode, now: clock, realTeams: true, fixtures });
+  const pageClock = config.state === 'STALE' ? saved.validUntil : clock;
+  const rendered = renderPage(raw, 'home', query, null, { mode: config.mode, now: pageClock, realTeams: true, fixtures });
   assert.ok(rendered.includes('class="spread"') && rendered.includes('pg-cover') && rendered.includes('id="today"'));
   assert.ok(rendered.indexOf('pg-cover') < rendered.indexOf('id="today"'));
   assert.ok(!rendered.includes('<table'));
   if (config.state === 'MISSING') assert.ok(rendered.includes('0022600051') && rendered.includes(BEFORE ? '賽前紀錄尚未提供公開顯示' : config.lang === 'en' ? 'The pregame read' : '這場的賽前判讀還沒出來。'));
+  if (config.state === 'STALE') assert.ok(rendered.includes('先前的賽程') && !rendered.includes('class="lead-story"'));
   const serialized = serializeComponents(rendered, config);
   // Test-only row wrapper preserves content/order while translating nested grid.
   serialized.html = serialized.html.replace('<div class="lead-art">', '<div class="qa-lead-row"><div class="lead-art">').replace('<div class="lead-foot">', '</div><div class="lead-foot">');
-  const label = (BEFORE ? '調整前 · ' : '文案調整後 · ') + '靜態構圖檢視 · 非瀏覽器截圖 · ' + config.width + 'px · ' +
-    (config.state === 'LOAD_FAILED' ? '無法讀取示例' : config.state === 'DEMO' ? 'DEMO 虛構示例' : '已保存賽程') + ' · ' +
+  const label = (process.env.MOSPORT_EVIDENCE_LABEL || (BEFORE ? '調整前' : '文案調整後')) + ' · 靜態構圖檢視 · 非瀏覽器截圖 · ' + config.width + 'px · ' +
+    (config.state === 'LOAD_FAILED' ? '無法讀取示例' : config.state === 'DEMO' ? 'DEMO 虛構示例' : config.state === 'STALE' ? '過期賽程示例' : '已保存賽程') + ' · ' +
     (config.mode === 'prototype' ? '既有示意美術' : '正式素材顯示規則');
   const html = fs.readFileSync(path.join(ROOT, 'site/index.html'), 'utf8')
     .replace(/<script\b[^>]*>[\s\S]*?<\/script>\s*/g, '')
@@ -83,14 +87,14 @@ for (const config of BEFORE ? configs.slice(0, 3) : configs) {
   const staticCss = sharedStaticCss + staticRowCss + staticFlowCss + railCss + (config.width >= 1024
     ? 'body.page-home{height:auto;overflow:visible}.page-home #app{height:auto;display:block}#reader{display:block;overflow:visible}#sizer{width:' + naturalWidth + 'px;height:auto}#sizer .spread{position:relative;transform:none;grid-template-columns:' + coverWidth + 'px ' + (naturalWidth-coverWidth) + 'px}.pg-cover{grid-column:1;grid-row:1}.pg-inner{grid-column:2;grid-row:1}.lead-read{grid-column:2;grid-row:1}.lead-foot{grid-row:2}'
     : '.pg-inner{width:100%}.lead-read{grid-column:1;grid-row:2}.lead-foot{grid-row:3}.pg-inner>.state-msg,.pg-inner>.today-empty{width:100%}');
-  cases.push({ ...config, page: 'index.html', viewport: config.width >= 1024 ? 'desktop' : 'mobile',
+  cases.push({ ...config, pageClock, page: 'index.html', viewport: config.width >= 1024 ? 'desktop' : 'mobile',
     input: config.state === 'LOAD_FAILED' ? 'ISOLATED_LOAD_FAILURE' : 'SAVED_SCHEDULE',
     nbaGameId: config.state === 'MISSING' ? '0022600051' : null,
     derivedWidths: { contentWidth, artWidth, readWidth },
     containerWidth: config.width >= 1024 ? coverWidth : config.width, staticCss,
     staticGeometry: config.width >= 1024 ? 'NATIVE_READER_WIDTH_UNSCALED_FULL_CONTENT; EXPLICIT_SOURCE_GRID_PLACEMENT; not browser zoom/scroll acceptance' : 'SOURCE_MOBILE_FLOW_WITH_EXPLICIT_GRID_PLACEMENT',
     rendererDeviations: ['WeasyPrint nested fr columns collapse to zero; source-derived widths use a test-only table row/block stack, same DOM content/order; footer action stacks in static output', 'Unsupported clipped orange gradient text uses its source first color #FF7A1A', 'Static story flex descendants use source-derived block widths; game rail uses source-derived table tracks with clipped horizontal overflow; shadows, navigation/controls and browser interactions are not verified'],
-    expectedText: ['MOSPORT', config.state === 'MISSING' ? (BEFORE ? '賽前紀錄尚未提供公開顯示' : config.lang === 'en' ? 'The pregame read' : '這場的賽前判讀還沒出來。') : config.state === 'DEMO' ? 'DEMO' : '這一期暫時打不開。'],
+    expectedText: ['MOSPORT', config.state === 'MISSING' ? (BEFORE ? '賽前紀錄尚未提供公開顯示' : config.lang === 'en' ? 'The pregame read' : '這場的賽前判讀還沒出來。') : config.state === 'DEMO' ? 'DEMO' : config.state === 'STALE' ? '先前的賽程' : '這一期暫時打不開。'],
     htmlSha256: digest(html), componentSlots: serialized.slots });
 }
 const sourceFiles = ['site/index.html','site/js/app.js','site/js/pages/home.js','site/js/reader.js','site/js/i18n.js',
@@ -102,7 +106,7 @@ const sourceFiles = ['site/index.html','site/js/app.js','site/js/pages/home.js',
     return { path: name, sha256: digest(bytes), gitBlobSha: crypto.createHash('sha1').update(Buffer.concat([Buffer.from('blob ' + bytes.length + '\0'), bytes])).digest('hex') };
   });
 fs.writeFileSync(path.join(OUT, 'html-evidence.json'), JSON.stringify({
-  sourceHead: BEFORE ? 'c1b19c42968914dea1dbf959c2233a5cfb32136f' : null, baseHead: 'c1b19c42968914dea1dbf959c2233a5cfb32136f', sourceState: 'WORKTREE_BOUND_BY_SOURCE_FILE_HASHES',
+  sourceHead: process.env.MOSPORT_EVIDENCE_SOURCE_HEAD || (BEFORE ? 'c1b19c42968914dea1dbf959c2233a5cfb32136f' : null), baseHead: '544709c3a84c92208a13b4e0afa4ca395484eef4', sourceState: 'WORKTREE_BOUND_BY_SOURCE_FILE_HASHES',
   pageClock: clock, method: 'EXISTING_APP_PAGE_RENDERER_AND_COMPONENT_METHODS_VIA_TEST_SHIM',
   publicQualification: 'NOT_ASSERTED', webComponents: 'ORIGINAL_RENDER_METHODS_ONLY; NO_BROWSER_LIFECYCLE',
   cssFiles: ['fonts.css','tokens.css','components.css','home.css'], sourceFiles, cases

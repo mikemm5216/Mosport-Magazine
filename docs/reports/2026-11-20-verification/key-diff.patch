@@ -1,0 +1,476 @@
+diff --git a/site/data/schedules/0022600051.json b/site/data/schedules/0022600051.json
+index 23e8631..49716c8 100644
+--- a/site/data/schedules/0022600051.json
++++ b/site/data/schedules/0022600051.json
+@@ -1,7 +1,7 @@
+ {
+   "schema": "mosport-b/schedule-entry@1",
+   "mode": "LIVE",
+-  "validUntil": "2026-11-20T07:58:50Z",
++  "validUntil": "2026-11-21T02:43:14.041Z",
+   "game": {
+     "gameId": "0022600051",
+     "away": "SAC",
+@@ -11,14 +11,14 @@
+   },
+   "source": {
+     "schema": "mosport-b/source-receipt@1",
+-    "id": "NBA-SCHEDULE-0022600051-20261119",
++    "id": "NBA-SCHEDULE-0022600051-20261120T024314",
+     "kind": "OFFICIAL_FACT",
+     "originalUrl": "https://www.nba.com/game/sac-vs-lal-0022600051",
+     "publisher": "NBA",
+-    "observedAt": "2026-11-19T07:58:50Z",
++    "observedAt": "2026-11-20T02:43:14.041Z",
+     "rightsStatus": "LINK_ONLY",
+     "accessMethod": "OFFICIAL_PAGE",
+-    "contentFingerprint": "50dc9f45bd7a16eb14327d19140b13bd46f2e748ddf8eadf02585a211b05d516",
++    "contentFingerprint": "20569b2b2942367a662d22fdc80bb3b17dd8280d1457c04c5abec863702aa62b",
+     "language": "en",
+     "verificationState": "CONFIRMED",
+     "demo": false
+@@ -29,7 +29,7 @@
+     "nbaGameId": "0022600051",
+     "kind": "CUP_REMATCH",
+     "group": "WEST_C",
+-    "observedAt": "2026-11-19T10:42:38Z",
++    "observedAt": "2026-11-20T02:43:20.553Z",
+     "previous": {
+       "gameId": "0022600185",
+       "away": "LAL",
+@@ -42,6 +42,6 @@
+       "matchupUrl": "https://www.nba.com/game/sac-vs-lal-0022600051",
+       "previousUrl": "https://www.nba.com/game/lal-vs-sac-0022600185"
+     },
+-    "factsFingerprint": "2748a1a46f2fe34af84eb0959172019676bf491e52c9b760b6fcaa524feac513"
++    "factsFingerprint": "57d302f40daa8661e5e6cd798b56c142ba2d80cd383ab665d3021a84bfccc801"
+   }
+ }
+diff --git a/site/js/app.js b/site/js/app.js
+index 8e99b0e..77729a0 100644
+--- a/site/js/app.js
++++ b/site/js/app.js
+@@ -59,7 +59,10 @@
+   function tipDate(g) { return fmt(g.tipoff, 'Asia/Taipei', { year: 'numeric', month: '2-digit', day: '2-digit' }); }
+   function sourceNote(source, options) {
+     if (!source) return '';
+-    if (options && options.reader) return '<p class="pv">' + esc(T('dataSource')) + ' <a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.publisher) + '</a> · ' + esc(T('notLive')) + '</p>';
++    if (options && options.reader) {
++      var checked = fmt(source.observedAt, 'Asia/Taipei', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
++      return '<p class="pv">' + esc(T('scheduleSource')) + ' <a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.publisher) + '</a> · <time datetime="' + esc(source.observedAt) + '">' + esc(T('sourceCheckedAt', { time: checked })) + '</time></p>';
++    }
+     return '<p class="pv">' + esc(T('dataSource')) + ' <a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.publisher) + '</a> · ' + esc(T('observedAt')) + ' <time datetime="' + esc(source.observedAt) + '">' + esc(source.observedAt) + '</time></p>';
+   }
+   function pregameRecord(g, options) {
+diff --git a/site/js/i18n.js b/site/js/i18n.js
+index 32c2c6f..d813045 100644
+--- a/site/js/i18n.js
++++ b/site/js/i18n.js
+@@ -44,9 +44,10 @@ window.MOSPORT_I18N = {
+     scheduleTitle: '賽程', scheduleIntro: '對戰、開賽時間與賽前判讀。',
+     colMatch: '對戰', colTime: '台北時間', colStatus: '狀態', colRead: '判讀',
+     pregameMissing: '這場的賽前判讀還沒出來。', pregameTitle: '賽前看點',
+-    cupRematchTitle: '{gap} 分差距能追回嗎？{away}盃賽再戰{home}',
+-    cupRematchLede: '{away}在 {date} 的交手以 {loserPoints}：{winnerPoints} 不敵{home}。這回雙方在 NBA 盃西區 C 組再次碰頭。{away}能縮小上次的差距嗎？{home}能否延續交手優勢？',
++    cupRematchTitle: '{gap} 分之差，{away}盃賽再戰{home}',
++    cupRematchLede: '上次交手，{away}以 {loserPoints}：{winnerPoints} 不敵{home}。NBA 盃西區 C 組再碰頭，這次能縮小差距嗎？',
+     cupRematchSource: '前次交手：',
++    scheduleSource: '賽程：', sourceCheckedAt: '{time} 核對（台北）',
+     dataSource: '資料來源：', observedAt: '取得時間（UTC）', savedSnapshot: '保存時間（UTC）', snapshotId: '快照 ID',
+     savedSchedule: '賽程資訊 · 非即時更新', savedScheduleIntro: '對戰與開賽時間，先看這場。',
+     gameDetails: '查看比賽',
+@@ -106,9 +107,10 @@ window.MOSPORT_I18N = {
+     scheduleTitle: 'Schedule', scheduleIntro: 'The matchups, tip-off times and pregame reads.',
+     colMatch: 'Game', colTime: 'Taipei time', colStatus: 'Status', colRead: 'Read',
+     pregameMissing: 'The pregame read for this matchup is not out yet.', pregameTitle: 'Before tip-off',
+-    cupRematchTitle: 'Can the {away} erase a {gap}-point gap? A Cup rematch with the {home}',
+-    cupRematchLede: 'The {away} fell {loserPoints}–{winnerPoints} to the {home} on {date}. Now they meet again in NBA Cup West Group C. Can the {away} narrow the gap, or will the {home} hold their head-to-head edge?',
++    cupRematchTitle: 'After a {gap}-point loss, {away} face {home} in the Cup',
++    cupRematchLede: 'The {away} lost their last meeting with the {home}, {loserPoints}–{winnerPoints}. Back together in NBA Cup West Group C, can they close the gap?',
+     cupRematchSource: 'Previous meeting:',
++    scheduleSource: 'Schedule:', sourceCheckedAt: 'Checked {time} (Taipei)',
+     dataSource: 'Source:', observedAt: 'Observed (UTC)', savedSnapshot: 'Saved (UTC)', snapshotId: 'Snapshot ID',
+     savedSchedule: 'Schedule · Not live', savedScheduleIntro: 'The matchup and tip-off time, at a glance.',
+     gameDetails: 'Game details',
+diff --git a/site/js/pages/home.js b/site/js/pages/home.js
+index ba468c1..d8e2c46 100644
+--- a/site/js/pages/home.js
++++ b/site/js/pages/home.js
+@@ -22,11 +22,9 @@ window.MOSPORT_PAGE = {
+     var storyTitle = '', storyLede = '';
+     if (ed) {
+       var prev = ed.previous, awayName = c.teamName(savedGame.away, 'nick'), homeName = c.teamName(savedGame.home, 'nick');
+-      var lastDate = new Intl.DateTimeFormat(L === 'zh' ? 'zh-TW' : 'en-US',
+-        { month: 'short', day: 'numeric', timeZone: 'UTC' }).format(new Date(prev.playedOn + 'T12:00:00Z'));
+       var storyVars = {
+         away: awayName, home: homeName, gap: String(prev.awayPoints - prev.homePoints),
+-        loserPoints: String(prev.homePoints), winnerPoints: String(prev.awayPoints), date: lastDate
++        loserPoints: String(prev.homePoints), winnerPoints: String(prev.awayPoints)
+       };
+       storyTitle = T('cupRematchTitle', storyVars);
+       storyLede = T('cupRematchLede', storyVars);
+@@ -111,7 +109,7 @@ window.MOSPORT_PAGE = {
+             '<a class="pill" href="' + c.href('match.html', { game: savedGame.gameId }) + '">' + esc(T('gameDetails')) + ' <span aria-hidden="true">→</span></a></div>' +
+         '</article>' +
+         '<div class="lead-source">' + c.sourceNote(savedGame.source, { reader: true }) +
+-          (ed ? '<p class="pv">' + esc(T('cupRematchSource')) + ' <a href="' + esc(ed.sources.previousUrl) + '" rel="noopener noreferrer">NBA</a> · ' + esc(T('notLive')) + '</p>' : '') + '</div>';
++          (ed ? '<p class="pv">' + esc(T('cupRematchSource')) + ' <a href="' + esc(ed.sources.previousUrl) + '" rel="noopener noreferrer">NBA</a></p>' : '') + '</div>';
+     }
+ 
+     var games = '';
+diff --git a/tests/e2e/home-spread-static.js b/tests/e2e/home-spread-static.js
+index b355033..4f1cd7f 100644
+--- a/tests/e2e/home-spread-static.js
++++ b/tests/e2e/home-spread-static.js
+@@ -13,7 +13,7 @@ const serializeComponents = require(path.join(ROOT, 'tests/e2e/static-components
+ const saved = require(path.join(ROOT, 'site/data/schedules/0022600051.json'));
+ const fixtures = loadFixtures();
+ const OUT = process.env.MOSPORT_EVIDENCE_OUTPUT || path.join(GENERATOR_ROOT, 'docs/reports/2026-11-19-home-copy/static');
+-const clock = '2026-11-19T08:10:00Z';
++const clock = process.env.MOSPORT_EVIDENCE_CLOCK || new Date(Date.parse(saved.editorial ? saved.editorial.observedAt : saved.source.observedAt) + 60000).toISOString();
+ const sourceCss = fs.readFileSync(path.join(ROOT, 'site/css/home.css'), 'utf8');
+ const naturalWidth = Number(fs.readFileSync(path.join(ROOT, 'site/js/reader.js'), 'utf8').match(/var NATURAL_WIDTH = (\d+)/)[1]);
+ const spreadRule = sourceCss.match(/\.spread\s*\{[^}]*grid-template-columns:[^}]+\}/)[0];
+@@ -30,21 +30,25 @@ const configs = [
+   { name: 'home-production-desktop', width: 1440, viewportHeight: 1000, mode: 'production', state: 'MISSING', lang: 'zh' },
+   { name: 'home-demo-mobile', width: 390, viewportHeight: 844, mode: 'prototype', state: 'DEMO', lang: 'zh' },
+   { name: 'home-missing-mobile-en', width: 360, viewportHeight: 780, mode: 'prototype', state: 'MISSING', lang: 'en' },
+-  { name: 'home-load-failed-mobile', width: 390, viewportHeight: 844, mode: 'production', state: 'LOAD_FAILED', lang: 'zh' }
++  { name: 'home-load-failed-mobile', width: 390, viewportHeight: 844, mode: 'production', state: 'LOAD_FAILED', lang: 'zh' },
++  { name: 'home-stale-mobile', width: 390, viewportHeight: 844, mode: 'production', state: 'STALE', lang: 'zh' }
+ ];
+-for (const config of BEFORE ? configs.slice(0, 3) : configs) {
++const requested = process.env.MOSPORT_EVIDENCE_CASES ? process.env.MOSPORT_EVIDENCE_CASES.split(',') : null;
++for (const config of (BEFORE ? configs.slice(0, 3) : configs).filter(c => !requested || requested.includes(c.name))) {
+   const raw = config.state === 'LOAD_FAILED' ? { __loadError: 'STATIC_QA_LOAD_FAILURE' } : config.state === 'DEMO' ? fixtures.demo : clone(saved);
+   const query = '?' + (config.state === 'DEMO' ? 'fixture=demo' : 'schedule=0022600051') + '&mode=' + config.mode + '&lang=' + config.lang;
+-  const rendered = renderPage(raw, 'home', query, null, { mode: config.mode, now: clock, realTeams: true, fixtures });
++  const pageClock = config.state === 'STALE' ? saved.validUntil : clock;
++  const rendered = renderPage(raw, 'home', query, null, { mode: config.mode, now: pageClock, realTeams: true, fixtures });
+   assert.ok(rendered.includes('class="spread"') && rendered.includes('pg-cover') && rendered.includes('id="today"'));
+   assert.ok(rendered.indexOf('pg-cover') < rendered.indexOf('id="today"'));
+   assert.ok(!rendered.includes('<table'));
+   if (config.state === 'MISSING') assert.ok(rendered.includes('0022600051') && rendered.includes(BEFORE ? '賽前紀錄尚未提供公開顯示' : config.lang === 'en' ? 'The pregame read' : '這場的賽前判讀還沒出來。'));
++  if (config.state === 'STALE') assert.ok(rendered.includes('先前的賽程') && !rendered.includes('class="lead-story"'));
+   const serialized = serializeComponents(rendered, config);
+   // Test-only row wrapper preserves content/order while translating nested grid.
+   serialized.html = serialized.html.replace('<div class="lead-art">', '<div class="qa-lead-row"><div class="lead-art">').replace('<div class="lead-foot">', '</div><div class="lead-foot">');
+-  const label = (BEFORE ? '調整前 · ' : '文案調整後 · ') + '靜態構圖檢視 · 非瀏覽器截圖 · ' + config.width + 'px · ' +
+-    (config.state === 'LOAD_FAILED' ? '無法讀取示例' : config.state === 'DEMO' ? 'DEMO 虛構示例' : '已保存賽程') + ' · ' +
++  const label = (process.env.MOSPORT_EVIDENCE_LABEL || (BEFORE ? '調整前' : '文案調整後')) + ' · 靜態構圖檢視 · 非瀏覽器截圖 · ' + config.width + 'px · ' +
++    (config.state === 'LOAD_FAILED' ? '無法讀取示例' : config.state === 'DEMO' ? 'DEMO 虛構示例' : config.state === 'STALE' ? '過期賽程示例' : '已保存賽程') + ' · ' +
+     (config.mode === 'prototype' ? '既有示意美術' : '正式素材顯示規則');
+   const html = fs.readFileSync(path.join(ROOT, 'site/index.html'), 'utf8')
+     .replace(/<script\b[^>]*>[\s\S]*?<\/script>\s*/g, '')
+@@ -83,14 +87,14 @@ for (const config of BEFORE ? configs.slice(0, 3) : configs) {
+   const staticCss = sharedStaticCss + staticRowCss + staticFlowCss + railCss + (config.width >= 1024
+     ? 'body.page-home{height:auto;overflow:visible}.page-home #app{height:auto;display:block}#reader{display:block;overflow:visible}#sizer{width:' + naturalWidth + 'px;height:auto}#sizer .spread{position:relative;transform:none;grid-template-columns:' + coverWidth + 'px ' + (naturalWidth-coverWidth) + 'px}.pg-cover{grid-column:1;grid-row:1}.pg-inner{grid-column:2;grid-row:1}.lead-read{grid-column:2;grid-row:1}.lead-foot{grid-row:2}'
+     : '.pg-inner{width:100%}.lead-read{grid-column:1;grid-row:2}.lead-foot{grid-row:3}.pg-inner>.state-msg,.pg-inner>.today-empty{width:100%}');
+-  cases.push({ ...config, page: 'index.html', viewport: config.width >= 1024 ? 'desktop' : 'mobile',
++  cases.push({ ...config, pageClock, page: 'index.html', viewport: config.width >= 1024 ? 'desktop' : 'mobile',
+     input: config.state === 'LOAD_FAILED' ? 'ISOLATED_LOAD_FAILURE' : 'SAVED_SCHEDULE',
+     nbaGameId: config.state === 'MISSING' ? '0022600051' : null,
+     derivedWidths: { contentWidth, artWidth, readWidth },
+     containerWidth: config.width >= 1024 ? coverWidth : config.width, staticCss,
+     staticGeometry: config.width >= 1024 ? 'NATIVE_READER_WIDTH_UNSCALED_FULL_CONTENT; EXPLICIT_SOURCE_GRID_PLACEMENT; not browser zoom/scroll acceptance' : 'SOURCE_MOBILE_FLOW_WITH_EXPLICIT_GRID_PLACEMENT',
+     rendererDeviations: ['WeasyPrint nested fr columns collapse to zero; source-derived widths use a test-only table row/block stack, same DOM content/order; footer action stacks in static output', 'Unsupported clipped orange gradient text uses its source first color #FF7A1A', 'Static story flex descendants use source-derived block widths; game rail uses source-derived table tracks with clipped horizontal overflow; shadows, navigation/controls and browser interactions are not verified'],
+-    expectedText: ['MOSPORT', config.state === 'MISSING' ? (BEFORE ? '賽前紀錄尚未提供公開顯示' : config.lang === 'en' ? 'The pregame read' : '這場的賽前判讀還沒出來。') : config.state === 'DEMO' ? 'DEMO' : '這一期暫時打不開。'],
++    expectedText: ['MOSPORT', config.state === 'MISSING' ? (BEFORE ? '賽前紀錄尚未提供公開顯示' : config.lang === 'en' ? 'The pregame read' : '這場的賽前判讀還沒出來。') : config.state === 'DEMO' ? 'DEMO' : config.state === 'STALE' ? '先前的賽程' : '這一期暫時打不開。'],
+     htmlSha256: digest(html), componentSlots: serialized.slots });
+ }
+ const sourceFiles = ['site/index.html','site/js/app.js','site/js/pages/home.js','site/js/reader.js','site/js/i18n.js',
+@@ -102,7 +106,7 @@ const sourceFiles = ['site/index.html','site/js/app.js','site/js/pages/home.js',
+     return { path: name, sha256: digest(bytes), gitBlobSha: crypto.createHash('sha1').update(Buffer.concat([Buffer.from('blob ' + bytes.length + '\0'), bytes])).digest('hex') };
+   });
+ fs.writeFileSync(path.join(OUT, 'html-evidence.json'), JSON.stringify({
+-  sourceHead: BEFORE ? 'c1b19c42968914dea1dbf959c2233a5cfb32136f' : null, baseHead: 'c1b19c42968914dea1dbf959c2233a5cfb32136f', sourceState: 'WORKTREE_BOUND_BY_SOURCE_FILE_HASHES',
++  sourceHead: process.env.MOSPORT_EVIDENCE_SOURCE_HEAD || (BEFORE ? 'c1b19c42968914dea1dbf959c2233a5cfb32136f' : null), baseHead: '544709c3a84c92208a13b4e0afa4ca395484eef4', sourceState: 'WORKTREE_BOUND_BY_SOURCE_FILE_HASHES',
+   pageClock: clock, method: 'EXISTING_APP_PAGE_RENDERER_AND_COMPONENT_METHODS_VIA_TEST_SHIM',
+   publicQualification: 'NOT_ASSERTED', webComponents: 'ORIGINAL_RENDER_METHODS_ONLY; NO_BROWSER_LIFECYCLE',
+   cssFiles: ['fonts.css','tokens.css','components.css','home.css'], sourceFiles, cases
+diff --git a/tests/e2e/render-schedule-static.py b/tests/e2e/render-schedule-static.py
+index c62b0dd..d2e43c7 100644
+--- a/tests/e2e/render-schedule-static.py
++++ b/tests/e2e/render-schedule-static.py
+@@ -88,6 +88,14 @@ def selected_css(text, width, height, source, trace, container_width=None):
+         return replacement
+ 
+     output = re.sub(r'calc\(\s*(\d+(?:\.\d+)?)px\s*([+-])\s*(\d+(?:\.\d+)?)px\s*\)', simple_calc, output)
++    def numeric_clamp(match):
++        lower, preferred, upper = (float(value) for value in match.groups())
++        replacement = f'{max(lower, min(preferred, upper)):g}px'
++        trace.append({'source': source, 'numericClamp': match.group(0), 'translated': replacement})
++        return replacement
++
++    # WeasyPrint does not implement clamp(); evaluate only source-resolved px values.
++    output = re.sub(r'clamp\(\s*(\d+(?:\.\d+)?)px\s*,\s*(\d+(?:\.\d+)?)px\s*,\s*(\d+(?:\.\d+)?)px\s*\)', numeric_clamp, output)
+     def numeric_limit(match):
+         values = [float(value.strip()[:-2]) for value in match.group(2).split(',')]
+         value = min(values) if match.group(1) == 'min' else max(values)
+diff --git a/tests/e2e/schedule-context-static.js b/tests/e2e/schedule-context-static.js
+index 3b7e1f5..5e130a7 100644
+--- a/tests/e2e/schedule-context-static.js
++++ b/tests/e2e/schedule-context-static.js
+@@ -29,7 +29,8 @@ for (const [viewport, width, height] of [['desktop', 1440, 900], ['mobile', 390,
+         projection = PL.contextSnapshotView(raw.contextSnapshot);
+       }
+       const query = '?schedule=' + raw.game.gameId + '&game=' + raw.game.gameId + '&mode=production&lang=zh';
+-      const rendered = renderPage(raw, page, query, projection);
++      const pageClock = state === 'MISSING' ? new Date(Date.parse(saved.editorial ? saved.editorial.observedAt : saved.source.observedAt) + 60000).toISOString() : '2026-11-19T08:10:00Z';
++      const rendered = renderPage(raw, page, query, projection, { now: pageClock });
+       assert.ok(rendered.includes(raw.game.gameId));
+       assert.ok(rendered.includes(state === 'MISSING' ? '這場的賽前判讀還沒出來。' : state));
+       if (state !== 'MISSING') assert.ok(!rendered.includes('0022600051') && !rendered.includes('這場的賽前判讀還沒出來。'));
+@@ -40,7 +41,7 @@ for (const [viewport, width, height] of [['desktop', 1440, 900], ['mobile', 390,
+         .replace('<div id="app"></div>', '<aside class="qa-static-label">' + label + '</aside><div id="app">' + rendered + '</div><div id="qa-render-end"></div>');
+       const name = page + '-' + state.toLowerCase() + '-' + viewport;
+       fs.writeFileSync(path.join(OUT, name + '.html'), html);
+-      cases.push({ name, page, state, viewport, width, viewportHeight: height, nbaGameId: raw.game.gameId,
++      cases.push({ name, page, state, pageClock, viewport, width, viewportHeight: height, nbaGameId: raw.game.gameId,
+         input: state === 'MISSING' ? 'SAVED_SCHEDULE' : 'ISOLATED_RENDERER_FIXTURE',
+         htmlSha256: crypto.createHash('sha256').update(html).digest('hex') });
+     }
+diff --git a/tests/e2e/schedule-context.js b/tests/e2e/schedule-context.js
+index a7bc9fb..ef4c116 100644
+--- a/tests/e2e/schedule-context.js
++++ b/tests/e2e/schedule-context.js
+@@ -12,7 +12,7 @@ const SITE = path.join(ROOT, 'site');
+ const OUT = path.join(ROOT, 'docs/reports/2026-11-19-beta0-schedule');
+ const candidate = require('../fixtures/context-snapshot-v2.json');
+ const saved = require('../../site/data/schedules/0022600051.json');
+-const now = '2026-11-19T08:10:00Z';
++const now = new Date(Date.parse(saved.editorial ? saved.editorial.observedAt : saved.source.observedAt) + 60000).toISOString();
+ const mime = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.webp': 'image/webp' };
+ const server = http.createServer((req, res) => {
+   const file = path.resolve(SITE, '.' + new URL(req.url, 'http://localhost').pathname);
+@@ -21,7 +21,7 @@ const server = http.createServer((req, res) => {
+   res.end(fs.readFileSync(file));
+ });
+ const content = page => page.locator('main').innerText();
+-const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · Coach Read/.test(text.replace(/0022600051|2026|11\/21|11:00|07:58:50|2026-11-19/g, ''));
++const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Read|homeWinProbability/.test(text);
+ (async () => {
+   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+   const base = 'http://127.0.0.1:' + server.address().port + '/';
+@@ -55,7 +55,8 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
+       await page.waitForSelector('.lead-schedule .pregame-missing');
+       const text = await page.locator('.spread').innerText();
+       assert.ok(text.includes('SAC') && text.includes('LAL') && text.includes('11:00') && !text.includes('NBA game ID')); checks++;
+-      assert.ok(text.includes('這場的賽前判讀還沒出來。') && text.includes('非即時更新') && !/NBA game ID|UTC|HOME_COURT@/.test(text)); checks++;
++      assert.ok(text.includes('這場的賽前判讀還沒出來。') && text.includes('核對（台北）') && !/NBA game ID|UTC|HOME_COURT@/.test(text)); checks++;
++      assert.ok(text.includes('13 分之差，國王盃賽再戰湖人') && text.includes('103：116')); checks++;
+       assert.ok(!/\d+\s*%|DEMO/.test(text) && await page.locator('.spread table').count() === 0); checks++;
+       const geometry = await page.evaluate(() => {
+         const cover = document.querySelector('.pg-cover').getBoundingClientRect();
+@@ -108,7 +109,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
+       await page.waitForSelector('.pregame-missing');
+       let text = await content(page);
+       assert.ok(/SAC\s*@\s*LAL/.test(text) && /0022600051/.test(text) && /11:00/.test(text) && /11\/21/.test(text), text); checks++;
+-      assert.ok(text.includes('這場的賽前判讀還沒出來。') && text.includes('NBA') && text.includes('07:58:50Z')); checks++;
++      assert.ok(text.includes('這場的賽前判讀還沒出來。') && text.includes('NBA') && text.includes(saved.source.observedAt)); checks++;
+       assert.ok(noNumbers(text), text); checks++;
+       assert.equal(await page.locator('a[href="https://www.nba.com/game/sac-vs-lal-0022600051"]').count(), 1); checks++;
+       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)); checks++;
+@@ -121,6 +122,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
+       // Isolated 0999 provider fixture stays missing through the real public pipeline.
+       // Only the renderer receives a test projection; no release gate is changed.
+       await page.route('**/data/schedules/0022600999.json', route => route.fulfill({ json: candidate }));
++      await page.clock.setFixedTime(new Date('2026-11-19T08:10:00Z'));
+       await page.goto(base + name + '?schedule=0022600999&game=0022600999&mode=production&lang=zh');
+       await page.waitForSelector('.pregame-missing');
+       assert.ok((await content(page)).includes('0022600999') && !(await content(page)).includes('0022600051')); checks++;
+@@ -157,10 +159,11 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
+     for (const [label, mutate, message] of [
+       ['missing source', r => { delete r.source; }, '暫時無法閱讀'],
+       ['wrong ID', r => { r.game.gameId = '0022600999'; }, '暫時打不開'],
+-      ['stale source', r => { r.validUntil = '2026-11-19T08:00:00Z'; }, '先前的賽程'],
++      ['stale source', () => {}, '先前的賽程'],
+       ['boolean is not release', r => { r.contextSnapshot = { public: true }; }, '這場的賽前判讀還沒出來。']
+     ]) {
+       const raw = JSON.parse(JSON.stringify(saved)); mutate(raw);
++      await page.clock.setFixedTime(new Date(label === 'stale source' ? saved.validUntil : now));
+       await page.route('**/data/schedules/0022600051.json', route => route.fulfill({ json: raw }));
+       await page.goto(url); await page.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
+       const text = await content(page); assert.ok(text.includes(message), label + ': ' + text); checks++;
+diff --git a/tests/unit/home-spread.test.js b/tests/unit/home-spread.test.js
+index 98d1bee..5ccf56d 100644
+--- a/tests/unit/home-spread.test.js
++++ b/tests/unit/home-spread.test.js
+@@ -7,8 +7,10 @@ const schedule = require('../../site/data/schedules/0022600051.json');
+ const candidate = require('../fixtures/context-snapshot-v2.json');
+ const F = loadFixtures();
+ const now = '2026-11-19T08:10:00Z';
++const scheduleNow = new Date(Date.parse(schedule.editorial.observedAt) + 60000).toISOString();
+ const text = html => html.replace(/<[^>]*>/g, ' ');
+-const home = (raw, query = '', projected, opts) => renderPage(raw, 'home', query, projected, opts);
++const home = (raw, query = '', projected, opts) => renderPage(raw, 'home', query, projected,
++  Object.assign({ now: raw && raw.game && raw.game.gameId === schedule.game.gameId ? scheduleNow : now }, opts));
+ const demoHome = name => home(F[name], '?fixture=' + name, null, { mode: 'prototype', fixtures: F });
+ 
+ function assertSpread(html) {
+@@ -30,7 +32,7 @@ test('normal index entry selects the existing 0051 schedule in each existing mod
+     assert.equal(selection.url, 'data/schedules/0022600051.json');
+     assertSpread(html);
+     assert.ok(html.includes('lead-schedule'));
+-    for (const value of ['SAC', 'LAL', '2026/11/21', '11:00', '這場的賽前判讀還沒出來。', '非即時更新']) assert.ok(html.includes(value), value);
++    for (const value of ['SAC', 'LAL', '2026/11/21', '11:00', '這場的賽前判讀還沒出來。', '核對（台北）', '10:43']) assert.ok(html.includes(value), value);
+     assert.ok(html.includes('href="https://www.nba.com/game/sac-vs-lal-0022600051"'));
+     assert.ok(!/DEMO|VOL\.|第 \d+ 期|61%|52%|0\.5|World · Coach Read|BREAKING NEWS|MOSPORT EXCLUSIVE|三層/.test(text(html)));
+     assert.ok(!html.includes('class="teaser ') && !html.includes('class="stories'));
+@@ -117,7 +119,7 @@ test('no source, no payload and load failure keep the magazine without borrowed
+ test('expired saved schedule remains labelled history with missing pregame record', () => {
+   const html = home(candidate, '?schedule=0022600999', null, { now: candidate.validUntil });
+   assertSpread(html);
+-  for (const expected of ['state-stale', '先前的賽程', '非即時更新', '這場的賽前判讀還沒出來。']) assert.ok(html.includes(expected));
++  for (const expected of ['state-stale', '先前的賽程', '核對（台北）', '這場的賽前判讀還沒出來。']) assert.ok(html.includes(expected));
+   assert.ok(!html.includes(candidate.contextSnapshot.snapshotId));
+   assert.ok(!/VOL\.|61%|0\.5|HOME_COURT@/.test(text(html)));
+ });
+@@ -178,7 +180,7 @@ test('home status copy is reader-facing in both editions without leaking technic
+ });
+ 
+ test('saved-schedule review page explains the missing review in reader language', () => {
+-  const html = renderPage(schedule, 'review', '?schedule=0022600051');
++  const html = renderPage(schedule, 'review', '?schedule=0022600051', null, { now: scheduleNow });
+   assert.ok(html.includes('這一期的賽後檢討還沒出來。'));
+   assert.ok(!/資格|receipt|snapshot|World|先看對戰/.test(text(html)));
+ });
+@@ -195,19 +197,23 @@ test('cover-only stories are not contradicted by the TODAY empty state, and stal
+ });
+ 
+ test('official NBA Cup rematch headline reaches the real default homepage after sourced observation', () => {
+-  const clock = '2026-11-19T10:45:00Z';
++  const clock = scheduleNow;
+   const actual = home(schedule, '', null, { mode: 'production', now: clock, realTeams: true });
+   assertSpread(actual);
+-  assert.ok(actual.includes('13 分差距能追回嗎？國王盃賽再戰湖人'));
++  assert.ok(actual.includes('13 分之差，國王盃賽再戰湖人'));
+   assert.ok(actual.includes('103：116') && actual.includes('NBA 盃西區 C 組'));
+   assert.ok(actual.includes('這場的賽前判讀還沒出來。'));
+   assert.ok(actual.includes('https://www.nba.com/game/lal-vs-sac-0022600185'));
+   assert.ok(!/61%|52%|homeWinProbability|World · Coach Read|DEMO/.test(text(actual)));
+   const english = home(schedule, '?lang=en', null, { mode: 'production', now: clock, realTeams: true });
+-  assert.ok(english.includes('13-point gap') && english.includes('NBA Cup West Group C'));
++  assert.ok(english.includes('13-point loss') && english.includes('NBA Cup West Group C'));
+   assert.ok(english.includes('103–116') && english.includes('The pregame read for this matchup is not out yet.'));
+-  const earlier = home(schedule, '', null, { mode: 'production', now: '2026-11-19T08:10:00Z', realTeams: true });
+-  assert.ok(!earlier.includes('13 分差距') && earlier.includes('賽前看點'));
++  const earlier = home(schedule, '', null, { mode: 'production', now: schedule.source.observedAt, realTeams: true });
++  assert.ok(!earlier.includes('13 分之差') && earlier.includes('賽前看點'));
+   const stale = home(schedule, '', null, { mode: 'production', now: schedule.validUntil, realTeams: true });
+-  assert.ok(stale.includes('先前的賽程') && !stale.includes('13 分差距'));
++  assert.ok(stale.includes('先前的賽程') && !stale.includes('13 分之差'));
++  const withoutEditorial = clone(schedule); delete withoutEditorial.editorial;
++  const missing = home(withoutEditorial, '', null, { mode: 'production', now: clock, realTeams: true });
++  assert.ok(missing.includes('賽前看點') && missing.includes('這場的賽前判讀還沒出來。'));
++  assert.ok(!missing.includes('lead-story') && !missing.includes('13 分之差'));
+ });
+diff --git a/tests/unit/schedule-context.test.js b/tests/unit/schedule-context.test.js
+index af31f2f..05ba3b9 100644
+--- a/tests/unit/schedule-context.test.js
++++ b/tests/unit/schedule-context.test.js
+@@ -9,7 +9,8 @@ const schedule = require('../../site/data/schedules/0022600051.json');
+ // Synthetic 0999 fixture is never bundled into the public provider.
+ const candidate = require('../fixtures/context-snapshot-v2.json');
+ const now = '2026-11-19T08:10:00Z';
+-const run = (raw, clock = now) => PL.run(clone(raw), { mode: 'production', now: clock });
++const scheduleNow = new Date(Date.parse(schedule.editorial.observedAt) + 60000).toISOString();
++const run = (raw, clock = raw === candidate ? now : scheduleNow) => PL.run(clone(raw), { mode: 'production', now: clock });
+ const provider = (raw) => {
+   const window = { MOSPORT_CONTRACTS: C };
+   const context = { window, URLSearchParams, location: { protocol: 'https:' }, fetch: async () => ({ ok: true, json: async () => clone(raw) }) };
+@@ -18,12 +19,12 @@ const provider = (raw) => {
+ };
+ 
+ test('data available: sourced 0051 schedule is visible without a fabricated World issue', () => {
+-  assert.deepEqual(C.validateSchedule(schedule, { now }), []);
++  assert.deepEqual(C.validateSchedule(schedule, { now: scheduleNow }), []);
+   const m = run(schedule).model;
+   assert.equal(m.status, 'SCHEDULE_ONLY');
+   assert.equal(m.demo, false);
+   assert.deepEqual(m.schedule.map(g => [g.gameId, g.away, g.home, g.tipoff, g.status]), [['0022600051', 'SAC', 'LAL', '2026-11-21T03:00:00Z', 'SCHEDULED']]);
+-  assert.deepEqual(m.schedule[0].source, { publisher: 'NBA', url: schedule.source.originalUrl, observedAt: '2026-11-19T07:58:50Z' });
++  assert.deepEqual(m.schedule[0].source, { publisher: 'NBA', url: schedule.source.originalUrl, observedAt: schedule.source.observedAt });
+   assert.equal(schedule.source.contentFingerprint, C.sha256(C.canonical({ game: schedule.game, originalUrl: schedule.source.originalUrl, observedAt: schedule.source.observedAt })));
+ });
+ 
+@@ -34,7 +35,8 @@ test('explicit missing: no qualified snapshot means no context, World, fake scor
+   assert.equal(g.world, undefined);
+   assert.equal(g.score, null);
+   assert.deepEqual([m.cover, m.games, m.stories, m.lead], [[], [], [], null]);
+-  assert.ok(!/homeWinProbability|percent|0\.5|HOME_COURT|snapshotId|INTERNAL|DEMO/.test(JSON.stringify(m)));
++  // Inspect forbidden fields/labels, not decimal substrings in ISO timestamps.
++  assert.ok(!/homeWinProbability|percent|HOME_COURT|snapshotId|INTERNAL|DEMO/.test(JSON.stringify(m)));
+ });
+ 
+ test('valid candidate is not a public release: production still explicitly missing', () => {
+@@ -78,7 +80,7 @@ test('wrong game/version/time, internal World, DEMO and a public boolean cannot
+   for (const change of cases) {
+     const raw = clone(candidate); change(raw.contextSnapshot);
+     assert.ok(C.validateContextSnapshot(raw.contextSnapshot, raw.game, now).length);
+-    const r = run(raw);
++    const r = run(raw, now);
+     assert.equal(r.model.schedule[0].pregameSnapshot, null);
+     assert.equal(r.model.schedule[0].hasRead, false);
+     assert.ok(!JSON.stringify(r.model).includes('0.61'));
+@@ -120,9 +122,9 @@ test('legacy DEMO and raw World v1 are not promoted by the new schedule input',
+ 
+ test('existing Schedule/Match templates display actual fields, exact missing and retained schedule navigation', () => {
+   for (const page of ['schedule', 'match']) {
+-    const html = renderPage(schedule, page, '?schedule=0022600051&game=0022600051&mode=production&lang=zh');
++    const html = renderPage(schedule, page, '?schedule=0022600051&game=0022600051&mode=production&lang=zh', null, { now: scheduleNow });
+     assert.ok(/SAC.*?@.*?LAL/.test(html));
+-    for (const value of ['0022600051', '11:00', '11/21', '賽程資訊', '07:58:50Z', '這場的賽前判讀還沒出來。']) assert.ok(html.includes(value), page + ': missing ' + value);
++    for (const value of ['0022600051', '11:00', '11/21', '賽程資訊', schedule.source.observedAt, '這場的賽前判讀還沒出來。']) assert.ok(html.includes(value), page + ': missing ' + value);
+     assert.ok(html.includes('href="https://www.nba.com/game/sac-vs-lal-0022600051"'));
+     assert.ok(html.includes('schedule=0022600051'));
+     assert.ok(!/DEMO|homeWinProbability|HOME_COURT@|61%|0\.5|World · Coach Read/.test(html.replace(/<[^>]*>/g, '')));
+@@ -148,17 +150,18 @@ test('templates escape projected source labels and snapshot IDs; missing and unk
+   const html = renderPage(candidate, 'match', '?game=0022600999', projection);
+   assert.ok(html.includes('&lt;img src=x onerror=evil&gt;') && html.includes('&lt;script&gt;evil&lt;/script&gt;'));
+   assert.ok(!html.includes('<script>evil') && !html.includes('<img src=x'));
+-  const unknown = renderPage(schedule, 'match', '?game=9999999999');
++  const unknown = renderPage(schedule, 'match', '?game=9999999999', null, { now: scheduleNow });
+   assert.ok(unknown.includes('找不到這場比賽') && !unknown.includes('m-hero'));
+-  const stale = clone(schedule); stale.validUntil = '2026-11-19T08:00:00Z';
++  // Advance the read clock; never corrupt the source/editorial chronology to create a stale state.
++  const stale = clone(schedule);
+   for (const page of ['schedule', 'match']) {
+-    const output = renderPage(stale, page);
++    const output = renderPage(stale, page, undefined, null, { now: stale.validUntil });
+     assert.ok(output.includes('先前的賽程') && output.includes('這場的賽前判讀還沒出來。'));
+   }
+ });
+ 
+ test('factual rematch passes source/identity checks and remains separate from any World read', () => {
+-  const later = '2026-11-19T10:45:00Z';
++  const later = scheduleNow;
+   assert.deepEqual(C.validateSchedule(schedule, { now: later }), []);
+   const model = run(schedule, later).model;
+   const game = model.schedule[0];
+@@ -169,14 +172,14 @@ test('factual rematch passes source/identity checks and remains separate from an
+   assert.equal(game.hasRead, false);
+   assert.equal(game.world, undefined);
+   assert.equal(game.pregameSnapshot, null);
+-  const early = run(schedule).model.schedule[0];
++  const early = run(schedule, schedule.source.observedAt).model.schedule[0];
+   assert.equal(early.editorial, null);
+   const stale = run(schedule, schedule.validUntil).model.schedule[0];
+   assert.equal(stale.editorial, null);
+ });
+ 
+ test('wrong prior game, altered result, future source, and unknown editorial fields are rejected', () => {
+-  const later = '2026-11-19T10:45:00Z';
++  const later = scheduleNow;
+   for (const change of [
+     r => { r.editorial.nbaGameId = '0022609999'; },
+     r => { r.editorial.previous.awayPoints = 90; },
+@@ -184,7 +187,7 @@ test('wrong prior game, altered result, future source, and unknown editorial fie
+     r => { r.editorial.previous.gameId = r.game.gameId; },
+     r => { r.editorial.sources.matchupUrl = 'https://nba.com.evil.test/game/sac-vs-lal-0022600051'; },
+     r => { r.editorial.sources.previousUrl = 'https://www.nba.com/game/lal-vs-sac-9999999999'; },
+-    r => { r.editorial.observedAt = '2026-11-21T00:00:00Z'; },
++    r => { r.editorial.observedAt = r.validUntil; },
+     r => { r.editorial.previous.unknown = 'inject'; },
+     r => { r.editorial.previous.awayPoints = 118; },
+     r => { r.editorial.factsFingerprint = '0'.repeat(64); }

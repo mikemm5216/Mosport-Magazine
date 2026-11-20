@@ -88,6 +88,14 @@ def selected_css(text, width, height, source, trace, container_width=None):
         return replacement
 
     output = re.sub(r'calc\(\s*(\d+(?:\.\d+)?)px\s*([+-])\s*(\d+(?:\.\d+)?)px\s*\)', simple_calc, output)
+    def numeric_clamp(match):
+        lower, preferred, upper = (float(value) for value in match.groups())
+        replacement = f'{max(lower, min(preferred, upper)):g}px'
+        trace.append({'source': source, 'numericClamp': match.group(0), 'translated': replacement})
+        return replacement
+
+    # WeasyPrint does not implement clamp(); evaluate only source-resolved px values.
+    output = re.sub(r'clamp\(\s*(\d+(?:\.\d+)?)px\s*,\s*(\d+(?:\.\d+)?)px\s*,\s*(\d+(?:\.\d+)?)px\s*\)', numeric_clamp, output)
     def numeric_limit(match):
         values = [float(value.strip()[:-2]) for value in match.group(2).split(',')]
         value = min(values) if match.group(1) == 'min' else max(values)

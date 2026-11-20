@@ -29,7 +29,8 @@ for (const [viewport, width, height] of [['desktop', 1440, 900], ['mobile', 390,
         projection = PL.contextSnapshotView(raw.contextSnapshot);
       }
       const query = '?schedule=' + raw.game.gameId + '&game=' + raw.game.gameId + '&mode=production&lang=zh';
-      const rendered = renderPage(raw, page, query, projection);
+      const pageClock = state === 'MISSING' ? new Date(Date.parse(saved.editorial ? saved.editorial.observedAt : saved.source.observedAt) + 60000).toISOString() : '2026-11-19T08:10:00Z';
+      const rendered = renderPage(raw, page, query, projection, { now: pageClock });
       assert.ok(rendered.includes(raw.game.gameId));
       assert.ok(rendered.includes(state === 'MISSING' ? '這場的賽前判讀還沒出來。' : state));
       if (state !== 'MISSING') assert.ok(!rendered.includes('0022600051') && !rendered.includes('這場的賽前判讀還沒出來。'));
@@ -40,7 +41,7 @@ for (const [viewport, width, height] of [['desktop', 1440, 900], ['mobile', 390,
         .replace('<div id="app"></div>', '<aside class="qa-static-label">' + label + '</aside><div id="app">' + rendered + '</div><div id="qa-render-end"></div>');
       const name = page + '-' + state.toLowerCase() + '-' + viewport;
       fs.writeFileSync(path.join(OUT, name + '.html'), html);
-      cases.push({ name, page, state, viewport, width, viewportHeight: height, nbaGameId: raw.game.gameId,
+      cases.push({ name, page, state, pageClock, viewport, width, viewportHeight: height, nbaGameId: raw.game.gameId,
         input: state === 'MISSING' ? 'SAVED_SCHEDULE' : 'ISOLATED_RENDERER_FIXTURE',
         htmlSha256: crypto.createHash('sha256').update(html).digest('hex') });
     }

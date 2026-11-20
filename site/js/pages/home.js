@@ -22,11 +22,9 @@ window.MOSPORT_PAGE = {
     var storyTitle = '', storyLede = '';
     if (ed) {
       var prev = ed.previous, awayName = c.teamName(savedGame.away, 'nick'), homeName = c.teamName(savedGame.home, 'nick');
-      var lastDate = new Intl.DateTimeFormat(L === 'zh' ? 'zh-TW' : 'en-US',
-        { month: 'short', day: 'numeric', timeZone: 'UTC' }).format(new Date(prev.playedOn + 'T12:00:00Z'));
       var storyVars = {
         away: awayName, home: homeName, gap: String(prev.awayPoints - prev.homePoints),
-        loserPoints: String(prev.homePoints), winnerPoints: String(prev.awayPoints), date: lastDate
+        loserPoints: String(prev.homePoints), winnerPoints: String(prev.awayPoints)
       };
       storyTitle = T('cupRematchTitle', storyVars);
       storyLede = T('cupRematchLede', storyVars);
@@ -111,7 +109,7 @@ window.MOSPORT_PAGE = {
             '<a class="pill" href="' + c.href('match.html', { game: savedGame.gameId }) + '">' + esc(T('gameDetails')) + ' <span aria-hidden="true">→</span></a></div>' +
         '</article>' +
         '<div class="lead-source">' + c.sourceNote(savedGame.source, { reader: true }) +
-          (ed ? '<p class="pv">' + esc(T('cupRematchSource')) + ' <a href="' + esc(ed.sources.previousUrl) + '" rel="noopener noreferrer">NBA</a> · ' + esc(T('notLive')) + '</p>' : '') + '</div>';
+          (ed ? '<p class="pv">' + esc(T('cupRematchSource')) + ' <a href="' + esc(ed.sources.previousUrl) + '" rel="noopener noreferrer">NBA</a></p>' : '') + '</div>';
     }
 
     var games = '';

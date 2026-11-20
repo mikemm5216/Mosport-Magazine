@@ -9,7 +9,8 @@ const schedule = require('../../site/data/schedules/0022600051.json');
 // Synthetic 0999 fixture is never bundled into the public provider.
 const candidate = require('../fixtures/context-snapshot-v2.json');
 const now = '2026-11-19T08:10:00Z';
-const run = (raw, clock = now) => PL.run(clone(raw), { mode: 'production', now: clock });
+const scheduleNow = new Date(Date.parse(schedule.editorial.observedAt) + 60000).toISOString();
+const run = (raw, clock = raw === candidate ? now : scheduleNow) => PL.run(clone(raw), { mode: 'production', now: clock });
 const provider = (raw) => {
   const window = { MOSPORT_CONTRACTS: C };
   const context = { window, URLSearchParams, location: { protocol: 'https:' }, fetch: async () => ({ ok: true, json: async () => clone(raw) }) };
@@ -18,12 +19,12 @@ const provider = (raw) => {
 };
 
 test('data available: sourced 0051 schedule is visible without a fabricated World issue', () => {
-  assert.deepEqual(C.validateSchedule(schedule, { now }), []);
+  assert.deepEqual(C.validateSchedule(schedule, { now: scheduleNow }), []);
   const m = run(schedule).model;
   assert.equal(m.status, 'SCHEDULE_ONLY');
   assert.equal(m.demo, false);
   assert.deepEqual(m.schedule.map(g => [g.gameId, g.away, g.home, g.tipoff, g.status]), [['0022600051', 'SAC', 'LAL', '2026-11-21T03:00:00Z', 'SCHEDULED']]);
-  assert.deepEqual(m.schedule[0].source, { publisher: 'NBA', url: schedule.source.originalUrl, observedAt: '2026-11-19T07:58:50Z' });
+  assert.deepEqual(m.schedule[0].source, { publisher: 'NBA', url: schedule.source.originalUrl, observedAt: schedule.source.observedAt });
   assert.equal(schedule.source.contentFingerprint, C.sha256(C.canonical({ game: schedule.game, originalUrl: schedule.source.originalUrl, observedAt: schedule.source.observedAt })));
 });
 
@@ -34,7 +35,8 @@ test('explicit missing: no qualified snapshot means no context, World, fake scor
   assert.equal(g.world, undefined);
   assert.equal(g.score, null);
   assert.deepEqual([m.cover, m.games, m.stories, m.lead], [[], [], [], null]);
-  assert.ok(!/homeWinProbability|percent|0\.5|HOME_COURT|snapshotId|INTERNAL|DEMO/.test(JSON.stringify(m)));
+  // Inspect forbidden fields/labels, not decimal substrings in ISO timestamps.
+  assert.ok(!/homeWinProbability|percent|HOME_COURT|snapshotId|INTERNAL|DEMO/.test(JSON.stringify(m)));
 });
 
 test('valid candidate is not a public release: production still explicitly missing', () => {
@@ -78,7 +80,7 @@ test('wrong game/version/time, internal World, DEMO and a public boolean cannot 
   for (const change of cases) {
     const raw = clone(candidate); change(raw.contextSnapshot);
     assert.ok(C.validateContextSnapshot(raw.contextSnapshot, raw.game, now).length);
-    const r = run(raw);
+    const r = run(raw, now);
     assert.equal(r.model.schedule[0].pregameSnapshot, null);
     assert.equal(r.model.schedule[0].hasRead, false);
     assert.ok(!JSON.stringify(r.model).includes('0.61'));
@@ -120,9 +122,9 @@ test('legacy DEMO and raw World v1 are not promoted by the new schedule input', 
 
 test('existing Schedule/Match templates display actual fields, exact missing and retained schedule navigation', () => {
   for (const page of ['schedule', 'match']) {
-    const html = renderPage(schedule, page, '?schedule=0022600051&game=0022600051&mode=production&lang=zh');
+    const html = renderPage(schedule, page, '?schedule=0022600051&game=0022600051&mode=production&lang=zh', null, { now: scheduleNow });
     assert.ok(/SAC.*?@.*?LAL/.test(html));
-    for (const value of ['0022600051', '11:00', '11/21', '賽程資訊', '07:58:50Z', '這場的賽前判讀還沒出來。']) assert.ok(html.includes(value), page + ': missing ' + value);
+    for (const value of ['0022600051', '11:00', '11/21', '賽程資訊', schedule.source.observedAt, '這場的賽前判讀還沒出來。']) assert.ok(html.includes(value), page + ': missing ' + value);
     assert.ok(html.includes('href="https://www.nba.com/game/sac-vs-lal-0022600051"'));
     assert.ok(html.includes('schedule=0022600051'));
     assert.ok(!/DEMO|homeWinProbability|HOME_COURT@|61%|0\.5|World · Coach Read/.test(html.replace(/<[^>]*>/g, '')));
@@ -148,17 +150,18 @@ test('templates escape projected source labels and snapshot IDs; missing and unk
   const html = renderPage(candidate, 'match', '?game=0022600999', projection);
   assert.ok(html.includes('&lt;img src=x onerror=evil&gt;') && html.includes('&lt;script&gt;evil&lt;/script&gt;'));
   assert.ok(!html.includes('<script>evil') && !html.includes('<img src=x'));
-  const unknown = renderPage(schedule, 'match', '?game=9999999999');
+  const unknown = renderPage(schedule, 'match', '?game=9999999999', null, { now: scheduleNow });
   assert.ok(unknown.includes('找不到這場比賽') && !unknown.includes('m-hero'));
-  const stale = clone(schedule); stale.validUntil = '2026-11-19T08:00:00Z';
+  // Advance the read clock; never corrupt the source/editorial chronology to create a stale state.
+  const stale = clone(schedule);
   for (const page of ['schedule', 'match']) {
-    const output = renderPage(stale, page);
+    const output = renderPage(stale, page, undefined, null, { now: stale.validUntil });
     assert.ok(output.includes('先前的賽程') && output.includes('這場的賽前判讀還沒出來。'));
   }
 });
 
 test('factual rematch passes source/identity checks and remains separate from any World read', () => {
-  const later = '2026-11-19T10:45:00Z';
+  const later = scheduleNow;
   assert.deepEqual(C.validateSchedule(schedule, { now: later }), []);
   const model = run(schedule, later).model;
   const game = model.schedule[0];
@@ -169,14 +172,14 @@ test('factual rematch passes source/identity checks and remains separate from an
   assert.equal(game.hasRead, false);
   assert.equal(game.world, undefined);
   assert.equal(game.pregameSnapshot, null);
-  const early = run(schedule).model.schedule[0];
+  const early = run(schedule, schedule.source.observedAt).model.schedule[0];
   assert.equal(early.editorial, null);
   const stale = run(schedule, schedule.validUntil).model.schedule[0];
   assert.equal(stale.editorial, null);
 });
 
 test('wrong prior game, altered result, future source, and unknown editorial fields are rejected', () => {
-  const later = '2026-11-19T10:45:00Z';
+  const later = scheduleNow;
   for (const change of [
     r => { r.editorial.nbaGameId = '0022609999'; },
     r => { r.editorial.previous.awayPoints = 90; },
@@ -184,7 +187,7 @@ test('wrong prior game, altered result, future source, and unknown editorial fie
     r => { r.editorial.previous.gameId = r.game.gameId; },
     r => { r.editorial.sources.matchupUrl = 'https://nba.com.evil.test/game/sac-vs-lal-0022600051'; },
     r => { r.editorial.sources.previousUrl = 'https://www.nba.com/game/lal-vs-sac-9999999999'; },
-    r => { r.editorial.observedAt = '2026-11-21T00:00:00Z'; },
+    r => { r.editorial.observedAt = r.validUntil; },
     r => { r.editorial.previous.unknown = 'inject'; },
     r => { r.editorial.previous.awayPoints = 118; },
     r => { r.editorial.factsFingerprint = '0'.repeat(64); }

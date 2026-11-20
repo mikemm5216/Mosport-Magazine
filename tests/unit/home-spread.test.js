@@ -7,8 +7,10 @@ const schedule = require('../../site/data/schedules/0022600051.json');
 const candidate = require('../fixtures/context-snapshot-v2.json');
 const F = loadFixtures();
 const now = '2026-11-19T08:10:00Z';
+const scheduleNow = new Date(Date.parse(schedule.editorial.observedAt) + 60000).toISOString();
 const text = html => html.replace(/<[^>]*>/g, ' ');
-const home = (raw, query = '', projected, opts) => renderPage(raw, 'home', query, projected, opts);
+const home = (raw, query = '', projected, opts) => renderPage(raw, 'home', query, projected,
+  Object.assign({ now: raw && raw.game && raw.game.gameId === schedule.game.gameId ? scheduleNow : now }, opts));
 const demoHome = name => home(F[name], '?fixture=' + name, null, { mode: 'prototype', fixtures: F });
 
 function assertSpread(html) {
@@ -30,7 +32,7 @@ test('normal index entry selects the existing 0051 schedule in each existing mod
     assert.equal(selection.url, 'data/schedules/0022600051.json');
     assertSpread(html);
     assert.ok(html.includes('lead-schedule'));
-    for (const value of ['SAC', 'LAL', '2026/11/21', '11:00', '這場的賽前判讀還沒出來。', '非即時更新']) assert.ok(html.includes(value), value);
+    for (const value of ['SAC', 'LAL', '2026/11/21', '11:00', '這場的賽前判讀還沒出來。', '核對（台北）', '10:43']) assert.ok(html.includes(value), value);
     assert.ok(html.includes('href="https://www.nba.com/game/sac-vs-lal-0022600051"'));
     assert.ok(!/DEMO|VOL\.|第 \d+ 期|61%|52%|0\.5|World · Coach Read|BREAKING NEWS|MOSPORT EXCLUSIVE|三層/.test(text(html)));
     assert.ok(!html.includes('class="teaser ') && !html.includes('class="stories'));
@@ -117,7 +119,7 @@ test('no source, no payload and load failure keep the magazine without borrowed 
 test('expired saved schedule remains labelled history with missing pregame record', () => {
   const html = home(candidate, '?schedule=0022600999', null, { now: candidate.validUntil });
   assertSpread(html);
-  for (const expected of ['state-stale', '先前的賽程', '非即時更新', '這場的賽前判讀還沒出來。']) assert.ok(html.includes(expected));
+  for (const expected of ['state-stale', '先前的賽程', '核對（台北）', '這場的賽前判讀還沒出來。']) assert.ok(html.includes(expected));
   assert.ok(!html.includes(candidate.contextSnapshot.snapshotId));
   assert.ok(!/VOL\.|61%|0\.5|HOME_COURT@/.test(text(html)));
 });
@@ -178,7 +180,7 @@ test('home status copy is reader-facing in both editions without leaking technic
 });
 
 test('saved-schedule review page explains the missing review in reader language', () => {
-  const html = renderPage(schedule, 'review', '?schedule=0022600051');
+  const html = renderPage(schedule, 'review', '?schedule=0022600051', null, { now: scheduleNow });
   assert.ok(html.includes('這一期的賽後檢討還沒出來。'));
   assert.ok(!/資格|receipt|snapshot|World|先看對戰/.test(text(html)));
 });
@@ -195,19 +197,23 @@ test('cover-only stories are not contradicted by the TODAY empty state, and stal
 });
 
 test('official NBA Cup rematch headline reaches the real default homepage after sourced observation', () => {
-  const clock = '2026-11-19T10:45:00Z';
+  const clock = scheduleNow;
   const actual = home(schedule, '', null, { mode: 'production', now: clock, realTeams: true });
   assertSpread(actual);
-  assert.ok(actual.includes('13 分差距能追回嗎？國王盃賽再戰湖人'));
+  assert.ok(actual.includes('13 分之差，國王盃賽再戰湖人'));
   assert.ok(actual.includes('103：116') && actual.includes('NBA 盃西區 C 組'));
   assert.ok(actual.includes('這場的賽前判讀還沒出來。'));
   assert.ok(actual.includes('https://www.nba.com/game/lal-vs-sac-0022600185'));
   assert.ok(!/61%|52%|homeWinProbability|World · Coach Read|DEMO/.test(text(actual)));
   const english = home(schedule, '?lang=en', null, { mode: 'production', now: clock, realTeams: true });
-  assert.ok(english.includes('13-point gap') && english.includes('NBA Cup West Group C'));
+  assert.ok(english.includes('13-point loss') && english.includes('NBA Cup West Group C'));
   assert.ok(english.includes('103–116') && english.includes('The pregame read for this matchup is not out yet.'));
-  const earlier = home(schedule, '', null, { mode: 'production', now: '2026-11-19T08:10:00Z', realTeams: true });
-  assert.ok(!earlier.includes('13 分差距') && earlier.includes('賽前看點'));
+  const earlier = home(schedule, '', null, { mode: 'production', now: schedule.source.observedAt, realTeams: true });
+  assert.ok(!earlier.includes('13 分之差') && earlier.includes('賽前看點'));
   const stale = home(schedule, '', null, { mode: 'production', now: schedule.validUntil, realTeams: true });
-  assert.ok(stale.includes('先前的賽程') && !stale.includes('13 分差距'));
+  assert.ok(stale.includes('先前的賽程') && !stale.includes('13 分之差'));
+  const withoutEditorial = clone(schedule); delete withoutEditorial.editorial;
+  const missing = home(withoutEditorial, '', null, { mode: 'production', now: clock, realTeams: true });
+  assert.ok(missing.includes('賽前看點') && missing.includes('這場的賽前判讀還沒出來。'));
+  assert.ok(!missing.includes('lead-story') && !missing.includes('13 分之差'));
 });

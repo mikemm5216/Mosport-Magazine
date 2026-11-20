@@ -59,7 +59,10 @@
   function tipDate(g) { return fmt(g.tipoff, 'Asia/Taipei', { year: 'numeric', month: '2-digit', day: '2-digit' }); }
   function sourceNote(source, options) {
     if (!source) return '';
-    if (options && options.reader) return '<p class="pv">' + esc(T('dataSource')) + ' <a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.publisher) + '</a> · ' + esc(T('notLive')) + '</p>';
+    if (options && options.reader) {
+      var checked = fmt(source.observedAt, 'Asia/Taipei', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+      return '<p class="pv">' + esc(T('scheduleSource')) + ' <a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.publisher) + '</a> · <time datetime="' + esc(source.observedAt) + '">' + esc(T('sourceCheckedAt', { time: checked })) + '</time></p>';
+    }
     return '<p class="pv">' + esc(T('dataSource')) + ' <a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.publisher) + '</a> · ' + esc(T('observedAt')) + ' <time datetime="' + esc(source.observedAt) + '">' + esc(source.observedAt) + '</time></p>';
   }
   function pregameRecord(g, options) {

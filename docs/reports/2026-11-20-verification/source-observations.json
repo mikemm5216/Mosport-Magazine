@@ -1,0 +1,67 @@
+{
+  "observations": [
+    {
+      "url": "https://www.nba.com/game/sac-vs-lal-0022600051",
+      "httpStatus": 200,
+      "observedAt": "2026-11-20T02:43:14.041Z",
+      "observationTimeBasis": "response-file final write mtime from this fresh curl request",
+      "bodySha256": "11a006690ee39e3fa08df81fa93be0ab31dc48e1b8f985f81ef501dbe16b88ca",
+      "bodyBytes": 230604,
+      "selector": "script#__NEXT_DATA__ > props.pageProps.game",
+      "facts": {
+        "gameId": "0022600051",
+        "gameTimeUTC": "2026-11-21T03:00:00Z",
+        "gameEt": "2026-11-20T22:00:00Z",
+        "gameStatus": 1,
+        "gameStatusText": "10:00 pm ET",
+        "isNeutral": false,
+        "gameLabel": "Emirates NBA Cup",
+        "gameSubLabel": "West Group C",
+        "homeTeam": {
+          "teamTricode": "LAL",
+          "score": 0
+        },
+        "awayTeam": {
+          "teamTricode": "SAC",
+          "score": 0
+        }
+      },
+      "latestMeeting": {
+        "selector": "props.pageProps.game.lastFiveMeetings.meetings[0]",
+        "gameId": "0022600185",
+        "recencyOrder": 1
+      }
+    },
+    {
+      "url": "https://www.nba.com/game/lal-vs-sac-0022600185",
+      "httpStatus": 200,
+      "observedAt": "2026-11-20T02:43:20.553Z",
+      "observationTimeBasis": "response-file final write mtime from this fresh curl request",
+      "bodySha256": "37b7d252296db58d82b23da90e3dda8ffa35f2cc576ec259dc1ef626b337354c",
+      "bodyBytes": 664587,
+      "selector": "script#__NEXT_DATA__ > props.pageProps.game",
+      "facts": {
+        "gameId": "0022600185",
+        "gameTimeUTC": "2026-11-05T03:00:00Z",
+        "gameEt": "2026-11-04T22:00:00Z",
+        "gameStatus": 3,
+        "gameStatusText": "Final",
+        "isNeutral": false,
+        "gameLabel": "",
+        "gameSubLabel": "",
+        "homeTeam": {
+          "teamTricode": "SAC",
+          "score": 103
+        },
+        "awayTeam": {
+          "teamTricode": "LAL",
+          "score": 116
+        }
+      }
+    }
+  ],
+  "note": "Fresh raw HTTP bodies read and checked locally. Published record contains factual fields and hashes only. Schedule contentFingerprint and editorial factsFingerprint remain canonical facts integrity hashes, not raw response hashes.",
+  "freshnessHours": 24,
+  "validUntil": "2026-11-21T02:43:14.041Z",
+  "tipoff": "2026-11-21T03:00:00Z"
+}

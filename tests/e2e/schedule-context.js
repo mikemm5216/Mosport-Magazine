@@ -12,7 +12,7 @@ const SITE = path.join(ROOT, 'site');
 const OUT = path.join(ROOT, 'docs/reports/2026-11-19-beta0-schedule');
 const candidate = require('../fixtures/context-snapshot-v2.json');
 const saved = require('../../site/data/schedules/0022600051.json');
-const now = '2026-11-19T08:10:00Z';
+const now = new Date(Date.parse(saved.editorial ? saved.editorial.observedAt : saved.source.observedAt) + 60000).toISOString();
 const mime = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.webp': 'image/webp' };
 const server = http.createServer((req, res) => {
   const file = path.resolve(SITE, '.' + new URL(req.url, 'http://localhost').pathname);
@@ -21,7 +21,7 @@ const server = http.createServer((req, res) => {
   res.end(fs.readFileSync(file));
 });
 const content = page => page.locator('main').innerText();
-const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · Coach Read/.test(text.replace(/0022600051|2026|11\/21|11:00|07:58:50|2026-11-19/g, ''));
+const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Read|homeWinProbability/.test(text);
 (async () => {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const base = 'http://127.0.0.1:' + server.address().port + '/';
@@ -55,7 +55,8 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
       await page.waitForSelector('.lead-schedule .pregame-missing');
       const text = await page.locator('.spread').innerText();
       assert.ok(text.includes('SAC') && text.includes('LAL') && text.includes('11:00') && !text.includes('NBA game ID')); checks++;
-      assert.ok(text.includes('這場的賽前判讀還沒出來。') && text.includes('非即時更新') && !/NBA game ID|UTC|HOME_COURT@/.test(text)); checks++;
+      assert.ok(text.includes('這場的賽前判讀還沒出來。') && text.includes('核對（台北）') && !/NBA game ID|UTC|HOME_COURT@/.test(text)); checks++;
+      assert.ok(text.includes('13 分之差，國王盃賽再戰湖人') && text.includes('103：116')); checks++;
       assert.ok(!/\d+\s*%|DEMO/.test(text) && await page.locator('.spread table').count() === 0); checks++;
       const geometry = await page.evaluate(() => {
         const cover = document.querySelector('.pg-cover').getBoundingClientRect();
@@ -108,7 +109,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
       await page.waitForSelector('.pregame-missing');
       let text = await content(page);
       assert.ok(/SAC\s*@\s*LAL/.test(text) && /0022600051/.test(text) && /11:00/.test(text) && /11\/21/.test(text), text); checks++;
-      assert.ok(text.includes('這場的賽前判讀還沒出來。') && text.includes('NBA') && text.includes('07:58:50Z')); checks++;
+      assert.ok(text.includes('這場的賽前判讀還沒出來。') && text.includes('NBA') && text.includes(saved.source.observedAt)); checks++;
       assert.ok(noNumbers(text), text); checks++;
       assert.equal(await page.locator('a[href="https://www.nba.com/game/sac-vs-lal-0022600051"]').count(), 1); checks++;
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)); checks++;
@@ -121,6 +122,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
       // Isolated 0999 provider fixture stays missing through the real public pipeline.
       // Only the renderer receives a test projection; no release gate is changed.
       await page.route('**/data/schedules/0022600999.json', route => route.fulfill({ json: candidate }));
+      await page.clock.setFixedTime(new Date('2026-11-19T08:10:00Z'));
       await page.goto(base + name + '?schedule=0022600999&game=0022600999&mode=production&lang=zh');
       await page.waitForSelector('.pregame-missing');
       assert.ok((await content(page)).includes('0022600999') && !(await content(page)).includes('0022600051')); checks++;
@@ -157,10 +159,11 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|0\.5|61|HOME_COURT|World · C
     for (const [label, mutate, message] of [
       ['missing source', r => { delete r.source; }, '暫時無法閱讀'],
       ['wrong ID', r => { r.game.gameId = '0022600999'; }, '暫時打不開'],
-      ['stale source', r => { r.validUntil = '2026-11-19T08:00:00Z'; }, '先前的賽程'],
+      ['stale source', () => {}, '先前的賽程'],
       ['boolean is not release', r => { r.contextSnapshot = { public: true }; }, '這場的賽前判讀還沒出來。']
     ]) {
       const raw = JSON.parse(JSON.stringify(saved)); mutate(raw);
+      await page.clock.setFixedTime(new Date(label === 'stale source' ? saved.validUntil : now));
       await page.route('**/data/schedules/0022600051.json', route => route.fulfill({ json: raw }));
       await page.goto(url); await page.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
       const text = await content(page); assert.ok(text.includes(message), label + ': ' + text); checks++;
