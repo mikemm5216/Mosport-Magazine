@@ -133,7 +133,10 @@ module.exports = async function dataSuite(browser, check, open, OUT) {
   for (const p of PAGES) {
     const { ctx, page } = await open(browser, `${p}?mode=production`, 1440, 900);
     const internal = await page.evaluate(() => [...document.scripts].filter((s) => /internal\//.test(s.src)).length + (window.MOSPORT_STORE || window.MOSPORT_WORKFLOW ? 1 : 0));
-    check(`data production ${p}: DEMO refused, no internal code loaded`, /未取得發布資格/.test(await bodyText(page)) && internal === 0);
+    const status = page.locator('.state-refused[role="status"]');
+    const fixtureContent = page.locator('.demo-badge, .lead, .story, .rv-article, .sch tbody tr, .card-read');
+    check(`data production ${p}: DEMO refused, no internal code loaded`,
+      (await status.innerText()) === '這一期尚未發布。' && await fixtureContent.count() === 0 && internal === 0);
     await ctx.close();
   }
   {
@@ -145,7 +148,8 @@ module.exports = async function dataSuite(browser, check, open, OUT) {
   /* 10. ?issue= is confined to data/issues/<name>.json; on file:// it fails to load (state shown). */
   for (const q of ['issue=demo', 'issue=..%2F..%2Fevil', 'issue=https%3A%2F%2Fevil.example%2Fx']) {
     const { ctx, page, errors } = await open(browser, `index.html?${q}`, 1440, 900, { allow404: true });
-    check(`data provider ${decodeURIComponent(q)}: load-failed state, nothing rendered`, /載入失敗/.test(await bodyText(page)) && errors.length === 0, errors.join('|'));
+    check(`data provider ${decodeURIComponent(q)}: load-failed state, nothing rendered`, (await page.locator('.state-load_failed[role="status"]').innerText()) === '這一期暫時打不開。請稍後再試。' &&
+      await page.locator('.lead, .story, .teaser, .g-card, .demo-badge').count() === 0 && errors.length === 0, errors.join('|'));
     await ctx.close();
   }
 

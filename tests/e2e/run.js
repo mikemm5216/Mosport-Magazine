@@ -172,10 +172,10 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
     check('control: language switches to English', (await page.evaluate(() => document.documentElement.lang)) === 'en');
     await page.click('.topbar [data-lang="zh"]');
     await page.click('.tb-almanac');
-    check('control: Almanac is a labelled not-live entry', /尚未上線|not live/.test(await page.locator('.note').innerText()));
+    check('control: Almanac is a labelled not-live entry', (await page.locator('.note[role="status"] span').innerText()) === '歷年比賽與故事，之後在這裡回看。');
     await page.click('.note [data-act="close-note"]');
     await page.click('.tb-sports .sport:nth-child(2)');
-    check('control: Coming-soon sport explains itself', /即將推出|Coming soon/.test(await page.locator('.note').innerText()));
+    check('control: Coming-soon sport explains itself', (await page.locator('.note[role="status"] span').innerText()) === '這個運動的內容還沒推出。');
     await page.click('.lead .cta');
     await page.waitForTimeout(300);
     check('nav: lead opens Match Detail', /match\.html\?.*game=DEMO-0041/.test(page.url()));

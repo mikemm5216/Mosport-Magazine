@@ -42,13 +42,13 @@ function serve() {
 module.exports = async function assetSuite(browser, check, open, OUT) {
   /* Slots present */
   for (const [url, w, want] of [
-    ['index.html', 1440, ['cover-desktop-art', 'today-feature-art', 'editorial-card-art']],
-    ['index.html', 390, ['cover-mobile-art', 'today-feature-art', 'editorial-card-art']],
+    ['index.html', 1440, ['cover-desktop-art', 'today-feature-art']],
+    ['index.html', 390, ['cover-mobile-art', 'today-feature-art']],
     ['match.html?game=DEMO-0041', 1440, ['match-hero-art']]
   ]) {
     const { ctx, page } = await open(browser, url, w, 900);
     const got = (await slotStates(page)).map((s) => s.slot);
-    check(`slots ${url}@${w}: ${want.join(', ')}`, want.every((s) => got.includes(s)), got.join(','));
+    check(`slots ${url}@${w}: ${want.join(', ')}`, got.length === want.length && want.every((s) => got.includes(s)), got.join(','));
     await ctx.close();
   }
 
