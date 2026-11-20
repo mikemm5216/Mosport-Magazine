@@ -1,0 +1,47 @@
+{
+  "schema": "mosport-b/schedule-entry@1",
+  "mode": "LIVE",
+  "validUntil": "2026-11-21T02:43:14.041Z",
+  "game": {
+    "gameId": "0022600051",
+    "away": "SAC",
+    "home": "LAL",
+    "status": "SCHEDULED",
+    "tipoff": "2026-11-21T03:00:00Z"
+  },
+  "source": {
+    "schema": "mosport-b/source-receipt@1",
+    "id": "NBA-SCHEDULE-0022600051-20261120T024314",
+    "kind": "OFFICIAL_FACT",
+    "originalUrl": "https://www.nba.com/game/sac-vs-lal-0022600051",
+    "publisher": "NBA",
+    "observedAt": "2026-11-20T02:43:14.041Z",
+    "rightsStatus": "LINK_ONLY",
+    "accessMethod": "OFFICIAL_PAGE",
+    "contentFingerprint": "20569b2b2942367a662d22fdc80bb3b17dd8280d1457c04c5abec863702aa62b",
+    "language": "en",
+    "verificationState": "CONFIRMED",
+    "demo": false
+  },
+  "contextSnapshot": null,
+  "editorial": {
+    "schema": "mosport-b/schedule-editorial@1",
+    "nbaGameId": "0022600051",
+    "kind": "CUP_REMATCH",
+    "group": "WEST_C",
+    "observedAt": "2026-11-20T02:43:20.553Z",
+    "previous": {
+      "gameId": "0022600185",
+      "away": "LAL",
+      "home": "SAC",
+      "awayPoints": 116,
+      "homePoints": 103,
+      "playedOn": "2026-11-04"
+    },
+    "sources": {
+      "matchupUrl": "https://www.nba.com/game/sac-vs-lal-0022600051",
+      "previousUrl": "https://www.nba.com/game/lal-vs-sac-0022600185"
+    },
+    "factsFingerprint": "57d302f40daa8661e5e6cd798b56c142ba2d80cd383ab665d3021a84bfccc801"
+  }
+}

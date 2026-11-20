@@ -29,6 +29,11 @@
 .cv-t1 { margin-top: 1.6cqw; font-size: 17cqw; color: #FFFFFF; }
 .cv-t2 { font-size: 12.5cqw; background: linear-gradient(90deg, #FF7A1A, #F6A23A); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .cv-tag { margin-top: 2.4cqw; font-size: max(14px, 3.7cqw); line-height: 1.35; font-weight: 500; color: #F2F5FB; }
+.cv-brief { margin-top: auto; padding: 5cqw 6cqw 0; }
+.cv-game { font-family: var(--f-cond); font-size: max(26px, 7cqw); font-weight: 800; letter-spacing: .03em; }
+.cv-game.is-editorial { font-size: max(19px, 4.4cqw); line-height: 1.26; letter-spacing: 0; overflow-wrap: anywhere; }
+.cv-time { margin-top: 1cqw; font-size: max(14px, 3cqw); color: #E6ECF8; }
+.cv-status { margin-top: 2cqw; max-width: 24em; font-size: max(16px, 3.8cqw); line-height: 1.55; font-weight: 600; }
 
 .cv-teasers { margin-top: auto; padding: 5cqw 6cqw 0; display: flex; flex-direction: column; gap: 4.6cqw; }
 .teaser { display: flex; flex-direction: column; align-items: flex-start; gap: 1.2cqw; }
@@ -47,6 +52,10 @@ html[lang="en"] .teaser-h { font-family: 'Anton', Impact, sans-serif; font-weigh
 .cv-plus { font-family: var(--f-display); color: var(--orange); font-size: 8cqw; line-height: .8; }
 .cv-lines ul { margin: 0; padding-left: 4.2cqw; display: flex; flex-direction: column; gap: .8cqw; font-size: max(13px, 3.1cqw); font-weight: 600; }
 .cv-coach { text-align: right; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: max(13px, 3.5cqw); line-height: 1.35; letter-spacing: .16em; text-transform: uppercase; color: #F2F5FB; }
+.cv-guide { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.cv-next { display: inline-flex; align-items: center; gap: 18px; min-height: 44px; padding: 8px 0; border-bottom: 2px solid var(--orange); color: #fff; font-size: max(14px, 3cqw); font-weight: 700; text-decoration: none; }
+.cv-next:hover { color: var(--orange); }
+.cv-next:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 
 /* ======================= TODAY (right page) ======================= */
 .pg-inner { position: relative; background: var(--paper); color: var(--ink); display: flex; flex-direction: column; gap: 18px; padding: 20px 16px 22px; min-width: 0; }
@@ -76,6 +85,20 @@ html[lang="en"] .teaser-h { font-family: 'Anton', Impact, sans-serif; font-weigh
 .lead-foot { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 22px 16px; border-top: 1px solid rgba(143, 180, 255, .25); background: #0A1636; }
 .lead-time { font-size: 14px; font-weight: 600; }
 .lead-why { margin-top: 4px; font-size: 14px; line-height: 1.55; color: var(--on2); }
+.lead-schedule .lead-read { min-width: 0; }
+.lead-record-title { font-size: 14px; font-weight: 600; color: var(--on2); }
+.lead-schedule .lead-read.has-editorial .lead-record-title { font-size: clamp(22px, 2.4vw, 32px); font-weight: 800; line-height: 1.26; color: var(--on); }
+.lead-schedule .lead-story { margin-top: 12px; max-width: 54ch; font-size: 15px; line-height: 1.72; color: var(--on2); }
+.lead-schedule .lead-read.has-editorial .pregame-missing { margin-top: 14px; font-size: 13px; font-weight: 500; line-height: 1.5; color: var(--on2); }
+.lead-schedule .pregame-missing { font-size: 22px; font-weight: 700; line-height: 1.5; }
+.lead-schedule .pregame-record { font-size: 16px; line-height: 1.55; overflow-wrap: anywhere; }
+.lead-schedule .pregame-record .pv { margin-top: 10px; font-size: 12px; color: var(--on2); }
+.lead-schedule .pregame-record a { color: var(--on); }
+.lead-game-id { margin-top: 6px; font-family: var(--f-cond); font-size: 13px; color: var(--on2); }
+.lead-source { font-size: 13px; line-height: 1.6; color: var(--ink2); overflow-wrap: anywhere; }
+.lead-source a { color: var(--blue); }
+.lead-source .pv { margin-top: 4px; }
+.pg-inner > .state-msg { margin: 0; }
 
 /* section heads */
 .sec-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
@@ -161,8 +184,9 @@ html[lang="en"] .sec-head h2 { font-family: 'Anton', Impact, sans-serif; font-we
   .teaser-label { font-size: 4.6cqw; }
   .teaser-h { font-size: 7.2cqw; }
   .teaser-s { font-size: 4cqw; }
-  .cv-mob-top { order: 0; } .cv-mast { order: 1; } .cv-foot { order: 2; } .cv-teasers { order: 3; }
-  .cv-foot { display: block; padding: 2.4cqw 5cqw 0; }
+  .cv-mob-top { order: 0; } .cv-mast { order: 1; } .cv-teasers, .cv-brief { order: 3; } .cv-foot { order: 4; }
+  .cv-brief { padding: 5cqw 5cqw 0; }
+  .cv-foot { padding: 4cqw 5cqw; }
   .cv-lines { display: none; }
   .cv-coach { text-align: left; font-size: 3.6cqw; letter-spacing: .3em; }
   .cv-coach br { display: none; }
@@ -179,7 +203,7 @@ html[lang="en"] .sec-head h2 { font-family: 'Anton', Impact, sans-serif; font-we
 
   .pg-inner { padding: 16px 14px 24px; gap: 16px; border-top: 3px solid var(--blue); }
   .runhead { display: none; }
-  .today-mast { display: none; }
+  .today-mast { font-size: 56px; }
   .td-d { font-size: 26px; }
   .lead { grid-template-columns: minmax(0, 1fr); }
   .lead-art { min-height: 180px; }
@@ -220,5 +244,5 @@ html[lang="en"] .sec-head h2 { font-family: 'Anton', Impact, sans-serif; font-we
 .story-dark mo-art::after { content: ''; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(90deg, rgba(8, 19, 50, .94) 0%, rgba(8, 19, 50, .82) 50%, rgba(8, 19, 50, .25) 100%); }
 
-/* Non-OK data state on Today (no spread is drawn). */
+/* Shared loading state, before the provider returns the magazine model. */
 body.page-home main.sheet { max-width: 1240px; margin: 0 auto; padding: 20px 16px 48px; min-height: calc(100vh - 60px); }

@@ -1,0 +1,192 @@
+{
+  "baseHead": "7cee0ed57b97ca6f9fb20def53de22c680095c0e",
+  "state": "IMPLEMENTED_WITH_KNOWN_EVIDENCE_REGRESSION_AND_VISUAL_BLOCK",
+  "files": [
+    {
+      "path": "site/js/pages/home.js",
+      "size": 13350,
+      "sha256": "04cc710f4000bcef6d940dc91df58df56c8103f88308f98af3bc8e73435f9a33",
+      "gitBlobSha": "64369dd4cf2aa951af0b43a4d0f6a64e554984b2"
+    },
+    {
+      "path": "site/css/home.css",
+      "size": 19835,
+      "sha256": "ebecf11d7b3bf4145dc3945b0ae153066998dbd89efad888ab08f7917422881f",
+      "gitBlobSha": "10af9444d11408d629a611d25add2ea9aea01279"
+    },
+    {
+      "path": "site/js/app.js",
+      "size": 12906,
+      "sha256": "c27640c01a3d55e567ff15be95d46e497b00f7256fae0375b752cc507b6b1ed3",
+      "gitBlobSha": "83ae1803c84ae3ac38147f2de42530a3ce75b003"
+    },
+    {
+      "path": "site/js/i18n.js",
+      "size": 9252,
+      "sha256": "5ac22b015b46ddb7ae129bee4cbcb5dce96acfa352cb458f4e988585c6bed8eb",
+      "gitBlobSha": "dce5ef4127c5bec3d29096a1c8db096c245b5c09"
+    },
+    {
+      "path": "tests/unit/helpers.js",
+      "size": 3263,
+      "sha256": "61cf0a6775a0f55b993f0dbab6f560b160a2733f923fdd511df2dc460c4a33a9",
+      "gitBlobSha": "44d78c97b7c694ab3208a35450da65fab2ed919c"
+    },
+    {
+      "path": "tests/unit/schedule-context.test.js",
+      "size": 9283,
+      "sha256": "3df3278dba62701a23cdb599609079e900c633523e58af1cba2db9517a9d9543",
+      "gitBlobSha": "85f5bfd184c9974563924e3e616fe1183d88d0c8"
+    },
+    {
+      "path": "tests/unit/home-spread.test.js",
+      "size": 9277,
+      "sha256": "89a91f37004a6b18c29abb68f9dc6f88b503d1f594bc636f50c5cda2a6cf8429",
+      "gitBlobSha": "7ce9d40e9df9a7ef738876ef96f31c1d66ae74c8"
+    },
+    {
+      "path": "tests/e2e/run.js",
+      "size": 15994,
+      "sha256": "be0668d0ac1ea685da179624b873e150dcd6abdbc1b1ff0b51f43054635175db",
+      "gitBlobSha": "73f140f76d12a92d037693f4930b73caa2aca28d"
+    },
+    {
+      "path": "tests/e2e/data-suite.js",
+      "size": 11760,
+      "sha256": "64d5f7e24b9d2c0581ffd36ec40a6abd9b6233d6ac7c08d4b3f8e678ac25f1ec",
+      "gitBlobSha": "d9f086c4ca766862c74a492ce6325239c993d470"
+    },
+    {
+      "path": "tests/e2e/native-candidate.js",
+      "size": 2633,
+      "sha256": "c83af46ce225f5466569681833a9e17ec08fec121439d401415265ab8bb274d3",
+      "gitBlobSha": "834f94897718bc9532c778afcb3d2a962b6534de"
+    },
+    {
+      "path": "tests/e2e/asset-suite.js",
+      "size": 6894,
+      "sha256": "170b51f1d6f67b911c9a33313227e21512d7ac7ce27304d486e90ddbaf929425",
+      "gitBlobSha": "cfa8c48806d57da18867c176f4baefc8e19777fc"
+    },
+    {
+      "path": "tests/e2e/sport-assets.js",
+      "size": 3436,
+      "sha256": "ad31850367dc142b4353ea2ba5b7d4f492bfb6e2ac2cb6e4a07f82872e4f6ba5",
+      "gitBlobSha": "e1341bdd2b90f644f568216ff012cfa0505e89de"
+    },
+    {
+      "path": "tests/e2e/schedule-context.js",
+      "size": 13442,
+      "sha256": "b0cbc3e405a5dba783a8834cf0b12f18f83286cb5937948c4b7749c0db775551",
+      "gitBlobSha": "10bb08b04509adc91c44fb730f02ac22f3526875"
+    },
+    {
+      "path": "tests/e2e/static-components.js",
+      "size": 2814,
+      "sha256": "4ed9e7fa05d76d8edfbb14ce8c36748c302dbfb147c89807ebb6786de3977930",
+      "gitBlobSha": "3fa804d5e7b205986dd9bc7e1157e66edbcdedbe"
+    },
+    {
+      "path": "tests/e2e/home-spread-static.js",
+      "size": 6693,
+      "sha256": "a6c28eb763ec4aacb1702b7b96a2c56510d2a38224483016099f217c45636339",
+      "gitBlobSha": "eeee536e217fb168c198fb52e7e2a810c61f1ada"
+    },
+    {
+      "path": "tests/e2e/render-schedule-static.py",
+      "size": 8797,
+      "sha256": "8ed4e6741e6556946d07d99ecb3656aa7ab0832830c624e0d7d2ba227b7b70b2",
+      "gitBlobSha": "0d84ed3c9e04e56f52cfe69b7eef6a06ca10f249"
+    },
+    {
+      "path": "tests/e2e/schedule-context-static.js",
+      "size": 4362,
+      "sha256": "e14d17c12b3957c2de60bcfa1cc6214eaf063968cf3fed2221c37b22c80ebd76",
+      "gitBlobSha": "f2886e2efbac749e0aa325308be613f577ffda7d"
+    },
+    {
+      "path": "docs/reports/2026-11-19-LAUNCH-FIRST-PLAN-VS-ACTUAL.md",
+      "size": 24095,
+      "sha256": "8379d0c48beac71f6134669bb863ad3830e8d0c8f563ebf14c73a1f7d8200e7e",
+      "gitBlobSha": "504e32d71e7eafa7efe39728e3edb8da4bb349f2"
+    },
+    {
+      "path": "docs/reports/2026-11-19-home-spread/README.md",
+      "size": 11091,
+      "sha256": "7742c82197896ffc1fc3e761fff60e2ac82b3471ff817373b093439d78b237d5",
+      "gitBlobSha": "51b52264c869ea1d9bff8518d692e495559cf182"
+    },
+    {
+      "path": "docs/reports/2026-11-19-home-spread/unit-test.log",
+      "size": 16273,
+      "sha256": "a28903839208cfff69445ff633ab0352ff5ade9386c3ff7c86ce8bd1fd6fc6a5",
+      "gitBlobSha": "07552702e0f441a2ea590f9d7cd7c46aa3e2e1a4"
+    },
+    {
+      "path": "docs/reports/2026-11-19-home-spread/static/home-load-failed-mobile.png",
+      "size": 85768,
+      "sha256": "22c2f7928fc9988ee5ca807deaf9e7d11f3c8371600f0d9a5ae1f9066e9a4cf5",
+      "gitBlobSha": "26b83c1c3b39f36c2c83c8bc531ae4dc07b62727"
+    },
+    {
+      "path": "docs/reports/2026-11-19-home-spread/static/home-load-failed-mobile.txt",
+      "size": 467,
+      "sha256": "a58d9e20074b539fb1985ab2e266713708f3df0b923a53bc55a9c9d06696918d",
+      "gitBlobSha": "1a1b8fb93daab3dd4ca247bc731b197556ff9a64"
+    },
+    {
+      "path": "docs/reports/2026-11-19-home-spread/static/home-production-desktop.png",
+      "size": 359854,
+      "sha256": "584fdec073d5a988a06c941bb6eac86cf2bff514da8389429f93331eb26023fb",
+      "gitBlobSha": "09e8c591430adc7bab3eec31e01d9f8551e20d68"
+    },
+    {
+      "path": "docs/reports/2026-11-19-home-spread/static/home-production-desktop.txt",
+      "size": 1015,
+      "sha256": "019893598b2932b3d097e519fa3c2d13b9f29056c6022c61cd40a41951faf08b",
+      "gitBlobSha": "e763d3906273aa8fb153b3690f641ba7c3eb5c16"
+    },
+    {
+      "path": "docs/reports/2026-11-19-home-spread/static/home-saved-desktop.png",
+      "size": 610935,
+      "sha256": "c8da8b3fa246399c45e20c799e3c52c43991262616125bb99c12e691cd7fde50",
+      "gitBlobSha": "93835aea981a75b3bed6be9b812a4a9c19ad857c"
+    },
+    {
+      "path": "docs/reports/2026-11-19-home-spread/static/home-saved-desktop.txt",
+      "size": 1002,
+      "sha256": "95582a82675cb51f3c7d4a9b0d53bf5761875f1be1f6148fa5e5067964efd0ad",
+      "gitBlobSha": "e5768669d1d8ea77767e30917a140918f0228e9d"
+    },
+    {
+      "path": "docs/reports/2026-11-19-home-spread/static/home-saved-mobile.png",
+      "size": 156666,
+      "sha256": "4f68776988af0088d2a5e23c64610b2b1710a23da4e97f7a59560c5f7df181c1",
+      "gitBlobSha": "203e052cb84bd694cf606afbaba44674b90d0b7e"
+    },
+    {
+      "path": "docs/reports/2026-11-19-home-spread/static/home-saved-mobile.txt",
+      "size": 677,
+      "sha256": "365dc45925c51fa88628b1a4c3482077098413a2dece0e8e2b67c802f9344a9e",
+      "gitBlobSha": "4d98710da86d4cbce0d34cdae6b8a18220e6e47e"
+    },
+    {
+      "path": "docs/reports/2026-11-19-home-spread/static/html-evidence.json",
+      "size": 16060,
+      "sha256": "e6391526c7c2d74859ef779e35effea8b5d7defbcea0c23d4ed06df403cba860",
+      "gitBlobSha": "1eebf8ccc1911bfe71d2a0bda552691f4fa1f307"
+    },
+    {
+      "path": "docs/reports/2026-11-19-home-spread/static/renderer-warnings.txt",
+      "size": 4575,
+      "sha256": "6fd7f4b59880958bcc43481e43ac153dcc5f74cac480c5dc5f6e0956b8b51352",
+      "gitBlobSha": "09b26a45c2778b218355ee545e88d38f9ba2fc48"
+    },
+    {
+      "path": "docs/reports/2026-11-19-home-spread/static/static-visual-evidence.json",
+      "size": 71553,
+      "sha256": "8114d299771f9fadc0d50f34430bae6f9eae5561795178f3e8f85f66c144a918",
+      "gitBlobSha": "731472e34a3c486d1b6fcdf48de190f1277eafc2"
+    }
+  ]
+}

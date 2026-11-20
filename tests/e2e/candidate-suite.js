@@ -26,9 +26,10 @@ module.exports = async function candidateSuite(browser, check, open, OUT) {
     const a = await open(browser, `index.html?${q}&art=candidate`, w, h);
     const ok = await loaded(a.page);
     const st = await states(a.page);
-    const want = w >= 1024 ? 'cover-desktop-art' : 'cover-mobile-art';
+    const slots = [w >= 1024 ? 'cover-desktop-art' : 'cover-mobile-art', 'today-feature-art'];
     check(`candidate ${name}: every art slot shows chatgpt-art-v1 and loads`,
-      st.length >= 3 && st.every((s) => s.state === 'art' && s.v === 'chatgpt-art-v1') && ok.every(Boolean) && st.some((s) => s.slot === want), JSON.stringify(st));
+      st.length === slots.length && slots.every(id => st.some(s => s.slot === id && s.state === 'art' && s.v === 'chatgpt-art-v1')) &&
+      ok.length === slots.length && ok.every(Boolean), JSON.stringify(st));
     check(`candidate ${name}: no sideways overflow, no errors`, (await a.page.evaluate(() => document.documentElement.scrollWidth - innerWidth)) <= 0 && a.errors.length === 0, a.errors.join(' | '));
     const b = await open(browser, `index.html?${q}&art=fallback`, w, h);
     check(`candidate ${name}: layout identical to no-art`, (await geom(a.page)) === (await geom(b.page)));

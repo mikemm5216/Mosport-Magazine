@@ -23,7 +23,14 @@ async function open(browser, url, w, h, opts = {}) {
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => { if (m.type() === 'error' && !(opts.allow404 && /ERR_FILE_NOT_FOUND|Failed to load resource/.test(m.text()))) errors.push(m.text()); });
-  await page.goto(SITE + url);
+  // These legacy suites exercise the labelled DEMO fixture. The real default
+  // saved-schedule entrance is covered separately by schedule-context.js via HTTP.
+  const target = new URL(SITE + url);
+  if (/\/(index|schedule|match|review)\.html$/.test(target.pathname) &&
+      !['fixture', 'issue', 'schedule'].some(key => target.searchParams.has(key))) {
+    target.searchParams.set('fixture', 'demo');
+  }
+  await page.goto(target.href);
   await page.waitForTimeout(350);
   return { ctx, page, errors };
 }
@@ -85,7 +92,7 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
     check('empty: no teaser/lead/game/story DOM', Object.values(counts).every((n) => n === 0), JSON.stringify(counts));
     check('empty: no percentage anywhere', !/\d+\s*%/.test(await text(page)));
     await page.screenshot({ path: path.join(OUT, 'home-1440-empty.png'), fullPage: true });
-    await page.click('.today-empty .cta');
+    await page.click('.today-empty a[href^="schedule.html"]');
     await page.waitForTimeout(250);
     check('empty: schedule still lists every game', (await page.locator('.sch tbody tr').count()) === 6);
     await ctx.close();
@@ -108,7 +115,7 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
   {
     const { ctx, page } = await open(browser, 'index.html?mode=production', 1440, 900);
     const t = await text(page);
-    check('production: DEMO issue refused, no lead, no %', (await page.locator('.lead').count()) === 0 && !/\d+\s*%/.test(t) && /未取得發布資格|not cleared/.test(t));
+    check('production: DEMO issue refused, no lead, no %', (await page.locator('.lead').count()) === 0 && !/\d+\s*%/.test(t) && /這一期尚未發布|not out yet/.test(t));
     await ctx.close();
   }
 
@@ -165,10 +172,10 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
     check('control: language switches to English', (await page.evaluate(() => document.documentElement.lang)) === 'en');
     await page.click('.topbar [data-lang="zh"]');
     await page.click('.tb-almanac');
-    check('control: Almanac is a labelled not-live entry', /尚未上線|not live/.test(await page.locator('.note').innerText()));
+    check('control: Almanac is a labelled not-live entry', (await page.locator('.note[role="status"] span').innerText()) === '歷年比賽與故事，之後在這裡回看。');
     await page.click('.note [data-act="close-note"]');
     await page.click('.tb-sports .sport:nth-child(2)');
-    check('control: Coming-soon sport explains itself', /即將推出|Coming soon/.test(await page.locator('.note').innerText()));
+    check('control: Coming-soon sport explains itself', (await page.locator('.note[role="status"] span').innerText()) === '這個運動的內容還沒推出。');
     await page.click('.lead .cta');
     await page.waitForTimeout(300);
     check('nav: lead opens Match Detail', /match\.html\?.*game=DEMO-0041/.test(page.url()));

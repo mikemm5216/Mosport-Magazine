@@ -1,13 +1,13 @@
 /*
  * Review: only human-approved public reviews (Founder C-4). Internal audit, the
  * approver's identity and the source payload are never shown; the reader sees that
- * a person approved it, when, and the receipt reference.
+ * the editorial review date. Receipt references remain in the data model.
  */
 window.MOSPORT_PAGE = {
   id: 'review',
   render: function (c) {
     var T = c.T, esc = c.esc, L = c.lang, R = c.issue;
-    if (R.status !== 'OK') return c.topbar + '<main class="sheet">' + c.stateMessage(R) + '</main>';
+    if (R.status !== 'OK' && R.status !== 'SCHEDULE_ONLY') return c.topbar + '<main class="sheet">' + c.stateMessage(R) + '</main>';
     var reviews = R.stories.filter(function (s) { return s.type === 'REVIEW' && s.approvalMode === 'HUMAN'; });
     var body = reviews.length ? reviews.map(function (r) {
       return '<article class="rv-article"><div class="rv-top"><mo-team-logo code="' + esc(r.teams[0]) + '" size="md"></mo-team-logo><mo-team-logo code="' + esc(r.teams[1]) + '" size="md"></mo-team-logo><p class="rv-codes">' + esc(r.teams[0]) + ' @ ' + esc(r.teams[1]) + '</p></div>' +

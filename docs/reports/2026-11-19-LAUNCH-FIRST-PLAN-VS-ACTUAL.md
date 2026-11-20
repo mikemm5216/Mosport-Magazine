@@ -1,5 +1,79 @@
 # 2026-11-19 Magazine：Launch-first 計畫與實際狀態
 
+## 最新回合：Magazine 首頁跨頁入口（Level 1，視覺驗收 BLOCKED）
+
+本任務須遵守 Issue #170 的 Capacity / Boundary / Level 規則與 Beta-0 範圍。
+
+Founder 要求首頁保留桌面左封面＋右 TODAY、手機封面優先；已重用原首頁、reader、registry 與保存賽程0051完成程式修補。一般入口不再以 Schedule 表格或 generic missing 訊息頁取代雜誌結構。167/167 unit 通過；optional real-team helper 加入後 targeted22/22通過。
+
+替代靜態圖4張已產出，但 WeasyPrint 的 TODAY lead 卡仍失真成窄條，不能作整頁 visual PASS，也不是 browser E2E。缺少真 snapshot 不是阻礙。Capacity於2/2修正回合用完後明確DENY第三輪修正；停止新增修正、rerender及browser fallback，保留Draft並保存現有程式與失敗證據。詳見[本輪EIC、Capacity、測試與對照報告](2026-11-19-home-spread/README.md)。此狀態不覆蓋下方舊輪消耗／超額紀錄，不代表公開資料、合併或發布完成。
+
+最後獨立審查另發現 `npm run evidence` 的既有 `tests/e2e/evidence.js` 仍把無 selector 的 file:// 首頁當 DEMO，隨後等待不存在的 lead；這是尚未修正的具體測試腳本回歸，即使瀏覽器恢復仍會阻擋。依已用完的修正上限保存為 BLOCK，不把它歸因於環境或渲染器。
+
+
+## 最新回合：#171 任務 2 的 Schedule/Match 模板與資料接點（OPEN）
+
+本任務須遵守 Issue #170 的 Capacity / Boundary / Level 規則與 Beta-0 範圍。
+政策 <https://github.com/mikemm5216/Mosport-NBA/issues/170#current-execution-policy>；
+root 讀取 `2026-11-19T07:53:26Z`，政策更新時間 `2026-11-19T07:32:46Z`。
+本段是任務 2 修訂範圍的實作紀錄；保留下方早期紀錄，不將歷史測試視為本次驗證。
+
+### Existing Implementation Check
+
+1. 搜尋範圍：AGENTS、ROADMAP、P2_CONTRACT_COMPATIBILITY、provider.select/load、
+   pipeline.publicGame/run、contracts.validateIssue/validateRecord、eligibility、app 公用
+   source/time/query helper 與 Schedule/Match caller；視覺母版已讀。唯讀 NBA
+   dataSlice.capture/snapshots、sourceAuthority、evidenceStatus、readContract、worldPackage。
+2. 找到：現有同一條 provider→pipeline→public model；SourceReceipt、strict time / shape / hash
+   helpers；Schedule 保留無判讀賽程，Match 已有無判讀分支；DEMO detail 僅 DEMO && eligible。
+   prototype issue 不能承接 LIVE schedule，因 game.world 必填且 LIVE/PROTOTYPE_FIXTURE 被拒。
+3. 重用決策：直接修補既有 module/renderer/helper；加最小 schedule-entry@1 envelope，避免假造
+   World、刊期或版號。snapshot input 映射既有 HOME_COURT@1 與雙 ID，不新增 calculator、
+   renderer、文章流程、角色 B 或完整四頁。不能重用 World@1 作公開 adapter，因其固定 INTERNAL、
+   rights UNVERIFIED、公開旗標 false；此缺口保持 missing，未新增 Gate。
+
+### Capacity / 影響等級
+
+- `/root/capacity_171` 於開碼前 ALLOW；Founder 修訂加入 HOME/NEUTRAL 接點後重新 ALLOW。
+- Magazine 作者 `/root/magazine_missing_171`，獨立 Boundary `/root/boundary_171`；未自審通過。
+- **Level 1**：資料契約、pipeline 公開 model 與 Magazine 顯示。Founder review 摘要＋關鍵 diff
+  仍必要；本輪沒有 merge、deploy、真實 capture 或付費操作。
+- 原預算最多 20 組本地命令 / 2 次公開讀取，不因任務修訂重置；quota UNKNOWN。
+  本段定稿時已 16 組（含 EIC、失敗與修補），公開讀取 1 次。停止條件：超額、需新 Gate、
+  新 calculator、公開部署、變更 NBA／其他 repo。完成後交 Boundary，不擴環境或新增部門。
+
+### 實際交付與未完成項
+
+- 真實 saved schedule：官方 NBA URL，取得於 `2026-11-19T07:58:50Z`；SAC @ LAL、NBA
+  `0022600051`、台北 `2026-11-21 11:00`、SCHEDULED、來源與觀測時間；24 小時期限後明標歷史。
+- `?schedule=0022600051` 為同源檔案 provider，Schedule/Match 互相導航保留入口。
+  不是已接自動更新 production API。實際資料 snapshot 為 null。
+- 共用模板具備 HOME/NEUTRAL / snapshot ID/version / capturedAt / source/observedAt 接點。
+  無合格 snapshot 固定「賽前紀錄尚未提供公開顯示」，無假數字、DEMO 或 World 機率。
+- **公開 data-ready 尚未打通**：現有 snapshot 沒有公開核准契約；唯一待接的
+  `contextPublicRelease()` 明確 fail closed。candidate validation 與 public qualification 分開，
+  `contextSnapshotView()` 的正向結果只在隔離模板測試使用。後續所需欄位與 crosswalk 綁定見
+  [contract mapping](../P2_CONTRACT_COMPATIBILITY.md)。不能以 `public:true` 或 scoring authority
+  取代既有治理核准。
+
+### 本輪測試與畫面限制
+
+- 新增 11 個針對性 unit／實際 renderer VM 測試：11 pass，0 fail。第一次新增 renderer 檢查
+  抓到 Schedule source/time 漏接，已修正；另一個是測試把 SVG path 的 10.5 認作概率，已改為
+  檢查可見文字。HOME/NEUTRAL 正向測試使用隔離 0999 fixture，並非公開 pipeline 驗收。
+- 一次 `npm test`：assets check、registry check、**156 unit pass / 0 fail**；既有 E2E 在
+  啟動時因缺 `chromium_headless_shell-1243` 停止。完整 `npm test` **未通過**。
+- Targeted `tests/e2e/schedule-context.js` 使用現有 `/usr/bin/chromium`，啟動因
+  `socket() Operation not permitted` 失敗；尚未執行任何 browser assertion。
+- root 的 cloud browser 補驗同樣受阻：開啟本機 127.0.0.1:4171 時出現
+  `net::ERR_CONNECTION_REFUSED`；後續綁定失敗頁面被 browser URL/security policy 拒絕，
+  並明確禁止 workaround。未看見任何實際頁面，依限制停止，不再改用其他 surface 重試。
+- 沒有新真實瀏覽器截圖，不能宣稱完成 visual acceptance；不以歷史圖片或生成圖替代。
+  E2E 已備妥，但此環境無法完成驗收。最後 source hash 綁定補強後，11 個針對性測試再通過；
+  未為此重跑無關的既有綠燈測試。
+- 尚待獨立 Boundary／Founder Level 1 審查；沒有聲稱 GitHub approval、部署或 Beta-0 完成。
+
+
 ## 最新回合：政策推進 main 與第一場任務（合併前紀錄）
 
 截至 2026-11-19T15:23:03+08:00（Asia/Taipei）；狀態 OPEN。此段取代下方較早回合的

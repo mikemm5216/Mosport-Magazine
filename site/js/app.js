@@ -7,6 +7,9 @@
 (function () {
   var root = document.documentElement;
   var q = new URLSearchParams(location.search);
+  /* Beta-0's ordinary entry opens the existing saved schedule. Explicit issue,
+     fixture and schedule selections retain their provider and mode rules. */
+  if (!['schedule', 'issue', 'fixture'].some(function (key) { return q.has(key); })) q.set('schedule', '0022600051');
   var store = {
     get: function (k) { try { return localStorage.getItem('mosport.' + k); } catch (e) { return null; } },
     set: function (k, v) { try { localStorage.setItem('mosport.' + k, v); } catch (e) { /* unavailable */ } }
@@ -45,13 +48,29 @@
     return new Intl.DateTimeFormat(loc, Object.assign({ timeZone: tz, hour12: false }, opts)).format(new Date(iso));
   }
   function tipLine(g) {
-    var tp = fmt(g.tipoff, 'Asia/Taipei', { weekday: 'short', hour: '2-digit', minute: '2-digit' });
+    var tp = fmt(g.tipoff, 'Asia/Taipei', g.source ? { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short', hour: '2-digit', minute: '2-digit' } : { weekday: 'short', hour: '2-digit', minute: '2-digit' });
+    if (!g.venueTz) return T('taipei') + ' ' + tp;
     var vn = fmt(g.tipoff, g.venueTz, { weekday: 'short', hour: '2-digit', minute: '2-digit' });
     var tzp = new Intl.DateTimeFormat('en-US', { timeZone: g.venueTz, timeZoneName: 'short' }).formatToParts(new Date(g.tipoff)).filter(function (x) { return x.type === 'timeZoneName'; })[0];
     if (tzp) vn += ' ' + tzp.value;
     return T('taipei') + ' ' + tp + ' · ' + T('venue') + ' ' + vn;
   }
-  function tipShort(g) { return T('taipei') + ' ' + fmt(g.tipoff, 'Asia/Taipei', { hour: '2-digit', minute: '2-digit' }); }
+  function tipShort(g) { return T('taipei') + ' ' + fmt(g.tipoff, 'Asia/Taipei', g.source ? { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' } : { hour: '2-digit', minute: '2-digit' }); }
+  function tipDate(g) { return fmt(g.tipoff, 'Asia/Taipei', { year: 'numeric', month: '2-digit', day: '2-digit' }); }
+  function sourceNote(source, options) {
+    if (!source) return '';
+    if (options && options.reader) {
+      var checked = fmt(source.observedAt, 'Asia/Taipei', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+      return '<p class="pv">' + esc(T('scheduleSource')) + ' <a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.publisher) + '</a> · <time datetime="' + esc(source.observedAt) + '">' + esc(T('sourceCheckedAt', { time: checked })) + '</time></p>';
+    }
+    return '<p class="pv">' + esc(T('dataSource')) + ' <a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.publisher) + '</a> · ' + esc(T('observedAt')) + ' <time datetime="' + esc(source.observedAt) + '">' + esc(source.observedAt) + '</time></p>';
+  }
+  function pregameRecord(g, options) {
+    var snapshot = g.pregameSnapshot;
+    if (!snapshot) return '<p class="pregame-missing">' + esc(T('pregameMissing')) + '</p>';
+    if (options && options.reader) return '<p class="pregame-context">' + esc(T('context_' + snapshot.homeCourt, { team: teamName(g.home, 'nick') })) + '</p>';
+    return '<div class="pregame-record"><p><b>' + esc(snapshot.homeCourt) + '</b> · HOME_COURT@' + esc(snapshot.formulaVersion) + '</p><p class="pv">' + esc(T('savedSnapshot')) + ' <time datetime="' + esc(snapshot.capturedAt) + '">' + esc(snapshot.capturedAt) + '</time></p><p class="pv">' + esc(T('snapshotId')) + ' <code>' + esc(snapshot.snapshotId) + '</code> · v' + esc(snapshot.snapshotVersion) + '</p>' + sourceNote(snapshot.source) + '</div>';
+  }
   function issueDate(iso) {
     var d = new Date(iso + 'T12:00:00Z');
     return state.lang === 'zh'
@@ -98,7 +117,7 @@
     /* Carry the reader zoom so Today reopens at the same zoom after Schedule/Review/Match. */
     var z = window.MOSPORT_READER ? window.MOSPORT_READER.token() : null;
     if (z) keep.set('zoom', z);
-    ['fixture', 'issue', 'slots', 'logoFail', 'mode', 'art'].forEach(function (k) { if (q.get(k)) keep.set(k, q.get(k)); });
+    ['fixture', 'issue', 'schedule', 'slots', 'logoFail', 'mode', 'art'].forEach(function (k) { if (q.get(k)) keep.set(k, q.get(k)); });
     var s = keep.toString();
     return s ? '?' + s : '';
   }
@@ -131,9 +150,9 @@
     }
     var model = data.model;
     var ctx = {
-      lang: state.lang, theme: state.theme, T: T, esc: esc, teamName: teamName, tipLine: tipLine, tipShort: tipShort,
+      lang: state.lang, theme: state.theme, T: T, esc: esc, teamName: teamName, tipLine: tipLine, tipShort: tipShort, tipDate: tipDate,
       issueDate: issueDate, issueDateLong: issueDateLong, issue: model, meta: model.meta,
-      stateMessage: stateMessage,
+      stateMessage: stateMessage, sourceNote: sourceNote, pregameRecord: pregameRecord,
       href: function (path, extra) { var k = new URLSearchParams(keepQuery().slice(1)); Object.keys(extra || {}).forEach(function (x) { k.set(x, extra[x]); }); var s = k.toString(); return path + (s ? '?' + s : ''); },
       topbar: topbar(page.id), navLinks: navLinks, sportButtons: sportButtons, utilButtons: utilButtons, keepQuery: keepQuery,
       percentOf: function (g) { return g.hasRead && g.world ? g.world.percent : null; },
@@ -160,16 +179,17 @@
   });
 
   /* A page-level message for a model that is not OK. Never invented content. */
-  function stateMessage(model) {
-    var key = { REFUSED: 'state_refused', INVALID: 'state_invalid', LOAD_FAILED: 'state_loadFailed', STALE: 'state_stale' }[model.status];
+  function stateMessage(model, options) {
+    var key = { REFUSED: 'state_refused', INVALID: 'state_invalid', LOAD_FAILED: 'state_loadFailed', STALE: 'state_stale', SCHEDULE_ONLY: 'state_scheduleOnly' }[model.status];
     if (!key) return '';
-    var schedule = model.status === 'STALE' && window.MOSPORT_PAGE.id !== 'schedule'
+    if (model.reason === 'SCHEDULE_EXPIRED') key = 'state_scheduleStale';
+    var schedule = !(options && options.scheduleLink === false) && (model.status === 'STALE' || model.status === 'SCHEDULE_ONLY') && window.MOSPORT_PAGE.id !== 'schedule'
       ? '<a class="cta" href="schedule.html' + keepQuery() + '">' + T('openSchedule') + ' <span aria-hidden="true">→</span></a>' : '';
     return '<div class="state-msg state-' + model.status.toLowerCase() + '" role="status"><p>' + esc(T(key)) + '</p>' + schedule + '</div>';
   }
 
   window.MOSPORT_APP = { render: render, state: state };
-  var sel = window.MOSPORT_PROVIDERS.select(location.search, window.MOSPORT_CONFIG);
+  var sel = window.MOSPORT_PROVIDERS.select(q.toString(), window.MOSPORT_CONFIG);
   /* Diagnostics (exclusion reasons, problems) are dropped here: only the model reaches the page. */
   window.MOSPORT_PROVIDERS.load(sel, function (raw) {
     data.model = window.MOSPORT_PIPELINE.run(raw, { mode: window.MOSPORT_CONFIG.mode, now: nowFor(raw) }).model;

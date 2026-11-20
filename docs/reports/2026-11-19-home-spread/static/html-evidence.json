@@ -1,0 +1,397 @@
+{
+  "sourceHead": null,
+  "baseHead": "7cee0ed57b97ca6f9fb20def53de22c680095c0e",
+  "sourceState": "WORKTREE_BOUND_BY_SOURCE_FILE_HASHES",
+  "pageClock": "2026-11-19T08:10:00Z",
+  "method": "EXISTING_APP_PAGE_RENDERER_AND_COMPONENT_METHODS_VIA_TEST_SHIM",
+  "publicQualification": "NOT_ASSERTED",
+  "webComponents": "ORIGINAL_RENDER_METHODS_ONLY; NO_BROWSER_LIFECYCLE",
+  "cssFiles": [
+    "fonts.css",
+    "tokens.css",
+    "components.css",
+    "home.css"
+  ],
+  "sourceFiles": [
+    {
+      "path": "site/index.html",
+      "sha256": "dbd37852c4cc32b5bcddfd9e8fa2ba7cead0c2a3c375aa5e7514c30cb6cea764",
+      "gitBlobSha": "09e9eb7dc7b780ebf5d01ef3fd6532eaf9b67678"
+    },
+    {
+      "path": "site/js/app.js",
+      "sha256": "c27640c01a3d55e567ff15be95d46e497b00f7256fae0375b752cc507b6b1ed3",
+      "gitBlobSha": "83ae1803c84ae3ac38147f2de42530a3ce75b003"
+    },
+    {
+      "path": "site/js/pages/home.js",
+      "sha256": "04cc710f4000bcef6d940dc91df58df56c8103f88308f98af3bc8e73435f9a33",
+      "gitBlobSha": "64369dd4cf2aa951af0b43a4d0f6a64e554984b2"
+    },
+    {
+      "path": "site/js/reader.js",
+      "sha256": "f9a2009abd8c5de6945474b69b3a90713df4b280d37b5b8e9eb6b1f4f64e6c49",
+      "gitBlobSha": "fc3232aa47d862328d323382d97c1a6de0ff7e85"
+    },
+    {
+      "path": "site/js/i18n.js",
+      "sha256": "5ac22b015b46ddb7ae129bee4cbcb5dce96acfa352cb458f4e988585c6bed8eb",
+      "gitBlobSha": "dce5ef4127c5bec3d29096a1c8db096c245b5c09"
+    },
+    {
+      "path": "site/js/data/providers.js",
+      "sha256": "01d61e5870267323c82177483bae322914f555ff2dcf49dd0f5aa0be33ce0e58",
+      "gitBlobSha": "2bbdb160fec35b689b9cb1646e889d850254b3e0"
+    },
+    {
+      "path": "site/js/data/pipeline.js",
+      "sha256": "9ab0a708235352eaa09b6309bca8418c85b94295f640d5bd2004c35e754b9b3a",
+      "gitBlobSha": "c2e0649a93f4d4e6609f4dd1a2c10fabb3198c54"
+    },
+    {
+      "path": "site/js/contracts/contracts.js",
+      "sha256": "3af54d6635c89c144a7ba9275cd8f5d2f52770e02104c42bff4b1697cd12fe1e",
+      "gitBlobSha": "b9e93a016e88a8cd368bb09efdf7c43354174377"
+    },
+    {
+      "path": "site/js/components.js",
+      "sha256": "8f8b16557e5eab453e6659290f1db580fb5836a205a7cde5b2b086a321fa8bf2",
+      "gitBlobSha": "29293ff6a2d7248c13d44ee7d0a8adee8babbaac"
+    },
+    {
+      "path": "site/js/teams.nba.js",
+      "sha256": "c41bd823e5d50d7319e454e9bae2273d1e95e49c51daea2bacfc544443352414",
+      "gitBlobSha": "3a07c45b2da9fa7e01fbebc3d03e62157f8f9967"
+    },
+    {
+      "path": "site/js/assets/registry.js",
+      "sha256": "595b2142a3f97e1de732c72582bfd555fb7fe9fc51df2c55737ea54b8868fbc3",
+      "gitBlobSha": "97a0363acc9838450bdeff1d14e60a947de0605b"
+    },
+    {
+      "path": "site/data/asset-registry.json",
+      "sha256": "2f5ec2435ff6e49e537eef3714b6ba5eb65748c6ade9f7acaeaac77c60378a60",
+      "gitBlobSha": "ecb205b69b527dfce9a7f59d6c34f742e6d3fe08"
+    },
+    {
+      "path": "site/data/schedules/0022600051.json",
+      "sha256": "939550f6a21924db611586b12a3ff880c371691fede4c519661f6f6950215ad4",
+      "gitBlobSha": "9e9b7e0e1976f0f3769bfecef7c2bcca45f1a226"
+    },
+    {
+      "path": "site/css/fonts.css",
+      "sha256": "b449059abe6124004b3a8d669b259c335d957cf2378a7f45f728b1282538884c",
+      "gitBlobSha": "bfe18dfdcc633877c9aa6abb9f5166f8b14c0256"
+    },
+    {
+      "path": "site/css/tokens.css",
+      "sha256": "b290c6344bee57d310f4f3cce7691115ec5b08921a7d90e17a4b2a79e25c3df8",
+      "gitBlobSha": "803d49fbdba25810b18a0fb34be7e4e9476ee53b"
+    },
+    {
+      "path": "site/css/components.css",
+      "sha256": "04a399d981915a5d058a19da03d6e4cd651411eec0250203aa62c764f36766a5",
+      "gitBlobSha": "122f757e9001e9d5a85e207d264dd6f1159f6f29"
+    },
+    {
+      "path": "site/css/home.css",
+      "sha256": "ebecf11d7b3bf4145dc3945b0ae153066998dbd89efad888ab08f7917422881f",
+      "gitBlobSha": "10af9444d11408d629a611d25add2ea9aea01279"
+    },
+    {
+      "path": "tests/unit/helpers.js",
+      "sha256": "61cf0a6775a0f55b993f0dbab6f560b160a2733f923fdd511df2dc460c4a33a9",
+      "gitBlobSha": "44d78c97b7c694ab3208a35450da65fab2ed919c"
+    },
+    {
+      "path": "tests/e2e/static-components.js",
+      "sha256": "4ed9e7fa05d76d8edfbb14ce8c36748c302dbfb147c89807ebb6786de3977930",
+      "gitBlobSha": "3fa804d5e7b205986dd9bc7e1157e66edbcdedbe"
+    },
+    {
+      "path": "tests/e2e/home-spread-static.js",
+      "sha256": "a6c28eb763ec4aacb1702b7b96a2c56510d2a38224483016099f217c45636339",
+      "gitBlobSha": "eeee536e217fb168c198fb52e7e2a810c61f1ada"
+    },
+    {
+      "path": "tests/e2e/render-schedule-static.py",
+      "sha256": "8ed4e6741e6556946d07d99ecb3656aa7ab0832830c624e0d7d2ba227b7b70b2",
+      "gitBlobSha": "0d84ed3c9e04e56f52cfe69b7eef6a06ca10f249"
+    }
+  ],
+  "cases": [
+    {
+      "name": "home-saved-desktop",
+      "width": 1600,
+      "viewportHeight": 1200,
+      "mode": "prototype",
+      "state": "MISSING",
+      "page": "index.html",
+      "viewport": "desktop",
+      "input": "SAVED_SCHEDULE",
+      "nbaGameId": "0022600051",
+      "containerWidth": 628.8172043010752,
+      "staticCss": ".lead{width:100%}.lead-art{grid-column:1;grid-row:1}.lead-foot{grid-column:1/-1}.cv-t2{background:none;color:#FF7A1A}body.page-home{height:auto;overflow:visible}.page-home #app{height:auto;display:block}#reader{display:block;overflow:visible}#sizer{width:1360px;height:auto}#sizer .spread{position:relative;transform:none;grid-template-columns:628.8172043010752px 731.1827956989248px}.pg-cover{grid-column:1;grid-row:1}.pg-inner{grid-column:2;grid-row:1}.lead-read{grid-column:2;grid-row:1}.lead-foot{grid-row:2}",
+      "staticGeometry": "NATIVE_READER_WIDTH_UNSCALED_FULL_CONTENT; EXPLICIT_SOURCE_GRID_PLACEMENT; not browser zoom/scroll acceptance",
+      "rendererDeviations": [
+        "WeasyPrint grid placement/stretch is made explicit using source column ratios and DOM order",
+        "Unsupported clipped orange gradient text uses its source first color #FF7A1A",
+        "Shadows and unsupported decorations are not browser-verified"
+      ],
+      "expectedText": [
+        "MOSPORT",
+        "賽前紀錄尚未提供公開顯示"
+      ],
+      "htmlSha256": "6bb7c97e86f22d2f9f06392f105157e810f4a7c64bcc2eb3918a3495302b4972",
+      "componentSlots": [
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "cover-desktop-art",
+          "state": "art",
+          "version": "placeholder-v1",
+          "reason": "",
+          "slotLabel": "cover-desktop-art · art · placeholder-v1 · assets/art/cover-art.placeholder-v1.svg"
+        },
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "today-feature-art",
+          "state": "art",
+          "version": "placeholder-v1",
+          "reason": "",
+          "slotLabel": "today-feature-art · art · placeholder-v1 · assets/art/arena-art.placeholder-v1.svg"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:SAC",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:SAC · art · normalized-80-v1 · assets/teams/normalized/nba/sac.png"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:LAL",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:LAL · art · normalized-80-v1 · assets/teams/normalized/nba/lal.png"
+        }
+      ]
+    },
+    {
+      "name": "home-saved-mobile",
+      "width": 390,
+      "viewportHeight": 844,
+      "mode": "prototype",
+      "state": "MISSING",
+      "page": "index.html",
+      "viewport": "mobile",
+      "input": "SAVED_SCHEDULE",
+      "nbaGameId": "0022600051",
+      "containerWidth": 390,
+      "staticCss": ".lead{width:100%}.lead-art{grid-column:1;grid-row:1}.lead-foot{grid-column:1/-1}.cv-t2{background:none;color:#FF7A1A}.pg-inner{width:100%}.lead-read{grid-column:1;grid-row:2}.lead-foot{grid-row:3}.pg-inner>.state-msg,.pg-inner>.today-empty{width:100%}",
+      "staticGeometry": "SOURCE_MOBILE_FLOW_WITH_EXPLICIT_GRID_PLACEMENT",
+      "rendererDeviations": [
+        "WeasyPrint grid placement/stretch is made explicit using source column ratios and DOM order",
+        "Unsupported clipped orange gradient text uses its source first color #FF7A1A",
+        "Shadows and unsupported decorations are not browser-verified"
+      ],
+      "expectedText": [
+        "MOSPORT",
+        "賽前紀錄尚未提供公開顯示"
+      ],
+      "htmlSha256": "4aa981adbf71718def89ba5b49802ef5522d4a455d13104afc92cc173e0703a9",
+      "componentSlots": [
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "cover-mobile-art",
+          "state": "art",
+          "version": "placeholder-v1",
+          "reason": "",
+          "slotLabel": "cover-mobile-art · art · placeholder-v1 · assets/art/cover-art.placeholder-v1.svg"
+        },
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "today-feature-art",
+          "state": "art",
+          "version": "placeholder-v1",
+          "reason": "",
+          "slotLabel": "today-feature-art · art · placeholder-v1 · assets/art/arena-art.placeholder-v1.svg"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:SAC",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:SAC · art · normalized-80-v1 · assets/teams/normalized/nba/sac.png"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:LAL",
+          "state": "art",
+          "version": "normalized-80-v1",
+          "reason": "",
+          "slotLabel": "team-logo:LAL · art · normalized-80-v1 · assets/teams/normalized/nba/lal.png"
+        }
+      ]
+    },
+    {
+      "name": "home-production-desktop",
+      "width": 1600,
+      "viewportHeight": 1200,
+      "mode": "production",
+      "state": "MISSING",
+      "page": "index.html",
+      "viewport": "desktop",
+      "input": "SAVED_SCHEDULE",
+      "nbaGameId": "0022600051",
+      "containerWidth": 628.8172043010752,
+      "staticCss": ".lead{width:100%}.lead-art{grid-column:1;grid-row:1}.lead-foot{grid-column:1/-1}.cv-t2{background:none;color:#FF7A1A}body.page-home{height:auto;overflow:visible}.page-home #app{height:auto;display:block}#reader{display:block;overflow:visible}#sizer{width:1360px;height:auto}#sizer .spread{position:relative;transform:none;grid-template-columns:628.8172043010752px 731.1827956989248px}.pg-cover{grid-column:1;grid-row:1}.pg-inner{grid-column:2;grid-row:1}.lead-read{grid-column:2;grid-row:1}.lead-foot{grid-row:2}",
+      "staticGeometry": "NATIVE_READER_WIDTH_UNSCALED_FULL_CONTENT; EXPLICIT_SOURCE_GRID_PLACEMENT; not browser zoom/scroll acceptance",
+      "rendererDeviations": [
+        "WeasyPrint grid placement/stretch is made explicit using source column ratios and DOM order",
+        "Unsupported clipped orange gradient text uses its source first color #FF7A1A",
+        "Shadows and unsupported decorations are not browser-verified"
+      ],
+      "expectedText": [
+        "MOSPORT",
+        "賽前紀錄尚未提供公開顯示"
+      ],
+      "htmlSha256": "42b12bd02430d57bf636b2ceb5c712c58633d2769a27a143a10258a441de0365",
+      "componentSlots": [
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "cover-desktop-art",
+          "state": "fallback",
+          "version": "placeholder-v1",
+          "reason": "STATUS_PLACEHOLDER_NOT_ALLOWED",
+          "slotLabel": "cover-desktop-art · fallback · placeholder-v1 · STATUS_PLACEHOLDER_NOT_ALLOWED"
+        },
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "today-feature-art",
+          "state": "fallback",
+          "version": "placeholder-v1",
+          "reason": "STATUS_PLACEHOLDER_NOT_ALLOWED",
+          "slotLabel": "today-feature-art · fallback · placeholder-v1 · STATUS_PLACEHOLDER_NOT_ALLOWED"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:SAC",
+          "state": "fallback",
+          "version": "normalized-80-v1",
+          "reason": "RIGHTS_UNVERIFIED_NOT_ALLOWED",
+          "slotLabel": "team-logo:SAC · fallback · normalized-80-v1 · RIGHTS_UNVERIFIED_NOT_ALLOWED",
+          "fallback": "abbr"
+        },
+        {
+          "tag": "mo-team-logo",
+          "slot": "team-logo:LAL",
+          "state": "fallback",
+          "version": "normalized-80-v1",
+          "reason": "RIGHTS_UNVERIFIED_NOT_ALLOWED",
+          "slotLabel": "team-logo:LAL · fallback · normalized-80-v1 · RIGHTS_UNVERIFIED_NOT_ALLOWED",
+          "fallback": "abbr"
+        }
+      ]
+    },
+    {
+      "name": "home-load-failed-mobile",
+      "width": 390,
+      "viewportHeight": 844,
+      "mode": "production",
+      "state": "LOAD_FAILED",
+      "page": "index.html",
+      "viewport": "mobile",
+      "input": "ISOLATED_LOAD_FAILURE",
+      "nbaGameId": null,
+      "containerWidth": 390,
+      "staticCss": ".lead{width:100%}.lead-art{grid-column:1;grid-row:1}.lead-foot{grid-column:1/-1}.cv-t2{background:none;color:#FF7A1A}.pg-inner{width:100%}.lead-read{grid-column:1;grid-row:2}.lead-foot{grid-row:3}.pg-inner>.state-msg,.pg-inner>.today-empty{width:100%}",
+      "staticGeometry": "SOURCE_MOBILE_FLOW_WITH_EXPLICIT_GRID_PLACEMENT",
+      "rendererDeviations": [
+        "WeasyPrint grid placement/stretch is made explicit using source column ratios and DOM order",
+        "Unsupported clipped orange gradient text uses its source first color #FF7A1A",
+        "Shadows and unsupported decorations are not browser-verified"
+      ],
+      "expectedText": [
+        "MOSPORT"
+      ],
+      "htmlSha256": "8d50001272d48d4c25b8be577fee0c25bd9d9f30fb97c2c55935735e22b32707",
+      "componentSlots": [
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        },
+        {
+          "tag": "mo-art",
+          "slot": "cover-mobile-art",
+          "state": "fallback",
+          "version": "placeholder-v1",
+          "reason": "STATUS_PLACEHOLDER_NOT_ALLOWED",
+          "slotLabel": "cover-mobile-art · fallback · placeholder-v1 · STATUS_PLACEHOLDER_NOT_ALLOWED"
+        },
+        {
+          "tag": "mo-brand-logo",
+          "slot": "brand-mark",
+          "state": "art",
+          "version": "draft-v1",
+          "reason": "",
+          "slotLabel": "brand-mark · art · draft-v1 · assets/brand/mosport-mark.svg"
+        }
+      ]
+    }
+  ]
+}

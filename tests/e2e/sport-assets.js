@@ -23,7 +23,7 @@ for(const w of [1440,390]){
  await p.locator('#filter').fill('Japan');assert.equal(await p.locator('#flags figure:visible').getAttribute('data-code'),'JP');checks++;
  await p.locator('#filter').fill('GB-ENG');assert.equal(await p.locator('#flags figure:visible').count(),1);checks++;
  await p.locator('#filter').fill('no-such-country');assert.equal(await p.locator('#flags figure:visible').count(),0);checks++;
- await p.goto('file://'+path.resolve(__dirname,'../../site/index.html')+'?lang=en');
+ await p.goto('file://'+path.resolve(__dirname,'../../site/index.html')+'?fixture=demo&lang=en');
  assert.ok(/Soccer/i.test(await p.locator('.tb-sports').innerText()));assert.ok(!/Football/i.test(await p.locator('.tb-sports').innerText()));checks++;
  await c.close();
 }await browser.close();console.log(checks+' sport-asset browser checks passed');})().catch(e=>{console.error(e);process.exit(1)});
