@@ -212,7 +212,7 @@ module.exports = async function zoomSuite(browser, check, open, OUT) {
     check(`mobile ${w}: browser pinch-zoom allowed`, !/user-scalable\s*=\s*(no|0)|maximum-scale\s*=\s*1(\.0)?\b/i.test(m.viewport), m.viewport);
     check(`mobile ${w}: vertical cover → TODAY flow, no sideways overflow`, m.scrolls && m.overflow <= 0);
     await page.click('.mnav-sports .sport:nth-child(2)');
-    check(`mobile ${w}: sport switch still works`, /即將推出|Coming soon/.test(await page.locator('.note').innerText()));
+    check(`mobile ${w}: sport switch still works`, (await page.locator('.note[role="status"] span').innerText()) === '這個運動的內容還沒推出。');
     await ctx.close();
   }
 
