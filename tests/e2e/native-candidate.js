@@ -26,7 +26,18 @@ const assert=require('node:assert/strict');
   await page.goto(url+sep+'fixture=demo&art=fallback');await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(350);
   assert.deepEqual(await geometry(),before);checks++;
   await page.goto(url+sep+'fixture=demo&art=candidate:native-illustration-v2&mode=production');
-  assert.ok(await page.evaluate(()=>Object.keys(window.MOSPORT_REG.slots).every(id=>window.MOSPORT_REGISTRY.resolveArt(window.MOSPORT_REG,id,{mode:'production',preview:true,previewVersion:'native-illustration-v2'}).state==='fallback')));checks++;
+  const production = await page.evaluate(() => Object.keys(window.MOSPORT_REG.slots).map(id => {
+    const resolve = options => window.MOSPORT_REGISTRY.resolveArt(window.MOSPORT_REG, id, options);
+    return {
+      normal: resolve({ mode: 'production' }),
+      requested: resolve({ mode: 'production', preview: true, previewVersion: 'native-illustration-v2' })
+    };
+  }));
+  for (const { normal, requested } of production) {
+    assert.deepEqual(requested, normal);
+    assert.notEqual(requested.version, 'native-illustration-v2');
+  }
+  checks++;
   await ctx.close();
  }
  await browser.close();console.log(checks+' native-v2 browser checks passed');

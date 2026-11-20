@@ -79,7 +79,14 @@ module.exports = async function assetSuite(browser, check, open, OUT) {
     const m = await open(browser, 'index.html', 1440, 900);
     const st = await m.page.evaluate(() => ['cover-desktop-art', 'cover-mobile-art', 'today-feature-art', 'match-hero-art', 'editorial-card-art']
       .map((id) => Object.assign({ slot: id }, window.MOSPORT_REGISTRY.resolveArt(window.MOSPORT_REG, id, { mode: 'production', variant: 'desktop' }))));
-    check('production: placeholder art falls back, brand mark renders', brand === 'art' && st.every((s) => s.state === 'fallback' && /PLACEHOLDER|NO_ACTIVE_VERSION/.test(s.reason)), JSON.stringify(st.map((s) => s.slot + ':' + s.reason)) + ' brand ' + brand);
+    const homeSlots = ['cover-desktop-art', 'cover-mobile-art', 'today-feature-art'];
+    for (const id of homeSlots) {
+      const art = st.find(s => s.slot === id);
+      check('production: approved art for ' + id, art.state === 'art' && art.version === 'claude-crop-v1' && art.rights === 'OWNED', JSON.stringify(art));
+    }
+    check('production: match placeholder falls back', st.find(s => s.slot === 'match-hero-art').reason === 'STATUS_PLACEHOLDER_NOT_ALLOWED');
+    check('production: editorial slot without active art falls back', st.find(s => s.slot === 'editorial-card-art').reason === 'NO_ACTIVE_VERSION');
+    check('production: brand mark renders', brand === 'art');
     await m.ctx.close();
   }
 

@@ -28,10 +28,12 @@ test('all Founder-required art slots exist with size, crop, formats and fallback
 });
 
 test('prototype renders the placeholder; production falls back', () => {
-  const p = R.resolveArt(REG, 'cover-desktop-art', { mode: 'prototype', variant: 'desktop' });
+  const fixture = clone(REG);
+  fixture.slots['cover-desktop-art'].activeVersion = 'placeholder-v1';
+  const p = R.resolveArt(fixture, 'cover-desktop-art', { mode: 'prototype', variant: 'desktop' });
   assert.equal(p.state, 'art');
   assert.equal(p.objectPosition, '62% 40%');
-  const q = R.resolveArt(REG, 'cover-desktop-art', { mode: 'production', variant: 'desktop' });
+  const q = R.resolveArt(fixture, 'cover-desktop-art', { mode: 'production', variant: 'desktop' });
   assert.equal(q.state, 'fallback');
   assert.equal(q.reason, 'STATUS_PLACEHOLDER_NOT_ALLOWED');
 });
@@ -55,7 +57,8 @@ test('an ACTIVE licensed version renders in production with its crop and dark fi
 test('art with a person, a logo or text is rejected by validation and by the resolver', () => {
   for (const k of ['containsPerson', 'containsLogo', 'containsText']) {
     const r = clone(REG);
-    r.slots['cover-desktop-art'].versions[0].content[k] = true;
+    const slot = r.slots['cover-desktop-art'];
+    slot.versions.find(version => version.id === slot.activeVersion).content[k] = true;
     assert.ok(R.validate(r).some((e) => /must not contain/.test(e)), k);
     assert.equal(R.resolveArt(r, 'cover-desktop-art', { mode: 'prototype' }).reason, 'ART_CONTENT_NOT_ALLOWED', k);
   }
@@ -63,7 +66,8 @@ test('art with a person, a logo or text is rejected by validation and by the res
 
 test('BLOCKED or UNVERIFIED rights, a wrong format, and athlete kind never reach production', () => {
   const r = clone(REG);
-  const v = r.slots['today-feature-art'].versions[0];
+  const slot = r.slots['today-feature-art'];
+  const v = slot.versions.find(version => version.id === slot.activeVersion);
   v.status = 'ACTIVE';
   v.rights.status = 'UNVERIFIED';
   assert.equal(R.resolveArt(r, 'today-feature-art', { mode: 'production' }).state, 'fallback');

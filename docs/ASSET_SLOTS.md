@@ -56,7 +56,7 @@ Team-logo entries are empty until rights-cleared files exist (issue #5).
 | `site/assets/art/editorial-card-art.v1.webp` (optional) | `editorial-card-art` |
 | optional `*.v1.dark.webp` | same slot, used in dark mode (`darkFile`) |
 
-Current state: each slot's active version is a `PLACEHOLDER` development vector, which production never shows. The ChatGPT art is registered as `chatgpt-art-v1` with status `CANDIDATE`. Preview it with `?art=candidate`. A named candidate can be previewed with `?art=candidate:<versionId>`, and `?zones=1` overlays the safe zones. To approve, set the slot's `activeVersion` to `chatgpt-art-v1`, change its `status` to `ACTIVE`, fill in `approvedBy`/`approvedAt`, then run `npm run registry:build`.
+The Founder approved `claude-crop-v1` for the desktop cover, mobile cover and TODAY feature on 2026-11-20. Those three slots render automatically in production. Match keeps its development placeholder and the editorial card has no active version. Other candidates can be inspected in prototype with `?art=candidate:<versionId>`. [Approval record](https://github.com/mikemm5216/Mosport-Magazine/issues/22#issuecomment-7033490923)
 
 ## How to add or replace art (person, agent or CMS)
 
