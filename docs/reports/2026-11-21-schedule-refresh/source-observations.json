@@ -1,0 +1,74 @@
+{
+  "gameId": "0022600051",
+  "previousValidUntil": "2026-11-21T02:43:14.041Z",
+  "validUntil": "2026-11-21T03:00:00Z",
+  "observations": [
+    {
+      "url": "https://www.nba.com/game/sac-vs-lal-0022600051",
+      "requestStartedAt": "2026-11-21T01:55:25.374Z",
+      "observedAt": "2026-11-21T01:55:33.026Z",
+      "httpStatus": 200,
+      "bodyBytes": 234251,
+      "bodySha256": "31778ce7ce83593d4e56bc4c5c4df31d0eb5019309ab2f980f365d5c1760fd1f",
+      "selector": "script#__NEXT_DATA__ > props.pageProps.game",
+      "facts": {
+        "gameId": "0022600051",
+        "gameTimeUTC": "2026-11-21T03:00:00Z",
+        "gameEt": "2026-11-20T22:00:00Z",
+        "gameStatus": 1,
+        "gameStatusText": "10:00 pm ET",
+        "isNeutral": false,
+        "gameLabel": "Emirates NBA Cup",
+        "gameSubLabel": "West Group C",
+        "homeTeam": {
+          "teamTricode": "LAL",
+          "score": 0
+        },
+        "awayTeam": {
+          "teamTricode": "SAC",
+          "score": 0
+        }
+      },
+      "latestMeeting": {
+        "selector": "props.pageProps.game.lastFiveMeetings.meetings[0]",
+        "gameId": "0022600185",
+        "recencyOrder": 1
+      }
+    },
+    {
+      "url": "https://www.nba.com/game/lal-vs-sac-0022600185",
+      "requestStartedAt": "2026-11-21T01:55:52.528Z",
+      "observedAt": "2026-11-21T01:55:57.821Z",
+      "httpStatus": 200,
+      "bodyBytes": 664585,
+      "bodySha256": "41753d83738c59c1cad57618778dace4ece78aa7bb5331caa7330ccab867d5a1",
+      "selector": "script#__NEXT_DATA__ > props.pageProps.game",
+      "facts": {
+        "gameId": "0022600185",
+        "gameTimeUTC": "2026-11-05T03:00:00Z",
+        "gameEt": "2026-11-04T22:00:00Z",
+        "gameStatus": 3,
+        "gameStatusText": "Final",
+        "isNeutral": false,
+        "gameLabel": "",
+        "gameSubLabel": "",
+        "homeTeam": {
+          "teamTricode": "SAC",
+          "score": 103
+        },
+        "awayTeam": {
+          "teamTricode": "LAL",
+          "score": 116
+        }
+      }
+    }
+  ],
+  "transientFailure": {
+    "url": "https://www.nba.com/game/lal-vs-sac-0022600185",
+    "requestStartedAt": "2026-11-21T01:55:33.027Z",
+    "responseCompletedAt": "2026-11-21T01:55:39.717Z",
+    "httpStatus": 502
+  },
+  "observationTimeBasis": "UTC clock immediately after curl completed each body. Raw-body hashes identify those responses. Only verified factual fields are included.",
+  "expiryBasis": "The earlier of the prior 24-hour freshness limit from the new schedule observation and the scheduled tipoff."
+}

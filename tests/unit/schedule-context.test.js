@@ -28,6 +28,23 @@ test('data available: sourced 0051 schedule is visible without a fabricated Worl
   assert.equal(schedule.source.contentFingerprint, C.sha256(C.canonical({ game: schedule.game, originalUrl: schedule.source.originalUrl, observedAt: schedule.source.observedAt })));
 });
 
+test('refreshed 0051 entry spans the previous expiry and withdraws the editorial at tipoff', () => {
+  const receipt = require('../../docs/reports/2026-11-21-schedule-refresh/source-observations.json');
+  const tipoff = Date.parse(schedule.game.tipoff);
+  assert.ok(Date.parse(schedule.editorial.observedAt) < Date.parse(receipt.previousValidUntil));
+  for (const clock of [receipt.previousValidUntil, new Date(tipoff - 1).toISOString()]) {
+    const m = run(schedule, clock).model;
+    assert.equal(m.status, 'SCHEDULE_ONLY');
+    assert.equal(m.schedule[0].editorial.kind, 'CUP_REMATCH');
+  }
+  for (const clock of [schedule.game.tipoff, new Date(tipoff + 1).toISOString()]) {
+    const m = run(schedule, clock).model;
+    assert.equal(m.status, 'STALE');
+    assert.equal(m.schedule[0].editorial, null);
+    assert.equal(m.schedule[0].pregameSnapshot, null);
+  }
+});
+
 test('explicit missing: no qualified snapshot means no context, World, fake score or probability', () => {
   const m = run(schedule).model, g = m.schedule[0];
   assert.equal(g.pregameSnapshot, null);
