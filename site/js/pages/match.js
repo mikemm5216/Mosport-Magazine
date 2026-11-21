@@ -5,6 +5,145 @@
  */
 (function () {
   var showFirst = false;
+  var requestedColumn = typeof location !== 'undefined' ? (location.hash || '').slice(1) : '';
+
+
+  function recordColumn(c, g, initial) {
+    var zh = c.lang === 'zh', esc = c.esc;
+    function name(side) {
+      var nick = c.teamName(side === 'HOME' ? g.home : g.away, 'nick');
+      return zh ? nick : 'the ' + nick;
+    }
+    function standing(side, record) {
+      var team = name(side);
+      if (!record) return zh ? team + '的戰績尚缺' : 'I’m missing the record for ' + team;
+      return zh ? team + ' ' + record.wins + ' 勝 ' + record.losses + ' 敗' : 'The ' + team.slice(4) + ' sit at ' + record.wins + '–' + record.losses;
+    }
+    var records = standing('AWAY', initial.awayRecord) + (zh ? '，' : '. ') + standing('HOME', initial.homeRecord) + (zh ? '。' : '. ');
+    var rule = zh ? '我每場都選本季勝率較高的一隊，想看看這樣能比場場選主隊多猜對幾場。遇到平手或戰績不全，我就棄權。' :
+      'I take the team with the higher season win rate. If the percentages tie or a record is missing, I sit it out. Over a season, how many more games can I call than someone who always picks the home team?';
+    var title, comparison;
+    if (initial.pick === null) {
+      title = initial.reason === 'TIED' ? (zh ? '兩隊勝率打平，這一票我留白' : 'A tie on win rate. I’m sitting this one out.') :
+        (zh ? '戰績還缺一塊，這一票我留白' : 'I’m a record short, so I’ll pass.');
+      comparison = initial.baseline ? (zh ? '這場我棄權，主場基準照常選' + name(initial.baseline) + '，這一票只記在主場派的帳上。' :
+        'I’m passing. The home rule still picks ' + name(initial.baseline) + ', so only that pick goes on the scorecard.') :
+        (zh ? '主場基準這場也棄權，兩邊都沒有一票要算。' : 'The home rule is sitting this one out too. Neither of us has a pick to score.');
+    } else {
+      var pick = name(initial.pick);
+      title = zh ? '這一票我投' + pick : 'My pick is ' + pick;
+      if (!initial.baseline) {
+        comparison = zh ? '主場基準這場棄權，只看我這一票猜得準不準。' :
+          'The home rule has no pick in this one. Only my call will be scored.';
+      } else if (initial.pick === initial.baseline) {
+        title += zh ? '，贏了也拉不開差距' : '. Even a win won’t put me ahead.';
+        comparison = zh ? '這場兩種選法都挑' + pick + '。贏就一起贏，猜錯也一起錯。' :
+          'The home rule also takes ' + pick + ' today. We’ll both get this one right or both get it wrong.';
+      } else {
+        comparison = zh ? '主場派選' + name(initial.baseline) + '，我選' + pick + '。這場結束，兩種選法只會有一邊猜對。' :
+          'The home rule takes ' + name(initial.baseline) + '. I’m backing ' + pick + '. One of us will be right when the final is in.';
+      }
+    }
+    return '<p class="lbl lbl-brand">' + (zh ? 'MOSPORT 研究專欄 · 戰績觀察室' : 'MOSPORT Research Column · Record Desk') +
+      '</p><h2>' + esc(title) + '</h2><p>' + esc(records + rule) + '</p><p>' + esc(comparison) + '</p>';
+  }
+
+  function renderAnalysis(c, g) {
+    var a = g.analysis, zh = c.lang === 'zh', esc = c.esc;
+    function time(iso, precise) {
+      var options = {timeZone:'Asia/Taipei', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12:false};
+      if (precise) { options.second='2-digit'; options.fractionalSecondDigits=3; }
+      var value = new Intl.DateTimeFormat(zh ? 'zh-TW' : 'en-US', options).format(new Date(iso));
+      return '<time datetime="' + esc(iso) + '">' + esc(value) + ' UTC+8</time>';
+    }
+    function paragraphs(text) {
+      return text.split(/\r?\n\s*\n/).filter(function (p) { return p.trim(); }).map(function (p) { return '<p>' + esc(p.trim()) + '</p>'; }).join('');
+    }
+    var deskNames = zh ? {'season-record':'戰績觀察室', turnovers:'球權保管室', 'second-chance':'二波編輯台'} :
+      {'season-record':'Record Desk', turnovers:'Turnover Desk', 'second-chance':'Second-Chance Desk'};
+    function signedColumn(id) {
+      var copy = a.desks.copy.columns[id][c.lang];
+      return '<p class="lbl lbl-brand">' + (zh ? 'MOSPORT 研究專欄 · ' : 'MOSPORT Research Column · ') + deskNames[id] +
+        '</p><h2>' + esc(copy.title) + '</h2>' + paragraphs(copy.body) + '<h3>' + (zh ? '我會看什麼' : 'What I’m watching') +
+        '</h3>' + paragraphs(copy.watch) + '<h3>' + (zh ? '這一票的局限' : 'Where this pick can go wrong') + '</h3>' +
+        paragraphs(copy.limit) + '<p class="pv">' + (zh ? '專欄定稿 ' : 'Column filed ') + time(a.desks.copy.preparedAt) + '</p>';
+    }
+    var article = '';
+    if (a.article) {
+      var data = a.article, copy = data[c.lang];
+      article = '<article class="card edition-article" id="pregame-column"><p class="lbl lbl-brand">' + (zh ? 'MOSPORT 賽前專欄' : 'MOSPORT Pregame Column') + '</p><h2>' + esc(copy.title) +
+        '</h2>' + paragraphs(copy.body) + '<h3>' + (zh ? '比賽觀察' : 'What to watch') + '</h3>' + paragraphs(copy.watch) +
+        '<h3>' + (zh ? '何時改變判斷' : 'What would change the read') + '</h3><p>' + esc(copy.falsifier) +
+        '</p><p class="pv">' + (zh ? '資料截至 ' : 'Sources through ') + time(data.cutoffAt) + ' · ' + (zh ? '定稿 ' : 'Filed ') + time(data.preparedAt) + '</p><p class="pv">' +
+        data.sources.map(function (source) { return '<a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.label) + '</a>'; }).join(' · ') + '</p></article>';
+    }
+    if (!a.stages.length) return article;
+    function pick(side) { return side === null ? (zh ? '棄權' : 'Abstain') : c.teamName(side === 'HOME' ? g.home : g.away, 'nick'); }
+    function record(team,r) { return c.teamName(team, 'nick') + (r ? ' ' + r.wins + '–' + r.losses : (zh ? ' 戰績缺失' : ' record unavailable')); }
+    var labels = zh ? {HIT:'命中',MISS:'未命中',ABSTAIN:'棄權'} : {HIT:'Hit',MISS:'Miss',ABSTAIN:'Abstention'};
+    var cards = a.stages.map(function (s) {
+      var header = s.seal ? (zh ? 'T−15 截止前封存' : 'Final pick sealed before T−15') : s.late ? (zh ? 'T−15 逾時記錄，僅供核對' : 'Late T−15 record · review only') : s.stage === 'INITIAL' ? (zh ? '賽前初選' : 'Initial pick') : (zh ? 'T−15 準時鎖定' : 'On-time T−15 lock');
+      var timing = s.seal ? (zh ? '完成準備 ' : 'Prepared ') + time(s.seal.preparedAt,true) + ' · ' +
+        (zh ? '封存見證 ' : 'Seal witnessed ') + time(s.seal.witnessedAt,true) + ' · ' +
+        (zh ? '資料截止 ' : 'Cutoff ') + time(s.cutoff,true) + ' · ' +
+        (zh ? '開賽前實際登錄 ' : 'Registered before tipoff ') + time(s.lockedAt,true) + ' · ' +
+        (zh ? '登錄距截止 ' : 'Registration delay ') + esc(String(s.seal.recordingDelayMs)) + (zh ? ' 毫秒' : ' ms') :
+        (zh ? '資料截至 ' : 'Cutoff ') + time(s.cutoff) + ' · ' + (zh ? '鎖定 ' : 'Locked ') + time(s.lockedAt);
+      return '<section class="edition-stage"><h3>' + header + ' · ' + esc(pick(s.pick)) + '</h3><p>' + esc(record(g.away,s.awayRecord) + ' / ' + record(g.home,s.homeRecord)) +
+        '</p><p class="pv">' + timing +
+        '</p><p class="pv">' + (zh ? '主場基準選擇 ' : 'Home baseline pick: ') + esc(pick(s.baseline)) + '</p>' +
+        (s.evaluation ? '<p>' + (zh ? '研究選擇 ' : 'Research pick: ') + labels[s.evaluation.outcome] + ' · ' + (zh ? '基準 ' : 'Baseline: ') + labels[s.evaluation.baselineOutcome] + '</p>' : '<p class="pv">' + (s.late ? (zh ? '不列入成績' : 'Excluded from scoring') : (zh ? '尚未結算' : 'Scoring pending')) + '</p>') + '</section>';
+    }).join('');
+    var pending = a.finalStatus === 'PENDING' ? (zh ? 'T−15 鎖定窗口開始於 ' : 'T−15 window opens ') + time(a.finalWindowAt) :
+      a.finalStatus === 'OPEN' ? (zh ? 'T−15 窗口已開啟，等待鎖定紀錄。' : 'The T−15 window is open. Awaiting a lock.') :
+      a.finalStatus === 'NOT_RECORDED' ? (zh ? '本站未收錄開賽前的 T−15 鎖定紀錄。' : 'No pre-tip T−15 lock has been published here.') : '';
+    if (a.optedInAt && a.finalStatus !== 'SEALED_FINAL') {
+      var sourceOpen = new Date(Date.parse(a.finalWindowAt) - 300000).toISOString();
+      pending = (zh ? '資料觀測與封存時段 ' : 'Source observation and seal window ') + time(sourceOpen) + ' – ' + time(a.finalWindowAt) +
+        (zh ? '。最終票登錄時段 ' : '. Final registration window ') + time(a.finalWindowAt) + ' – ' + time(g.tipoff) +
+        (zh ? '（開賽前）。' : ' (before tipoff).');
+      if (a.finalStatus === 'NOT_RECORDED') pending += zh ? '登錄時段已結束，本站未收錄合格最終票。' : 'Registration closed with no qualifying final vote recorded here.';
+    }
+    var policyInfo = a.optedInAt ? '<p class="pv">' + (zh ? '本場 T−15 規則於 ' : 'This matchup opted into the T−15 seal policy at ') + time(a.optedInAt,true) +
+      (zh ? ' 登錄。截止前須完成封存見證，並於開賽前登錄最終票。' : '. The final vote requires a seal witnessed before the cutoff and registration before tipoff.') + '</p>' : '';
+    if (a.witnessedAt && a.finalStatus !== 'SEALED_FINAL') {
+      policyInfo += '<p class="pv">' + (zh ? '已收到封存見證 ' : 'Seal witnessed ') + time(a.witnessedAt,true) +
+        (zh ? '。本站尚未收錄符合規則的最終票。' : '. No qualifying final vote has been recorded here yet.') + '</p>';
+    }
+    var initial = a.stages.find(function (s) { return s.stage === 'INITIAL'; });
+    if (!initial) return article;
+    function baselineComparison(side) {
+      if (!initial.baseline) return zh ? '主場基準棄權' : 'Home baseline abstained';
+      if (!side) return zh ? '本桌棄權，主場基準選' + pick(initial.baseline) : 'Desk abstained; home baseline picked ' + pick(initial.baseline);
+      return (side === initial.baseline ? (zh ? '與主場基準同選' : 'Agrees with the home baseline: ') :
+        (zh ? '與主場基準選擇相反，基準選' : 'Opposes the home baseline, which picked ')) + pick(initial.baseline);
+    }
+    var recordHead = a.desks ? signedColumn('season-record') : recordColumn(c,g,initial);
+    var recordDesk = '<aside class="card edition-pick" id="desk-season-record" data-desk="season-record">' + recordHead +
+      '<p class="pv">' + (zh ? '規則 v1 · 戰績核對 ' : 'Rule v1 · Records checked against ') + '<a href="' + esc(g.source.url) + '" rel="noopener noreferrer">NBA</a> · <a href="https://www.espn.com/nba/game/_/gameId/' + esc(a.espnGameId) + '" rel="noopener noreferrer">ESPN</a></p>' +
+      (a.desks ? '<p>' + esc(baselineComparison(initial.pick)) + '</p>' : '') +
+      cards + policyInfo + (pending ? '<p class="pv">' + pending + '</p>' : '') + '</aside>';
+    if (!a.desks) return article + recordDesk;
+    var exploration = a.desks.exploration, score = a.desks.score;
+    var sample = '<p class="pv edition-sample">' + (zh ? '三個專欄追蹤同一場比賽，樣本共 1 場。' : 'Three desks cover the same matchup. Sample: one game.') + '</p>';
+    var columns = exploration.desks.map(function (desk, index) {
+      var metric = desk.id === 'turnovers' ? (zh ? '場均失誤，取較低者' : 'Turnovers per game, lower wins the vote') :
+        (zh ? '場均二次進攻得分，取較高者' : 'Second-chance points per game, higher wins the vote');
+      function value(team, number) { return c.teamName(team,'nick') + ' ' + (number === null ? (zh ? '資料不足' : 'unavailable') : number); }
+      return '<aside class="card edition-pick edition-exploration" id="desk-' + desk.id + '" data-desk="' + desk.id + '">' + signedColumn(desk.id) +
+        '<section class="edition-stage"><h3>' + (zh ? '探索票 · ' : 'Exploratory pick · ') + esc(pick(desk.pick)) + '</h3>' +
+        '<p>' + esc(metric) + ' · ' + esc(value(g.away,desk.awayValue)) + ' / ' + esc(value(g.home,desk.homeValue)) + '</p><p>' + esc(baselineComparison(desk.pick)) + '</p>' +
+        '<p class="pv">' + (zh ? 'NBA 資料觀測 ' : 'NBA source observed ') + time(exploration.source.observedAt) + ' · ' +
+        (zh ? '探索票登錄 ' : 'Pick recorded ') + time(exploration.filedAt) + '</p><p class="pv">' +
+        '<a href="' + esc(exploration.source.url) + '" rel="noopener noreferrer">NBA</a> · ' + (zh ? '規則 v1' : 'Rule v1') + '</p>' +
+        (score ? '<p>' + (zh ? '研究選擇 ' : 'Research pick: ') + labels[score.desks[index].outcome] + ' · ' +
+          (zh ? '基準 ' : 'Baseline: ') + labels[score.baselineOutcome] + '</p>' : '<p class="pv">' + (zh ? '尚未結算' : 'Scoring pending') + '</p>') + '</section></aside>';
+    }).join('');
+    var index = '<nav class="edition-index" aria-label="' + (zh ? '本場專欄' : 'Matchup columns') + '">' +
+      (article ? '<a class="pill" href="#pregame-column">' + (zh ? '賽前專欄' : 'Pregame column') + '</a>' : '') +
+      Object.keys(deskNames).map(function (id) { return '<a class="pill" href="#desk-' + id + '">' + deskNames[id] + '</a>'; }).join('') + '</nav>';
+    return index + article + sample + recordDesk + columns;
+  }
 
   function cells(pos, partial) {
     var out = '';
@@ -21,13 +160,22 @@
 
   window.MOSPORT_PAGE = {
     id: 'today',
+    after: function () {
+      // Schedule data can arrive after the browser's initial fragment scroll.
+      if (!/^(pregame-column|desk-(season-record|turnovers|second-chance))$/.test(requestedColumn)) return;
+      var target = document.getElementById(requestedColumn);
+      if (target && typeof target.scrollIntoView === 'function') {
+        target.scrollIntoView();
+        requestedColumn = '';
+      }
+    },
     onAct: function (act, el, rerender) { if (act === 'first') { showFirst = !showFirst; rerender(); } },
     render: function (c) {
       var T = c.T, esc = c.esc, L = c.lang, R = c.issue;
       if (R.status !== 'OK' && R.status !== 'SCHEDULE_ONLY' && !(R.status === 'STALE' && c.meta && c.meta.scheduleOnly)) return c.topbar + '<main class="sheet">' + c.stateMessage(R) + '</main>';
       var id = new URLSearchParams(location.search).get('game');
       /* An unknown game id shows a not-found state; it never falls back to another game. */
-      var g = id ? R.schedule.filter(function (x) { return x.gameId === id; })[0] : (R.lead && R.lead.game);
+      var g = id ? R.schedule.filter(function (x) { return x.gameId === id; })[0] : (R.lead && R.lead.game) || (c.editions && c.editions.length && R.schedule[0]);
       if (!g) return c.topbar + '<main class="sheet"><div class="state-msg" role="status"><p>' + esc(T(id ? 'unknownGame' : 'emptyToday')) + '</p><a class="cta" href="' + c.href('schedule.html') + '">' + T('openSchedule') + ' <span aria-hidden="true">→</span></a></div></main>';
       var w = g.world || {};
       var eligible = c.onMagazine(g);
@@ -53,7 +201,8 @@
       if (!eligible) {
         /* An empty pregame card is not shown: no record, no tipoff notice, no reason line. */
         var pregameBody = c.pregameRecord(g) + (g.source ? '' : '<p class="pv">' + esc(T('noRead_' + g.noReadReason)) + '</p>');
-        return c.topbar + '<main class="sheet">' + top + head +
+        var analysis = g.analysis ? renderAnalysis(c, g) : '';
+        return c.topbar + '<main class="sheet">' + top + head + analysis +
           (R.status === 'STALE' ? c.stateMessage(R) : '') +
           (g.source ? '<section class="card"><p>' + esc(T('savedSchedule')) + ' · ' + esc(c.statusLabel(g)) + '</p><p class="pv">NBA game ID ' + esc(g.gameId) + '</p>' + c.sourceNote(g.source) + '</section>' : '') +
           (pregameBody ? '<section class="card"><p class="lbl">' + esc(T(c.isFinal(g) ? 'final' : 'pregameTitle')) + '</p>' + pregameBody + '</section>' : '') + '</main>';

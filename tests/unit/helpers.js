@@ -27,7 +27,7 @@ function renderPage(raw, page, query, projected, opts) {
   const document = { documentElement: { dataset: {} }, addEventListener() {}, getElementById: () => mount };
   class FixedDate extends Date { constructor(...args) { super(...(args.length ? args : [clock])); } }
   const window = {
-    MOSPORT_I18N: null, MOSPORT_PIPELINE: require('../../site/js/data/pipeline.js'),
+    MOSPORT_I18N: null, MOSPORT_OWNER_EDITION: opts.ownerEdition, MOSPORT_PIPELINE: require('../../site/js/data/pipeline.js'),
     MOSPORT_CONFIG: { mode: opts.mode || 'production' }, MOSPORT_CONTRACTS: C,
     MOSPORT_TEAMS: { get: () => null }, MOSPORT_FIXTURES: opts.fixtures || {}
   };

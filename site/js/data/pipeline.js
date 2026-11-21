@@ -20,6 +20,8 @@
   var C = node ? require('../contracts/contracts.js') : root.MOSPORT_CONTRACTS;
   var E = node ? require('../editorial/eligibility.js') : root.MOSPORT_ELIGIBILITY;
 
+  var pregame = node ? require('./pregame-edition.js') : root.MOSPORT_PREGAME_EDITION;
+
   function pick(o, keys) { var r = {}; keys.forEach(function (k) { if (o[k] !== undefined) r[k] = o[k]; }); return r; }
   function copyOf(c) { return c ? { headline: c.headline, summary: c.summary || null, meta: c.meta || null } : null; }
 
@@ -139,6 +141,7 @@
         else diag.excluded.push({ slot: 'pregameSnapshot', id: raw.game.gameId, reason: release.reason });
       }
     }
+    if (opts.ownerEdition && pregame) game.analysis = pregame.editionGame(opts.ownerEdition, raw, result, opts.now);
     model.schedule = [game];
     return { model: model, diagnostics: diag };
   }
