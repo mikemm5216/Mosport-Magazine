@@ -66,11 +66,12 @@
     return '<p class="pv">' + esc(T('dataSource')) + ' <a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.publisher) + '</a> · ' + esc(T('observedAt')) + ' <time datetime="' + esc(source.observedAt) + '">' + esc(source.observedAt) + '</time></p>';
   }
   /* After the scheduled tip-off the clock is the only evidence: say the scheduled time
-     has passed and whether a pregame read was published; never claim LIVE or a score. */
+     has passed and link the official game page; never claim LIVE or a score, and never
+     narrate whether a read was published (qualified content shows itself). */
   function tipoffNotice(g) {
     var time = fmt(g.tipoff, 'Asia/Taipei', { hour: '2-digit', minute: '2-digit' });
     var link = g.source && g.source.url ? ' <a class="tipoff-link" href="' + esc(g.source.url) + '" rel="noopener noreferrer">' + esc(T('officialGame')) + ' <span aria-hidden="true">→</span></a>' : '';
-    return '<p class="pregame-missing tipoff-note">' + esc(T(g.pregameSnapshot ? 'pastTipoffPublished' : 'pastTipoffNone', { time: time })) + link + '</p>';
+    return '<p class="pregame-missing tipoff-note">' + esc(T('pastTipoffNotice', { time: time })) + link + '</p>';
   }
   function statusLabel(g) {
     if (g.pastTipoff) return T('pastTipoffLabel');

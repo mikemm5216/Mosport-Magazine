@@ -223,22 +223,27 @@ test('templates escape projected source labels and snapshot IDs; missing and unk
   }
 });
 
-test('after the scheduled tipoff Schedule and Match say so and whether a read was published', () => {
+const ZH_NOTICE = '已過原定開賽時間（台北 11:00）。';
+const NARRATION = /未發布|曾發布|已在開賽前發布|不再更新|did not publish|was published|not updated after/;
+test('after the scheduled tipoff Schedule and Match show the scheduled time and the official link only', () => {
   const tip = schedule.game.tipoff;
   for (const page of ['schedule', 'match']) {
     const zh = renderPage(schedule, page, '?schedule=0022600051&game=0022600051&mode=production&lang=zh', null, { now: tip });
-    assert.ok(zh.includes('已過原定開賽時間（台北 11:00）。MOSPORT 未發布本場賽前判讀。'), page);
+    assert.ok(zh.includes('已過原定開賽時間（台北 11:00）。'), page);
     assert.ok(zh.includes('查看 NBA 官方賽況') && zh.includes('href="https://www.nba.com/game/sac-vs-lal-0022600051"'), page);
     assert.ok(!/先前的賽程|還沒出來|未開賽|進行中|終場|已不適用/.test(zh.replace(/<[^>]*>/g, '')), page);
     const en = renderPage(schedule, page, '?schedule=0022600051&game=0022600051&mode=production&lang=en', null, { now: tip });
-    assert.ok(en.includes('Past the scheduled tip-off (11:00 Taipei). MOSPORT did not publish a pregame read for this game.'), page);
+    assert.ok(en.includes('Past the scheduled tip-off (11:00 Taipei).'), page);
     assert.ok(en.includes('See NBA.com for the game') && !/not out yet|earlier schedule|Live|Final/.test(en.replace(/<[^>]*>/g, '')), page);
+    for (const html of [zh, en]) assert.ok(!NARRATION.test(html.replace(/<[^>]*>/g, '')), page);
   }
   const projection = PL.contextSnapshotView(candidate.contextSnapshot);
+  // Qualified content shows itself with the same notice; no published/unpublished narration.
   const published = renderPage(schedule, 'match', '?schedule=0022600051&game=0022600051&mode=production&lang=zh', projection, { now: tip });
-  assert.ok(published.includes('本場賽前判讀已在開賽前發布，開賽後不再更新。') && !published.includes('MOSPORT 未發布'));
+  assert.ok(published.includes(ZH_NOTICE) && published.includes(projection.snapshotId) && published.includes('HOME_COURT@1'));
   const publishedEn = renderPage(schedule, 'schedule', '?schedule=0022600051&mode=production&lang=en', projection, { now: tip });
-  assert.ok(publishedEn.includes('The pregame read was published before tip-off and is not updated after it.'));
+  assert.ok(publishedEn.includes('Past the scheduled tip-off (11:00 Taipei).') && publishedEn.includes(projection.snapshotId));
+  for (const html of [published, publishedEn]) assert.ok(!NARRATION.test(html.replace(/<[^>]*>/g, '')));
 });
 
 test('factual rematch passes source/identity checks and remains separate from any World read', () => {

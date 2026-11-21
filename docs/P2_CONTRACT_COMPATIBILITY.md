@@ -15,9 +15,9 @@
   已過期的保存賽程仍不顯示。
 - **開著的頁面：**reader 保留已載入的資料，在下一個時間邊界（導讀可見時間、`validUntil`、`tipoff`）
   以同一條 pipeline 重新計算並重繪；不重新抓取、不 reload。DEMO 使用固定時鐘，不重算。
-- **讀者文案：**未發布判讀：「已過原定開賽時間（台北 HH:MM）。MOSPORT 未發布本場賽前判讀。」；
-  已發布：「…本場賽前判讀已在開賽前發布，開賽後不再更新。」；兩者附「查看 NBA 官方賽況 →」
-  （連到已核實的 NBA 官方 game URL）。英文版同步。
+- **讀者文案（Founder L1，2026-11-21）：**首頁、賽程、比賽頁共用一條：「已過原定開賽時間（台北 HH:MM）。
+  查看 NBA 官方賽況 →」（連到已核實的 NBA 官方 game URL）；英文「Past the scheduled tip-off (HH:MM Taipei).
+  See NBA.com for the game →」。不說明判讀曾發布或未發布；已有合格可公開的內容，就照既有流程直接呈現內容。
 - **導讀獨立：**`editorial` 的形狀與事實改由 `validateScheduleEditorial` 檢查；任何問題只撤下
   導讀（diagnostics 記 `slot: editorial`），已核實的賽程照常顯示。`editorial` 不是物件仍屬整筆格式錯誤。
   因此只更新賽程收據、未重核導讀時，賽程保留、導讀撤下，不再整場消失。

@@ -171,7 +171,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
       ['missing source', r => { delete r.source; }, '暫時無法閱讀'],
       ['wrong ID', r => { r.game.gameId = '0022600999'; }, '暫時打不開'],
       ['stale source', r => { r.validUntil = '2026-11-21T02:30:00Z'; }, '先前的賽程'],
-      ['past tipoff', () => {}, '已過原定開賽時間（台北 11:00）。MOSPORT 未發布本場賽前判讀。'],
+      ['past tipoff', () => {}, '已過原定開賽時間（台北 11:00）。'],
       ['boolean is not release', r => { r.contextSnapshot = { public: true }; }, '這場的賽前判讀還沒出來。']
     ]) {
       const raw = JSON.parse(JSON.stringify(saved)); mutate(raw);
@@ -196,7 +196,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
       assert.ok(before.includes('13 分之差，國王盃賽再戰湖人') && before.includes('103：116') && !before.includes('已過原定開賽時間'), 'before tipoff'); checks++;
       await open.clock.runFor(6 * 60 * 1000);
       const after = await open.locator('.spread').innerText();
-      assert.ok(after.includes('已過原定開賽時間（台北 11:00）。MOSPORT 未發布本場賽前判讀。') && after.includes('查看 NBA 官方賽況'), 'after tipoff: ' + after); checks++;
+      assert.ok(after.includes('已過原定開賽時間（台北 11:00）。') && after.includes('查看 NBA 官方賽況'), 'after tipoff: ' + after); checks++;
       assert.ok(!after.includes('13 分之差') && !after.includes('103：116') && !after.includes('先前的賽程'), 'editorial withdrawn without reload'); checks++;
       assert.equal(loads, 1, 'no reload or refetch'); checks++;
       assert.deepEqual(pageErrors, []); checks++;
@@ -221,7 +221,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
       const straddle = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const early = JSON.parse(JSON.stringify(saved)); early.validUntil = '2026-11-21T02:30:00Z';
       for (const [label, raw, boundary, expected, gone] of [
-        ['valid until tipoff', saved, saved.game.tipoff, '已過原定開賽時間（台北 11:00）。MOSPORT 未發布本場賽前判讀。', '先前的賽程'],
+        ['valid until tipoff', saved, saved.game.tipoff, '已過原定開賽時間（台北 11:00）。', '先前的賽程'],
         ['expired before tipoff', early, early.validUntil, '先前的賽程', '已過原定開賽時間']
       ]) {
         const p = await straddle.newPage();
