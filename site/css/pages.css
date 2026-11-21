@@ -141,3 +141,5 @@ details summary { cursor: pointer; min-height: 44px; display: flex; align-items:
 .edition-article h3, .edition-stage h3 { margin: 1em 0 .3em; }
 .edition-article p, .edition-pick p { line-height: 1.6; }
 .edition-article .pv, .edition-pick .pv { margin-top: .6em; }
+
+.edition-index { display: flex; flex-wrap: wrap; gap: .5rem; }

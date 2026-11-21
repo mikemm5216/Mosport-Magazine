@@ -31,7 +31,7 @@ window.MOSPORT_PAGE = {
     }
 
     var featureCopy = savedGame && savedGame.analysis && savedGame.analysis.article ? savedGame.analysis.article[L] : null;
-    if (featureCopy) { storyTitle = featureCopy.title; storyLede = featureCopy.body; }
+    if (featureCopy) { storyTitle = featureCopy.title; storyLede = featureCopy.body.split(/\r?\n\s*\n/)[0]; }
 
     /* Cover status: only what exists (tipoff passed, or a public pregame record). */
     var coverStatus = !savedGame ? '' : c.isFinal(savedGame) ? c.finalLine(savedGame) : savedGame.pastTipoff ? T('pastTipoffLabel')

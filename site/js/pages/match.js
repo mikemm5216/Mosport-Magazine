@@ -5,6 +5,8 @@
  */
 (function () {
   var showFirst = false;
+  var requestedColumn = typeof location !== 'undefined' ? (location.hash || '').slice(1) : '';
+
 
   function recordColumn(c, g, initial) {
     var zh = c.lang === 'zh', esc = c.esc;
@@ -52,12 +54,24 @@
       var value = new Intl.DateTimeFormat(zh ? 'zh-TW' : 'en-US', { timeZone:'Asia/Taipei', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12:false }).format(new Date(iso));
       return '<time datetime="' + esc(iso) + '">' + esc(value) + ' UTC+8</time>';
     }
+    function paragraphs(text) {
+      return text.split(/\r?\n\s*\n/).filter(function (p) { return p.trim(); }).map(function (p) { return '<p>' + esc(p.trim()) + '</p>'; }).join('');
+    }
+    var deskNames = zh ? {'season-record':'戰績觀察室', turnovers:'球權保管室', 'second-chance':'二波編輯台'} :
+      {'season-record':'Record Desk', turnovers:'Turnover Desk', 'second-chance':'Second-Chance Desk'};
+    function signedColumn(id) {
+      var copy = a.desks.copy.columns[id][c.lang];
+      return '<p class="lbl lbl-brand">' + (zh ? 'MOSPORT 研究專欄 · ' : 'MOSPORT Research Column · ') + deskNames[id] +
+        '</p><h2>' + esc(copy.title) + '</h2>' + paragraphs(copy.body) + '<h3>' + (zh ? '我會看什麼' : 'What I’m watching') +
+        '</h3>' + paragraphs(copy.watch) + '<h3>' + (zh ? '這一票的局限' : 'Where this pick can go wrong') + '</h3>' +
+        paragraphs(copy.limit) + '<p class="pv">' + (zh ? '專欄定稿 ' : 'Column filed ') + time(a.desks.copy.preparedAt) + '</p>';
+    }
     var article = '';
     if (a.article) {
       var data = a.article, copy = data[c.lang];
-      article = '<article class="card edition-article"><p class="lbl lbl-brand">' + (zh ? 'MOSPORT 賽前專欄' : 'MOSPORT Pregame Column') + '</p><h2>' + esc(copy.title) +
-        '</h2><p>' + esc(copy.body) + '</p><h3>' + (zh ? '比賽觀察' : 'What to watch') + '</h3><p>' + esc(copy.watch) +
-        '</p><h3>' + (zh ? '何時改變判斷' : 'What would change the read') + '</h3><p>' + esc(copy.falsifier) +
+      article = '<article class="card edition-article" id="pregame-column"><p class="lbl lbl-brand">' + (zh ? 'MOSPORT 賽前專欄' : 'MOSPORT Pregame Column') + '</p><h2>' + esc(copy.title) +
+        '</h2>' + paragraphs(copy.body) + '<h3>' + (zh ? '比賽觀察' : 'What to watch') + '</h3>' + paragraphs(copy.watch) +
+        '<h3>' + (zh ? '何時改變判斷' : 'What would change the read') + '</h3><p>' + esc(copy.falsifier) +
         '</p><p class="pv">' + (zh ? '資料截至 ' : 'Sources through ') + time(data.cutoffAt) + ' · ' + (zh ? '定稿 ' : 'Filed ') + time(data.preparedAt) + '</p><p class="pv">' +
         data.sources.map(function (source) { return '<a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.label) + '</a>'; }).join(' · ') + '</p></article>';
     }
@@ -77,9 +91,37 @@
       a.finalStatus === 'NOT_RECORDED' ? (zh ? '本站未收錄開賽前的 T−15 鎖定紀錄。' : 'No pre-tip T−15 lock has been published here.') : '';
     var initial = a.stages.find(function (s) { return s.stage === 'INITIAL'; });
     if (!initial) return article;
-    return article + '<aside class="card edition-pick">' + recordColumn(c, g, initial) +
+    function baselineComparison(side) {
+      if (!initial.baseline) return zh ? '主場基準棄權' : 'Home baseline abstained';
+      if (!side) return zh ? '本桌棄權，主場基準選' + pick(initial.baseline) : 'Desk abstained; home baseline picked ' + pick(initial.baseline);
+      return (side === initial.baseline ? (zh ? '與主場基準同選' : 'Agrees with the home baseline: ') :
+        (zh ? '與主場基準選擇相反，基準選' : 'Opposes the home baseline, which picked ')) + pick(initial.baseline);
+    }
+    var recordHead = a.desks ? signedColumn('season-record') : recordColumn(c,g,initial);
+    var recordDesk = '<aside class="card edition-pick" id="desk-season-record" data-desk="season-record">' + recordHead +
       '<p class="pv">' + (zh ? '規則 v1 · 戰績核對 ' : 'Rule v1 · Records checked against ') + '<a href="' + esc(g.source.url) + '" rel="noopener noreferrer">NBA</a> · <a href="https://www.espn.com/nba/game/_/gameId/' + esc(a.espnGameId) + '" rel="noopener noreferrer">ESPN</a></p>' +
+      (a.desks ? '<p>' + esc(baselineComparison(initial.pick)) + '</p>' : '') +
       cards + (pending ? '<p class="pv">' + pending + '</p>' : '') + '</aside>';
+    if (!a.desks) return article + recordDesk;
+    var exploration = a.desks.exploration, score = a.desks.score;
+    var sample = '<p class="pv edition-sample">' + (zh ? '三個專欄追蹤同一場比賽，樣本共 1 場。' : 'Three desks cover the same matchup. Sample: one game.') + '</p>';
+    var columns = exploration.desks.map(function (desk, index) {
+      var metric = desk.id === 'turnovers' ? (zh ? '場均失誤，取較低者' : 'Turnovers per game, lower wins the vote') :
+        (zh ? '場均二次進攻得分，取較高者' : 'Second-chance points per game, higher wins the vote');
+      function value(team, number) { return c.teamName(team,'nick') + ' ' + (number === null ? (zh ? '資料不足' : 'unavailable') : number); }
+      return '<aside class="card edition-pick edition-exploration" id="desk-' + desk.id + '" data-desk="' + desk.id + '">' + signedColumn(desk.id) +
+        '<section class="edition-stage"><h3>' + (zh ? '探索票 · ' : 'Exploratory pick · ') + esc(pick(desk.pick)) + '</h3>' +
+        '<p>' + esc(metric) + ' · ' + esc(value(g.away,desk.awayValue)) + ' / ' + esc(value(g.home,desk.homeValue)) + '</p><p>' + esc(baselineComparison(desk.pick)) + '</p>' +
+        '<p class="pv">' + (zh ? 'NBA 資料觀測 ' : 'NBA source observed ') + time(exploration.source.observedAt) + ' · ' +
+        (zh ? '探索票登錄 ' : 'Pick recorded ') + time(exploration.filedAt) + '</p><p class="pv">' +
+        '<a href="' + esc(exploration.source.url) + '" rel="noopener noreferrer">NBA</a> · ' + (zh ? '規則 v1' : 'Rule v1') + '</p>' +
+        (score ? '<p>' + (zh ? '研究選擇 ' : 'Research pick: ') + labels[score.desks[index].outcome] + ' · ' +
+          (zh ? '基準 ' : 'Baseline: ') + labels[score.baselineOutcome] + '</p>' : '<p class="pv">' + (zh ? '尚未結算' : 'Scoring pending') + '</p>') + '</section></aside>';
+    }).join('');
+    var index = '<nav class="edition-index" aria-label="' + (zh ? '本場專欄' : 'Matchup columns') + '">' +
+      (article ? '<a class="pill" href="#pregame-column">' + (zh ? '賽前專欄' : 'Pregame column') + '</a>' : '') +
+      Object.keys(deskNames).map(function (id) { return '<a class="pill" href="#desk-' + id + '">' + deskNames[id] + '</a>'; }).join('') + '</nav>';
+    return index + article + sample + recordDesk + columns;
   }
 
   function cells(pos, partial) {
@@ -97,6 +139,15 @@
 
   window.MOSPORT_PAGE = {
     id: 'today',
+    after: function () {
+      // Schedule data can arrive after the browser's initial fragment scroll.
+      if (!/^(pregame-column|desk-(season-record|turnovers|second-chance))$/.test(requestedColumn)) return;
+      var target = document.getElementById(requestedColumn);
+      if (target && typeof target.scrollIntoView === 'function') {
+        target.scrollIntoView();
+        requestedColumn = '';
+      }
+    },
     onAct: function (act, el, rerender) { if (act === 'first') { showFirst = !showFirst; rerender(); } },
     render: function (c) {
       var T = c.T, esc = c.esc, L = c.lang, R = c.issue;

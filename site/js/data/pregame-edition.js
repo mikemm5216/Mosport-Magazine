@@ -52,6 +52,47 @@
         result.espnGameId !== f.espnGameId || ![s.outcome,s.baselineOutcome].every(function (o) { return ['HIT','MISS','ABSTAIN'].includes(o); })) return null;
     return { outcome:s.outcome, baselineOutcome:s.baselineOutcome };
   }
+  var explorationIds = ['turnovers', 'second-chance'];
+  function deskRows(rows, keys, accept) {
+    return Array.isArray(rows) && rows.length === explorationIds.length && rows.every(function (row, i) {
+      return exactKeys(row, keys) && row.id === explorationIds[i] && accept(row);
+    });
+  }
+  function validExploration(e, entry, schedule, initial, now) {
+    if (!initial || !pinned(e, entry.pins.exploration) ||
+        !exactKeys(e, 'schema nbaGameId espnGameId tipoffAt away home filedAt initialDigest source desks')) return false;
+    var game = schedule.game;
+    if (e.schema !== 'mosport-a/exploration@1' || e.nbaGameId !== game.gameId || e.espnGameId !== initial.espnGameId ||
+        e.initialDigest !== digest(initial) || e.away !== game.away || e.home !== game.home ||
+        C.parseInstant(e.tipoffAt) !== C.parseInstant(game.tipoff) || !(C.parseInstant(e.filedAt) > C.parseInstant(initial.lockedAt)) ||
+        !(C.parseInstant(e.filedAt) < C.parseInstant(game.tipoff)) || !beforeOrAt(e.filedAt, now)) return false;
+    if (!exactKeys(e.source, 'url observedAt sha256') || e.source.url !== schedule.source.originalUrl ||
+        typeof e.source.sha256 !== 'string' || !/^[0-9a-f]{64}$/.test(e.source.sha256) || !beforeOrAt(e.source.observedAt,e.filedAt)) return false;
+    return deskRows(e.desks, 'id version awayValue homeValue pick', function (desk) {
+      return desk.version === '1' && [desk.awayValue,desk.homeValue].every(function (n) { return n === null || (Number.isFinite(n) && n >= 0); }) &&
+        ['AWAY','HOME',null].includes(desk.pick) && (desk.pick === null || (desk.awayValue !== null && desk.homeValue !== null && desk.awayValue !== desk.homeValue));
+    });
+  }
+  function validDeskCopy(copy, entry, game, now) {
+    if (!pinned(copy, entry.pins.deskCopy) || !exactKeys(copy, 'nbaGameId preparedAt columns') || copy.nbaGameId !== game.gameId ||
+        !beforeOrAt(copy.preparedAt, now) || !(C.parseInstant(copy.preparedAt) < C.parseInstant(game.tipoff)) ||
+        !exactKeys(copy.columns, 'season-record turnovers second-chance')) return false;
+    return Object.values(copy.columns).every(function (column) {
+      return exactKeys(column, 'zh en') && [column.zh,column.en].every(function (lang) {
+        return exactKeys(lang, 'title body watch limit') && Object.values(lang).every(function (text) { return typeof text === 'string' && text.trim().length > 0; });
+      });
+    });
+  }
+  function explorationScore(entry, result, e) {
+    var score = entry.explorationScore;
+    if (!result || !pinned(score,entry.pins.explorationScore) || !exactKeys(score, 'schema nbaGameId espnGameId initialDigest explorationDigest receiptRef baselineOutcome desks')) return null;
+    function outcome(value) { return ['HIT','MISS','ABSTAIN'].includes(value); }
+    if (score.schema !== 'mosport-a/exploration-score@1' || score.nbaGameId !== e.nbaGameId || score.espnGameId !== e.espnGameId ||
+        result.nbaGameId !== e.nbaGameId || result.espnGameId !== e.espnGameId || result.receiptRef !== score.receiptRef ||
+        score.initialDigest !== e.initialDigest || score.explorationDigest !== digest(e) || !outcome(score.baselineOutcome) ||
+        !deskRows(score.desks, 'id outcome', function (row) { return outcome(row.outcome); })) return null;
+    return score;
+  }
   function editionGame(edition, schedule, result, now) {
     var entry = edition && edition.games && edition.games[schedule.game.gameId];
     if (!entry || !entry.pins || !pinned(schedule, entry.pins.schedule)) return null;
@@ -65,7 +106,12 @@
         baseline:f.baselinePick, homeRecord:f.homeRecord, awayRecord:f.awayRecord,
         evaluation:scoreFor(entry['score'+f.stage], f, entry, result) };
     });
-    return { article:article, stages:stages, espnGameId:initial ? initial.espnGameId : null, finalWindowAt:new Date(C.parseInstant(schedule.game.tipoff)-900000).toISOString(),
+    var desks = null;
+    if (validExploration(entry.exploration, entry, schedule, initial, now) && validDeskCopy(entry.deskCopy, entry, schedule.game, now) &&
+        beforeOrAt(entry.exploration.source.observedAt,entry.deskCopy.preparedAt) && beforeOrAt(initial.lockedAt,entry.deskCopy.preparedAt)) {
+      desks = {copy:entry.deskCopy, exploration:entry.exploration, score:explorationScore(entry,result,entry.exploration)};
+    }
+    return { article:article, desks:desks, stages:stages, espnGameId:initial ? initial.espnGameId : null, finalWindowAt:new Date(C.parseInstant(schedule.game.tipoff)-900000).toISOString(),
       finalStatus:final ? (C.parseInstant(final.lockedAt) === C.parseInstant(final.dataCutoff) ? 'ON_TIME' : 'LATE_RECORDED') : C.parseInstant(now) >= C.parseInstant(schedule.game.tipoff) ? 'NOT_RECORDED' : C.parseInstant(now) >= C.parseInstant(schedule.game.tipoff)-900000 ? 'OPEN' : 'PENDING' };
   }
   var api={ editionGame:editionGame, digest:digest };

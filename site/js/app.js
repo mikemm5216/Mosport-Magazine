@@ -238,7 +238,8 @@
     if (item) {
       var tipTime = Date.parse(raw.game.tipoff);
       if (Number.isFinite(tipTime)) boundaries.push(new Date(tipTime-900000).toISOString());
-      boundaries.push(item.article && item.article.preparedAt, item.INITIAL && item.INITIAL.lockedAt, item.FINAL && item.FINAL.lockedAt);
+      boundaries.push(item.article && item.article.preparedAt, item.INITIAL && item.INITIAL.lockedAt, item.FINAL && item.FINAL.lockedAt,
+        item.exploration && item.exploration.filedAt, item.deskCopy && item.deskCopy.preparedAt);
     }
     boundaries.forEach(function (iso) {
       var t = typeof iso === 'string' ? Date.parse(iso) : NaN;

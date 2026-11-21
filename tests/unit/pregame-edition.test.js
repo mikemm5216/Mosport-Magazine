@@ -132,3 +132,86 @@ test('only a matching verified result and a separately pinned matching stage sco
   score();
   assert.equal(actual(pins),null);
 });
+
+function threeDesks() {
+  const base=sample(), {game,schedule}=base;
+  const recorded='2026-01-01T12:00:00Z';
+  const desks=[{id:'turnovers',version:'1',awayValue:10,homeValue:13,pick:'AWAY'},
+    {id:'second-chance',version:'1',awayValue:14,homeValue:16,pick:'HOME'}];
+  game.exploration={schema:'mosport-a/exploration@1',nbaGameId:id,espnGameId:espnId,away:'ORL',home:'DET',tipoffAt:tip,
+    initialDigest:game.pins.INITIAL,filedAt:recorded,source:{url:schedule.source.originalUrl,observedAt:observed,sha256:'a'.repeat(64)},desks};
+  const columns={};
+  for (const desk of ['season-record','turnovers','second-chance']) {
+    const copy = {title:desk,body:'One.\n\nTwo.',watch:'Watch the ball.',limit:'One sample.'};
+    columns[desk]={en:copy,zh:{...copy,title:'測試 '+desk}};
+  }
+  game.deskCopy={nbaGameId:id,preparedAt:recorded,columns};
+  function pin() { for (const key of ['exploration','deskCopy']) game.pins[key]=digest(game[key]); }
+  pin();
+  return {...base,recorded,pin};
+}
+test('three independently filed columns keep the original pick, actual timestamps, full paragraphs and linked numbers', () => {
+  const {game,edition,schedule,recorded}=threeDesks();
+  game.article.en.body='Opening paragraph.\n\nLater paragraph.';
+  game.article.en.watch='Watch one.\n\nWatch two.';
+  game.pins.article=digest(game.article);
+  const opts={ownerEdition:edition,now:recorded};
+  for (const lang of ['en','zh']) {
+    const html=renderPage(schedule,'match','?game='+id+'&lang='+lang,null,opts);
+    assert.equal((html.match(/data-desk="/g)||[]).length,3);
+    for (const desk of ['season-record','turnovers','second-chance']) {
+      assert.ok(html.includes('href="#desk-'+desk+'"') && html.includes('id="desk-'+desk+'"'));
+    }
+    assert.equal((html.match(/<p>One\.<\/p><p>Two\.<\/p>/g)||[]).length,3);
+    for (const iso of [filed,recorded,observed]) assert.ok(html.includes('datetime="'+iso+'"'));
+    assert.equal((html.match(lang==='zh' ? /尚未結算/g : /Scoring pending/g)||[]).length,3);
+    if (lang==='en') {
+      assert.match(html,/<p>Opening paragraph\.<\/p><p>Later paragraph\.<\/p>/);
+      assert.match(html,/<p>Watch one\.<\/p><p>Watch two\.<\/p>/);
+      assert.match(html,/Exploratory pick · ORL/);
+      assert.match(html,/Exploratory pick · DET/);
+      assert.match(html,/Sample: one game/);
+    }
+  }
+  assert.doesNotMatch(renderPage(schedule,'home','?lang=en',null,opts),/Later paragraph/);
+});
+test('absent, partial, future, wrong-game, late and tampered exploration never supplies any new desk', () => {
+  const cases=[
+    g=>{delete g.deskCopy.columns.turnovers;}, g=>{delete g.deskCopy.columns['season-record'].en.limit;},
+    g=>{g.exploration.desks.reverse();}, g=>{g.exploration.desks.pop();}, g=>{g.exploration.desks[1].id='turnovers';},
+    g=>{g.exploration.source.url='https://unverified.example/';}, g=>{g.exploration.espnGameId='123456789';},
+    g=>{g.exploration.initialDigest='f'.repeat(64);}, g=>{g.exploration.filedAt=tip;},g=>{g.exploration.filedAt=observed;},
+    g=>{g.exploration.desks[0].awayValue=null;}, g=>{g.deskCopy.preparedAt=tip;}
+  ];
+  for (const change of cases) {
+    const {game,view,pin}=threeDesks();
+    change(game); pin();
+    assert.equal(view(end).desks,null);
+    assert.equal(view(end).stages.length,1);
+  }
+  const {game,view,recorded}=threeDesks();
+  assert.equal(view(filed).desks,null);
+  game.deskCopy.columns.turnovers.en.title='Changed after pinning';
+  assert.equal(view(recorded).desks,null);
+});
+test('exploratory scoring requires the independently pinned result, matching pick set, initials and receipt', () => {
+  const {game,schedule,edition}=threeDesks();
+  const receiptRef='NBA-'+id+'-R1';
+  const result={schema:'mosport-b/game-result@1',nbaGameId:id,espnGameId:espnId,away:'ORL',home:'DET',awayScore:95,homeScore:85,status:'FINAL',
+    officialUrl:schedule.source.originalUrl,confirmations:{nba:{observedAt:end},espn:{observedAt:end}},receiptRef};
+  const pins={[id]:{digest:digest(result),receiptRef}};
+  function score(resultPins) {
+    return pipeline.run(schedule,{mode:'production',now:end,ownerEdition:edition,result,pins:resultPins}).model.schedule[0].analysis.desks.score;
+  }
+  const original={schema:'mosport-a/exploration-score@1',nbaGameId:id,espnGameId:espnId,initialDigest:game.pins.INITIAL,
+    explorationDigest:game.pins.exploration,receiptRef,baselineOutcome:'MISS',desks:[{id:'turnovers',outcome:'HIT'},{id:'second-chance',outcome:'MISS'}]};
+  game.explorationScore=original;
+  assert.equal(score(pins),null);
+  game.pins.explorationScore=digest(original);
+  assert.deepEqual(score(pins),original);
+  assert.equal(score({}),null);
+  for (const changes of [{explorationDigest:'x'},{initialDigest:'x'},{receiptRef:'other'},{desks:[original.desks[1],original.desks[0]]}]) {
+    game.explorationScore={...original,...changes}; game.pins.explorationScore=digest(game.explorationScore);
+    assert.equal(score(pins),null);
+  }
+});
