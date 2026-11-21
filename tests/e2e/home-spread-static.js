@@ -42,7 +42,7 @@ for (const config of (BEFORE ? configs.slice(0, 3) : configs).filter(c => !reque
   assert.ok(rendered.includes('class="spread"') && rendered.includes('pg-cover') && rendered.includes('id="today"'));
   assert.ok(rendered.indexOf('pg-cover') < rendered.indexOf('id="today"'));
   assert.ok(!rendered.includes('<table'));
-  if (config.state === 'MISSING') assert.ok(rendered.includes('0022600051') && rendered.includes(BEFORE ? '賽前紀錄尚未提供公開顯示' : config.lang === 'en' ? 'The pregame read' : '這場的賽前判讀還沒出來。'));
+  if (config.state === 'MISSING') assert.ok(rendered.includes('0022600051') && (BEFORE ? rendered.includes('賽前紀錄尚未提供公開顯示') : !/賽前判讀還沒出來|not out yet/.test(rendered)));
   if (config.state === 'STALE') assert.ok(rendered.includes('先前的賽程') && !rendered.includes('class="lead-story"'));
   const serialized = serializeComponents(rendered, config);
   // Test-only row wrapper preserves content/order while translating nested grid.
@@ -94,7 +94,7 @@ for (const config of (BEFORE ? configs.slice(0, 3) : configs).filter(c => !reque
     containerWidth: config.width >= 1024 ? coverWidth : config.width, staticCss,
     staticGeometry: config.width >= 1024 ? 'NATIVE_READER_WIDTH_UNSCALED_FULL_CONTENT; EXPLICIT_SOURCE_GRID_PLACEMENT; not browser zoom/scroll acceptance' : 'SOURCE_MOBILE_FLOW_WITH_EXPLICIT_GRID_PLACEMENT',
     rendererDeviations: ['WeasyPrint nested fr columns collapse to zero; source-derived widths use a test-only table row/block stack, same DOM content/order; footer action stacks in static output', 'Unsupported clipped orange gradient text uses its source first color #FF7A1A', 'Static story flex descendants use source-derived block widths; game rail uses source-derived table tracks with clipped horizontal overflow; shadows, navigation/controls and browser interactions are not verified'],
-    expectedText: ['MOSPORT', config.state === 'MISSING' ? (BEFORE ? '賽前紀錄尚未提供公開顯示' : config.lang === 'en' ? 'The pregame read' : '這場的賽前判讀還沒出來。') : config.state === 'DEMO' ? 'DEMO' : config.state === 'STALE' ? '先前的賽程' : '這一期暫時打不開。'],
+    expectedText: ['MOSPORT', config.state === 'MISSING' ? (BEFORE ? '賽前紀錄尚未提供公開顯示' : config.lang === 'en' ? 'SAC' : '國王') : config.state === 'DEMO' ? 'DEMO' : config.state === 'STALE' ? '先前的賽程' : '這一期暫時打不開。'],
     htmlSha256: digest(html), componentSlots: serialized.slots });
 }
 const sourceFiles = ['site/index.html','site/js/app.js','site/js/pages/home.js','site/js/reader.js','site/js/i18n.js',

@@ -32,8 +32,8 @@ for (const [viewport, width, height] of [['desktop', 1440, 900], ['mobile', 390,
       const pageClock = state === 'MISSING' ? new Date(Date.parse(saved.editorial ? saved.editorial.observedAt : saved.source.observedAt) + 60000).toISOString() : '2026-11-19T08:10:00Z';
       const rendered = renderPage(raw, page, query, projection, { now: pageClock });
       assert.ok(rendered.includes(raw.game.gameId));
-      assert.ok(rendered.includes(state === 'MISSING' ? '這場的賽前判讀還沒出來。' : state));
-      if (state !== 'MISSING') assert.ok(!rendered.includes('0022600051') && !rendered.includes('這場的賽前判讀還沒出來。'));
+      assert.ok(state === 'MISSING' ? !/賽前判讀還沒出來/.test(rendered) && !rendered.includes('pregame-missing') : rendered.includes(state));
+      if (state !== 'MISSING') assert.ok(!rendered.includes('0022600051'));
       const label = '靜態 HTML/CSS 排版檢視 · ' + width + 'px · 非瀏覽器截圖／非互動驗收 · ' +
         (state === 'MISSING' ? '已保存賽程 0022600051' : '隔離 fixture 0022600999 · ' + state + ' · 非真實 snapshot／非公開資格驗收');
       let html = fs.readFileSync(path.join(ROOT, 'site', page + '.html'), 'utf8')

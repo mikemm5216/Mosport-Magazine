@@ -51,11 +51,12 @@
       var top = '<div class="m-top"><a class="back" href="' + c.href(g.source ? 'schedule.html' : 'index.html') + '">‹ ' + T(g.source ? 'openSchedule' : 'back') + '</a>' + (R.demo ? '<span class="demo-line"><span class="demo-badge">DEMO</span> ' + esc(d ? d.demo : T('demoNote')) + '</span>' : '') + '</div>';
 
       if (!eligible) {
+        /* An empty pregame card is not shown: no record, no tipoff notice, no reason line. */
+        var pregameBody = c.pregameRecord(g) + (g.source ? '' : '<p class="pv">' + esc(T('noRead_' + g.noReadReason)) + '</p>');
         return c.topbar + '<main class="sheet">' + top + head +
           (R.status === 'STALE' ? c.stateMessage(R) : '') +
           (g.source ? '<section class="card"><p>' + esc(T('savedSchedule')) + ' · ' + esc(c.statusLabel(g)) + '</p><p class="pv">NBA game ID ' + esc(g.gameId) + '</p>' + c.sourceNote(g.source) + '</section>' : '') +
-          '<section class="card"><p class="lbl">' + esc(T('pregameTitle')) + '</p>' + c.pregameRecord(g) +
-          (g.source ? '' : '<p class="pv">' + esc(T('noRead_' + g.noReadReason)) + '</p>') + '</section></main>';
+          (pregameBody ? '<section class="card"><p class="lbl">' + esc(T('pregameTitle')) + '</p>' + pregameBody + '</section>' : '') + '</main>';
       }
 
       var read =
