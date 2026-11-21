@@ -301,6 +301,34 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
         await ctx.close();
       }
     }
+    // Real 0022600051 result with the production pin and the served file (no routes for either).
+    {
+      const real = require('../../site/data/results/0022600051.json');
+      const edge = Date.parse(real.confirmations.espn.observedAt);
+      for (const [label, clock, tamper, expectFinal] of [
+        ['after final', '2026-11-21T06:00:00Z', false, true],
+        ['1 ms before', new Date(edge - 1).toISOString(), false, false],
+        ['altered file', '2026-11-21T06:00:00Z', true, false]
+      ]) {
+        const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+        const p = await ctx.newPage();
+        const pageErrors = []; p.on('pageerror', e => pageErrors.push(e.message));
+        await p.clock.setFixedTime(new Date(clock));
+        if (tamper) await p.route('**/data/results/0022600051.json', route => route.fulfill({ json: Object.assign({}, real, { homeScore: 107 }) }));
+        for (const page of ['index.html', 'schedule.html', 'match.html']) {
+          await p.goto(base + page + '?schedule=0022600051&game=0022600051&mode=production&lang=zh');
+          await p.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
+          if (expectFinal) await p.waitForFunction(() => document.body.innerText.includes('終場'), null, { timeout: 5000 });
+          else await p.waitForTimeout(300);
+          const text = await p.locator('body').innerText();
+          if (expectFinal) assert.ok(text.includes('終場 湖人 106：104 國王') && !text.includes('已過原定開賽時間') && !/NBA-0022600051-R1|370e676a/.test(text), label + ' ' + page);
+          else assert.ok(!text.includes('終場 湖人') && text.includes('已過原定開賽時間（台北 11:00）。'), label + ' ' + page + ': ' + text.slice(0, 200));
+        }
+        assert.deepEqual(pageErrors, []);
+        checks++;
+        await ctx.close();
+      }
+    }
     await page.goto(url.replace('game=0022600051', 'game=UNKNOWN'));
     await page.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
     assert.ok((await content(page)).includes('找不到這場比賽')); checks++;

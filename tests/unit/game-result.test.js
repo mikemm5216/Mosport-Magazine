@@ -25,10 +25,60 @@ const pins = pinFor(result);
 const run = (schedule, opts) => PL.run(clone(schedule), Object.assign({ mode: 'production', now }, opts));
 const METHOD = /核對|雜湊|收據|釘選|驗證|receipt|sha|hash|pin|verified|ESPN|snapshot/i;
 
-test('production ships no pinned result and no public result file', () => {
-  assert.deepEqual(Object.keys(PINS), []);
-  assert.ok(Object.isFrozen(PINS));
-  assert.ok(!fs.existsSync(path.join(__dirname, '../../site/data/results')));
+const REAL = require('../../site/data/results/0022600051.json');
+test('production ships exactly one pinned result: 0022600051, matching its public projection', () => {
+  assert.deepEqual(Object.keys(PINS), ['0022600051']);
+  assert.ok(Object.isFrozen(PINS) && Object.isFrozen(PINS['0022600051']));
+  assert.deepEqual(fs.readdirSync(path.join(__dirname, '../../site/data/results')), ['0022600051.json']);
+  // B recomputes the digest itself; the projection carries no hash or eligibility field.
+  assert.equal(C.sha256(C.canonical(REAL)), '370e676a592aa02547f5d7fd80e80d0f4156db9c02e5fb127f1160c8bfee864d');
+  assert.deepEqual(PINS['0022600051'], { digest: C.sha256(C.canonical(REAL)), receiptRef: 'NBA-0022600051-R1' });
+  assert.deepEqual(Object.keys(REAL).sort(), ['away', 'awayScore', 'confirmations', 'espnGameId', 'home', 'homeScore', 'nbaGameId', 'officialUrl', 'receiptRef', 'schema', 'status']);
+});
+
+test('real 0022600051 result: exact time boundary, FINAL after, #26 view before', () => {
+  const edge = Date.parse(REAL.confirmations.espn.observedAt);
+  const before = run(real, { now: new Date(edge - 1).toISOString(), result: REAL, pins: PINS });
+  assert.equal(before.model.reason, 'PAST_TIPOFF');
+  assert.equal(before.model.schedule[0].status, 'SCHEDULED');
+  assert.deepEqual(before.diagnostics.excluded.filter(e => e.slot === 'result').map(e => e.reason), ['RESULT_CHRONOLOGY']);
+  const at = run(real, { now: REAL.confirmations.espn.observedAt, result: REAL, pins: PINS });
+  assert.equal(at.model.reason, 'FINAL');
+  assert.deepEqual(at.model.schedule[0].score, { away: 104, home: 106 });
+  assert.equal(at.model.schedule[0].editorial, null);
+  assert.deepEqual(at.model.stories, []);
+  assert.deepEqual(C.validateGameResult(REAL, real, PINS['0022600051'], REAL.confirmations.espn.observedAt), []);
+});
+
+test('real 0022600051 result reaches Home/Schedule/Match in zh/en as result and official link only', () => {
+  const at = '2026-11-21T06:00:00Z';
+  for (const [lang, line] of [['zh', '終場 湖人 106：104 國王'], ['en', 'Final: Lakers 106–104 Kings']]) {
+    for (const page of ['home', 'schedule', 'match']) {
+      const html = renderPage(real, page, '?schedule=0022600051&game=0022600051&mode=production&lang=' + lang, null, { now: at, result: REAL, realTeams: true });
+      assert.ok(html.includes(line), page + '/' + lang);
+      assert.ok(html.includes('href="https://www.nba.com/game/sac-vs-lal-0022600051"'), page + '/' + lang + ': link');
+      assert.ok(!/已過原定開賽時間|Past the scheduled tip-off|先前的賽程|13 分之差|NBA-0022600051-R1|370e676a/.test(html), page + '/' + lang + ': nothing else');
+      const notice = (html.match(/<p class="[^"]*result-note[^"]*">([\s\S]*?)<\/p>/) || [])[1] || '';
+      assert.ok(notice && !METHOD.test(notice.replace(/<[^>]*>/g, ' ')), page + '/' + lang + ': no method words');
+    }
+  }
+});
+
+test('real 0022600051 result is ignored when unpinned, altered or used for another game', () => {
+  const at = '2026-11-21T06:00:00Z';
+  const baseline = run(real, { now: at }).model;
+  for (const [label, r, p, code] of [
+    ['unpinned', REAL, {}, 'RESULT_UNPINNED'],
+    ['altered score', Object.assign(clone(REAL), { homeScore: 107 }), PINS, 'RESULT_PIN_MISMATCH'],
+    ['altered receipt', Object.assign(clone(REAL), { receiptRef: 'NBA-0022600051-R2' }), PINS, 'RESULT_PIN_MISMATCH']
+  ]) {
+    const out = run(real, { now: at, result: r, pins: p });
+    assert.deepEqual(out.model, baseline, label);
+    assert.deepEqual(out.diagnostics.excluded.filter(e => e.slot === 'result').map(e => e.reason), [code], label);
+  }
+  const other = run(synthetic, { result: REAL, pins: { '0022600999': PINS['0022600051'] } });
+  assert.deepEqual(other.model, run(synthetic, {}).model, 'wrong game');
+  assert.equal(other.diagnostics.excluded.filter(e => e.slot === 'result')[0].reason, 'RESULT_GAME_MISMATCH');
 });
 
 test('a pinned, verified projection turns the same game into FINAL with the official score', () => {
@@ -88,8 +138,8 @@ test('any untrusted or inconsistent projection falls back to exactly the no-resu
   }
 });
 
-test('the real game keeps its #26 view while no pinned official result exists', () => {
-  // An unpinned projection for 0022600051 is ignored; nothing claims this game is FINAL.
+test('a forged projection for the real game is ignored and keeps the #26 view', () => {
+  // A projection that does not match the pinned digest is ignored; nothing else claims this game is FINAL.
   const unpinned = Object.assign(clone(result), { nbaGameId: '0022600051', officialUrl: 'https://www.nba.com/game/sac-vs-lal-0022600051' });
   const at = '2026-11-21T03:05:00Z';
   const m = run(real, { now: at, result: unpinned, pins: PINS }).model;
