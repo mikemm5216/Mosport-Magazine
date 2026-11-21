@@ -9,7 +9,15 @@
   var q = new URLSearchParams(location.search);
   /* Beta-0's ordinary entry opens the existing saved schedule. Explicit issue,
      fixture and schedule selections retain their provider and mode rules. */
-  if (!['schedule', 'issue', 'fixture'].some(function (key) { return q.has(key); })) q.set('schedule', '0022600051');
+  var owner = window.MOSPORT_OWNER_EDITION || null;
+  function editionsAt(now) {
+    return owner ? owner.catalog.filter(function (item) { return Date.parse(item.availableAt) <= now; }) : [];
+  }
+  if (!['schedule', 'issue', 'fixture'].some(function (key) { return q.has(key); })) {
+    var editions = editionsAt(Date.now());
+    var requested = q.get('game'), listed = editions.some(function (item) { return item.id === requested; });
+    q.set('schedule', listed ? requested : editions.length ? editions[0].id : '0022600051');
+  }
   var store = {
     get: function (k) { try { return localStorage.getItem('mosport.' + k); } catch (e) { return null; } },
     set: function (k, v) { try { localStorage.setItem('mosport.' + k, v); } catch (e) { /* unavailable */ } }
@@ -177,6 +185,7 @@
       issueDate: issueDate, issueDateLong: issueDateLong, issue: model, meta: model.meta,
       stateMessage: stateMessage, sourceNote: sourceNote, pregameRecord: pregameRecord, statusLabel: statusLabel, tipoffNotice: tipoffNotice, finalLine: finalLine, isFinal: isFinal,
       href: function (path, extra) { var k = new URLSearchParams(keepQuery().slice(1)); Object.keys(extra || {}).forEach(function (x) { k.set(x, extra[x]); }); var s = k.toString(); return path + (s ? '?' + s : ''); },
+      editions: model.meta && model.meta.scheduleOnly ? editionsAt(Date.now()) : [],
       topbar: topbar(page.id), navLinks: navLinks, sportButtons: sportButtons, utilButtons: utilButtons, keepQuery: keepQuery,
       percentOf: function (g) { return g.hasRead && g.world ? g.world.percent : null; },
       onMagazine: function (g) { return !!(g && g.hasRead); }
@@ -224,7 +233,14 @@
   function nextBoundary(raw, after) {
     if (!raw || raw.__loadError || raw.mode === 'DEMO') return null;
     var next = null;
-    [raw.validUntil, raw.game && raw.game.tipoff, raw.editorial && raw.editorial.observedAt].forEach(function (iso) {
+    var boundaries = [raw.validUntil, raw.game && raw.game.tipoff, raw.editorial && raw.editorial.observedAt];
+    var item = owner && raw.game && owner.games[raw.game.gameId];
+    if (item) {
+      var tipTime = Date.parse(raw.game.tipoff);
+      if (Number.isFinite(tipTime)) boundaries.push(new Date(tipTime-900000).toISOString());
+      boundaries.push(item.article && item.article.preparedAt, item.INITIAL && item.INITIAL.lockedAt, item.FINAL && item.FINAL.lockedAt);
+    }
+    boundaries.forEach(function (iso) {
       var t = typeof iso === 'string' ? Date.parse(iso) : NaN;
       if (!isNaN(t) && t > after && (next === null || t < next)) next = t;
     });
@@ -236,7 +252,7 @@
     for (;;) {
       var raw = saved == null ? saved : JSON.parse(saved);
       var now = nowFor(raw);
-      data.model = window.MOSPORT_PIPELINE.run(raw, { mode: window.MOSPORT_CONFIG.mode, now: now, result: extra.result, pins: window.MOSPORT_RESULT_PINS || {} }).model;
+      data.model = window.MOSPORT_PIPELINE.run(raw, { mode: window.MOSPORT_CONFIG.mode, now: now, result: extra.result, pins: window.MOSPORT_RESULT_PINS || {}, ownerEdition: owner }).model;
       render();
       var next = nextBoundary(raw, Date.parse(now));
       if (next === null || typeof setTimeout !== 'function') return;

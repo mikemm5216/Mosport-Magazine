@@ -6,6 +6,41 @@
 (function () {
   var showFirst = false;
 
+  function renderAnalysis(c, g) {
+    var a = g.analysis, zh = c.lang === 'zh', esc = c.esc;
+    function time(iso) {
+      var value = new Intl.DateTimeFormat(zh ? 'zh-TW' : 'en-US', { timeZone:'Asia/Taipei', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12:false }).format(new Date(iso));
+      return '<time datetime="' + esc(iso) + '">' + esc(value) + ' UTC+8</time>';
+    }
+    var article = '';
+    if (a.article) {
+      var data = a.article, copy = data[c.lang];
+      article = '<article class="card edition-article"><p class="lbl lbl-brand">' + (zh ? 'MOSPORT 賽前分析' : 'MOSPORT Pregame') + '</p><h2>' + esc(copy.title) +
+        '</h2><p>' + esc(copy.body) + '</p><h3>' + (zh ? '比賽觀察' : 'What to watch') + '</h3><p>' + esc(copy.watch) +
+        '</p><h3>' + (zh ? '何時改變判斷' : 'What would change the read') + '</h3><p>' + esc(copy.falsifier) +
+        '</p><p class="pv">' + (zh ? '資料截至 ' : 'Sources through ') + time(data.cutoffAt) + ' · ' + (zh ? '定稿 ' : 'Filed ') + time(data.preparedAt) + '</p><p class="pv">' +
+        data.sources.map(function (source) { return '<a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.label) + '</a>'; }).join(' · ') + '</p></article>';
+    }
+    if (!a.stages.length) return article;
+    function pick(side) { return side === null ? (zh ? '棄權' : 'Abstain') : c.teamName(side === 'HOME' ? g.home : g.away, 'nick'); }
+    function record(team,r) { return c.teamName(team, 'nick') + (r ? ' ' + r.wins + '–' + r.losses : (zh ? ' 戰績缺失' : ' record unavailable')); }
+    var labels = zh ? {HIT:'命中',MISS:'未命中',ABSTAIN:'棄權'} : {HIT:'Hit',MISS:'Miss',ABSTAIN:'Abstention'};
+    var cards = a.stages.map(function (s) {
+      var header = s.late ? (zh ? 'T−15 逾時記錄，僅供核對' : 'Late T−15 record · review only') : s.stage === 'INITIAL' ? (zh ? '賽前初選' : 'Initial pick') : (zh ? 'T−15 準時鎖定' : 'On-time T−15 lock');
+      return '<section class="edition-stage"><h3>' + header + ' · ' + esc(pick(s.pick)) + '</h3><p>' + esc(record(g.away,s.awayRecord) + ' / ' + record(g.home,s.homeRecord)) +
+        '</p><p class="pv">' + (zh ? '資料截至 ' : 'Cutoff ') + time(s.cutoff) + ' · ' + (zh ? '鎖定 ' : 'Locked ') + time(s.lockedAt) +
+        '</p><p class="pv">' + (zh ? '主場基準選擇 ' : 'Home baseline pick: ') + esc(pick(s.baseline)) + '</p>' +
+        (s.evaluation ? '<p>' + (zh ? '研究選擇 ' : 'Research pick: ') + labels[s.evaluation.outcome] + ' · ' + (zh ? '基準 ' : 'Baseline: ') + labels[s.evaluation.baselineOutcome] + '</p>' : '<p class="pv">' + (s.late ? (zh ? '不列入成績' : 'Excluded from scoring') : (zh ? '尚未結算' : 'Scoring pending')) + '</p>') + '</section>';
+    }).join('');
+    var pending = a.finalStatus === 'PENDING' ? (zh ? 'T−15 鎖定窗口開始於 ' : 'T−15 window opens ') + time(a.finalWindowAt) :
+      a.finalStatus === 'OPEN' ? (zh ? 'T−15 窗口已開啟，等待鎖定紀錄。' : 'The T−15 window is open. Awaiting a lock.') :
+      a.finalStatus === 'NOT_RECORDED' ? (zh ? '本站未收錄開賽前的 T−15 鎖定紀錄。' : 'No pre-tip T−15 lock has been published here.') : '';
+    return article + '<aside class="card edition-pick"><p class="lbl lbl-brand">' + (zh ? 'MOSPORT 研究觀點' : 'MOSPORT research pick') + '</p><h2>' +
+      (zh ? '戰績觀察室' : 'Record Desk') + '</h2><p>' + (zh ? '第 1 版規則選擇本季勝率較高的球隊，勝率相同或資料不足時棄權。主場基準另行計分。' : 'Rule v1 picks the higher season win rate and abstains on a tie or missing records. The home baseline is scored separately.') + '</p>' +
+      '<p class="pv">' + (zh ? '戰績核對 ' : 'Records checked against ') + '<a href="' + esc(g.source.url) + '" rel="noopener noreferrer">NBA</a> · <a href="https://www.espn.com/nba/game/_/gameId/' + esc(a.espnGameId) + '" rel="noopener noreferrer">ESPN</a></p>' +
+      cards + (pending ? '<p class="pv">' + pending + '</p>' : '') + '</aside>';
+  }
+
   function cells(pos, partial) {
     var out = '';
     for (var i = 0; i < 11; i++) {
@@ -27,7 +62,7 @@
       if (R.status !== 'OK' && R.status !== 'SCHEDULE_ONLY' && !(R.status === 'STALE' && c.meta && c.meta.scheduleOnly)) return c.topbar + '<main class="sheet">' + c.stateMessage(R) + '</main>';
       var id = new URLSearchParams(location.search).get('game');
       /* An unknown game id shows a not-found state; it never falls back to another game. */
-      var g = id ? R.schedule.filter(function (x) { return x.gameId === id; })[0] : (R.lead && R.lead.game);
+      var g = id ? R.schedule.filter(function (x) { return x.gameId === id; })[0] : (R.lead && R.lead.game) || (c.editions && c.editions.length && R.schedule[0]);
       if (!g) return c.topbar + '<main class="sheet"><div class="state-msg" role="status"><p>' + esc(T(id ? 'unknownGame' : 'emptyToday')) + '</p><a class="cta" href="' + c.href('schedule.html') + '">' + T('openSchedule') + ' <span aria-hidden="true">→</span></a></div></main>';
       var w = g.world || {};
       var eligible = c.onMagazine(g);
@@ -53,7 +88,8 @@
       if (!eligible) {
         /* An empty pregame card is not shown: no record, no tipoff notice, no reason line. */
         var pregameBody = c.pregameRecord(g) + (g.source ? '' : '<p class="pv">' + esc(T('noRead_' + g.noReadReason)) + '</p>');
-        return c.topbar + '<main class="sheet">' + top + head +
+        var analysis = g.analysis ? renderAnalysis(c, g) : '';
+        return c.topbar + '<main class="sheet">' + top + head + analysis +
           (R.status === 'STALE' ? c.stateMessage(R) : '') +
           (g.source ? '<section class="card"><p>' + esc(T('savedSchedule')) + ' · ' + esc(c.statusLabel(g)) + '</p><p class="pv">NBA game ID ' + esc(g.gameId) + '</p>' + c.sourceNote(g.source) + '</section>' : '') +
           (pregameBody ? '<section class="card"><p class="lbl">' + esc(T(c.isFinal(g) ? 'final' : 'pregameTitle')) + '</p>' + pregameBody + '</section>' : '') + '</main>';

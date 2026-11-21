@@ -30,6 +30,9 @@ window.MOSPORT_PAGE = {
       storyLede = T('cupRematchLede', storyVars);
     }
 
+    var featureCopy = savedGame && savedGame.analysis && savedGame.analysis.article ? savedGame.analysis.article[L] : null;
+    if (featureCopy) { storyTitle = featureCopy.title; storyLede = featureCopy.body; }
+
     /* Cover status: only what exists (tipoff passed, or a public pregame record). */
     var coverStatus = !savedGame ? '' : c.isFinal(savedGame) ? c.finalLine(savedGame) : savedGame.pastTipoff ? T('pastTipoffLabel')
       : savedGame.pregameSnapshot ? T('context_' + savedGame.pregameSnapshot.homeCourt, { team: c.teamName(savedGame.home, 'nick') }) : '';
@@ -63,7 +66,8 @@ window.MOSPORT_PAGE = {
         '</div>' +
         (savedGame ? '<div class="cv-brief">' +
           ('<p class="cv-game' + (storyTitle ? ' is-editorial' : '') + '">' + esc(storyTitle || c.teamName(savedGame.away, 'nick') + ' @ ' + c.teamName(savedGame.home, 'nick')) + '</p><p class="cv-time">' + esc(c.tipShort(savedGame)) + '</p>') +
-          (coverStatus ? '<p class="cv-status">' + esc(coverStatus) + '</p>' : '') + '</div>' : '') +
+          (coverStatus ? '<p class="cv-status">' + esc(coverStatus) + '</p>' : '') +
+          (featureCopy ? '<a class="cv-next" href="' + c.href('match.html', { game:savedGame.gameId }) + '">' + (L === 'zh' ? '閱讀賽前分析' : 'Read the matchup analysis') + ' →</a>' : '') + '</div>' : '') +
         (teasers ? '<div class="cv-teasers">' + teasers + '</div>' : '') +
         '<div class="cv-foot">' +
           '<div class="cv-guide">' + demo +
@@ -110,7 +114,7 @@ window.MOSPORT_PAGE = {
           '<div class="lead-read' + (storyTitle ? ' has-editorial' : '') + '"><p class="ver">' + esc(c.statusLabel(savedGame)) + '</p><h3 class="lead-record-title">' + esc(storyTitle || (savedGame.pregameSnapshot || savedGame.pastTipoff || c.isFinal(savedGame) ? T('gameFacts') : c.teamName(savedGame.away, 'nick') + ' @ ' + c.teamName(savedGame.home, 'nick'))) + '</h3>' +
             (storyLede ? '<p class="lead-story">' + esc(storyLede) + '</p>' : '') + c.pregameRecord(savedGame, { reader: true }) + '</div>' +
           '<div class="lead-foot"><div><p class="lead-time">' + esc(c.tipLine(savedGame)) + '</p></div>' +
-            '<a class="pill" href="' + c.href('match.html', { game: savedGame.gameId }) + '">' + esc(T('gameDetails')) + ' <span aria-hidden="true">→</span></a></div>' +
+            '<a class="pill" href="' + c.href('match.html', { game: savedGame.gameId }) + '">' + esc(featureCopy ? (L === 'zh' ? '閱讀賽前分析' : 'Read the matchup analysis') : T('gameDetails')) + ' <span aria-hidden="true">→</span></a></div>' +
         '</article>' +
         '<div class="lead-source">' + c.sourceNote(savedGame.source, { reader: true }) +
           (ed ? '<p class="pv">' + esc(T('cupRematchSource')) + ' <a href="' + esc(ed.sources.previousUrl) + '" rel="noopener noreferrer">NBA</a></p>' : '') + '</div>';
