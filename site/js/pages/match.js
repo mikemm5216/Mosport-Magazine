@@ -56,7 +56,7 @@
         return c.topbar + '<main class="sheet">' + top + head +
           (R.status === 'STALE' ? c.stateMessage(R) : '') +
           (g.source ? '<section class="card"><p>' + esc(T('savedSchedule')) + ' · ' + esc(c.statusLabel(g)) + '</p><p class="pv">NBA game ID ' + esc(g.gameId) + '</p>' + c.sourceNote(g.source) + '</section>' : '') +
-          (pregameBody ? '<section class="card"><p class="lbl">' + esc(T('pregameTitle')) + '</p>' + pregameBody + '</section>' : '') + '</main>';
+          (pregameBody ? '<section class="card"><p class="lbl">' + esc(T(c.isFinal(g) ? 'final' : 'pregameTitle')) + '</p>' + pregameBody + '</section>' : '') + '</main>';
       }
 
       var read =

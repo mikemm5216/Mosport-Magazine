@@ -27,7 +27,8 @@
     issue: 'mosport-b/magazine-issue@1',
     publication: 'mosport-b/publication-receipt@1',
     game: 'mosport-b/prototype-game@0',
-    schedule: 'mosport-b/schedule-entry@1'
+    schedule: 'mosport-b/schedule-entry@1',
+    gameResult: 'mosport-b/game-result@1'
   };
 
   var ENUM = {
@@ -410,6 +411,25 @@
       previousUrl: { t: 'string', req: true, url: true }
     } }
   };
+  /* Reader-facing projection of one A-verified official FINAL (NBA #174). Only what a
+     reader sees plus the A receipt reference; private evidence (raw bodies, hashes,
+     snapshot joins) stays with A. No self-declared hash or eligibility field is
+     accepted: trust comes only from a B-side pin (result-pins.js) set by reviewed PR. */
+  SHAPES.gameResult = {
+    schema: { t: 'string', req: true, enum: ['mosport-b/game-result@1'] },
+    nbaGameId: { t: 'string', req: true, re: /^\d{10}$/ },
+    espnGameId: { t: 'string', req: true, re: /^\d{6,12}$/ },
+    away: Object.assign({ req: true }, teamRule), home: Object.assign({ req: true }, teamRule),
+    awayScore: { t: 'int', req: true, min: 0, max: 400 },
+    homeScore: { t: 'int', req: true, min: 0, max: 400 },
+    status: { t: 'string', req: true, enum: ['FINAL'] },
+    officialUrl: { t: 'string', req: true, url: true },
+    confirmations: { t: 'object', req: true, shape: {
+      nba: { t: 'object', req: true, shape: { observedAt: { t: 'string', req: true, time: true } } },
+      espn: { t: 'object', req: true, shape: { observedAt: { t: 'string', req: true, time: true } } }
+    } },
+    receiptRef: Object.assign({ req: true }, idRule)
+  };
   var CONTEXT_SHAPE = {
     nbaGameId: { t: 'string', req: true, re: /^\d{10}$/ },
     gameId: { t: 'string', req: true, re: /^\d{9}$/ },
@@ -497,6 +517,26 @@
         parseInstant(ed.observedAt) >= parseInstant(entry.validUntil) ||
         Date.parse(previous.playedOn + 'T23:59:59Z') >= parseInstant(g.tipoff))
       out.push(P('EDITORIAL_CHRONOLOGY', 'schedule.editorial'));
+    return out;
+  }
+
+  /* A result for an already-valid schedule entry. Any problem means no result is shown. */
+  function validateGameResult(result, entry, pin, now) {
+    var out = [];
+    if (!typeOk(result, 'object')) return [P('RESULT_ABSENT', 'result')];
+    checkShape(result, SHAPES.gameResult, 'result', out);
+    if (out.length) return out;
+    var g = entry.game, r = result;
+    if (r.nbaGameId !== g.gameId || r.away !== g.away || r.home !== g.home) out.push(P('RESULT_GAME_MISMATCH', 'result.nbaGameId'));
+    if (r.awayScore === r.homeScore) out.push(P('RESULT_SCORE_INVALID', 'result.homeScore', 'tied final'));
+    if (r.officialUrl !== 'https://www.nba.com/game/' + g.away.toLowerCase() + '-vs-' + g.home.toLowerCase() + '-' + g.gameId) out.push(P('RESULT_SOURCE_MISMATCH', 'result.officialUrl'));
+    var tip = parseInstant(g.tipoff), t = parseInstant(now);
+    ['nba', 'espn'].forEach(function (k) {
+      var at = parseInstant(r.confirmations[k].observedAt);
+      if (isNaN(t) || !(at > tip) || at > t) out.push(P('RESULT_CHRONOLOGY', 'result.confirmations.' + k + '.observedAt'));
+    });
+    if (!pin) out.push(P('RESULT_UNPINNED', 'result'));
+    else if (pin.digest !== sha256(canonical(r)) || pin.receiptRef !== r.receiptRef) out.push(P('RESULT_PIN_MISMATCH', 'result'));
     return out;
   }
 
@@ -680,7 +720,7 @@
     parseInstant: parseInstant, isDate: isDate, canonical: canonical, sha256: sha256,
     contentHash: contentHash, publicationHash: publicationHash, safeUrl: safeUrl,
     validateRecord: validateRecord, validateIssue: validateIssue, effectiveSourceStates: effectiveSourceStates,
-    validateSchedule: validateSchedule, validateScheduleEditorial: validateScheduleEditorial, validateContextSnapshot: validateContextSnapshot
+    validateSchedule: validateSchedule, validateScheduleEditorial: validateScheduleEditorial, validateGameResult: validateGameResult, validateContextSnapshot: validateContextSnapshot
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.MOSPORT_CONTRACTS = api;

@@ -31,7 +31,7 @@ window.MOSPORT_PAGE = {
     }
 
     /* Cover status: only what exists (tipoff passed, or a public pregame record). */
-    var coverStatus = !savedGame ? '' : savedGame.pastTipoff ? T('pastTipoffLabel')
+    var coverStatus = !savedGame ? '' : c.isFinal(savedGame) ? c.finalLine(savedGame) : savedGame.pastTipoff ? T('pastTipoffLabel')
       : savedGame.pregameSnapshot ? T('context_' + savedGame.pregameSnapshot.homeCourt, { team: c.teamName(savedGame.home, 'nick') }) : '';
 
     /* ---------- cover lines: derived only from what actually renders ---------- */
@@ -107,7 +107,7 @@ window.MOSPORT_PAGE = {
       lead =
         '<article class="lead lead-schedule" aria-label="' + esc(c.teamName(savedGame.away) + ' @ ' + c.teamName(savedGame.home)) + '">' +
           leadArt(savedGame) +
-          '<div class="lead-read' + (storyTitle ? ' has-editorial' : '') + '"><p class="ver">' + esc(c.statusLabel(savedGame)) + '</p><h3 class="lead-record-title">' + esc(storyTitle || (savedGame.pregameSnapshot || savedGame.pastTipoff ? T('gameFacts') : c.teamName(savedGame.away, 'nick') + ' @ ' + c.teamName(savedGame.home, 'nick'))) + '</h3>' +
+          '<div class="lead-read' + (storyTitle ? ' has-editorial' : '') + '"><p class="ver">' + esc(c.statusLabel(savedGame)) + '</p><h3 class="lead-record-title">' + esc(storyTitle || (savedGame.pregameSnapshot || savedGame.pastTipoff || c.isFinal(savedGame) ? T('gameFacts') : c.teamName(savedGame.away, 'nick') + ' @ ' + c.teamName(savedGame.home, 'nick'))) + '</h3>' +
             (storyLede ? '<p class="lead-story">' + esc(storyLede) + '</p>' : '') + c.pregameRecord(savedGame, { reader: true }) + '</div>' +
           '<div class="lead-foot"><div><p class="lead-time">' + esc(c.tipLine(savedGame)) + '</p></div>' +
             '<a class="pill" href="' + c.href('match.html', { game: savedGame.gameId }) + '">' + esc(T('gameDetails')) + ' <span aria-hidden="true">→</span></a></div>' +

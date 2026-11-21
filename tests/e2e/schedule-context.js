@@ -257,6 +257,38 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
       }
       await straddle.close();
     }
+    // Official result projection through the real HTTP provider (synthetic 0999 only).
+    // Unpinned: ignored. Pinned by an isolated test pin file: Home/Schedule/Match show the result.
+    {
+      const C = require('../../site/js/contracts/contracts.js');
+      const res = {
+        schema: 'mosport-b/game-result@1', nbaGameId: '0022600999', espnGameId: '401909999',
+        away: 'SAC', home: 'LAL', awayScore: 101, homeScore: 112, status: 'FINAL',
+        officialUrl: 'https://www.nba.com/game/sac-vs-lal-0022600999',
+        confirmations: { nba: { observedAt: '2026-11-21T05:40:00Z' }, espn: { observedAt: '2026-11-21T05:41:00Z' } },
+        receiptRef: 'TEST-ISOLATED-0999'
+      };
+      const pinJs = 'window.MOSPORT_RESULT_PINS = Object.freeze(' + JSON.stringify({ '0022600999': { digest: C.sha256(C.canonical(res)), receiptRef: res.receiptRef } }) + ');';
+      for (const pinned of [false, true]) {
+        const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+        const p = await ctx.newPage();
+        const pageErrors = []; p.on('pageerror', e => pageErrors.push(e.message));
+        await p.clock.setFixedTime(new Date('2026-11-21T06:00:00Z'));
+        await p.route('**/data/schedules/0022600999.json', route => route.fulfill({ json: candidate }));
+        await p.route('**/data/results/0022600999.json', route => route.fulfill({ json: res }));
+        if (pinned) await p.route('**/js/data/result-pins.js', route => route.fulfill({ body: pinJs, contentType: 'text/javascript' }));
+        for (const page of ['index.html', 'schedule.html', 'match.html']) {
+          await p.goto(base + page + '?schedule=0022600999&game=0022600999&mode=production&lang=zh');
+          await p.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
+          const text = await p.locator('body').innerText();
+          if (pinned) assert.ok(text.includes('終場 湖人 112：101 國王') && !/TEST-ISOLATED|雜湊|收據/.test(text), page + ' pinned: ' + text.slice(0, 300));
+          else assert.ok(!text.includes('終場 湖人') && !text.includes('112：101'), page + ' unpinned');
+        }
+        assert.deepEqual(pageErrors, []);
+        checks++;
+        await ctx.close();
+      }
+    }
     await page.goto(url.replace('game=0022600051', 'game=UNKNOWN'));
     await page.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
     assert.ok((await content(page)).includes('找不到這場比賽')); checks++;

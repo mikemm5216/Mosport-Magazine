@@ -45,7 +45,9 @@ function renderPage(raw, page, query, projected, opts) {
     if (opts.onSelect) opts.onSelect(selected, search, config);
     return selected;
   };
-  window.MOSPORT_PROVIDERS.load = (selected, done) => done(selected.error ? { __loadError: selected.error } : raw == null ? raw : clone(raw));
+  window.MOSPORT_PROVIDERS.load = (selected, done) => done(selected.error ? { __loadError: selected.error } : raw == null ? raw : clone(raw), { result: opts.result === undefined ? null : clone(opts.result) });
+  // Isolated tests only: a test may supply its own pins; production pins come from result-pins.js.
+  window.MOSPORT_RESULT_PINS = opts.pins || require('../../site/js/data/result-pins.js');
   if (projected) {
     const render = window.MOSPORT_PAGE.render;
     window.MOSPORT_PAGE.render = c => {

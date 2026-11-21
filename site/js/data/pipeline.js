@@ -90,15 +90,24 @@
     /* The clock alone proves only that the scheduled tip-off has passed. It never
        claims LIVE, FINAL or a score; an observed status from the source replaces this. */
     var tipoff = C.parseInstant(raw.game.tipoff), validUntil = C.parseInstant(raw.validUntil);
+    /* An official FINAL is shown only from a B-pinned, A-verified result projection;
+       anything else (absent, wrong game, timing, one source, unpinned, altered) is ignored. */
+    var result = null;
+    if (opts.result != null) {
+      var rp = C.validateGameResult(opts.result, raw, (opts.pins || {})[raw.game.gameId] || null, opts.now);
+      if (rp.length) { diag.problems = diag.problems.concat(rp); diag.excluded.push({ slot: 'result', id: raw.game.gameId, reason: rp[0].code }); }
+      else result = opts.result;
+    }
     /* Only an observation still valid at tipoff can say the scheduled time has passed;
        one that expired earlier stays expired history across tipoff. */
-    var pastTipoff = raw.game.status === 'SCHEDULED' && now >= tipoff && validUntil >= tipoff;
-    var stale = !pastTipoff && now >= validUntil;
-    var model = emptyModel(stale ? 'STALE' : 'SCHEDULE_ONLY', stale ? 'SCHEDULE_EXPIRED' : pastTipoff ? 'PAST_TIPOFF' : null);
+    var pastTipoff = !result && raw.game.status === 'SCHEDULED' && now >= tipoff && validUntil >= tipoff;
+    var stale = !result && !pastTipoff && now >= validUntil;
+    var model = emptyModel(stale ? 'STALE' : 'SCHEDULE_ONLY', stale ? 'SCHEDULE_EXPIRED' : result ? 'FINAL' : pastTipoff ? 'PAST_TIPOFF' : null);
     model.meta = { scheduleOnly: true, observedAt: raw.source.observedAt, validUntil: raw.validUntil };
     var game = publicGame(raw.game, false);
     game.source = publicSource(raw.source);
     game.pastTipoff = pastTipoff;
+    if (result) { game.status = 'FINAL'; game.score = { away: result.awayScore, home: result.homeScore }; }
     game.pregameSnapshot = null;
     /* Curated official matchup facts may appear before a public World release;
        they are suppressed before observation, after tip-off and on expired saved
@@ -109,7 +118,7 @@
       if (edProblems.length) {
         diag.problems = diag.problems.concat(edProblems);
         diag.excluded.push({ slot: 'editorial', id: raw.game.gameId, reason: edProblems[0].code });
-      } else if (!stale && !pastTipoff && now >= C.parseInstant(raw.editorial.observedAt)) {
+      } else if (!stale && !pastTipoff && !result && now >= C.parseInstant(raw.editorial.observedAt)) {
         var ed = raw.editorial, prev = ed.previous;
         game.editorial = {
           kind: ed.kind, group: ed.group, observedAt: ed.observedAt,

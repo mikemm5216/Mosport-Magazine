@@ -38,7 +38,8 @@
     return { kind: 'demo', name: f };
   }
 
-  /** load(sel, done): done(raw). raw is the issue object or { __loadError }. */
+  /** load(sel, done): done(raw, extra). raw is the issue object or { __loadError };
+      for a schedule, extra.result is the optional same-game result projection (or null). */
   function load(sel, done) {
     if (sel.error) { done({ __loadError: sel.error }); return; }
     if (sel.kind === 'demo') {
@@ -52,7 +53,11 @@
       .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function (j) {
         if (sel.kind === 'schedule' && (!j || j.schema !== root.MOSPORT_CONTRACTS.SCHEMAS.schedule || !j.game || j.game.gameId !== sel.name)) { done({ __loadError: 'SCHEDULE_ID_MISMATCH' }); return; }
-        done(j);
+        if (sel.kind !== 'schedule') { done(j); return; }
+        /* A missing or unreadable result is simply absent: the page keeps its schedule view. */
+        fetch('data/results/' + sel.name + '.json', { credentials: 'same-origin', cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (res) { done(j, { result: res }); }, function () { done(j, { result: null }); });
       }, function (e) { done({ __loadError: 'FETCH_FAILED: ' + String(e && e.message || e).slice(0, 80) }); });
   }
 
