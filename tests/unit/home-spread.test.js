@@ -32,7 +32,11 @@ test('normal index entry selects the existing 0051 schedule in each existing mod
     assert.equal(selection.url, 'data/schedules/0022600051.json');
     assertSpread(html);
     assert.ok(html.includes('lead-schedule'));
-    for (const value of ['SAC', 'LAL', '2026/11/21', '11:00', '這場的賽前判讀還沒出來。', '核對（台北）', '10:43']) assert.ok(html.includes(value), value);
+    const checkedAt = new Intl.DateTimeFormat('zh-TW', {
+      timeZone: 'Asia/Taipei', hour12: false, month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+    }).format(new Date(schedule.source.observedAt));
+    assert.ok(html.includes('<time datetime="' + schedule.source.observedAt + '">' + checkedAt + ' 核對（台北）</time>'));
+    for (const value of ['SAC', 'LAL', '2026/11/21', '11:00', '這場的賽前判讀還沒出來。']) assert.ok(html.includes(value), value);
     assert.ok(html.includes('href="https://www.nba.com/game/sac-vs-lal-0022600051"'));
     assert.ok(!/DEMO|VOL\.|第 \d+ 期|61%|52%|0\.5|World · Coach Read|BREAKING NEWS|MOSPORT EXCLUSIVE|三層/.test(text(html)));
     assert.ok(!html.includes('class="teaser ') && !html.includes('class="stories'));
