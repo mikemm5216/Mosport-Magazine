@@ -215,3 +215,99 @@ test('exploratory scoring requires the independently pinned result, matching pic
     assert.equal(score(pins),null);
   }
 });
+
+function sealedFinal() {
+  const base=sample(), {game}=base;
+  const policy={schema:'mosport-a/research-final-policy@2',nbaGameId:id,espnGameId:espnId,tipoffAt:tip,
+    initialDigest:digest(game.INITIAL),optedInAt:filed};
+  const snapAt='2026-01-01T17:43:00.000Z', preparedAt='2026-01-01T17:44:30.125Z';
+  const witnessedAt='2026-01-01T17:44:59.999Z', recordedAt='2026-01-01T17:45:00.001Z';
+  const seal={snapshotFingerprint:'a'.repeat(64),snapshotCapturedAt:snapAt,preparedAt,
+    sources:{nba:{observedAt:'2026-01-01T17:40:00.000Z',sha256:'b'.repeat(64)},espn:{observedAt:snapAt,sha256:'c'.repeat(64)}}};
+  base.final(recordedAt);
+  const final=game.FINAL;
+  Object.assign(final,{schema:'mosport-a/research-pick@2',policyDigest:digest(policy),seal,witnessedAt,recordingDelayMs:1});
+  const witness={schema:'mosport-a/research-final-witness@2',nbaGameId:id,espnGameId:espnId,tipoffAt:tip,
+    initialDigest:policy.initialDigest,policyDigest:digest(policy),witnessedAt};
+  game.finalPolicy=policy;game.finalWitness=witness;
+  function repin() {
+    game.pins.finalPolicy=digest(policy);
+    final.policyDigest=game.pins.finalPolicy;
+    const {lockedAt,witnessedAt,recordingDelayMs,sealedDigest,...sealed}=final;
+    final.sealedDigest=digest(sealed);witness.sealedDigest=final.sealedDigest;witness.policyDigest=final.policyDigest;
+    game.pins.finalWitness=digest(witness);game.pins.FINAL=digest(final);
+  }
+  repin();
+  return {...base,final,policy,witness,recordedAt,repin};
+}
+
+test('v2 prospective enrollment, independent witness and registration appear in their actual order', () => {
+  const {game,view,policy,witness,recordedAt,schedule,edition}=sealedFinal();
+  assert.equal(view(observed),null);
+  assert.equal(view(filed).optedInAt,policy.optedInAt);
+  assert.equal(view(filed).witnessedAt,null);
+  assert.equal(view(witness.witnessedAt).witnessedAt,witness.witnessedAt);
+  assert.equal(view(cutoff).stages.length,1);
+  assert.equal(view(recordedAt).finalStatus,'SEALED_FINAL');
+  assert.deepEqual(view(recordedAt).stages[1].seal,{preparedAt:game.FINAL.seal.preparedAt,witnessedAt:witness.witnessedAt,recordingDelayMs:1});
+  for (const lang of ['zh','en']) {
+    const html=renderPage(schedule,'match','?game='+id+'&lang='+lang,null,{ownerEdition:edition,now:recordedAt});
+    const waiting=renderPage(schedule,'match','?game='+id+'&lang='+lang,null,{ownerEdition:edition,now:cutoff});
+    assert.match(waiting,lang==='zh' ? /資料觀測與封存時段/ : /Source observation and seal window/);
+    assert.match(waiting,lang==='zh' ? /最終票登錄時段/ : /Final registration window/);
+    assert.doesNotMatch(waiting,/T−15 鎖定窗口|T−15 window opens/);
+    for (const time of [cutoff,witness.witnessedAt,recordedAt]) assert.ok(html.includes('datetime="'+time+'"'),time);
+    assert.match(html,lang==='zh' ? /開賽前實際登錄/ : /Registered before tipoff/);
+    assert.match(html,lang==='zh' ? /登錄距截止 1 毫秒/ : /Registration delay 1 ms/);
+    assert.doesNotMatch(html,/準時鎖定|On-time T−15 lock/);
+  }
+});
+
+test('v2 refuses incorrect identity, opt-in, evidence windows, timestamp order and even a fully repinned invalid record', () => {
+  const changes=[
+    x=>{x.policy.optedInAt=observed;},x=>{x.policy.optedInAt='2026-01-01T17:40:00.000Z';},x=>{x.policy.espnGameId='888888888';},
+    x=>{x.policy.initialDigest='f'.repeat(64);},x=>{x.final.priorDigest='d'.repeat(64);},x=>{x.witness.espnGameId='888888888';},
+    x=>{x.witness.witnessedAt=x.final.witnessedAt=cutoff;},x=>{x.witness.witnessedAt=observed;},
+    x=>{x.final.seal.sources.espn.observedAt='2026-01-01T17:39:59.999Z';},x=>{x.final.seal.sources.nba.observedAt=cutoff;},
+    x=>{x.final.seal.snapshotFingerprint='invalid';},x=>{x.final.seal.sources.nba.sha256='invalid';},
+    x=>{x.final.seal.sources.nba.observedAt=x.witness.witnessedAt;},x=>{x.final.seal.preparedAt=cutoff;},
+    x=>{x.final.seal.snapshotCapturedAt=cutoff;},x=>{x.final.witnessedAt=x.policy.optedInAt;},
+    x=>{x.final.recordingDelayMs=0;},x=>{x.final.lockedAt=tip;x.final.recordingDelayMs=900000;},
+    x=>{x.final.dataCutoff='2026-01-01T17:44:59.999Z';},x=>{x.final.lockedAt=x.witness.witnessedAt;x.final.recordingDelayMs=-1;}
+  ];
+  for (const change of changes) {
+    const x=sealedFinal(); change(x); x.repin();
+    assert.equal(x.view(end).stages.length,1,change.toString());
+  }
+  for (const key of ['finalPolicy','finalWitness','FINAL']) {
+    const x=sealedFinal();delete x.game.pins[key];
+    assert.equal(x.view(end).stages.length,1,key);
+  }
+  const x=sealedFinal();
+  x.final.seal.sources.nba.sha256='e'.repeat(64);x.game.pins.FINAL=digest(x.final);
+  assert.equal(x.view(end).stages.length,1,'registration cannot rewrite the witnessed payload');
+  Object.assign(x.game,{FINAL:{...x.game.INITIAL,stage:'FINAL',dataCutoff:cutoff,lockedAt:cutoff,priorDigest:x.policy.initialDigest}});
+  x.game.pins.FINAL=digest(x.game.FINAL);
+  assert.equal(x.view(end).stages.length,1,'no downgrade from an opted-in entry to v1');
+});
+
+test('v2 uses the whole registered projection for scoring and never scores from a witness alone', () => {
+  const {game,edition,schedule,final}=sealedFinal();
+  const receiptRef='NBA-'+id+'-R1';
+  const result={schema:'mosport-b/game-result@1',nbaGameId:id,espnGameId:espnId,away:'ORL',home:'DET',awayScore:95,homeScore:85,status:'FINAL',
+    officialUrl:schedule.source.originalUrl,confirmations:{nba:{observedAt:end},espn:{observedAt:end}},receiptRef};
+  const pin={[id]:{digest:digest(result),receiptRef}};
+  function score(pins) {
+    const stages=pipeline.run(schedule,{mode:'production',now:end,ownerEdition:edition,result,pins}).model.schedule[0].analysis.stages;
+    return stages.find(s=>s.stage==='FINAL')?.evaluation ?? null;
+  }
+  game.scoreFINAL={schema:'mosport-a/research-score@1',nbaGameId:id,espnGameId:espnId,stage:'FINAL',forecastDigest:final.sealedDigest,
+    receiptRef,outcome:'HIT',baselineOutcome:'MISS'};
+  game.pins.scoreFINAL=digest(game.scoreFINAL);
+  assert.equal(score(pin),null,'seal digest is not the final projection digest');
+  game.scoreFINAL.forecastDigest=game.pins.FINAL;game.pins.scoreFINAL=digest(game.scoreFINAL);
+  assert.deepEqual(score(pin),{outcome:'HIT',baselineOutcome:'MISS'});
+  assert.equal(score({}),null);
+  delete game.pins.finalWitness;
+  assert.equal(score(pin),null);
+});

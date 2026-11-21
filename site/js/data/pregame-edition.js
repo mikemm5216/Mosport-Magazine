@@ -29,22 +29,58 @@
       } catch (e) { return false; }
     });
   }
-  function validForecast(f, stage, entry, schedule, now, initialDigest) {
-    if (!pinned(f, entry.pins[stage]) || !exactKeys(f, 'schema nbaGameId espnGameId away home tipoffAt stage lockedAt dataCutoff personaId personaVersion feature awayRecord homeRecord pick reason baselinePick priorDigest')) return false;
+  function hash64(value) { return typeof value === 'string' && /^[a-f0-9]{64}$/.test(value); }
+  function validPolicy(policy, entry, initial, now) {
+    if (!initial || !pinned(policy,entry.pins.finalPolicy) || !exactKeys(policy,'schema nbaGameId espnGameId tipoffAt initialDigest optedInAt')) return false;
+    return policy.schema === 'mosport-a/research-final-policy@2' && policy.nbaGameId === initial.nbaGameId &&
+      policy.espnGameId === initial.espnGameId && C.parseInstant(policy.tipoffAt) === C.parseInstant(initial.tipoffAt) &&
+      policy.initialDigest === digest(initial) && beforeOrAt(initial.lockedAt,policy.optedInAt) && beforeOrAt(policy.optedInAt,now) &&
+      C.parseInstant(policy.optedInAt) < C.parseInstant(initial.tipoffAt) - 1200000;
+  }
+  function validWitness(w, entry, policy, now) {
+    if (!policy || !pinned(w,entry.pins.finalWitness) ||
+        !exactKeys(w,'schema nbaGameId espnGameId tipoffAt initialDigest policyDigest sealedDigest witnessedAt')) return false;
+    var tip = C.parseInstant(policy.tipoffAt), seen = C.parseInstant(w.witnessedAt);
+    return w.schema === 'mosport-a/research-final-witness@2' && w.nbaGameId === policy.nbaGameId &&
+      w.espnGameId === policy.espnGameId && C.parseInstant(w.tipoffAt) === tip && w.initialDigest === policy.initialDigest &&
+      w.policyDigest === digest(policy) && hash64(w.sealedDigest) && seen >= tip - 1200000 && seen < tip - 900000 && beforeOrAt(w.witnessedAt, now);
+  }
+  function validSeal(f, w) {
+    var seal = f.seal, cutoff = C.parseInstant(f.dataCutoff), lock = C.parseInstant(f.lockedAt);
+    if (!w || f.policyDigest !== w.policyDigest || f.sealedDigest !== w.sealedDigest || f.witnessedAt !== w.witnessedAt ||
+        !Number.isSafeInteger(f.recordingDelayMs) || f.recordingDelayMs !== lock - cutoff ||
+        !exactKeys(seal,'preparedAt snapshotFingerprint snapshotCapturedAt sources') || !hash64(seal.snapshotFingerprint) ||
+        !beforeOrAt(seal.snapshotCapturedAt,seal.preparedAt) || !beforeOrAt(seal.preparedAt,w.witnessedAt) ||
+        !exactKeys(seal.sources,'nba espn')) return false;
+    var validSources = [seal.sources.nba,seal.sources.espn].every(function (source) {
+      if (!exactKeys(source,'observedAt sha256') || !hash64(source.sha256)) return false;
+      var at = C.parseInstant(source.observedAt);
+      return at >= cutoff - 300000 && at < cutoff && beforeOrAt(source.observedAt,seal.preparedAt);
+    });
+    if (!validSources) return false;
+    var sealed = Object.assign({},f);
+    ['lockedAt','witnessedAt','recordingDelayMs','sealedDigest'].forEach(function (key) { delete sealed[key]; });
+    return digest(sealed) === w.sealedDigest;
+  }
+  function validForecast(f, stage, entry, schedule, now, initialDigest, optedIn, witness) {
+    var v2 = stage === 'FINAL' && optedIn;
+    var keys = 'schema nbaGameId espnGameId away home tipoffAt stage lockedAt dataCutoff personaId personaVersion feature awayRecord homeRecord pick reason baselinePick priorDigest';
+    if (!pinned(f, entry.pins[stage]) || !exactKeys(f, keys + (v2 ? ' policyDigest seal sealedDigest witnessedAt recordingDelayMs' : ''))) return false;
     var game = schedule.game, tip = C.parseInstant(game.tipoff), lock = C.parseInstant(f.lockedAt);
-    if (f.schema !== 'mosport-a/research-pick@1' || f.stage !== stage || f.nbaGameId !== game.gameId ||
+    if (f.schema !== (v2 ? 'mosport-a/research-pick@2' : 'mosport-a/research-pick@1') || f.stage !== stage || f.nbaGameId !== game.gameId ||
         f.espnGameId !== entry.espnGameId || f.away !== game.away || f.home !== game.home ||
         C.parseInstant(f.tipoffAt) !== tip || !beforeOrAt(f.dataCutoff, f.lockedAt) || !beforeOrAt(f.lockedAt, now) ||
         f.personaId !== 'season-record' || f.personaVersion !== '1' || f.feature !== 'SEASON_WIN_RATIO') return false;
     if (stage === 'INITIAL' ? (lock >= tip - 900000 || f.priorDigest !== null) :
       (lock < tip - 900000 || lock >= tip || C.parseInstant(f.dataCutoff) !== tip - 900000 || !initialDigest || f.priorDigest !== initialDigest)) return false;
+    if (v2 && !validSeal(f,witness)) return false;
     function record(r) { return r === null || (exactKeys(r, 'wins losses') && [r.wins,r.losses].every(function (n) { return Number.isSafeInteger(n) && n >= 0; })); }
     return record(f.homeRecord) && record(f.awayRecord) && ['HOME',null].includes(f.baselinePick) &&
       ((f.reason === 'HIGHER_WIN_RATIO' && ['HOME','AWAY'].includes(f.pick) && f.homeRecord && f.awayRecord) ||
        (['TIED','RECORD_MISSING'].includes(f.reason) && f.pick === null));
   }
   function scoreFor(s, f, entry, result) {
-    if ((f.stage === 'FINAL' && C.parseInstant(f.lockedAt) !== C.parseInstant(f.dataCutoff)) ||
+    if ((f.stage === 'FINAL' && f.schema === 'mosport-a/research-pick@1' && C.parseInstant(f.lockedAt) !== C.parseInstant(f.dataCutoff)) ||
         !result || !s || !pinned(s, entry.pins['score' + f.stage]) ||
         !exactKeys(s, 'schema nbaGameId espnGameId stage forecastDigest receiptRef outcome baselineOutcome') ||
         s.schema !== 'mosport-a/research-score@1' || s.stage !== f.stage || s.forecastDigest !== digest(f) ||
@@ -98,11 +134,16 @@
     if (!entry || !entry.pins || !pinned(schedule, entry.pins.schedule)) return null;
     var article = validArticle(entry.article, schedule, entry.pins.article, now) ? entry.article : null;
     var initial = validForecast(entry.INITIAL, 'INITIAL', entry, schedule, now, null) ? entry.INITIAL : null;
-    var final = initial && validForecast(entry.FINAL, 'FINAL', entry, schedule, now, digest(initial)) ? entry.FINAL : null;
+    var optedIn = Object.hasOwn(entry.pins,'finalPolicy') || Object.hasOwn(entry.pins,'finalWitness') ||
+      Object.hasOwn(entry,'finalPolicy') || Object.hasOwn(entry,'finalWitness');
+    var policy = validPolicy(entry.finalPolicy,entry,initial,now) ? entry.finalPolicy : null;
+    var witness = validWitness(entry.finalWitness,entry,policy,now) ? entry.finalWitness : null;
+    var final = initial && validForecast(entry.FINAL, 'FINAL', entry, schedule, now, digest(initial), optedIn, witness) ? entry.FINAL : null;
     if (!article && !initial) return null;
     var stages = [initial,final].filter(Boolean).map(function (f) {
       return { stage:f.stage, lockedAt:f.lockedAt, cutoff:f.dataCutoff, pick:f.pick, reason:f.reason,
-        late:f.stage === 'FINAL' && C.parseInstant(f.lockedAt) > C.parseInstant(f.dataCutoff),
+        seal:f.schema === 'mosport-a/research-pick@2' ? {preparedAt:f.seal.preparedAt,witnessedAt:f.witnessedAt,recordingDelayMs:f.recordingDelayMs} : null,
+        late:f.stage === 'FINAL' && f.schema === 'mosport-a/research-pick@1' && C.parseInstant(f.lockedAt) > C.parseInstant(f.dataCutoff),
         baseline:f.baselinePick, homeRecord:f.homeRecord, awayRecord:f.awayRecord,
         evaluation:scoreFor(entry['score'+f.stage], f, entry, result) };
     });
@@ -111,8 +152,8 @@
         beforeOrAt(entry.exploration.source.observedAt,entry.deskCopy.preparedAt) && beforeOrAt(initial.lockedAt,entry.deskCopy.preparedAt)) {
       desks = {copy:entry.deskCopy, exploration:entry.exploration, score:explorationScore(entry,result,entry.exploration)};
     }
-    return { article:article, desks:desks, stages:stages, espnGameId:initial ? initial.espnGameId : null, finalWindowAt:new Date(C.parseInstant(schedule.game.tipoff)-900000).toISOString(),
-      finalStatus:final ? (C.parseInstant(final.lockedAt) === C.parseInstant(final.dataCutoff) ? 'ON_TIME' : 'LATE_RECORDED') : C.parseInstant(now) >= C.parseInstant(schedule.game.tipoff) ? 'NOT_RECORDED' : C.parseInstant(now) >= C.parseInstant(schedule.game.tipoff)-900000 ? 'OPEN' : 'PENDING' };
+    return { article:article, desks:desks, stages:stages, optedInAt:policy && policy.optedInAt, witnessedAt:witness && witness.witnessedAt, espnGameId:initial ? initial.espnGameId : null, finalWindowAt:new Date(C.parseInstant(schedule.game.tipoff)-900000).toISOString(),
+      finalStatus:final && final.schema === 'mosport-a/research-pick@2' ? 'SEALED_FINAL' : final ? (C.parseInstant(final.lockedAt) === C.parseInstant(final.dataCutoff) ? 'ON_TIME' : 'LATE_RECORDED') : C.parseInstant(now) >= C.parseInstant(schedule.game.tipoff) ? 'NOT_RECORDED' : C.parseInstant(now) >= C.parseInstant(schedule.game.tipoff)-900000 ? 'OPEN' : 'PENDING' };
   }
   var api={ editionGame:editionGame, digest:digest };
   if (node) module.exports=api; else root.MOSPORT_PREGAME_EDITION=api;

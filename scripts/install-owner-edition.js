@@ -21,7 +21,7 @@ function install(directory, editionDirectory) {
     const schedule = read('schedule.json');
     if (schedule.game.gameId !== id || reader.digest(schedule) !== game.pins.schedule ||
         contracts.validateSchedule(schedule,{now:new Date().toISOString()}).length) throw Error('Invalid official schedule');
-    const files = {article:'article.json',INITIAL:'initial.json',FINAL:'final.json',scoreINITIAL:'score-initial.json',scoreFINAL:'score-final.json',
+    const files = {article:'article.json',INITIAL:'initial.json',FINAL:'final.json',finalPolicy:'final-policy.json',finalWitness:'final-witness.json',scoreINITIAL:'score-initial.json',scoreFINAL:'score-final.json',
       exploration:'exploration.json',deskCopy:'desk-copy.json',explorationScore:'exploration-score.json'};
     for (const [key,file] of Object.entries(files)) {
       if (!game.pins[key]) continue;
@@ -31,6 +31,8 @@ function install(directory, editionDirectory) {
     const view=reader.editionGame(edition,schedule,null,new Date().toISOString());
     if (!view || !view.article || !view.stages.some(s => s.stage==='INITIAL') ||
         (game.FINAL && !view.stages.some(s => s.stage==='FINAL'))) throw Error('Invalid research or editorial data');
+    if ((Object.hasOwn(game.pins,'finalPolicy') && !view.optedInAt) ||
+        (Object.hasOwn(game.pins,'finalWitness') && !view.witnessedAt)) throw Error('Invalid FINAL policy or seal witness');
     if (['exploration','deskCopy','explorationScore'].some(key => Object.hasOwn(game.pins,key)) && !view.desks) {
       throw Error('Incomplete or invalid three-desk edition');
     }

@@ -50,8 +50,10 @@
 
   function renderAnalysis(c, g) {
     var a = g.analysis, zh = c.lang === 'zh', esc = c.esc;
-    function time(iso) {
-      var value = new Intl.DateTimeFormat(zh ? 'zh-TW' : 'en-US', { timeZone:'Asia/Taipei', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12:false }).format(new Date(iso));
+    function time(iso, precise) {
+      var options = {timeZone:'Asia/Taipei', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12:false};
+      if (precise) { options.second='2-digit'; options.fractionalSecondDigits=3; }
+      var value = new Intl.DateTimeFormat(zh ? 'zh-TW' : 'en-US', options).format(new Date(iso));
       return '<time datetime="' + esc(iso) + '">' + esc(value) + ' UTC+8</time>';
     }
     function paragraphs(text) {
@@ -80,15 +82,34 @@
     function record(team,r) { return c.teamName(team, 'nick') + (r ? ' ' + r.wins + '–' + r.losses : (zh ? ' 戰績缺失' : ' record unavailable')); }
     var labels = zh ? {HIT:'命中',MISS:'未命中',ABSTAIN:'棄權'} : {HIT:'Hit',MISS:'Miss',ABSTAIN:'Abstention'};
     var cards = a.stages.map(function (s) {
-      var header = s.late ? (zh ? 'T−15 逾時記錄，僅供核對' : 'Late T−15 record · review only') : s.stage === 'INITIAL' ? (zh ? '賽前初選' : 'Initial pick') : (zh ? 'T−15 準時鎖定' : 'On-time T−15 lock');
+      var header = s.seal ? (zh ? 'T−15 截止前封存' : 'Final pick sealed before T−15') : s.late ? (zh ? 'T−15 逾時記錄，僅供核對' : 'Late T−15 record · review only') : s.stage === 'INITIAL' ? (zh ? '賽前初選' : 'Initial pick') : (zh ? 'T−15 準時鎖定' : 'On-time T−15 lock');
+      var timing = s.seal ? (zh ? '完成準備 ' : 'Prepared ') + time(s.seal.preparedAt,true) + ' · ' +
+        (zh ? '封存見證 ' : 'Seal witnessed ') + time(s.seal.witnessedAt,true) + ' · ' +
+        (zh ? '資料截止 ' : 'Cutoff ') + time(s.cutoff,true) + ' · ' +
+        (zh ? '開賽前實際登錄 ' : 'Registered before tipoff ') + time(s.lockedAt,true) + ' · ' +
+        (zh ? '登錄距截止 ' : 'Registration delay ') + esc(String(s.seal.recordingDelayMs)) + (zh ? ' 毫秒' : ' ms') :
+        (zh ? '資料截至 ' : 'Cutoff ') + time(s.cutoff) + ' · ' + (zh ? '鎖定 ' : 'Locked ') + time(s.lockedAt);
       return '<section class="edition-stage"><h3>' + header + ' · ' + esc(pick(s.pick)) + '</h3><p>' + esc(record(g.away,s.awayRecord) + ' / ' + record(g.home,s.homeRecord)) +
-        '</p><p class="pv">' + (zh ? '資料截至 ' : 'Cutoff ') + time(s.cutoff) + ' · ' + (zh ? '鎖定 ' : 'Locked ') + time(s.lockedAt) +
+        '</p><p class="pv">' + timing +
         '</p><p class="pv">' + (zh ? '主場基準選擇 ' : 'Home baseline pick: ') + esc(pick(s.baseline)) + '</p>' +
         (s.evaluation ? '<p>' + (zh ? '研究選擇 ' : 'Research pick: ') + labels[s.evaluation.outcome] + ' · ' + (zh ? '基準 ' : 'Baseline: ') + labels[s.evaluation.baselineOutcome] + '</p>' : '<p class="pv">' + (s.late ? (zh ? '不列入成績' : 'Excluded from scoring') : (zh ? '尚未結算' : 'Scoring pending')) + '</p>') + '</section>';
     }).join('');
     var pending = a.finalStatus === 'PENDING' ? (zh ? 'T−15 鎖定窗口開始於 ' : 'T−15 window opens ') + time(a.finalWindowAt) :
       a.finalStatus === 'OPEN' ? (zh ? 'T−15 窗口已開啟，等待鎖定紀錄。' : 'The T−15 window is open. Awaiting a lock.') :
       a.finalStatus === 'NOT_RECORDED' ? (zh ? '本站未收錄開賽前的 T−15 鎖定紀錄。' : 'No pre-tip T−15 lock has been published here.') : '';
+    if (a.optedInAt && a.finalStatus !== 'SEALED_FINAL') {
+      var sourceOpen = new Date(Date.parse(a.finalWindowAt) - 300000).toISOString();
+      pending = (zh ? '資料觀測與封存時段 ' : 'Source observation and seal window ') + time(sourceOpen) + ' – ' + time(a.finalWindowAt) +
+        (zh ? '。最終票登錄時段 ' : '. Final registration window ') + time(a.finalWindowAt) + ' – ' + time(g.tipoff) +
+        (zh ? '（開賽前）。' : ' (before tipoff).');
+      if (a.finalStatus === 'NOT_RECORDED') pending += zh ? '登錄時段已結束，本站未收錄合格最終票。' : 'Registration closed with no qualifying final vote recorded here.';
+    }
+    var policyInfo = a.optedInAt ? '<p class="pv">' + (zh ? '本場 T−15 規則於 ' : 'This matchup opted into the T−15 seal policy at ') + time(a.optedInAt,true) +
+      (zh ? ' 登錄。截止前須完成封存見證，並於開賽前登錄最終票。' : '. The final vote requires a seal witnessed before the cutoff and registration before tipoff.') + '</p>' : '';
+    if (a.witnessedAt && a.finalStatus !== 'SEALED_FINAL') {
+      policyInfo += '<p class="pv">' + (zh ? '已收到封存見證 ' : 'Seal witnessed ') + time(a.witnessedAt,true) +
+        (zh ? '。本站尚未收錄符合規則的最終票。' : '. No qualifying final vote has been recorded here yet.') + '</p>';
+    }
     var initial = a.stages.find(function (s) { return s.stage === 'INITIAL'; });
     if (!initial) return article;
     function baselineComparison(side) {
@@ -101,7 +122,7 @@
     var recordDesk = '<aside class="card edition-pick" id="desk-season-record" data-desk="season-record">' + recordHead +
       '<p class="pv">' + (zh ? '規則 v1 · 戰績核對 ' : 'Rule v1 · Records checked against ') + '<a href="' + esc(g.source.url) + '" rel="noopener noreferrer">NBA</a> · <a href="https://www.espn.com/nba/game/_/gameId/' + esc(a.espnGameId) + '" rel="noopener noreferrer">ESPN</a></p>' +
       (a.desks ? '<p>' + esc(baselineComparison(initial.pick)) + '</p>' : '') +
-      cards + (pending ? '<p class="pv">' + pending + '</p>' : '') + '</aside>';
+      cards + policyInfo + (pending ? '<p class="pv">' + pending + '</p>' : '') + '</aside>';
     if (!a.desks) return article + recordDesk;
     var exploration = a.desks.exploration, score = a.desks.score;
     var sample = '<p class="pv edition-sample">' + (zh ? '三個專欄追蹤同一場比賽，樣本共 1 場。' : 'Three desks cover the same matchup. Sample: one game.') + '</p>';

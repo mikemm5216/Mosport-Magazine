@@ -239,6 +239,7 @@
       var tipTime = Date.parse(raw.game.tipoff);
       if (Number.isFinite(tipTime)) boundaries.push(new Date(tipTime-900000).toISOString());
       boundaries.push(item.article && item.article.preparedAt, item.INITIAL && item.INITIAL.lockedAt, item.FINAL && item.FINAL.lockedAt,
+        item.finalPolicy && item.finalPolicy.optedInAt, item.finalWitness && item.finalWitness.witnessedAt,
         item.exploration && item.exploration.filedAt, item.deskCopy && item.deskCopy.preparedAt);
     }
     boundaries.forEach(function (iso) {
