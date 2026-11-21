@@ -215,6 +215,46 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
       assert.ok(late.includes('先前的賽程') && !late.includes('已過原定開賽時間') && !late.includes('13 分之差'), 'expired stays expired after tipoff: ' + late); checks++;
       await live.close();
     }
+    // Fixed clock across a boundary: the pass reads 2 ms before it, rendering finishes 1 ms after.
+    // The page must re-evaluate the already-loaded data at once, without waiting or refetching.
+    {
+      const straddle = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+      const early = JSON.parse(JSON.stringify(saved)); early.validUntil = '2026-11-21T02:30:00Z';
+      for (const [label, raw, boundary, expected, gone] of [
+        ['valid until tipoff', saved, saved.game.tipoff, '已過原定開賽時間（台北 11:00）。MOSPORT 未發布本場賽前判讀。', '先前的賽程'],
+        ['expired before tipoff', early, early.validUntil, '先前的賽程', '已過原定開賽時間']
+      ]) {
+        const p = await straddle.newPage();
+        const pageErrors = []; p.on('pageerror', e => pageErrors.push(e.message));
+        const edge = Date.parse(boundary);
+        await p.addInitScript(([first, after]) => {
+          const Real = Date;
+          let now = first;
+          class FixedDate extends Real {
+            constructor(...a) { super(...(a.length ? a : [now])); }
+            static now() { return now; }
+          }
+          window.Date = FixedDate;
+          const html = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML');
+          Object.defineProperty(Element.prototype, 'innerHTML', {
+            configurable: true,
+            get() { return html.get.call(this); },
+            set(v) { html.set.call(this, v); if (this.id === 'app' && String(v).includes('lead-schedule')) now = after; }
+          });
+        }, [edge - 2, edge + 1]);
+        let loads = 0;
+        await p.route('**/data/schedules/0022600051.json', route => { loads++; return route.fulfill({ json: raw }); });
+        await p.goto(base + 'index.html?mode=production&lang=zh');
+        await p.waitForSelector('.lead-schedule');
+        const shown = await p.locator('.spread').innerText();
+        assert.ok(shown.includes(expected) && !shown.includes(gone) && !shown.includes('13 分之差') && !shown.includes('103：116'), label + ': ' + shown);
+        assert.equal(loads, 1, label + ': loaded once');
+        assert.deepEqual(pageErrors, [], label);
+        checks++;
+        await p.close();
+      }
+      await straddle.close();
+    }
     await page.goto(url.replace('game=0022600051', 'game=UNKNOWN'));
     await page.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
     assert.ok((await content(page)).includes('找不到這場比賽')); checks++;

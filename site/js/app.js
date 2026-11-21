@@ -203,35 +203,40 @@
   window.MOSPORT_APP = { render: render, state: state };
   var sel = window.MOSPORT_PROVIDERS.select(q.toString(), window.MOSPORT_CONFIG);
   /* Diagnostics (exclusion reasons, problems) are dropped here: only the model reaches the page. */
-  function evaluate(saved) {
-    var raw = saved == null ? saved : JSON.parse(saved);
-    data.model = window.MOSPORT_PIPELINE.run(raw, { mode: window.MOSPORT_CONFIG.mode, now: nowFor(raw) }).model;
-  }
   /* A page left open must not keep showing what has since expired: re-run the same
      pipeline on the already-loaded data at its next time boundary (editorial visible,
-     validUntil, scheduled tipoff). No new fetch. DEMO pages read a pinned clock. */
+     validUntil, scheduled tipoff). No new fetch. DEMO pages read a pinned clock.
+     One clock read per pass both builds the model and picks the next boundary; if that
+     boundary has already passed once rendering is done, the pass repeats immediately.
+     Each pass reads a later clock, so boundaries strictly advance and the loop ends. */
   var boundaryTimer = null;
-  function nextBoundary(raw, now) {
+  function nextBoundary(raw, after) {
     if (!raw || raw.__loadError || raw.mode === 'DEMO') return null;
     var next = null;
     [raw.validUntil, raw.game && raw.game.tipoff, raw.editorial && raw.editorial.observedAt].forEach(function (iso) {
       var t = typeof iso === 'string' ? Date.parse(iso) : NaN;
-      if (!isNaN(t) && t > now && (next === null || t < next)) next = t;
+      if (!isNaN(t) && t > after && (next === null || t < next)) next = t;
     });
     return next;
   }
-  function watchBoundaries(saved) {
-    if (typeof setTimeout !== 'function') return;
-    if (boundaryTimer) clearTimeout(boundaryTimer);
-    var now = Date.now(), next = nextBoundary(saved == null ? saved : JSON.parse(saved), now);
-    if (next === null) return;
-    boundaryTimer = setTimeout(function () { evaluate(saved); render(); watchBoundaries(saved); }, Math.min(next - now + 1, 2147483647));
+  function refresh(saved) {
+    if (boundaryTimer) { clearTimeout(boundaryTimer); boundaryTimer = null; }
+    for (;;) {
+      var raw = saved == null ? saved : JSON.parse(saved);
+      var now = nowFor(raw);
+      data.model = window.MOSPORT_PIPELINE.run(raw, { mode: window.MOSPORT_CONFIG.mode, now: now }).model;
+      render();
+      var next = nextBoundary(raw, Date.parse(now));
+      if (next === null || typeof setTimeout !== 'function') return;
+      var wait = next - Date.now();
+      if (wait > 0) {
+        boundaryTimer = setTimeout(function () { refresh(saved); }, Math.min(wait + 1, 2147483647));
+        return;
+      }
+    }
   }
   window.MOSPORT_PROVIDERS.load(sel, function (raw) {
-    var saved = raw === undefined ? null : JSON.stringify(raw);
-    evaluate(saved);
-    render();
-    watchBoundaries(saved);
+    refresh(raw === undefined ? null : JSON.stringify(raw));
   });
   if (!data.model) render();
 })();

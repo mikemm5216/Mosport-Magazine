@@ -26,6 +26,14 @@ ChatGPT 於 HEAD `1d4ab31` 的 boundary_review 回報兩項，均已重現並修
 
 新增回歸測試：unit 1 項（兩組對照）；browser 7 項（開著的頁面跨過開賽、以及提前過期的頁面跨過開賽）。兩項測試在修正前的程式上都會失敗。
 
+## 第三輪（Capacity ALLOW：PR #25 comment 7057037769）
+
+ChatGPT 覆核 `39e58ca` 時回報 BLOCK：`evaluate` 和 `watchBoundaries` 各讀一次時鐘，畫面計算和計時器設定之間如果跨過時間邊界，那個邊界就被略過，也不再設計時器。
+
+修正（只改 `site/js/app.js`）：每一輪只讀一次時鐘，同時用來產生畫面和選下一個邊界；畫完後如果邊界已到，就立刻用已載入的資料重算，計時器觸發時也走同一段。每輪讀時都更晚，邊界嚴格遞增，所以迴圈一定會結束。
+
+回歸測試（1 個 browser 測試，兩組）：第一次讀時在邊界前 2 ms，畫面一寫入就把時鐘推到邊界後 1 ms。「有效到開賽」組自動撤下導讀、顯示 Q5；「提前到期」組立刻顯示過期；兩組都只載入賽程 1 次、無 page error。用 `39e58ca` 的 app.js 跑，同一個測試會失敗（已實測）。
+
 ## 範圍
 
 1. 契約：`validUntil <= game.tipoff`。
@@ -43,4 +51,5 @@ ChatGPT 於 HEAD `1d4ab31` 的 boundary_review 回報兩項，均已重現並修
 ## 驗證
 
 第一個 commit（`1d4ab31`）：unit 177/177；browser 708 checks。
-修正後：`npm test` exit 0，unit 178/178；browser 482 + 18 + 50 + 39 + 126 = 715 checks。
+第二輪（`39e58ca`）：`npm test` exit 0，unit 178/178；browser 482 + 18 + 50 + 39 + 126 = 715 checks。
+第三輪：`npm test` exit 0，unit 178/178；browser 482 + 18 + 50 + 39 + 128 = 717 checks。
