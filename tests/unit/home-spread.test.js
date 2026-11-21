@@ -214,8 +214,16 @@ test('official NBA Cup rematch headline reaches the real default homepage after 
   assert.ok(english.includes('103–116') && english.includes('The pregame read for this matchup is not out yet.'));
   const earlier = home(schedule, '', null, { mode: 'production', now: schedule.source.observedAt, realTeams: true });
   assert.ok(!earlier.includes('13 分之差') && earlier.includes('賽前看點'));
-  const stale = home(schedule, '', null, { mode: 'production', now: schedule.validUntil, realTeams: true });
+  const expired = clone(schedule); expired.validUntil = '2026-11-21T02:30:00Z';
+  const stale = home(expired, '', null, { mode: 'production', now: expired.validUntil, realTeams: true });
   assert.ok(stale.includes('先前的賽程') && !stale.includes('13 分之差'));
+  const tipped = home(schedule, '', null, { mode: 'production', now: schedule.game.tipoff, realTeams: true });
+  assertSpread(tipped);
+  assert.ok(tipped.includes('已過原定開賽時間（台北 11:00）。MOSPORT 未發布本場賽前判讀。') && tipped.includes('查看 NBA 官方賽況'));
+  assert.ok(tipped.includes('class="cv-status">已過原定開賽時間<') && tipped.includes('比賽資訊'));
+  assert.ok(!/13 分之差|先前的賽程|還沒出來|未開賽|state-stale/.test(tipped));
+  const tippedEn = home(schedule, '?lang=en', null, { mode: 'production', now: schedule.game.tipoff, realTeams: true });
+  assert.ok(tippedEn.includes('Past the scheduled tip-off (11:00 Taipei). MOSPORT did not publish a pregame read for this game.') && tippedEn.includes('See NBA.com for the game'));
   const withoutEditorial = clone(schedule); delete withoutEditorial.editorial;
   const missing = home(withoutEditorial, '', null, { mode: 'production', now: clock, realTeams: true });
   assert.ok(missing.includes('賽前看點') && missing.includes('這場的賽前判讀還沒出來。'));

@@ -10,7 +10,8 @@
  * internal editor, never handed to a page.
  *
  * Status: OK | SCHEDULE_ONLY | REFUSED | INVALID | STALE | LOAD_FAILED. Only OK renders magazine
- * content. STALE and INVALID keep the page usable (Schedule still lists valid games
+ * content. A SCHEDULE_ONLY model may carry reason PAST_TIPOFF: the scheduled tip-off
+ * has passed by the clock, with no observed LIVE/FINAL status. STALE and INVALID keep the page usable (Schedule still lists valid games
  * for STALE) and never substitute invented content.
  */
 (function (root) {
@@ -85,30 +86,44 @@
   function scheduleModel(raw, opts, diag) {
     diag.fatal = C.validateSchedule(raw, opts);
     if (diag.fatal.length) return { model: emptyModel('INVALID', diag.fatal[0].code), diagnostics: diag };
-    var stale = C.parseInstant(opts.now) >= C.parseInstant(raw.validUntil);
-    var model = emptyModel(stale ? 'STALE' : 'SCHEDULE_ONLY', stale ? 'SCHEDULE_EXPIRED' : null);
+    var now = C.parseInstant(opts.now);
+    /* The clock alone proves only that the scheduled tip-off has passed. It never
+       claims LIVE, FINAL or a score; an observed status from the source replaces this. */
+    var pastTipoff = raw.game.status === 'SCHEDULED' && now >= C.parseInstant(raw.game.tipoff);
+    var stale = !pastTipoff && now >= C.parseInstant(raw.validUntil);
+    var model = emptyModel(stale ? 'STALE' : 'SCHEDULE_ONLY', stale ? 'SCHEDULE_EXPIRED' : pastTipoff ? 'PAST_TIPOFF' : null);
     model.meta = { scheduleOnly: true, observedAt: raw.source.observedAt, validUntil: raw.validUntil };
     var game = publicGame(raw.game, false);
     game.source = publicSource(raw.source);
+    game.pastTipoff = pastTipoff;
     game.pregameSnapshot = null;
     /* Curated official matchup facts may appear before a public World release;
-       they are suppressed before observation and on expired saved schedules. */
+       they are suppressed before observation, after tip-off and on expired saved
+       schedules. An editorial that fails its own checks is withdrawn alone. */
     game.editorial = null;
-    if (!stale && raw.editorial && C.parseInstant(opts.now) >= C.parseInstant(raw.editorial.observedAt)) {
-      var ed = raw.editorial, prev = ed.previous;
-      game.editorial = {
-        kind: ed.kind, group: ed.group, observedAt: ed.observedAt,
-        previous: { awayPoints: prev.awayPoints, homePoints: prev.homePoints, playedOn: prev.playedOn },
-        sources: { matchupUrl: ed.sources.matchupUrl, previousUrl: ed.sources.previousUrl }
-      };
+    if (raw.editorial) {
+      var edProblems = C.validateScheduleEditorial(raw);
+      if (edProblems.length) {
+        diag.problems = diag.problems.concat(edProblems);
+        diag.excluded.push({ slot: 'editorial', id: raw.game.gameId, reason: edProblems[0].code });
+      } else if (!stale && !pastTipoff && now >= C.parseInstant(raw.editorial.observedAt)) {
+        var ed = raw.editorial, prev = ed.previous;
+        game.editorial = {
+          kind: ed.kind, group: ed.group, observedAt: ed.observedAt,
+          previous: { awayPoints: prev.awayPoints, homePoints: prev.homePoints, playedOn: prev.playedOn },
+          sources: { matchupUrl: ed.sources.matchupUrl, previousUrl: ed.sources.previousUrl }
+        };
+      }
     }
-    if (stale) game.noReadReason = 'STALE';
     if (raw.contextSnapshot) {
       var problems = C.validateContextSnapshot(raw.contextSnapshot, raw.game, opts.now);
-      diag.problems = problems;
-      if (!problems.length && !stale) {
+      diag.problems = diag.problems.concat(problems);
+      if (!problems.length) {
         var release = contextPublicRelease(raw.contextSnapshot);
-        if (release.state === 'PUBLIC') game.pregameSnapshot = contextSnapshotView(raw.contextSnapshot);
+        /* A released pregame record was captured before tip-off, so it stays visible
+           after tip-off as that record; an expired saved schedule shows none. */
+        if (release.state === 'PUBLIC' && stale) game.noReadReason = 'STALE';
+        else if (release.state === 'PUBLIC') game.pregameSnapshot = contextSnapshotView(raw.contextSnapshot);
         else diag.excluded.push({ slot: 'pregameSnapshot', id: raw.game.gameId, reason: release.reason });
       }
     }

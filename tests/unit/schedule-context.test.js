@@ -39,10 +39,38 @@ test('refreshed 0051 entry spans the previous expiry and withdraws the editorial
   }
   for (const clock of [schedule.game.tipoff, new Date(tipoff + 1).toISOString()]) {
     const m = run(schedule, clock).model;
-    assert.equal(m.status, 'STALE');
+    assert.equal(m.status, 'SCHEDULE_ONLY');
+    assert.equal(m.reason, 'PAST_TIPOFF');
+    assert.equal(m.schedule.length, 1);
+    assert.equal(m.schedule[0].pastTipoff, true);
+    assert.equal(m.schedule[0].status, 'SCHEDULED');
+    assert.equal(m.schedule[0].score, null);
     assert.equal(m.schedule[0].editorial, null);
     assert.equal(m.schedule[0].pregameSnapshot, null);
   }
+});
+
+test('a saved schedule is valid at the latest until the scheduled tipoff', () => {
+  assert.equal(schedule.validUntil, schedule.game.tipoff);
+  const late = clone(schedule); late.validUntil = '2026-11-21T04:00:00Z';
+  assert.ok(C.validateSchedule(late, { now: scheduleNow }).some(p => p.code === 'BAD_TIME' && p.path === 'schedule.validUntil'));
+  const m = run(late, '2026-11-21T03:30:00Z').model;
+  assert.equal(m.status, 'INVALID');
+  assert.equal(m.schedule.length, 0);
+});
+
+test('refreshing only the schedule receipt withdraws an unverified editorial and keeps the game', () => {
+  const refreshed = clone(schedule);
+  refreshed.source.observedAt = '2026-11-21T02:45:00.000Z';
+  refreshed.source.contentFingerprint = C.sha256(C.canonical({ game: refreshed.game, originalUrl: refreshed.source.originalUrl, observedAt: refreshed.source.observedAt }));
+  assert.deepEqual(C.validateSchedule(refreshed, { now: '2026-11-21T02:46:00Z' }), []);
+  assert.ok(C.validateScheduleEditorial(refreshed).some(p => p.code === 'EDITORIAL_CHRONOLOGY'));
+  const r = run(refreshed, '2026-11-21T02:46:00Z');
+  assert.equal(r.model.status, 'SCHEDULE_ONLY');
+  assert.equal(r.model.schedule.length, 1);
+  assert.equal(r.model.schedule[0].editorial, null);
+  assert.equal(r.model.schedule[0].source.observedAt, '2026-11-21T02:45:00.000Z');
+  assert.deepEqual(r.diagnostics.excluded.filter(x => x.slot === 'editorial').map(x => x.reason), ['EDITORIAL_CHRONOLOGY']);
 });
 
 test('explicit missing: no qualified snapshot means no context, World, fake score or probability', () => {
@@ -169,12 +197,30 @@ test('templates escape projected source labels and snapshot IDs; missing and unk
   assert.ok(!html.includes('<script>evil') && !html.includes('<img src=x'));
   const unknown = renderPage(schedule, 'match', '?game=9999999999', null, { now: scheduleNow });
   assert.ok(unknown.includes('找不到這場比賽') && !unknown.includes('m-hero'));
-  // Advance the read clock; never corrupt the source/editorial chronology to create a stale state.
-  const stale = clone(schedule);
+  // An observation that expired before tipoff is stale history; only the read clock moves.
+  const stale = clone(schedule); stale.validUntil = '2026-11-21T02:30:00Z';
   for (const page of ['schedule', 'match']) {
     const output = renderPage(stale, page, undefined, null, { now: stale.validUntil });
     assert.ok(output.includes('先前的賽程') && output.includes('這場的賽前判讀還沒出來。'));
   }
+});
+
+test('after the scheduled tipoff Schedule and Match say so and whether a read was published', () => {
+  const tip = schedule.game.tipoff;
+  for (const page of ['schedule', 'match']) {
+    const zh = renderPage(schedule, page, '?schedule=0022600051&game=0022600051&mode=production&lang=zh', null, { now: tip });
+    assert.ok(zh.includes('已過原定開賽時間（台北 11:00）。MOSPORT 未發布本場賽前判讀。'), page);
+    assert.ok(zh.includes('查看 NBA 官方賽況') && zh.includes('href="https://www.nba.com/game/sac-vs-lal-0022600051"'), page);
+    assert.ok(!/先前的賽程|還沒出來|未開賽|進行中|終場|已不適用/.test(zh.replace(/<[^>]*>/g, '')), page);
+    const en = renderPage(schedule, page, '?schedule=0022600051&game=0022600051&mode=production&lang=en', null, { now: tip });
+    assert.ok(en.includes('Past the scheduled tip-off (11:00 Taipei). MOSPORT did not publish a pregame read for this game.'), page);
+    assert.ok(en.includes('See NBA.com for the game') && !/not out yet|earlier schedule|Live|Final/.test(en.replace(/<[^>]*>/g, '')), page);
+  }
+  const projection = PL.contextSnapshotView(candidate.contextSnapshot);
+  const published = renderPage(schedule, 'match', '?schedule=0022600051&game=0022600051&mode=production&lang=zh', projection, { now: tip });
+  assert.ok(published.includes('本場賽前判讀已在開賽前發布，開賽後不再更新。') && !published.includes('MOSPORT 未發布'));
+  const publishedEn = renderPage(schedule, 'schedule', '?schedule=0022600051&mode=production&lang=en', projection, { now: tip });
+  assert.ok(publishedEn.includes('The pregame read was published before tip-off and is not updated after it.'));
 });
 
 test('factual rematch passes source/identity checks and remains separate from any World read', () => {
@@ -191,11 +237,11 @@ test('factual rematch passes source/identity checks and remains separate from an
   assert.equal(game.pregameSnapshot, null);
   const early = run(schedule, schedule.source.observedAt).model.schedule[0];
   assert.equal(early.editorial, null);
-  const stale = run(schedule, schedule.validUntil).model.schedule[0];
-  assert.equal(stale.editorial, null);
+  const atTipoff = run(schedule, schedule.validUntil).model.schedule[0];
+  assert.equal(atTipoff.editorial, null);
 });
 
-test('wrong prior game, altered result, future source, and unknown editorial fields are rejected', () => {
+test('wrong prior game, altered result, future source, and unknown editorial fields withdraw only the editorial', () => {
   const later = scheduleNow;
   for (const change of [
     r => { r.editorial.nbaGameId = '0022609999'; },
@@ -210,7 +256,12 @@ test('wrong prior game, altered result, future source, and unknown editorial fie
     r => { r.editorial.factsFingerprint = '0'.repeat(64); }
   ]) {
     const x = clone(schedule); change(x);
-    assert.equal(run(x, later).model.status, 'INVALID');
-    assert.equal(run(x, later).model.schedule.length, 0);
+    const r = run(x, later);
+    assert.equal(r.model.status, 'SCHEDULE_ONLY');
+    assert.equal(r.model.schedule.length, 1);
+    assert.equal(r.model.schedule[0].editorial, null);
+    assert.equal(r.diagnostics.excluded.filter(e => e.slot === 'editorial').length, 1);
   }
+  const malformed = clone(schedule); malformed.editorial = 'not an object';
+  assert.equal(run(malformed, later).model.status, 'INVALID');
 });

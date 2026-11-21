@@ -13,7 +13,7 @@ window.MOSPORT_PAGE = {
         : g.status === 'POSTPONED' ? '<span class="st st-off">' + T('postponed') + '</span>'
         : g.status === 'CANCELLED' ? '<span class="st st-off">' + T('cancelled') + '</span>'
         : g.status === 'FINAL' ? '<span class="st st-plain">' + T('final') + '</span>'
-        : '<span class="st st-plain">' + T('scheduled') + '</span>';
+        : '<span class="st st-plain">' + esc(c.statusLabel(g)) + '</span>';
       var read = c.onMagazine(g)
         ? '<a class="pill" href="' + c.href('match.html', { game: g.gameId }) + '">' + T('readOpen') + ' →</a>'
         : '<span class="muted">' + esc(T(g.noReadReason === 'STALE' ? 'readStale' : 'readNone')) + '</span>';

@@ -170,11 +170,12 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
     for (const [label, mutate, message] of [
       ['missing source', r => { delete r.source; }, '暫時無法閱讀'],
       ['wrong ID', r => { r.game.gameId = '0022600999'; }, '暫時打不開'],
-      ['stale source', () => {}, '先前的賽程'],
+      ['stale source', r => { r.validUntil = '2026-11-21T02:30:00Z'; }, '先前的賽程'],
+      ['past tipoff', () => {}, '已過原定開賽時間（台北 11:00）。MOSPORT 未發布本場賽前判讀。'],
       ['boolean is not release', r => { r.contextSnapshot = { public: true }; }, '這場的賽前判讀還沒出來。']
     ]) {
       const raw = JSON.parse(JSON.stringify(saved)); mutate(raw);
-      await page.clock.setFixedTime(new Date(label === 'stale source' ? saved.validUntil : now));
+      await page.clock.setFixedTime(new Date(label === 'stale source' ? raw.validUntil : label === 'past tipoff' ? raw.game.tipoff : now));
       await page.route('**/data/schedules/0022600051.json', route => route.fulfill({ json: raw }));
       await page.goto(url); await page.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
       const text = await content(page); assert.ok(text.includes(message), label + ': ' + text); checks++;
