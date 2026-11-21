@@ -38,7 +38,9 @@
     return { kind: 'demo', name: f };
   }
 
-  /** load(sel, done): done(raw). raw is the issue object or { __loadError }. */
+  /** load(sel, done): done(raw, extra). raw is the issue object or { __loadError }.
+      For a schedule, done is called at once with extra.result = null and, only for a
+      pinned game whose result file arrives, once more with extra.result set. */
   function load(sel, done) {
     if (sel.error) { done({ __loadError: sel.error }); return; }
     if (sel.kind === 'demo') {
@@ -52,7 +54,15 @@
       .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function (j) {
         if (sel.kind === 'schedule' && (!j || j.schema !== root.MOSPORT_CONTRACTS.SCHEMAS.schedule || !j.game || j.game.gameId !== sel.name)) { done({ __loadError: 'SCHEDULE_ID_MISMATCH' }); return; }
-        done(j);
+        if (sel.kind !== 'schedule') { done(j); return; }
+        /* The schedule renders at once. A result is requested only for a pinned game and,
+           if it arrives, the page re-renders; a slow, missing or failed result changes nothing. */
+        done(j, { result: null });
+        var pins = root.MOSPORT_RESULT_PINS || {};
+        if (!Object.prototype.hasOwnProperty.call(pins, sel.name)) return;
+        fetch('data/results/' + sel.name + '.json', { credentials: 'same-origin', cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (res) { if (res != null) done(j, { result: res }); }, function () {});
       }, function (e) { done({ __loadError: 'FETCH_FAILED: ' + String(e && e.message || e).slice(0, 80) }); });
   }
 

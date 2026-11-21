@@ -73,13 +73,22 @@
     var link = g.source && g.source.url ? ' <a class="tipoff-link" href="' + esc(g.source.url) + '" rel="noopener noreferrer">' + esc(T('officialGame')) + ' <span aria-hidden="true">→</span></a>' : '';
     return '<p class="pregame-missing tipoff-note">' + esc(T('pastTipoffNotice', { time: time })) + link + '</p>';
   }
+  function finalLine(g) {
+    return T('finalScore', { home: teamName(g.home, 'nick'), homeScore: g.score.home, awayScore: g.score.away, away: teamName(g.away, 'nick') });
+  }
+  /* Result only, no method: the evidence chain lives with A and the B-side pin. */
+  function resultNotice(g) {
+    var link = g.source && g.source.url ? ' <a class="tipoff-link" href="' + esc(g.source.url) + '" rel="noopener noreferrer">' + esc(T('officialGame')) + ' <span aria-hidden="true">→</span></a>' : '';
+    return '<p class="pregame-missing tipoff-note result-note">' + esc(finalLine(g)) + link + '</p>';
+  }
+  function isFinal(g) { return g.status === 'FINAL' && !!g.score && !!g.source; }
   function statusLabel(g) {
     if (g.pastTipoff) return T('pastTipoffLabel');
     return T(g.status === 'SCHEDULED' ? 'scheduled' : g.status.toLowerCase());
   }
   function pregameRecord(g, options) {
     var snapshot = g.pregameSnapshot;
-    var notice = g.pastTipoff ? tipoffNotice(g) : '';
+    var notice = isFinal(g) ? resultNotice(g) : g.pastTipoff ? tipoffNotice(g) : '';
     /* No displayable read: render nothing (Founder: 沒有就沒有), only the #25 tipoff notice when due. */
     if (!snapshot) return notice;
     if (options && options.reader) return '<p class="pregame-context">' + esc(T('context_' + snapshot.homeCourt, { team: teamName(g.home, 'nick') })) + '</p>' + notice;
@@ -166,7 +175,7 @@
     var ctx = {
       lang: state.lang, theme: state.theme, T: T, esc: esc, teamName: teamName, tipLine: tipLine, tipShort: tipShort, tipDate: tipDate,
       issueDate: issueDate, issueDateLong: issueDateLong, issue: model, meta: model.meta,
-      stateMessage: stateMessage, sourceNote: sourceNote, pregameRecord: pregameRecord, statusLabel: statusLabel, tipoffNotice: tipoffNotice,
+      stateMessage: stateMessage, sourceNote: sourceNote, pregameRecord: pregameRecord, statusLabel: statusLabel, tipoffNotice: tipoffNotice, finalLine: finalLine, isFinal: isFinal,
       href: function (path, extra) { var k = new URLSearchParams(keepQuery().slice(1)); Object.keys(extra || {}).forEach(function (x) { k.set(x, extra[x]); }); var s = k.toString(); return path + (s ? '?' + s : ''); },
       topbar: topbar(page.id), navLinks: navLinks, sportButtons: sportButtons, utilButtons: utilButtons, keepQuery: keepQuery,
       percentOf: function (g) { return g.hasRead && g.world ? g.world.percent : null; },
@@ -221,12 +230,13 @@
     });
     return next;
   }
+  var extra = { result: null };
   function refresh(saved) {
     if (boundaryTimer) { clearTimeout(boundaryTimer); boundaryTimer = null; }
     for (;;) {
       var raw = saved == null ? saved : JSON.parse(saved);
       var now = nowFor(raw);
-      data.model = window.MOSPORT_PIPELINE.run(raw, { mode: window.MOSPORT_CONFIG.mode, now: now }).model;
+      data.model = window.MOSPORT_PIPELINE.run(raw, { mode: window.MOSPORT_CONFIG.mode, now: now, result: extra.result, pins: window.MOSPORT_RESULT_PINS || {} }).model;
       render();
       var next = nextBoundary(raw, Date.parse(now));
       if (next === null || typeof setTimeout !== 'function') return;
@@ -237,7 +247,8 @@
       }
     }
   }
-  window.MOSPORT_PROVIDERS.load(sel, function (raw) {
+  window.MOSPORT_PROVIDERS.load(sel, function (raw, more) {
+    extra = { result: more && more.result != null ? JSON.parse(JSON.stringify(more.result)) : null };
     refresh(raw === undefined ? null : JSON.stringify(raw));
   });
   if (!data.model) render();
