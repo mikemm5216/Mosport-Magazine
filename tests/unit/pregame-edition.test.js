@@ -49,6 +49,37 @@ test('real entry points accept only the pinned edition, in both languages, with 
     assert.doesNotMatch(renderPage(schedule,'match','?game='+id,null,{now:filed}),/Synthetic article|Record Desk/);
   }
 });
+test('the signed columns describe the frozen initial vote in either language and every baseline branch', () => {
+  const scenarios = [
+    {changes:{}, en:['My pick is the ORL', 'The home rule takes the DET'], zh:['這一票我投ORL', '主場派選DET，我選ORL']},
+    {changes:{pick:'HOME', awayRecord:{wins:2,losses:4},homeRecord:{wins:4,losses:2}},
+      en:['My pick is the DET', 'We’ll both get this one right'], zh:['這一票我投DET，贏了也拉不開差距', '贏就一起贏']},
+    {changes:{baselinePick:null}, en:['Only my call will be scored'], zh:['只看我這一票']},
+    {changes:{pick:null,reason:'TIED',homeRecord:{wins:4,losses:2}}, en:['A tie on win rate', 'only that pick goes on the scorecard'], zh:['兩隊勝率打平', '只記在主場派的帳上']},
+    {changes:{pick:null,reason:'RECORD_MISSING',awayRecord:null,baselinePick:null},
+      en:['I’m a record short', 'I’m missing the record for the ORL', 'Neither of us has a pick to score'],
+      zh:['這一票我留白', 'ORL的戰績尚缺', '兩邊都沒有一票要算']}
+  ];
+  for (const {changes,en,zh} of scenarios) {
+    const {game,schedule,edition,final} = sample();
+    Object.assign(game.INITIAL,changes);
+    game.pins.INITIAL = digest(game.INITIAL);
+    final(cutoff);
+    // A subsequent observation may describe a different vote. The column stays with INITIAL.
+    Object.assign(game.FINAL,{pick:null,reason:'RECORD_MISSING',awayRecord:null});
+    game.pins.FINAL = digest(game.FINAL);
+    for (const [lang,expected] of [['en',en],['zh',zh]]) {
+      const html = renderPage(schedule,'match','?lang='+lang+'&game='+id,null,{ownerEdition:edition,now:tip});
+      const beforeStage = html.split('<section class="edition-stage">')[0];
+      for (const phrase of expected) assert.ok(beforeStage.includes(phrase),phrase);
+      if (lang === 'en') assert.match(beforeStage,/\. I take the team/);
+      for (const byline of lang==='zh' ? ['MOSPORT 賽前專欄','MOSPORT 研究專欄 · 戰績觀察室'] : ['MOSPORT Pregame Column','MOSPORT Research Column · Record Desk']) {
+        assert.ok(beforeStage.includes(byline),byline);
+      }
+      assert.match(html,lang==='zh' ? /T−15 準時鎖定/ : /On-time T−15 lock/);
+    }
+  }
+});
 test('matching pins, both identities, timestamps and source domains are independently required', () => {
   const {game,view} = sample();
   assert.equal(view(observed),null);

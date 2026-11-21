@@ -6,6 +6,46 @@
 (function () {
   var showFirst = false;
 
+  function recordColumn(c, g, initial) {
+    var zh = c.lang === 'zh', esc = c.esc;
+    function name(side) {
+      var nick = c.teamName(side === 'HOME' ? g.home : g.away, 'nick');
+      return zh ? nick : 'the ' + nick;
+    }
+    function standing(side, record) {
+      var team = name(side);
+      if (!record) return zh ? team + '的戰績尚缺' : 'I’m missing the record for ' + team;
+      return zh ? team + ' ' + record.wins + ' 勝 ' + record.losses + ' 敗' : 'The ' + team.slice(4) + ' sit at ' + record.wins + '–' + record.losses;
+    }
+    var records = standing('AWAY', initial.awayRecord) + (zh ? '，' : '. ') + standing('HOME', initial.homeRecord) + (zh ? '。' : '. ');
+    var rule = zh ? '我每場都選本季勝率較高的一隊，想看看這樣能比場場選主隊多猜對幾場。遇到平手或戰績不全，我就棄權。' :
+      'I take the team with the higher season win rate. If the percentages tie or a record is missing, I sit it out. Over a season, how many more games can I call than someone who always picks the home team?';
+    var title, comparison;
+    if (initial.pick === null) {
+      title = initial.reason === 'TIED' ? (zh ? '兩隊勝率打平，這一票我留白' : 'A tie on win rate. I’m sitting this one out.') :
+        (zh ? '戰績還缺一塊，這一票我留白' : 'I’m a record short, so I’ll pass.');
+      comparison = initial.baseline ? (zh ? '這場我棄權，主場基準照常選' + name(initial.baseline) + '，這一票只記在主場派的帳上。' :
+        'I’m passing. The home rule still picks ' + name(initial.baseline) + ', so only that pick goes on the scorecard.') :
+        (zh ? '主場基準這場也棄權，兩邊都沒有一票要算。' : 'The home rule is sitting this one out too. Neither of us has a pick to score.');
+    } else {
+      var pick = name(initial.pick);
+      title = zh ? '這一票我投' + pick : 'My pick is ' + pick;
+      if (!initial.baseline) {
+        comparison = zh ? '主場基準這場棄權，只看我這一票猜得準不準。' :
+          'The home rule has no pick in this one. Only my call will be scored.';
+      } else if (initial.pick === initial.baseline) {
+        title += zh ? '，贏了也拉不開差距' : '. Even a win won’t put me ahead.';
+        comparison = zh ? '這場兩種選法都挑' + pick + '。贏就一起贏，猜錯也一起錯。' :
+          'The home rule also takes ' + pick + ' today. We’ll both get this one right or both get it wrong.';
+      } else {
+        comparison = zh ? '主場派選' + name(initial.baseline) + '，我選' + pick + '。這場結束，兩種選法只會有一邊猜對。' :
+          'The home rule takes ' + name(initial.baseline) + '. I’m backing ' + pick + '. One of us will be right when the final is in.';
+      }
+    }
+    return '<p class="lbl lbl-brand">' + (zh ? 'MOSPORT 研究專欄 · 戰績觀察室' : 'MOSPORT Research Column · Record Desk') +
+      '</p><h2>' + esc(title) + '</h2><p>' + esc(records + rule) + '</p><p>' + esc(comparison) + '</p>';
+  }
+
   function renderAnalysis(c, g) {
     var a = g.analysis, zh = c.lang === 'zh', esc = c.esc;
     function time(iso) {
@@ -15,7 +55,7 @@
     var article = '';
     if (a.article) {
       var data = a.article, copy = data[c.lang];
-      article = '<article class="card edition-article"><p class="lbl lbl-brand">' + (zh ? 'MOSPORT 賽前分析' : 'MOSPORT Pregame') + '</p><h2>' + esc(copy.title) +
+      article = '<article class="card edition-article"><p class="lbl lbl-brand">' + (zh ? 'MOSPORT 賽前專欄' : 'MOSPORT Pregame Column') + '</p><h2>' + esc(copy.title) +
         '</h2><p>' + esc(copy.body) + '</p><h3>' + (zh ? '比賽觀察' : 'What to watch') + '</h3><p>' + esc(copy.watch) +
         '</p><h3>' + (zh ? '何時改變判斷' : 'What would change the read') + '</h3><p>' + esc(copy.falsifier) +
         '</p><p class="pv">' + (zh ? '資料截至 ' : 'Sources through ') + time(data.cutoffAt) + ' · ' + (zh ? '定稿 ' : 'Filed ') + time(data.preparedAt) + '</p><p class="pv">' +
@@ -35,9 +75,10 @@
     var pending = a.finalStatus === 'PENDING' ? (zh ? 'T−15 鎖定窗口開始於 ' : 'T−15 window opens ') + time(a.finalWindowAt) :
       a.finalStatus === 'OPEN' ? (zh ? 'T−15 窗口已開啟，等待鎖定紀錄。' : 'The T−15 window is open. Awaiting a lock.') :
       a.finalStatus === 'NOT_RECORDED' ? (zh ? '本站未收錄開賽前的 T−15 鎖定紀錄。' : 'No pre-tip T−15 lock has been published here.') : '';
-    return article + '<aside class="card edition-pick"><p class="lbl lbl-brand">' + (zh ? 'MOSPORT 研究觀點' : 'MOSPORT research pick') + '</p><h2>' +
-      (zh ? '戰績觀察室' : 'Record Desk') + '</h2><p>' + (zh ? '第 1 版規則選擇本季勝率較高的球隊，勝率相同或資料不足時棄權。主場基準另行計分。' : 'Rule v1 picks the higher season win rate and abstains on a tie or missing records. The home baseline is scored separately.') + '</p>' +
-      '<p class="pv">' + (zh ? '戰績核對 ' : 'Records checked against ') + '<a href="' + esc(g.source.url) + '" rel="noopener noreferrer">NBA</a> · <a href="https://www.espn.com/nba/game/_/gameId/' + esc(a.espnGameId) + '" rel="noopener noreferrer">ESPN</a></p>' +
+    var initial = a.stages.find(function (s) { return s.stage === 'INITIAL'; });
+    if (!initial) return article;
+    return article + '<aside class="card edition-pick">' + recordColumn(c, g, initial) +
+      '<p class="pv">' + (zh ? '規則 v1 · 戰績核對 ' : 'Rule v1 · Records checked against ') + '<a href="' + esc(g.source.url) + '" rel="noopener noreferrer">NBA</a> · <a href="https://www.espn.com/nba/game/_/gameId/' + esc(a.espnGameId) + '" rel="noopener noreferrer">ESPN</a></p>' +
       cards + (pending ? '<p class="pv">' + pending + '</p>' : '') + '</aside>';
   }
 
