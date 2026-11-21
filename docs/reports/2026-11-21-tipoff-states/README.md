@@ -15,6 +15,17 @@
 | 只更新賽程收據（observedAt＋指紋），導讀不動 | `EDITORIAL_CHRONOLOGY` → `INVALID`，可顯示場次 1→0 | 賽程保留（`SCHEDULE_ONLY`），只撤導讀 |
 | 時鐘到 11:00（tipoff） | `STALE / SCHEDULE_EXPIRED`：「以下是先前的賽程，開賽時間可能有變動。賽前判讀還沒出來。」 | `SCHEDULE_ONLY / PAST_TIPOFF`：「已過原定開賽時間（台北 11:00）。MOSPORT 未發布本場賽前判讀。查看 NBA 官方賽況 →」 |
 
+## Boundary review BLOCK 的修正（第二個 commit）
+
+ChatGPT 於 HEAD `1d4ab31` 的 boundary_review 回報兩項，均已重現並修正：
+
+| 項目 | 修正前 | 修正後 |
+|---|---|---|
+| ① `validUntil` 10:30、開賽 11:00 | 10:59:59 `STALE`，11:00 變成 `PAST_TIPOFF`，過期警示消失 | 跨過開賽仍是 `STALE / SCHEDULE_EXPIRED`；只有 `validUntil === tipoff` 才轉 `PAST_TIPOFF` |
+| ② 10:59:59 開啟首頁，不 reload 停到 11:05 | 仍顯示「13 分之差…」與 103：116 | 11:00 自動重算：撤下導讀，顯示 Q5 文案；只載入一次資料 |
+
+新增回歸測試：unit 1 項（兩組對照）；browser 7 項（開著的頁面跨過開賽、以及提前過期的頁面跨過開賽）。兩項測試在修正前的程式上都會失敗。
+
 ## 範圍
 
 1. 契約：`validUntil <= game.tipoff`。
@@ -31,4 +42,5 @@
 
 ## 驗證
 
-`npm test` 全部通過：unit 177/177；browser 482 + 18 + 50 + 39 + 119 = 708 checks（#24 為 706，新增 2 項開賽後檢查）。
+第一個 commit（`1d4ab31`）：unit 177/177；browser 708 checks。
+修正後：`npm test` exit 0，unit 178/178；browser 482 + 18 + 50 + 39 + 126 = 715 checks。

@@ -50,6 +50,24 @@ test('refreshed 0051 entry spans the previous expiry and withdraws the editorial
   }
 });
 
+test('an observation that expired before tipoff stays expired across tipoff; one valid until tipoff turns PAST_TIPOFF', () => {
+  const early = clone(schedule); early.validUntil = '2026-11-21T02:30:00Z';
+  for (const clock of ['2026-11-21T02:59:59Z', schedule.game.tipoff, '2026-11-21T03:05:00Z']) {
+    const m = run(early, clock).model;
+    assert.equal(m.status, 'STALE', clock);
+    assert.equal(m.reason, 'SCHEDULE_EXPIRED', clock);
+    assert.equal(m.schedule[0].pastTipoff, false, clock);
+    assert.equal(m.schedule[0].editorial, null, clock);
+  }
+  const html = renderPage(early, 'schedule', '?schedule=0022600051&mode=production&lang=zh', null, { now: '2026-11-21T03:05:00Z' });
+  assert.ok(html.includes('先前的賽程') && !html.includes('已過原定開賽時間'));
+  for (const clock of [schedule.game.tipoff, '2026-11-21T03:05:00Z']) {
+    const m = run(schedule, clock).model;
+    assert.equal(m.status, 'SCHEDULE_ONLY', clock);
+    assert.equal(m.reason, 'PAST_TIPOFF', clock);
+  }
+});
+
 test('a saved schedule is valid at the latest until the scheduled tipoff', () => {
   assert.equal(schedule.validUntil, schedule.game.tipoff);
   const late = clone(schedule); late.validUntil = '2026-11-21T04:00:00Z';

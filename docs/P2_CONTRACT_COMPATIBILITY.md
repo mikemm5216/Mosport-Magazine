@@ -6,12 +6,15 @@
 以 `main@c0efc67`（PR #24 合併後）為基線；下方 11/19 段落的「24 小時讀取期限」由本段取代。
 
 - **有效期上限：**`schedule-entry@1` 的 `validUntil` 不得晚於 `game.tipoff`，否則
-  `BAD_TIME schedule.validUntil`，整筆拒絕。期限早於開賽而到期，仍是既有 `STALE / SCHEDULE_EXPIRED`。
-- **開賽後：**`game.status === 'SCHEDULED'` 且讀取時鐘 ≥ `tipoff` 時，public model 為
+  `BAD_TIME schedule.validUntil`，整筆拒絕。期限早於開賽而到期，仍是既有 `STALE / SCHEDULE_EXPIRED`，
+  跨過開賽也維持過期（沒有新收據，就不能證明原定開賽時間仍正確）。
+- **開賽後：**`game.status === 'SCHEDULED'`、`validUntil === tipoff`，且讀取時鐘 ≥ `tipoff` 時，public model 為
   `SCHEDULE_ONLY`、`reason: 'PAST_TIPOFF'`，場次帶 `pastTipoff: true`。時鐘只證明「已過原定
   開賽時間」，不宣稱 LIVE／FINAL、不給比分；之後真實觀測的狀態（#171 的官方 FINAL）取代它。
   導讀在開賽時撤下。已公開的賽前紀錄（capturedAt 必早於 tipoff）開賽後仍顯示為賽前紀錄；
   已過期的保存賽程仍不顯示。
+- **開著的頁面：**reader 保留已載入的資料，在下一個時間邊界（導讀可見時間、`validUntil`、`tipoff`）
+  以同一條 pipeline 重新計算並重繪；不重新抓取、不 reload。DEMO 使用固定時鐘，不重算。
 - **讀者文案：**未發布判讀：「已過原定開賽時間（台北 HH:MM）。MOSPORT 未發布本場賽前判讀。」；
   已發布：「…本場賽前判讀已在開賽前發布，開賽後不再更新。」；兩者附「查看 NBA 官方賽況 →」
   （連到已核實的 NBA 官方 game URL）。英文版同步。

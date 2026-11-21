@@ -89,8 +89,11 @@
     var now = C.parseInstant(opts.now);
     /* The clock alone proves only that the scheduled tip-off has passed. It never
        claims LIVE, FINAL or a score; an observed status from the source replaces this. */
-    var pastTipoff = raw.game.status === 'SCHEDULED' && now >= C.parseInstant(raw.game.tipoff);
-    var stale = !pastTipoff && now >= C.parseInstant(raw.validUntil);
+    var tipoff = C.parseInstant(raw.game.tipoff), validUntil = C.parseInstant(raw.validUntil);
+    /* Only an observation still valid at tipoff can say the scheduled time has passed;
+       one that expired earlier stays expired history across tipoff. */
+    var pastTipoff = raw.game.status === 'SCHEDULED' && now >= tipoff && validUntil >= tipoff;
+    var stale = !pastTipoff && now >= validUntil;
     var model = emptyModel(stale ? 'STALE' : 'SCHEDULE_ONLY', stale ? 'SCHEDULE_EXPIRED' : pastTipoff ? 'PAST_TIPOFF' : null);
     model.meta = { scheduleOnly: true, observedAt: raw.source.observedAt, validUntil: raw.validUntil };
     var game = publicGame(raw.game, false);

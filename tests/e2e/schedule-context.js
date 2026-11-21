@@ -182,6 +182,39 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
       assert.ok(!/\d+\s*%|HOME_COURT/.test(text), label); checks++;
       await page.unroute('**/data/schedules/0022600051.json');
     }
+    // A homepage opened before tipoff and left open re-evaluates the loaded data at tipoff.
+    {
+      const live = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+      const open = await live.newPage();
+      const pageErrors = []; open.on('pageerror', e => pageErrors.push(e.message));
+      await open.clock.install({ time: new Date(Date.parse(saved.game.tipoff) - 1000) });
+      let loads = 0;
+      await open.route('**/data/schedules/0022600051.json', route => { loads++; return route.continue(); });
+      await open.goto(base + 'index.html?mode=production&lang=zh');
+      await open.waitForSelector('.lead-schedule');
+      let before = await open.locator('.spread').innerText();
+      assert.ok(before.includes('13 分之差，國王盃賽再戰湖人') && before.includes('103：116') && !before.includes('已過原定開賽時間'), 'before tipoff'); checks++;
+      await open.clock.runFor(6 * 60 * 1000);
+      const after = await open.locator('.spread').innerText();
+      assert.ok(after.includes('已過原定開賽時間（台北 11:00）。MOSPORT 未發布本場賽前判讀。') && after.includes('查看 NBA 官方賽況'), 'after tipoff: ' + after); checks++;
+      assert.ok(!after.includes('13 分之差') && !after.includes('103：116') && !after.includes('先前的賽程'), 'editorial withdrawn without reload'); checks++;
+      assert.equal(loads, 1, 'no reload or refetch'); checks++;
+      assert.deepEqual(pageErrors, []); checks++;
+      // Control: an observation that expired before tipoff stays expired across tipoff on an open page.
+      const early = JSON.parse(JSON.stringify(saved)); early.validUntil = '2026-11-21T02:30:00Z';
+      await open.unroute('**/data/schedules/0022600051.json');
+      const expired = await live.newPage();
+      await expired.clock.install({ time: new Date('2026-11-21T02:29:59Z') });
+      await expired.route('**/data/schedules/0022600051.json', route => route.fulfill({ json: early }));
+      await expired.goto(base + 'index.html?mode=production&lang=zh');
+      await expired.waitForSelector('.lead-schedule');
+      before = await expired.locator('.spread').innerText();
+      assert.ok(before.includes('13 分之差') && !before.includes('先前的賽程'), 'valid before expiry'); checks++;
+      await expired.clock.runFor(40 * 60 * 1000);
+      const late = await expired.locator('.spread').innerText();
+      assert.ok(late.includes('先前的賽程') && !late.includes('已過原定開賽時間') && !late.includes('13 分之差'), 'expired stays expired after tipoff: ' + late); checks++;
+      await live.close();
+    }
     await page.goto(url.replace('game=0022600051', 'game=UNKNOWN'));
     await page.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
     assert.ok((await content(page)).includes('找不到這場比賽')); checks++;
