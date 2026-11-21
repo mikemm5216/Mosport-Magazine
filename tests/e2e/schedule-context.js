@@ -170,16 +170,90 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
     for (const [label, mutate, message] of [
       ['missing source', r => { delete r.source; }, '暫時無法閱讀'],
       ['wrong ID', r => { r.game.gameId = '0022600999'; }, '暫時打不開'],
-      ['stale source', () => {}, '先前的賽程'],
+      ['stale source', r => { r.validUntil = '2026-11-21T02:30:00Z'; }, '先前的賽程'],
+      ['past tipoff', () => {}, '已過原定開賽時間（台北 11:00）。'],
       ['boolean is not release', r => { r.contextSnapshot = { public: true }; }, '這場的賽前判讀還沒出來。']
     ]) {
       const raw = JSON.parse(JSON.stringify(saved)); mutate(raw);
-      await page.clock.setFixedTime(new Date(label === 'stale source' ? saved.validUntil : now));
+      await page.clock.setFixedTime(new Date(label === 'stale source' ? raw.validUntil : label === 'past tipoff' ? raw.game.tipoff : now));
       await page.route('**/data/schedules/0022600051.json', route => route.fulfill({ json: raw }));
       await page.goto(url); await page.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
       const text = await content(page); assert.ok(text.includes(message), label + ': ' + text); checks++;
       assert.ok(!/\d+\s*%|HOME_COURT/.test(text), label); checks++;
       await page.unroute('**/data/schedules/0022600051.json');
+    }
+    // A homepage opened before tipoff and left open re-evaluates the loaded data at tipoff.
+    {
+      const live = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+      const open = await live.newPage();
+      const pageErrors = []; open.on('pageerror', e => pageErrors.push(e.message));
+      await open.clock.install({ time: new Date(Date.parse(saved.game.tipoff) - 1000) });
+      let loads = 0;
+      await open.route('**/data/schedules/0022600051.json', route => { loads++; return route.continue(); });
+      await open.goto(base + 'index.html?mode=production&lang=zh');
+      await open.waitForSelector('.lead-schedule');
+      let before = await open.locator('.spread').innerText();
+      assert.ok(before.includes('13 分之差，國王盃賽再戰湖人') && before.includes('103：116') && !before.includes('已過原定開賽時間'), 'before tipoff'); checks++;
+      await open.clock.runFor(6 * 60 * 1000);
+      const after = await open.locator('.spread').innerText();
+      assert.ok(after.includes('已過原定開賽時間（台北 11:00）。') && after.includes('查看 NBA 官方賽況'), 'after tipoff: ' + after); checks++;
+      assert.ok(!after.includes('13 分之差') && !after.includes('103：116') && !after.includes('先前的賽程'), 'editorial withdrawn without reload'); checks++;
+      assert.equal(loads, 1, 'no reload or refetch'); checks++;
+      assert.deepEqual(pageErrors, []); checks++;
+      // Control: an observation that expired before tipoff stays expired across tipoff on an open page.
+      const early = JSON.parse(JSON.stringify(saved)); early.validUntil = '2026-11-21T02:30:00Z';
+      await open.unroute('**/data/schedules/0022600051.json');
+      const expired = await live.newPage();
+      await expired.clock.install({ time: new Date('2026-11-21T02:29:59Z') });
+      await expired.route('**/data/schedules/0022600051.json', route => route.fulfill({ json: early }));
+      await expired.goto(base + 'index.html?mode=production&lang=zh');
+      await expired.waitForSelector('.lead-schedule');
+      before = await expired.locator('.spread').innerText();
+      assert.ok(before.includes('13 分之差') && !before.includes('先前的賽程'), 'valid before expiry'); checks++;
+      await expired.clock.runFor(40 * 60 * 1000);
+      const late = await expired.locator('.spread').innerText();
+      assert.ok(late.includes('先前的賽程') && !late.includes('已過原定開賽時間') && !late.includes('13 分之差'), 'expired stays expired after tipoff: ' + late); checks++;
+      await live.close();
+    }
+    // Fixed clock across a boundary: the pass reads 2 ms before it, rendering finishes 1 ms after.
+    // The page must re-evaluate the already-loaded data at once, without waiting or refetching.
+    {
+      const straddle = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+      const early = JSON.parse(JSON.stringify(saved)); early.validUntil = '2026-11-21T02:30:00Z';
+      for (const [label, raw, boundary, expected, gone] of [
+        ['valid until tipoff', saved, saved.game.tipoff, '已過原定開賽時間（台北 11:00）。', '先前的賽程'],
+        ['expired before tipoff', early, early.validUntil, '先前的賽程', '已過原定開賽時間']
+      ]) {
+        const p = await straddle.newPage();
+        const pageErrors = []; p.on('pageerror', e => pageErrors.push(e.message));
+        const edge = Date.parse(boundary);
+        await p.addInitScript(([first, after]) => {
+          const Real = Date;
+          let now = first;
+          class FixedDate extends Real {
+            constructor(...a) { super(...(a.length ? a : [now])); }
+            static now() { return now; }
+          }
+          window.Date = FixedDate;
+          const html = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML');
+          Object.defineProperty(Element.prototype, 'innerHTML', {
+            configurable: true,
+            get() { return html.get.call(this); },
+            set(v) { html.set.call(this, v); if (this.id === 'app' && String(v).includes('lead-schedule')) now = after; }
+          });
+        }, [edge - 2, edge + 1]);
+        let loads = 0;
+        await p.route('**/data/schedules/0022600051.json', route => { loads++; return route.fulfill({ json: raw }); });
+        await p.goto(base + 'index.html?mode=production&lang=zh');
+        await p.waitForSelector('.lead-schedule');
+        const shown = await p.locator('.spread').innerText();
+        assert.ok(shown.includes(expected) && !shown.includes(gone) && !shown.includes('13 分之差') && !shown.includes('103：116'), label + ': ' + shown);
+        assert.equal(loads, 1, label + ': loaded once');
+        assert.deepEqual(pageErrors, [], label);
+        checks++;
+        await p.close();
+      }
+      await straddle.close();
     }
     await page.goto(url.replace('game=0022600051', 'game=UNKNOWN'));
     await page.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));

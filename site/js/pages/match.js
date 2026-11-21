@@ -53,7 +53,7 @@
       if (!eligible) {
         return c.topbar + '<main class="sheet">' + top + head +
           (R.status === 'STALE' ? c.stateMessage(R) : '') +
-          (g.source ? '<section class="card"><p>' + esc(T('savedSchedule')) + ' · ' + esc(T(g.status === 'SCHEDULED' ? 'scheduled' : g.status.toLowerCase())) + '</p><p class="pv">NBA game ID ' + esc(g.gameId) + '</p>' + c.sourceNote(g.source) + '</section>' : '') +
+          (g.source ? '<section class="card"><p>' + esc(T('savedSchedule')) + ' · ' + esc(c.statusLabel(g)) + '</p><p class="pv">NBA game ID ' + esc(g.gameId) + '</p>' + c.sourceNote(g.source) + '</section>' : '') +
           '<section class="card"><p class="lbl">' + esc(T('pregameTitle')) + '</p>' + c.pregameRecord(g) +
           (g.source ? '' : '<p class="pv">' + esc(T('noRead_' + g.noReadReason)) + '</p>') + '</section></main>';
       }

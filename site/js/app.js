@@ -65,11 +65,24 @@
     }
     return '<p class="pv">' + esc(T('dataSource')) + ' <a href="' + esc(source.url) + '" rel="noopener noreferrer">' + esc(source.publisher) + '</a> · ' + esc(T('observedAt')) + ' <time datetime="' + esc(source.observedAt) + '">' + esc(source.observedAt) + '</time></p>';
   }
+  /* After the scheduled tip-off the clock is the only evidence: say the scheduled time
+     has passed and link the official game page; never claim LIVE or a score, and never
+     narrate whether a read was published (qualified content shows itself). */
+  function tipoffNotice(g) {
+    var time = fmt(g.tipoff, 'Asia/Taipei', { hour: '2-digit', minute: '2-digit' });
+    var link = g.source && g.source.url ? ' <a class="tipoff-link" href="' + esc(g.source.url) + '" rel="noopener noreferrer">' + esc(T('officialGame')) + ' <span aria-hidden="true">→</span></a>' : '';
+    return '<p class="pregame-missing tipoff-note">' + esc(T('pastTipoffNotice', { time: time })) + link + '</p>';
+  }
+  function statusLabel(g) {
+    if (g.pastTipoff) return T('pastTipoffLabel');
+    return T(g.status === 'SCHEDULED' ? 'scheduled' : g.status.toLowerCase());
+  }
   function pregameRecord(g, options) {
     var snapshot = g.pregameSnapshot;
-    if (!snapshot) return '<p class="pregame-missing">' + esc(T('pregameMissing')) + '</p>';
-    if (options && options.reader) return '<p class="pregame-context">' + esc(T('context_' + snapshot.homeCourt, { team: teamName(g.home, 'nick') })) + '</p>';
-    return '<div class="pregame-record"><p><b>' + esc(snapshot.homeCourt) + '</b> · HOME_COURT@' + esc(snapshot.formulaVersion) + '</p><p class="pv">' + esc(T('savedSnapshot')) + ' <time datetime="' + esc(snapshot.capturedAt) + '">' + esc(snapshot.capturedAt) + '</time></p><p class="pv">' + esc(T('snapshotId')) + ' <code>' + esc(snapshot.snapshotId) + '</code> · v' + esc(snapshot.snapshotVersion) + '</p>' + sourceNote(snapshot.source) + '</div>';
+    var notice = g.pastTipoff ? tipoffNotice(g) : '';
+    if (!snapshot) return notice || '<p class="pregame-missing">' + esc(T('pregameMissing')) + '</p>';
+    if (options && options.reader) return '<p class="pregame-context">' + esc(T('context_' + snapshot.homeCourt, { team: teamName(g.home, 'nick') })) + '</p>' + notice;
+    return notice + '<div class="pregame-record"><p><b>' + esc(snapshot.homeCourt) + '</b> · HOME_COURT@' + esc(snapshot.formulaVersion) + '</p><p class="pv">' + esc(T('savedSnapshot')) + ' <time datetime="' + esc(snapshot.capturedAt) + '">' + esc(snapshot.capturedAt) + '</time></p><p class="pv">' + esc(T('snapshotId')) + ' <code>' + esc(snapshot.snapshotId) + '</code> · v' + esc(snapshot.snapshotVersion) + '</p>' + sourceNote(snapshot.source) + '</div>';
   }
   function issueDate(iso) {
     var d = new Date(iso + 'T12:00:00Z');
@@ -152,7 +165,7 @@
     var ctx = {
       lang: state.lang, theme: state.theme, T: T, esc: esc, teamName: teamName, tipLine: tipLine, tipShort: tipShort, tipDate: tipDate,
       issueDate: issueDate, issueDateLong: issueDateLong, issue: model, meta: model.meta,
-      stateMessage: stateMessage, sourceNote: sourceNote, pregameRecord: pregameRecord,
+      stateMessage: stateMessage, sourceNote: sourceNote, pregameRecord: pregameRecord, statusLabel: statusLabel, tipoffNotice: tipoffNotice,
       href: function (path, extra) { var k = new URLSearchParams(keepQuery().slice(1)); Object.keys(extra || {}).forEach(function (x) { k.set(x, extra[x]); }); var s = k.toString(); return path + (s ? '?' + s : ''); },
       topbar: topbar(page.id), navLinks: navLinks, sportButtons: sportButtons, utilButtons: utilButtons, keepQuery: keepQuery,
       percentOf: function (g) { return g.hasRead && g.world ? g.world.percent : null; },
@@ -191,9 +204,40 @@
   window.MOSPORT_APP = { render: render, state: state };
   var sel = window.MOSPORT_PROVIDERS.select(q.toString(), window.MOSPORT_CONFIG);
   /* Diagnostics (exclusion reasons, problems) are dropped here: only the model reaches the page. */
+  /* A page left open must not keep showing what has since expired: re-run the same
+     pipeline on the already-loaded data at its next time boundary (editorial visible,
+     validUntil, scheduled tipoff). No new fetch. DEMO pages read a pinned clock.
+     One clock read per pass both builds the model and picks the next boundary; if that
+     boundary has already passed once rendering is done, the pass repeats immediately.
+     Each pass reads a later clock, so boundaries strictly advance and the loop ends. */
+  var boundaryTimer = null;
+  function nextBoundary(raw, after) {
+    if (!raw || raw.__loadError || raw.mode === 'DEMO') return null;
+    var next = null;
+    [raw.validUntil, raw.game && raw.game.tipoff, raw.editorial && raw.editorial.observedAt].forEach(function (iso) {
+      var t = typeof iso === 'string' ? Date.parse(iso) : NaN;
+      if (!isNaN(t) && t > after && (next === null || t < next)) next = t;
+    });
+    return next;
+  }
+  function refresh(saved) {
+    if (boundaryTimer) { clearTimeout(boundaryTimer); boundaryTimer = null; }
+    for (;;) {
+      var raw = saved == null ? saved : JSON.parse(saved);
+      var now = nowFor(raw);
+      data.model = window.MOSPORT_PIPELINE.run(raw, { mode: window.MOSPORT_CONFIG.mode, now: now }).model;
+      render();
+      var next = nextBoundary(raw, Date.parse(now));
+      if (next === null || typeof setTimeout !== 'function') return;
+      var wait = next - Date.now();
+      if (wait > 0) {
+        boundaryTimer = setTimeout(function () { refresh(saved); }, Math.min(wait + 1, 2147483647));
+        return;
+      }
+    }
+  }
   window.MOSPORT_PROVIDERS.load(sel, function (raw) {
-    data.model = window.MOSPORT_PIPELINE.run(raw, { mode: window.MOSPORT_CONFIG.mode, now: nowFor(raw) }).model;
-    render();
+    refresh(raw === undefined ? null : JSON.stringify(raw));
   });
   if (!data.model) render();
 })();

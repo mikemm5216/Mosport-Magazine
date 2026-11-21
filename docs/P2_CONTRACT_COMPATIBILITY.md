@@ -1,5 +1,28 @@
 # B-P2-01 — Beta-0 snapshot 接線與 Beta-1 後續契約
 
+## 2026-11-21 Beta-0：有效期上限、開賽後狀態、導讀獨立撤下（Level 1，待獨立 review）
+
+本任務須遵守 Issue #170 的 Capacity / Boundary / Level 規則與 Beta-0 範圍。
+以 `main@c0efc67`（PR #24 合併後）為基線；下方 11/19 段落的「24 小時讀取期限」由本段取代。
+
+- **有效期上限：**`schedule-entry@1` 的 `validUntil` 不得晚於 `game.tipoff`，否則
+  `BAD_TIME schedule.validUntil`，整筆拒絕。期限早於開賽而到期，仍是既有 `STALE / SCHEDULE_EXPIRED`，
+  跨過開賽也維持過期（沒有新收據，就不能證明原定開賽時間仍正確）。
+- **開賽後：**`game.status === 'SCHEDULED'`、`validUntil === tipoff`，且讀取時鐘 ≥ `tipoff` 時，public model 為
+  `SCHEDULE_ONLY`、`reason: 'PAST_TIPOFF'`，場次帶 `pastTipoff: true`。時鐘只證明「已過原定
+  開賽時間」，不宣稱 LIVE／FINAL、不給比分；之後真實觀測的狀態（#171 的官方 FINAL）取代它。
+  導讀在開賽時撤下。已公開的賽前紀錄（capturedAt 必早於 tipoff）開賽後仍顯示為賽前紀錄；
+  已過期的保存賽程仍不顯示。
+- **開著的頁面：**reader 保留已載入的資料，在下一個時間邊界（導讀可見時間、`validUntil`、`tipoff`）
+  以同一條 pipeline 重新計算並重繪；不重新抓取、不 reload。DEMO 使用固定時鐘，不重算。
+- **讀者文案（Founder L1，2026-11-21）：**首頁、賽程、比賽頁共用一條：「已過原定開賽時間（台北 HH:MM）。
+  查看 NBA 官方賽況 →」（連到已核實的 NBA 官方 game URL）；英文「Past the scheduled tip-off (HH:MM Taipei).
+  See NBA.com for the game →」。不說明判讀曾發布或未發布；已有合格可公開的內容，就照既有流程直接呈現內容。
+- **導讀獨立：**`editorial` 的形狀與事實改由 `validateScheduleEditorial` 檢查；任何問題只撤下
+  導讀（diagnostics 記 `slot: editorial`），已核實的賽程照常顯示。`editorial` 不是物件仍屬整筆格式錯誤。
+  因此只更新賽程收據、未重核導讀時，賽程保留、導讀撤下，不再整場消失。
+- 自動重查與來源授權不在本段範圍，由 MOSPORT-A 提供（NBA #172／#173；固定排程待來源與授權決定）。
+
 ## 2026-11-19 Beta-0：已保存賽程與 context template（Level 1，待獨立 review）
 
 本任務須遵守 Issue #170 的 Capacity / Boundary / Level 規則與 Beta-0 範圍。

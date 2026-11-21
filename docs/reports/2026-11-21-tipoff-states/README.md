@@ -1,0 +1,62 @@
+# 2026-11-21 Magazine：有效期上限、開賽後狀態、導讀獨立撤下（Level 1）
+
+本任務須遵守 Issue #170 的 Capacity / Boundary / Level 規則與 Beta-0 範圍。
+
+- 基線：`main@c0efc67f9f4d8d9f7208e1f94ee59376c92c206d`（Magazine PR #24 合併後）
+- 分支：`beta0/0051-tipoff-states`
+- 授權：Founder 於 2026-11-21 10:54（台北）在對話中指派 Claude 負責 Mosport-Magazine，並指定三項範圍（見下）。
+- 最高實際影響：**L1**（契約、pipeline public model、顯示邏輯）。不含部署、花費、新 runtime 或 MOSPORT-A 變更。
+
+## 修正的兩個已重現問題（以 #24 程式實測）
+
+| 情境 | #24 行為 | 本 PR |
+|---|---|---|
+| `validUntil` 晚於開賽一小時，時鐘在開賽後 30 分 | 契約接受；導讀 `CUP_REMATCH` 仍顯示 | `BAD_TIME schedule.validUntil`，整筆拒絕 |
+| 只更新賽程收據（observedAt＋指紋），導讀不動 | `EDITORIAL_CHRONOLOGY` → `INVALID`，可顯示場次 1→0 | 賽程保留（`SCHEDULE_ONLY`），只撤導讀 |
+| 時鐘到 11:00（tipoff） | `STALE / SCHEDULE_EXPIRED`：「以下是先前的賽程，開賽時間可能有變動。賽前判讀還沒出來。」 | `SCHEDULE_ONLY / PAST_TIPOFF`：「已過原定開賽時間（台北 11:00）。查看 NBA 官方賽況 →」 |
+
+## Boundary review BLOCK 的修正（第二個 commit）
+
+ChatGPT 於 HEAD `1d4ab31` 的 boundary_review 回報兩項，均已重現並修正：
+
+| 項目 | 修正前 | 修正後 |
+|---|---|---|
+| ① `validUntil` 10:30、開賽 11:00 | 10:59:59 `STALE`，11:00 變成 `PAST_TIPOFF`，過期警示消失 | 跨過開賽仍是 `STALE / SCHEDULE_EXPIRED`；只有 `validUntil === tipoff` 才轉 `PAST_TIPOFF` |
+| ② 10:59:59 開啟首頁，不 reload 停到 11:05 | 仍顯示「13 分之差…」與 103：116 | 11:00 自動重算：撤下導讀，顯示 Q5 文案；只載入一次資料 |
+
+新增回歸測試：unit 1 項（兩組對照）；browser 7 項（開著的頁面跨過開賽、以及提前過期的頁面跨過開賽）。兩項測試在修正前的程式上都會失敗。
+
+## 第三輪（Capacity ALLOW：PR #25 comment 7057037769）
+
+ChatGPT 覆核 `39e58ca` 時回報 BLOCK：`evaluate` 和 `watchBoundaries` 各讀一次時鐘，畫面計算和計時器設定之間如果跨過時間邊界，那個邊界就被略過，也不再設計時器。
+
+修正（只改 `site/js/app.js`）：每一輪只讀一次時鐘，同時用來產生畫面和選下一個邊界；畫完後如果邊界已到，就立刻用已載入的資料重算，計時器觸發時也走同一段。每輪讀時都更晚，邊界嚴格遞增，所以迴圈一定會結束。
+
+回歸測試（1 個 browser 測試，兩組）：第一次讀時在邊界前 2 ms，畫面一寫入就把時鐘推到邊界後 1 ms。「有效到開賽」組自動撤下導讀、顯示 Q5；「提前到期」組立刻顯示過期；兩組都只載入賽程 1 次、無 page error。用 `39e58ca` 的 app.js 跑，同一個測試會失敗（已實測）。
+
+## 第四輪：Founder L1 文案決定（Capacity ALLOW：PR #25 comment 7057198075）
+
+Michael 決定：開賽後不向讀者交代判讀「未發布」或「曾發布」。三頁中英文共用一條通知：「已過原定開賽時間（台北 11:00）。查看 NBA 官方賽況 →」／「Past the scheduled tip-off (11:00 Taipei). See NBA.com for the game →」。有合格內容時照既有流程呈現內容本身。
+
+修改：`site/js/i18n.js` 兩組字串改成一條 `pastTipoffNotice`；`site/js/app.js::tipoffNotice` 不再依有沒有判讀分支。測試改成斷言新文案，並新增「頁面不得出現發布狀態說明」的檢查（含有合格內容的 projection）。截圖已依新文案重拍。
+
+## 範圍
+
+1. 契約：`validUntil <= game.tipoff`。
+2. 開賽後：中英文共用一條通知（原定開賽時間＋NBA 官方連結）；狀態標籤「已過原定開賽時間」；不宣稱 LIVE／FINAL／比分。
+3. 導讀：`validateScheduleEditorial` 獨立檢查；失敗只撤導讀。
+
+不在範圍：自動重查與來源授權（MOSPORT-A，NBA #172／#173）；官方 FINAL 對回快照（#171）；World issue 路徑（DEMO）的 STALE 文案。
+
+## 截圖（Playwright Chromium，時鐘 2026-11-21T03:05:00Z）
+
+`home-tip-1440-zh.jpg`、`home-tip-1440-en.jpg`、`home-tip-1440-zh-dark.jpg`、`home-tip-390-zh.jpg`、`schedule-tip-1440-zh.jpg`、`match-tip-390-zh.jpg`。
+已人工比對：版面結構與開賽前一致（封面＋TODAY、手機封面優先），無溢出；通知文字 17px、官方連結獨立一行。
+有合格內容時的畫面在 production 不可達（`contextPublicRelease` 固定 `BLOCKED_MISSING`），只以既有 isolated projection 做模板測試，非發布證據。
+
+## 驗證
+
+第一個 commit（`1d4ab31`）：unit 177/177；browser 708 checks。
+第二輪（`39e58ca`）：`npm test` exit 0，unit 178/178；browser 482 + 18 + 50 + 39 + 126 = 715 checks。
+第三輪：`npm test` exit 0，unit 178/178；browser 482 + 18 + 50 + 39 + 128 = 717 checks。
+第四輪（文案）：`npm test` exit 0，unit 178/178；browser 482 + 18 + 50 + 39 + 128 = 717 checks。
