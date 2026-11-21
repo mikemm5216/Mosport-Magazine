@@ -262,7 +262,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
     {
       const C = require('../../site/js/contracts/contracts.js');
       const res = {
-        schema: 'mosport-b/game-result@1', nbaGameId: '0022600999', espnGameId: '401909999',
+        schema: 'mosport-b/game-result@1', nbaGameId: '0022600999', espnGameId: '401999999',
         away: 'SAC', home: 'LAL', awayScore: 101, homeScore: 112, status: 'FINAL',
         officialUrl: 'https://www.nba.com/game/sac-vs-lal-0022600999',
         confirmations: { nba: { observedAt: '2026-11-21T05:40:00Z' }, espn: { observedAt: '2026-11-21T05:41:00Z' } },
@@ -275,16 +275,28 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
         const pageErrors = []; p.on('pageerror', e => pageErrors.push(e.message));
         await p.clock.setFixedTime(new Date('2026-11-21T06:00:00Z'));
         await p.route('**/data/schedules/0022600999.json', route => route.fulfill({ json: candidate }));
-        await p.route('**/data/results/0022600999.json', route => route.fulfill({ json: res }));
+        let resultRequests = 0, release = null;
+        const held = new Promise(r => { release = r; });
+        await p.route('**/data/results/0022600999.json', async route => { resultRequests++; if (pinned) await held; route.fulfill({ json: res }); });
         if (pinned) await p.route('**/js/data/result-pins.js', route => route.fulfill({ body: pinJs, contentType: 'text/javascript' }));
+        // A held result request must not hold the schedule: each page is readable first.
+        for (const page of pinned ? ['index.html', 'schedule.html', 'match.html'] : []) {
+          await p.goto(base + page + '?schedule=0022600999&game=0022600999&mode=production&lang=zh');
+          await p.waitForFunction(() => !document.querySelector('[aria-busy="true"]'), null, { timeout: 5000 });
+          const early = await p.locator('body').innerText();
+          assert.ok(early.includes('11:00') && !early.includes('終場 湖人'), page + ' readable while result is held');
+        }
+        if (pinned) release();
         for (const page of ['index.html', 'schedule.html', 'match.html']) {
           await p.goto(base + page + '?schedule=0022600999&game=0022600999&mode=production&lang=zh');
           await p.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
+          if (pinned) await p.waitForFunction(() => document.body.innerText.includes('終場'), null, { timeout: 5000 });
           const text = await p.locator('body').innerText();
           if (pinned) assert.ok(text.includes('終場 湖人 112：101 國王') && !/TEST-ISOLATED|雜湊|收據/.test(text), page + ' pinned: ' + text.slice(0, 300));
           else assert.ok(!text.includes('終場 湖人') && !text.includes('112：101'), page + ' unpinned');
         }
         assert.deepEqual(pageErrors, []);
+        if (!pinned) assert.equal(resultRequests, 0, 'no result request without a pin');
         checks++;
         await ctx.close();
       }

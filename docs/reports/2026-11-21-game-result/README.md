@@ -19,5 +19,10 @@
 ## 截圖（隔離：合成 0022600999 ＋ 測試 pin，**不是本場真實終場**）
 `isolated-final-home-1440-zh`、`-home-1440-en`、`-home-390-zh`、`-schedule-1440-zh`、`-match-390-en`。
 
+## 第 1 輪窄修（boundary_review 7058286056）
+- 賽程已有有效的 ESPN 身分（`contextSnapshot` 通過驗證）時，結果的 `espnGameId` 必須相同，否則 `RESULT_GAME_MISMATCH`、完整退回。正例改成 `401999999`，新增「ESPN 場次不符」負例。
+- provider 先用賽程立即渲染；只有已釘選的場次才請求結果檔，結果晚到、失敗或缺席都不影響賽程。沒有 pin 時不送出結果請求。
+- 截圖未重拍：畫面只顯示比分與連結，不受 `espnGameId` 影響。
+
 ## 驗證
-`npm test` exit 0：unit 183/183（新增 5）；browser 482 + 18 + 50 + 39 + 136 = 725（新增 2：未釘選忽略、釘選後三頁顯示）。
+第一版：unit 183/183；browser 725。第 1 輪窄修後：`npm test` exit 0，unit 183/183；browser 482 + 18 + 50 + 39 + 136 = 725（既有 2 組 e2e 加強：未釘選不送結果請求；結果請求卡住時三頁先可讀、放行後顯示終場）。

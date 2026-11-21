@@ -528,6 +528,9 @@
     if (out.length) return out;
     var g = entry.game, r = result;
     if (r.nbaGameId !== g.gameId || r.away !== g.away || r.home !== g.home) out.push(P('RESULT_GAME_MISMATCH', 'result.nbaGameId'));
+    /* When the schedule already carries a valid ESPN identity, the result must name the same ESPN game. */
+    if (entry.contextSnapshot && !validateContextSnapshot(entry.contextSnapshot, g, now).length && entry.contextSnapshot.gameId !== r.espnGameId)
+      out.push(P('RESULT_GAME_MISMATCH', 'result.espnGameId'));
     if (r.awayScore === r.homeScore) out.push(P('RESULT_SCORE_INVALID', 'result.homeScore', 'tied final'));
     if (r.officialUrl !== 'https://www.nba.com/game/' + g.away.toLowerCase() + '-vs-' + g.home.toLowerCase() + '-' + g.gameId) out.push(P('RESULT_SOURCE_MISMATCH', 'result.officialUrl'));
     var tip = parseInstant(g.tipoff), t = parseInstant(now);

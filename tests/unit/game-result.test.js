@@ -14,7 +14,7 @@ const synthetic = require('../fixtures/context-snapshot-v2.json');
 
 const now = '2026-11-21T06:00:00Z';
 const result = {
-  schema: 'mosport-b/game-result@1', nbaGameId: '0022600999', espnGameId: '401909999',
+  schema: 'mosport-b/game-result@1', nbaGameId: '0022600999', espnGameId: '401999999',
   away: 'SAC', home: 'LAL', awayScore: 101, homeScore: 112, status: 'FINAL',
   officialUrl: 'https://www.nba.com/game/sac-vs-lal-0022600999',
   confirmations: { nba: { observedAt: '2026-11-21T05:40:00Z' }, espn: { observedAt: '2026-11-21T05:41:00Z' } },
@@ -64,6 +64,7 @@ test('any untrusted or inconsistent projection falls back to exactly the no-resu
     ['absent', null, pins, 'RESULT_ABSENT'],
     ['not an object', 'FINAL 112-101', pins, 'RESULT_ABSENT'],
     ['wrong game', Object.assign(clone(result), { nbaGameId: '0022600051', officialUrl: 'https://www.nba.com/game/sac-vs-lal-0022600051' }), pins, 'RESULT_GAME_MISMATCH'],
+    ['wrong ESPN game', Object.assign(clone(result), { espnGameId: '401909999' }), null, 'RESULT_GAME_MISMATCH'],
     ['swapped teams', Object.assign(clone(result), { away: 'LAL', home: 'SAC' }), pins, 'RESULT_GAME_MISMATCH'],
     ['wrong official URL', Object.assign(clone(result), { officialUrl: 'https://www.nba.com.evil.example/game/sac-vs-lal-0022600999' }), pins, 'RESULT_SOURCE_MISMATCH'],
     ['observed before tipoff', (() => { const r = clone(result); r.confirmations.nba.observedAt = '2026-11-21T02:59:59Z'; return r; })(), null, 'RESULT_CHRONOLOGY'],
