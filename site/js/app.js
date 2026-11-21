@@ -80,7 +80,8 @@
   function pregameRecord(g, options) {
     var snapshot = g.pregameSnapshot;
     var notice = g.pastTipoff ? tipoffNotice(g) : '';
-    if (!snapshot) return notice || '<p class="pregame-missing">' + esc(T('pregameMissing')) + '</p>';
+    /* No displayable read: render nothing (Founder: 沒有就沒有), only the #25 tipoff notice when due. */
+    if (!snapshot) return notice;
     if (options && options.reader) return '<p class="pregame-context">' + esc(T('context_' + snapshot.homeCourt, { team: teamName(g.home, 'nick') })) + '</p>' + notice;
     return notice + '<div class="pregame-record"><p><b>' + esc(snapshot.homeCourt) + '</b> · HOME_COURT@' + esc(snapshot.formulaVersion) + '</p><p class="pv">' + esc(T('savedSnapshot')) + ' <time datetime="' + esc(snapshot.capturedAt) + '">' + esc(snapshot.capturedAt) + '</time></p><p class="pv">' + esc(T('snapshotId')) + ' <code>' + esc(snapshot.snapshotId) + '</code> · v' + esc(snapshot.snapshotVersion) + '</p>' + sourceNote(snapshot.source) + '</div>';
   }

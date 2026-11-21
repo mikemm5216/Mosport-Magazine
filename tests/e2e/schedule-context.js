@@ -52,7 +52,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
       await page.clock.setFixedTime(new Date(now));
       const entrance = base + 'index.html?mode=production&lang=zh';
       await page.goto(entrance);
-      await page.waitForSelector('.lead-schedule .pregame-missing');
+      await page.waitForSelector('.lead-schedule');
       for (const slot of ['cover-' + viewport + '-art', 'today-feature-art']) {
         const art = page.locator('mo-art[data-slot="' + slot + '"]');
         assert.equal(await art.getAttribute('data-version'), 'claude-crop-v1');
@@ -66,7 +66,8 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
       }
       const text = await page.locator('.spread').innerText();
       assert.ok(text.includes('SAC') && text.includes('LAL') && text.includes('11:00') && !text.includes('NBA game ID')); checks++;
-      assert.ok(text.includes('這場的賽前判讀還沒出來。') && text.includes('核對（台北）') && !/NBA game ID|UTC|HOME_COURT@/.test(text)); checks++;
+      assert.ok(!/賽前判讀還沒出來|not out yet/.test(text) && text.includes('核對（台北）') && !/NBA game ID|UTC|HOME_COURT@/.test(text)); checks++;
+      assert.equal(await page.locator('.pregame-missing, .cv-status').count(), 0, 'no empty read block or cover status'); checks++;
       assert.ok(text.includes('13 分之差，國王盃賽再戰湖人') && text.includes('103：116')); checks++;
       assert.ok(!/\d+\s*%|DEMO/.test(text) && await page.locator('.spread table').count() === 0); checks++;
       const geometry = await page.evaluate(() => {
@@ -117,10 +118,11 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
       });
       const query = '?schedule=0022600051&game=0022600051&mode=production&lang=zh';
       await page.goto(base + name + query);
-      await page.waitForSelector('.pregame-missing');
+      await page.waitForSelector('.m-hero, .sch');
       let text = await content(page);
       assert.ok(/SAC\s*@\s*LAL/.test(text) && /0022600051/.test(text) && /11:00/.test(text) && /11\/21/.test(text), text); checks++;
-      assert.ok(text.includes('這場的賽前判讀還沒出來。') && text.includes('NBA') && text.includes(saved.source.observedAt)); checks++;
+      assert.ok(!/賽前判讀還沒出來|賽前看點/.test(text) && text.includes('NBA') && text.includes(saved.source.observedAt)); checks++;
+      assert.equal(await page.locator('.pregame-missing').count(), 0, name + ': no empty read block'); checks++;
       assert.ok(noNumbers(text), text); checks++;
       assert.equal(await page.locator('a[href="https://www.nba.com/game/sac-vs-lal-0022600051"]').count(), 1); checks++;
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)); checks++;
@@ -128,14 +130,14 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
       const link = name.startsWith('schedule') ? 'a[href^="match.html"]' : '.m-top a';
       assert.ok((await page.locator(link).first().getAttribute('href')).includes('schedule=0022600051')); checks++;
       await page.locator(link).first().click();
-      await page.waitForSelector('.pregame-missing');
-      assert.ok((await content(page)).includes('0022600051') && (await content(page)).includes('這場的賽前判讀還沒出來。')); checks++;
+      await page.waitForSelector('.m-hero, .sch');
+      assert.ok((await content(page)).includes('0022600051') && !/賽前判讀還沒出來|賽前看點/.test(await content(page))); checks++;
       // Isolated 0999 provider fixture stays missing through the real public pipeline.
       // Only the renderer receives a test projection; no release gate is changed.
       await page.route('**/data/schedules/0022600999.json', route => route.fulfill({ json: candidate }));
       await page.clock.setFixedTime(new Date('2026-11-19T08:10:00Z'));
       await page.goto(base + name + '?schedule=0022600999&game=0022600999&mode=production&lang=zh');
-      await page.waitForSelector('.pregame-missing');
+      await page.waitForSelector('.m-hero, .sch');
       assert.ok((await content(page)).includes('0022600999') && !(await content(page)).includes('0022600051')); checks++;
       for (const value of ['HOME', 'NEUTRAL']) {
         await page.evaluate(({ candidate, value }) => {
@@ -172,7 +174,7 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
       ['wrong ID', r => { r.game.gameId = '0022600999'; }, '暫時打不開'],
       ['stale source', r => { r.validUntil = '2026-11-21T02:30:00Z'; }, '先前的賽程'],
       ['past tipoff', () => {}, '已過原定開賽時間（台北 11:00）。'],
-      ['boolean is not release', r => { r.contextSnapshot = { public: true }; }, '這場的賽前判讀還沒出來。']
+      ['boolean is not release', r => { r.contextSnapshot = { public: true }; }, '賽程資訊']
     ]) {
       const raw = JSON.parse(JSON.stringify(saved)); mutate(raw);
       await page.clock.setFixedTime(new Date(label === 'stale source' ? raw.validUntil : label === 'past tipoff' ? raw.game.tipoff : now));

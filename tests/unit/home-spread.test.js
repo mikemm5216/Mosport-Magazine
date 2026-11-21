@@ -23,6 +23,9 @@ function assertSpread(html) {
   assert.ok(!html.includes('<main class="sheet">'));
 }
 
+// Founder 2026-11-21: no displayable read means no read block and no sentence about it.
+const EMPTY_READ = /賽前判讀還沒出來|賽前判讀已不適用|not out yet|out of date/;
+
 test('normal index entry selects the existing 0051 schedule in each existing mode', () => {
   for (const mode of ['production', 'prototype']) {
     let selection;
@@ -36,7 +39,8 @@ test('normal index entry selects the existing 0051 schedule in each existing mod
       timeZone: 'Asia/Taipei', hour12: false, month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
     }).format(new Date(schedule.source.observedAt));
     assert.ok(html.includes('<time datetime="' + schedule.source.observedAt + '">' + checkedAt + ' 核對（台北）</time>'));
-    for (const value of ['SAC', 'LAL', '2026/11/21', '11:00', '這場的賽前判讀還沒出來。']) assert.ok(html.includes(value), value);
+    for (const value of ['SAC', 'LAL', '2026/11/21', '11:00']) assert.ok(html.includes(value), value);
+    assert.ok(!EMPTY_READ.test(text(html)) && !html.includes('pregame-missing') && !html.includes('class="cv-status"'));
     assert.ok(html.includes('href="https://www.nba.com/game/sac-vs-lal-0022600051"'));
     assert.ok(!/DEMO|VOL\.|第 \d+ 期|61%|52%|0\.5|World · Coach Read|BREAKING NEWS|MOSPORT EXCLUSIVE|三層/.test(text(html)));
     assert.ok(!html.includes('class="teaser ') && !html.includes('class="stories'));
@@ -77,7 +81,7 @@ test('validated candidate remains missing on the actual public pipeline and home
   assert.deepEqual(result.diagnostics.excluded.map(e => e.reason), ['PUBLIC_QUALIFICATION_UNAVAILABLE']);
   const html = home(candidate, '?schedule=0022600999');
   assertSpread(html);
-  assert.ok(html.includes('這場的賽前判讀還沒出來。'));
+  assert.ok(!EMPTY_READ.test(text(html)) && !html.includes('pregame-missing'));
   for (const forbidden of [candidate.contextSnapshot.snapshotId, 'HOME_COURT@', 'homeWinProbability', '61%', '0.5']) assert.ok(!text(html).includes(forbidden), forbidden);
 });
 
@@ -123,7 +127,8 @@ test('no source, no payload and load failure keep the magazine without borrowed 
 test('expired saved schedule remains labelled history with missing pregame record', () => {
   const html = home(candidate, '?schedule=0022600999', null, { now: candidate.validUntil });
   assertSpread(html);
-  for (const expected of ['state-stale', '先前的賽程', '核對（台北）', '這場的賽前判讀還沒出來。']) assert.ok(html.includes(expected));
+  for (const expected of ['state-stale', '以下是先前的賽程，開賽時間可能有變動。', '核對（台北）']) assert.ok(html.includes(expected));
+  assert.ok(!EMPTY_READ.test(text(html)) && !html.includes('pregame-missing'));
   assert.ok(!html.includes(candidate.contextSnapshot.snapshotId));
   assert.ok(!/VOL\.|61%|0\.5|HOME_COURT@/.test(text(html)));
 });
@@ -157,7 +162,7 @@ test('TODAY anchor and secondary navigation preserve the selected schedule and a
   const html = home(schedule, query, null, { hash: '#today' });
   assertSpread(html);
   assert.ok(html.includes('Read TODAY'));
-  assert.ok(html.includes('The pregame read for this matchup is not out yet.'));
+  assert.ok(!EMPTY_READ.test(text(html)));
   assert.ok(!text(html).replace(/繁中/g, '').match(/[\u3400-\u9fff]/));
   const links = [...html.matchAll(/href="([^"]+)"/g)].map(m => m[1]);
   for (const page of ['index.html', 'schedule.html', 'match.html']) {
@@ -206,14 +211,14 @@ test('official NBA Cup rematch headline reaches the real default homepage after 
   assertSpread(actual);
   assert.ok(actual.includes('13 分之差，國王盃賽再戰湖人'));
   assert.ok(actual.includes('103：116') && actual.includes('NBA 盃西區 C 組'));
-  assert.ok(actual.includes('這場的賽前判讀還沒出來。'));
+  assert.ok(!EMPTY_READ.test(text(actual)) && !actual.includes('pregame-missing'));
   assert.ok(actual.includes('https://www.nba.com/game/lal-vs-sac-0022600185'));
   assert.ok(!/61%|52%|homeWinProbability|World · Coach Read|DEMO/.test(text(actual)));
   const english = home(schedule, '?lang=en', null, { mode: 'production', now: clock, realTeams: true });
   assert.ok(english.includes('13-point loss') && english.includes('NBA Cup West Group C'));
-  assert.ok(english.includes('103–116') && english.includes('The pregame read for this matchup is not out yet.'));
+  assert.ok(english.includes('103–116') && !EMPTY_READ.test(text(english)));
   const earlier = home(schedule, '', null, { mode: 'production', now: schedule.source.observedAt, realTeams: true });
-  assert.ok(!earlier.includes('13 分之差') && earlier.includes('賽前看點'));
+  assert.ok(!earlier.includes('13 分之差') && earlier.includes('國王 @ 湖人') && !earlier.includes('賽前看點') && !EMPTY_READ.test(text(earlier)));
   const expired = clone(schedule); expired.validUntil = '2026-11-21T02:30:00Z';
   const stale = home(expired, '', null, { mode: 'production', now: expired.validUntil, realTeams: true });
   assert.ok(stale.includes('先前的賽程') && !stale.includes('13 分之差'));
@@ -226,6 +231,6 @@ test('official NBA Cup rematch headline reaches the real default homepage after 
   assert.ok(tippedEn.includes('Past the scheduled tip-off (11:00 Taipei).') && tippedEn.includes('See NBA.com for the game'));
   const withoutEditorial = clone(schedule); delete withoutEditorial.editorial;
   const missing = home(withoutEditorial, '', null, { mode: 'production', now: clock, realTeams: true });
-  assert.ok(missing.includes('賽前看點') && missing.includes('這場的賽前判讀還沒出來。'));
+  assert.ok(missing.includes('lead-record-title">國王 @ 湖人<') && !missing.includes('賽前看點') && !EMPTY_READ.test(text(missing)) && !missing.includes('class="cv-status"'));
   assert.ok(!missing.includes('lead-story') && !missing.includes('13 分之差'));
 });

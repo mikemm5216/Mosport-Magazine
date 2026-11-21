@@ -30,6 +30,10 @@ window.MOSPORT_PAGE = {
       storyLede = T('cupRematchLede', storyVars);
     }
 
+    /* Cover status: only what exists (tipoff passed, or a public pregame record). */
+    var coverStatus = !savedGame ? '' : savedGame.pastTipoff ? T('pastTipoffLabel')
+      : savedGame.pregameSnapshot ? T('context_' + savedGame.pregameSnapshot.homeCourt, { team: c.teamName(savedGame.home, 'nick') }) : '';
+
     /* ---------- cover lines: derived only from what actually renders ---------- */
     var lines = [];
     if (readCount) lines.push(T('coverLineReads', { n: readCount }));
@@ -59,7 +63,7 @@ window.MOSPORT_PAGE = {
         '</div>' +
         (savedGame ? '<div class="cv-brief">' +
           ('<p class="cv-game' + (storyTitle ? ' is-editorial' : '') + '">' + esc(storyTitle || c.teamName(savedGame.away, 'nick') + ' @ ' + c.teamName(savedGame.home, 'nick')) + '</p><p class="cv-time">' + esc(c.tipShort(savedGame)) + '</p>') +
-          '<p class="cv-status">' + esc(savedGame.pastTipoff ? T('pastTipoffLabel') : T(savedGame.pregameSnapshot ? 'context_' + savedGame.pregameSnapshot.homeCourt : 'pregameMissing', { team: c.teamName(savedGame.home, 'nick') })) + '</p></div>' : '') +
+          (coverStatus ? '<p class="cv-status">' + esc(coverStatus) + '</p>' : '') + '</div>' : '') +
         (teasers ? '<div class="cv-teasers">' + teasers + '</div>' : '') +
         '<div class="cv-foot">' +
           '<div class="cv-guide">' + demo +
@@ -103,7 +107,7 @@ window.MOSPORT_PAGE = {
       lead =
         '<article class="lead lead-schedule" aria-label="' + esc(c.teamName(savedGame.away) + ' @ ' + c.teamName(savedGame.home)) + '">' +
           leadArt(savedGame) +
-          '<div class="lead-read' + (storyTitle ? ' has-editorial' : '') + '"><p class="ver">' + esc(c.statusLabel(savedGame)) + '</p><h3 class="lead-record-title">' + esc(storyTitle || T(savedGame.pregameSnapshot || savedGame.pastTipoff ? 'gameFacts' : 'pregameTitle')) + '</h3>' +
+          '<div class="lead-read' + (storyTitle ? ' has-editorial' : '') + '"><p class="ver">' + esc(c.statusLabel(savedGame)) + '</p><h3 class="lead-record-title">' + esc(storyTitle || (savedGame.pregameSnapshot || savedGame.pastTipoff ? T('gameFacts') : c.teamName(savedGame.away, 'nick') + ' @ ' + c.teamName(savedGame.home, 'nick'))) + '</h3>' +
             (storyLede ? '<p class="lead-story">' + esc(storyLede) + '</p>' : '') + c.pregameRecord(savedGame, { reader: true }) + '</div>' +
           '<div class="lead-foot"><div><p class="lead-time">' + esc(c.tipLine(savedGame)) + '</p></div>' +
             '<a class="pill" href="' + c.href('match.html', { game: savedGame.gameId }) + '">' + esc(T('gameDetails')) + ' <span aria-hidden="true">→</span></a></div>' +
