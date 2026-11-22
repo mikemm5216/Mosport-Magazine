@@ -197,7 +197,8 @@
     if (page.after) page.after(ctx);
   }
   function noteHtml() {
-    if (state.finalNote) return '<div class="note" role="status"><span>' + esc(state.finalNote[state.lang]) + '</span><button type="button" class="ut" data-act="close-final">' + esc(T('close')) + '</button></div>';
+    /* Visual only: the announcement itself is spoken once by the persistent #mo-live region. */
+    if (state.finalNote) return '<div class="note note-final"><span>' + esc(state.finalNote[state.lang]) + '</span><button type="button" class="ut" data-act="close-final">' + esc(T('close')) + '</button></div>';
     if (!state.note) return '';
     return '<div class="note" role="status"><span>' + esc(T(state.note)) + '</span><button type="button" class="ut" data-act="close-note">' + esc(T('close')) + '</button></div>';
   }
@@ -256,11 +257,20 @@
   /* A page left open past tip-off asks again for the same two same-origin static files
      the page already trusts — the B pins script and the pinned result — and shows the
      final only when the unchanged pipeline validator accepts the pair. Only while the
-     page is visible, one request at a time, at most RECHECK_MAX timed passes per page
+     page is visible, one request at a time, at most RECHECK_MAX (96) timed passes per page
      load; returning to the page (visibilitychange, pageshow) asks once more. No source
      outside this site, nothing in the background, and it stops once the final shows. */
-  var RECHECK_MS = 5 * 60 * 1000, RECHECK_MAX = 36;
-  var recheck = { saved: undefined, timer: null, busy: false, left: RECHECK_MAX, announce: false, announced: {} };
+  /* 5 min × 96 = 8 h of foreground time: #176's first R1 came 4 h 43 min after tip-off. */
+  var RECHECK_MS = 5 * 60 * 1000, RECHECK_MAX = 96;
+  var recheck = { saved: undefined, timer: null, busy: false, left: RECHECK_MAX, announce: false, announced: {}, verified: null };
+  /* The one live region exists before any change, so a later text change is announced. */
+  var live = null;
+  if (document.body && document.createElement) {
+    live = document.createElement('div');
+    live.id = 'mo-live'; live.className = 'mo-live';
+    live.setAttribute('role', 'status'); live.setAttribute('aria-live', 'polite');
+    document.body.appendChild(live);
+  }
   function shownGame() {
     var m = data.model;
     return m && m.meta && m.meta.scheduleOnly && m.schedule && m.schedule[0] || null;
@@ -289,8 +299,12 @@
     /* Reload the trusted pin list itself: a first pin ships with the next deployment. */
     var tag = document.createElement('script');
     tag.src = 'js/data/result-pins.js?recheck=' + Date.now();
-    tag.onload = tag.onerror = function () {
-      if (tag.parentNode) tag.parentNode.removeChild(tag);
+    function drop() { if (tag.parentNode) tag.parentNode.removeChild(tag); }
+    /* A pins file that did not load says nothing new: no result request with the old
+       global; the next foreground pass or a return to the page tries again. */
+    tag.onerror = function () { drop(); finish(null); };
+    tag.onload = function () {
+      drop();
       var pins = window.MOSPORT_RESULT_PINS || {};
       if (!/^\d{10}$/.test(id) || !Object.prototype.hasOwnProperty.call(pins, id)) { finish(null); return; }
       fetch('data/results/' + id + '.json', { credentials: 'same-origin', cache: 'no-store' })
@@ -313,14 +327,7 @@
       state.finalNote[l] = (l === 'zh' ? '比賽結束。' : 'The game is over. ') + finalLine(g);
     });
     state.lang = lang;
-    var live = document.getElementById('mo-live');
-    if (!live) {
-      live = document.createElement('div');
-      live.id = 'mo-live'; live.className = 'mo-live';
-      live.setAttribute('role', 'status'); live.setAttribute('aria-live', 'polite');
-      document.body.appendChild(live);
-    }
-    live.textContent = state.finalNote[state.lang];
+    if (live) live.textContent = state.finalNote[state.lang];
     render();
   }
   if (typeof document.addEventListener === 'function') {
@@ -338,6 +345,8 @@
       var now = nowFor(raw);
       data.model = window.MOSPORT_PIPELINE.run(raw, { mode: window.MOSPORT_CONFIG.mode, now: now, result: extra.result, pins: window.MOSPORT_RESULT_PINS || {}, ownerEdition: owner }).model;
       render();
+      var shown = shownGame();
+      if (shown && shown.score && extra.result != null) recheck.verified = { id: shown.gameId, saved: saved, result: extra.result };
       announceFinal();
       armRecheck();
       var next = nextBoundary(raw, Date.parse(now));
@@ -351,7 +360,15 @@
   }
   window.MOSPORT_PROVIDERS.load(sel, function (raw, more) {
     extra = { result: more && more.result != null ? JSON.parse(JSON.stringify(more.result)) : null };
-    refresh(raw === undefined ? null : JSON.stringify(raw));
+    var saved = raw === undefined ? null : JSON.stringify(raw);
+    refresh(saved);
+    /* A late provider answer (its first fetch, or an older file) never takes back a final
+       the validator already accepted for the same schedule; it is tried once, no loop. */
+    var kept = recheck.verified;
+    if (kept && kept.saved === saved && waiting() && shownGame().gameId === kept.id) {
+      extra = { result: kept.result };
+      refresh(saved);
+    }
   });
   if (!data.model) render();
 })();

@@ -343,10 +343,14 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
         const ctx = await browser.newContext({ viewport: opts.viewport || { width: 1440, height: 900 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
         const p = await ctx.newPage();
         const errors = []; p.on('pageerror', e => errors.push(e.message));
-        const served = { pins: opts.pins || emptyPins, result: opts.result === undefined ? null : opts.result };
+        const served = { pins: opts.pins || emptyPins, result: opts.result === undefined ? null : opts.result, pinsFail: false, firstResult: opts.firstResult || null, firstDelay: opts.firstDelay || 0 };
         const asked = { pins: 0, result: 0, practice: 0 };
-        await p.route('**/js/data/result-pins.js*', route => { asked.pins++; route.fulfill({ contentType: 'text/javascript', body: served.pins }); });
-        await p.route('**/data/results/0022600051.json', route => { asked.result++; served.result ? route.fulfill({ json: served.result }) : route.fulfill({ status: 404, body: '' }); });
+        await p.route('**/js/data/result-pins.js*', route => { asked.pins++; served.pinsFail ? route.abort() : route.fulfill({ contentType: 'text/javascript', body: served.pins }); });
+        await p.route('**/data/results/0022600051.json', route => {
+          asked.result++;
+          if (asked.result === 1 && served.firstResult) { const late = served.firstResult; setTimeout(() => route.fulfill({ json: late }).catch(() => {}), served.firstDelay); return; }
+          served.result ? route.fulfill({ json: served.result }) : route.fulfill({ status: 404, body: '' });
+        });
         p.on('request', r => { if (r.url().includes('/owner-edition/')) asked.practice++; });
         await p.addInitScript(() => {
           Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => window.__vis || 'visible' });
@@ -366,6 +370,8 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
         await p.goto(url('zh')); await settle(p);
         assert.ok((await header(p)).includes('等待官方核實賽果') && !/104|106/.test(await header(p)), 'waiting header');
         assert.equal(await p.locator('#m-final, .note').count(), 0);
+        assert.equal(await p.locator('#mo-live').count(), 1, 'live region exists before any change');
+        assert.equal(await p.locator('#mo-live').textContent(), '');
         await tick(p);
         assert.equal(await p.locator('#m-final').count(), 0, 'nothing new yet');
         served.pins = realPins;                       // pins shipped first: the result file is still 404
@@ -379,6 +385,8 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
         assert.equal(await p.locator('.note').innerText().then(t => t.split('\n')[0]), '比賽結束。終場 湖人 106：104 國王');
         assert.equal(await p.locator('#mo-live').getAttribute('aria-live'), 'polite');
         assert.equal(await p.locator('#mo-live').textContent(), '比賽結束。終場 湖人 106：104 國王');
+        assert.equal(await p.locator('.note-final').getAttribute('role'), null, 'visual note is not a second live region');
+        assert.equal(await p.evaluate(() => [...document.querySelectorAll('[role="status"], [aria-live]')].filter(e => e.textContent.includes('比賽結束')).length), 1, 'one live announcement');
         assert.ok(await p.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'no overflow at 390');
         await p.screenshot({ path: path.join(ROOT, 'artifacts', 'final-announced-zh-390.png'), fullPage: true });
         const after = { ...asked };
@@ -424,15 +432,68 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
         const { ctx, p, errors, served, asked } = await session({ pins, result });
         await p.goto(url('zh')); await settle(p);
         assert.ok((await header(p)).includes('等待官方核實賽果'), label);
-        await tick(p, 40);
+        await tick(p, 100);
         assert.equal(await p.locator('#m-final, .note').count(), 0, label);
         assert.ok(!(await p.locator('main').innerText()).includes('終場 湖人'), label);
-        assert.equal(await p.locator('#mo-live').count(), 0, label);
-        assert.ok(asked.pins <= 1 + 36, label + ': at most 36 timed rechecks, got ' + asked.pins);
+        assert.equal(await p.locator('#mo-live').textContent(), '', label);
+        assert.equal(asked.pins, 1 + 96, label + ': exactly 96 timed rechecks (8 h), got ' + asked.pins);
         const capped = asked.pins; await tick(p, 4); assert.equal(asked.pins, capped, label + ': stops at the cap');
         served.pins = realPins; served.result = real;   // a later return still checks once
         await p.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
         await p.waitForSelector('#m-final');
+        assert.deepEqual(errors, []); checks++;
+        await ctx.close();
+      }
+      // 5. #176 reality: R1 came 4 h 43 min after tip-off. The page stays open in the foreground,
+      //    never switched away, and still shows and announces the final once when it lands.
+      {
+        const { ctx, p, errors, served } = await session({ clock: '2026-11-21T03:00:00Z' });
+        await p.goto(url('zh')); await settle(p);
+        assert.ok((await header(p)).includes('等待官方核實賽果'));
+        await tick(p, 57);                            // 4 h 45 min of foreground time, nothing deployed
+        assert.equal(await p.locator('#m-final').count(), 0);
+        served.pins = realPins; served.result = real;
+        await tick(p);
+        await p.waitForSelector('#m-final');
+        assert.equal(await p.locator('#mo-live').textContent(), '比賽結束。終場 湖人 106：104 國王');
+        await tick(p, 3);
+        assert.equal(await p.locator('.note').count(), 1, 'once');
+        assert.deepEqual(errors, []); checks++;
+        await ctx.close();
+      }
+      // 6. A pins file that fails to load is not a pin: no result request with the old global pins;
+      //    the next foreground pass recovers, and so does a return to the page.
+      for (const recover of ['timer', 'return']) {
+        const { ctx, p, errors, served, asked } = await session({ pins: realPins });
+        await p.goto(url('zh')); await settle(p);              // pinned, but the result is not deployed yet
+        assert.ok((await header(p)).includes('等待官方核實賽果'));
+        served.pinsFail = true; served.result = real;
+        const before = asked.result;
+        await tick(p, 2);
+        assert.equal(asked.result, before, recover + ': no result request after a failed pins load');
+        assert.equal(await p.locator('#m-final').count(), 0);
+        served.pinsFail = false;
+        if (recover === 'timer') await tick(p);
+        else await p.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+        await p.waitForSelector('#m-final');
+        assert.deepEqual(errors, []); checks++;
+        await ctx.close();
+      }
+      // 7. The provider's own first result answer arrives late and is stale (altered); a final the
+      //    validator already accepted from the recheck is not taken back to waiting.
+      {
+        const { ctx, p, errors, asked } = await session({ pins: realPins, result: real, firstResult: Object.assign({}, real, { homeScore: 107 }), firstDelay: 1500 });
+        await p.goto(url('zh')); await settle(p);
+        assert.ok((await header(p)).includes('等待官方核實賽果'));
+        await tick(p);
+        await p.waitForSelector('#m-final');
+        await p.waitForTimeout(1800);                       // the late provider answer has now arrived
+        assert.ok(asked.result >= 2);
+        assert.equal(await p.locator('#m-final').count(), 1, 'still final');
+        assert.ok(!(await header(p)).includes('等待官方核實賽果'));
+        await tick(p, 2);
+        assert.equal(await p.locator('#m-final').count(), 1);
+        assert.equal(await p.locator('.note').count(), 1, 'announced once');
         assert.deepEqual(errors, []); checks++;
         await ctx.close();
       }
