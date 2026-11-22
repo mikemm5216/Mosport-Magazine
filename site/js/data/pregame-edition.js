@@ -129,6 +129,64 @@
         !deskRows(score.desks, 'id outcome', function (row) { return outcome(row.outcome); })) return null;
     return score;
   }
+  /* Owner-only postgame review, a separate article from the pregame column. It renders only
+     beside the reader's own B-pinned, A-verified result (the pipeline passes no other), for
+     the same game, after both confirmations, once filed, and tied by digest to the pinned
+     pregame article it reviews. Any miss hides this review alone; nothing else changes. */
+  function validReview(r, entry, schedule, result, now) {
+    var fields = ['nbaGameId','espnGameId','receiptRef','resultDigest','pregameDigest','boxSha256','preparedAt'];
+    /* Tied to the pregame article by its pin alone: the review stands even if that body is
+       absent or fails its own checks; the preview link appears only when the article does. */
+    if (!result || !r || !hash64(entry.pins.article) || !pinned(r, entry.pins.postgameReview) || !exactKeys(r, fields.concat(['zh','en']).join(' ')) ||
+        !fields.every(function (k) { return typeof r[k] === 'string'; })) return false;
+    var seen = result.confirmations || {};
+    if (r.nbaGameId !== schedule.game.gameId || r.nbaGameId !== result.nbaGameId || r.espnGameId !== result.espnGameId ||
+        r.receiptRef !== result.receiptRef || r.resultDigest !== digest(result) || r.pregameDigest !== entry.pins.article ||
+        !hash64(r.boxSha256) || !seen.nba || !seen.espn || !beforeOrAt(seen.nba.observedAt, r.preparedAt) ||
+        !beforeOrAt(seen.espn.observedAt, r.preparedAt) || !beforeOrAt(r.preparedAt, now)) return false;
+    return [r.zh, r.en].every(function (copy) {
+      return exactKeys(copy, 'title dek body') && Object.values(copy).every(function (text) { return typeof text === 'string' && text.trim().length > 0; });
+    });
+  }
+  /* Owner-only film guide under a valid postgame review: at most three game-clock moments,
+     each optionally linking out to this game's own NBA.com watch/video page. Nothing is
+     embedded or fetched; a link is shown only in its exact canonical form. Any miss hides
+     the guide alone; both articles stay. */
+  function clockSeconds(text) {
+    var m = /^(\d{1,2}):([0-5]\d)(?:\.(\d))?$/.exec(text);
+    return m ? Number(m[1]) * 60 + Number(m[2]) + (m[3] ? Number(m[3]) / 10 : 0) : NaN;
+  }
+  function validClock(text, max) {
+    var parts = typeof text === 'string' ? text.split('–') : [];
+    if (parts.length !== 2) return false;
+    var from = clockSeconds(parts[0]), to = clockSeconds(parts[1]);
+    return Number.isFinite(from) && Number.isFinite(to) && from <= max && to < from;
+  }
+  function validVideo(video, nbaGameId) {
+    if (video === null) return true;
+    if (!exactKeys(video, 'url zh en duration') || ![video.zh, video.en].every(function (t) { return typeof t === 'string' && t.trim().length > 0; }) ||
+        typeof video.duration !== 'string' || !/^\d{1,2}:[0-5]\d$/.test(video.duration) || typeof video.url !== 'string') return false;
+    try {
+      var u = new URL(video.url), keys = [];
+      u.searchParams.forEach(function (value, key) { keys.push(key); });
+      return u.href === video.url && u.protocol === 'https:' && u.hostname === 'www.nba.com' && !u.username && !u.password && !u.port && !u.hash &&
+        /^\/watch\/video\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(u.pathname) &&
+        /* Exactly one game-highlights equal to this game; NBA.com's own plsrc=nba is the only other parameter allowed. */
+        u.searchParams.getAll('game-highlights').length === 1 && u.searchParams.get('game-highlights') === nbaGameId &&
+        keys.every(function (key) { return key === 'game-highlights' || key === 'plsrc'; }) &&
+        u.searchParams.getAll('plsrc').every(function (value) { return value === 'nba'; }) && u.searchParams.getAll('plsrc').length <= 1;
+    } catch (e) { return false; }
+  }
+  function validFilm(f, entry, review, now) {
+    if (!review || !f || !pinned(f, entry.pins.filmGuide) || !exactKeys(f, 'nbaGameId espnGameId reviewDigest boxSha256 preparedAt moments')) return false;
+    if (f.nbaGameId !== review.nbaGameId || f.espnGameId !== review.espnGameId || f.reviewDigest !== digest(review) || f.boxSha256 !== review.boxSha256 ||
+        typeof f.preparedAt !== 'string' || !beforeOrAt(review.preparedAt, f.preparedAt) || !beforeOrAt(f.preparedAt, now) ||
+        !Array.isArray(f.moments) || f.moments.length < 1 || f.moments.length > 3) return false;
+    return f.moments.every(function (m) {
+      return exactKeys(m, 'period clock zh en video') && Number.isSafeInteger(m.period) && m.period >= 1 && validClock(m.clock, m.period <= 4 ? 720 : 300) &&
+        [m.zh, m.en].every(function (t) { return typeof t === 'string' && t.trim().length > 0; }) && validVideo(m.video, f.nbaGameId);
+    });
+  }
   function editionGame(edition, schedule, result, now) {
     var entry = edition && edition.games && edition.games[schedule.game.gameId];
     if (!entry || !entry.pins || !pinned(schedule, entry.pins.schedule)) return null;
@@ -139,7 +197,8 @@
     var policy = validPolicy(entry.finalPolicy,entry,initial,now) ? entry.finalPolicy : null;
     var witness = validWitness(entry.finalWitness,entry,policy,now) ? entry.finalWitness : null;
     var final = initial && validForecast(entry.FINAL, 'FINAL', entry, schedule, now, digest(initial), optedIn, witness) ? entry.FINAL : null;
-    if (!article && !initial) return null;
+    var review = validReview(entry.postgameReview, entry, schedule, result, now) ? entry.postgameReview : null;
+    if (!article && !initial && !review) return null;
     var stages = [initial,final].filter(Boolean).map(function (f) {
       return { stage:f.stage, lockedAt:f.lockedAt, cutoff:f.dataCutoff, pick:f.pick, reason:f.reason,
         seal:f.schema === 'mosport-a/research-pick@2' ? {preparedAt:f.seal.preparedAt,witnessedAt:f.witnessedAt,recordingDelayMs:f.recordingDelayMs} : null,
@@ -152,7 +211,8 @@
         beforeOrAt(entry.exploration.source.observedAt,entry.deskCopy.preparedAt) && beforeOrAt(initial.lockedAt,entry.deskCopy.preparedAt)) {
       desks = {copy:entry.deskCopy, exploration:entry.exploration, score:explorationScore(entry,result,entry.exploration)};
     }
-    return { article:article, desks:desks, stages:stages, optedInAt:policy && policy.optedInAt, witnessedAt:witness && witness.witnessedAt, espnGameId:initial ? initial.espnGameId : null, finalWindowAt:new Date(C.parseInstant(schedule.game.tipoff)-900000).toISOString(),
+    var film = validFilm(entry.filmGuide, entry, review, now) ? entry.filmGuide : null;
+    return { article:article, postgameReview:review, filmGuide:film, desks:desks, stages:stages, optedInAt:policy && policy.optedInAt, witnessedAt:witness && witness.witnessedAt, espnGameId:initial ? initial.espnGameId : null, finalWindowAt:new Date(C.parseInstant(schedule.game.tipoff)-900000).toISOString(),
       finalStatus:final && final.schema === 'mosport-a/research-pick@2' ? 'SEALED_FINAL' : final ? (C.parseInstant(final.lockedAt) === C.parseInstant(final.dataCutoff) ? 'ON_TIME' : 'LATE_RECORDED') : C.parseInstant(now) >= C.parseInstant(schedule.game.tipoff) ? 'NOT_RECORDED' : C.parseInstant(now) >= C.parseInstant(schedule.game.tipoff)-900000 ? 'OPEN' : 'PENDING' };
   }
   var api={ editionGame:editionGame, digest:digest };

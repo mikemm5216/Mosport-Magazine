@@ -311,3 +311,215 @@ test('v2 uses the whole registered projection for scoring and never scores from 
   delete game.pins.finalWitness;
   assert.equal(score(pin),null);
 });
+
+// Owner-only postgame review: a second, separate article. Synthetic data only, never live evidence.
+function postgameSample() {
+  const base = sample();
+  const {schedule,game} = base;
+  const receiptRef = 'NBA-'+id+'-R1';
+  const result = {schema:'mosport-b/game-result@1',nbaGameId:id,espnGameId:espnId,away:'ORL',home:'DET',awayScore:95,homeScore:85,status:'FINAL',
+    officialUrl:schedule.source.originalUrl,confirmations:{nba:{observedAt:end},espn:{observedAt:end}},receiptRef};
+  const pins = {[id]:{digest:digest(result),receiptRef}};
+  const review = {nbaGameId:id,espnGameId:espnId,receiptRef,resultDigest:digest(result),pregameDigest:game.pins.article,boxSha256:'b'.repeat(64),
+    preparedAt:'2026-01-01T23:30:00Z',zh:{title:'測試賽後檢討',dek:'測試導言',body:'檢討第一段\n\n檢討第二段'},
+    en:{title:'Synthetic postgame review',dek:'Synthetic dek',body:'Review one\n\nReview two'}};
+  game.postgameReview = review; game.pins.postgameReview = digest(review);
+  const after = '2026-01-02T01:00:00Z';
+  const opts = extra => Object.assign({ownerEdition:base.edition,now:after,result,pins}, extra || {});
+  const model = extra => pipeline.run(schedule,Object.assign({mode:'production'},opts(extra))).model.schedule[0];
+  return Object.assign(base,{result,pins,review,after,opts,model});
+}
+const q = (lang, page) => '?lang='+lang+'&schedule='+id+'&game='+id;
+test('postgame review renders only on its own page; the pregame preview stays as filed and both link to each other', () => {
+  const {schedule,opts,model} = postgameSample();
+  assert.equal(model().analysis.postgameReview.zh.title,'測試賽後檢討');
+  for (const [lang,title,dek,body1,body2,toReview,toPregame,fin] of [
+    ['zh','測試賽後檢討','測試導言','檢討第一段','檢討第二段','閱讀賽後檢討','閱讀賽前預測','終場'],
+    ['en','Synthetic postgame review','Synthetic dek','Review one','Review two','Read the postgame review','Read the pregame preview','Final:']]) {
+    const review = renderPage(schedule,'review',q(lang),null,opts());
+    for (const t of [title,dek,body1,body2,fin,'id="postgame-review"']) assert.ok(review.includes(t),lang+' review '+t);
+    assert.match(review,new RegExp('href="match\\.html\\?[^"]*game='+id+'[^"]*#pregame-column"'));
+    assert.ok(!review.includes('Synthetic article') && !review.includes('reviewEmpty'),'no pregame body in the review');
+    const match = renderPage(schedule,'match',q(lang),null,opts());
+    for (const t of [title,dek,toReview,'Synthetic article','id="pregame-column"','4–2']) assert.ok(match.includes(t),lang+' match '+t);
+    assert.ok(!match.includes(body2),'review body is not placed in the pregame page');
+    assert.match(match,new RegExp('href="review\\.html\\?[^"]*game='+id));
+    const home = renderPage(schedule,'home','?lang='+lang,null,opts());
+    assert.ok(home.includes(title) && home.includes(toReview) && home.includes(toPregame),lang+' home leads with the review');
+    assert.match(home,new RegExp('href="review\\.html\\?[^"]*game='+id)); assert.match(home,/#pregame-column"/);
+    const listing = renderPage(schedule,'schedule','?lang='+lang,null,opts());
+    assert.ok(listing.includes(toReview) && listing.includes(toPregame),lang+' schedule');
+  }
+});
+test('a missing, mispinned, unverified, early or mismatched review hides only itself', () => {
+  const s = postgameSample();
+  const {schedule,game,review,result,pins,opts,model} = s;
+  const original = JSON.parse(JSON.stringify(review));
+  function hidden(label, mutate, extra, repin = true) {
+    game.postgameReview = JSON.parse(JSON.stringify(original)); mutate(game.postgameReview);
+    game.pins.postgameReview = repin ? digest(game.postgameReview) : digest(original);
+    const g = model(extra);
+    assert.equal(g.analysis.postgameReview,null,label);
+    assert.ok(g.analysis.article && g.analysis.stages.length,label+': pregame column and desks stay');
+    const page = renderPage(schedule,'review',q('zh'),null,opts(extra));
+    assert.ok(!page.includes('檢討第二段') && !page.includes('id="postgame-review"'),label);
+    const match = renderPage(schedule,'match',q('zh'),null,opts(extra));
+    assert.ok(!match.includes('postgame-entry') && match.includes('Synthetic article'),label);
+    return page;
+  }
+  hidden('wrong pin',r => { r.zh.title='改過的標題'; },undefined,false);
+  hidden('result digest',r => { r.resultDigest='0'.repeat(64); });
+  hidden('receipt',r => { r.receiptRef='NBA-'+id+'-R2'; });
+  hidden('espn id',r => { r.espnGameId='1'; });
+  hidden('nba id',r => { r.nbaGameId='0090000002'; });
+  hidden('pregame digest',r => { r.pregameDigest='0'.repeat(64); });
+  hidden('box hash format',r => { r.boxSha256='B'.repeat(64); });
+  hidden('before confirmations',r => { r.preparedAt='2026-01-01T22:59:59Z'; });
+  hidden('not filed yet',r => { r.preparedAt='2026-01-02T02:00:00Z'; });
+  hidden('extra field',r => { r.approvedBy='x'; });
+  hidden('non-string field',r => { r.boxSha256=null; });
+  hidden('missing dek',r => { delete r.en.dek; });
+  hidden('blank body',r => { r.zh.body='  '; });
+  const notFinal = hidden('no verified result',() => {},{result:null});
+  assert.ok(notFinal.includes('這場的賽後檢討尚未刊出') && /#pregame-column"/.test(notFinal),'missing review offers the pregame preview');
+  hidden('result not pinned',() => {},{pins:{}});
+  hidden('result digest differs from pin',() => {},{result:Object.assign({},result,{homeScore:86}),pins});
+  // A review is tied to the pinned pregame article it reviews: without that article it is hidden too.
+  game.postgameReview = JSON.parse(JSON.stringify(original)); game.pins.postgameReview = digest(game.postgameReview);
+  game.pins.article = '0'.repeat(64);
+  const g = model();
+  assert.equal(g.analysis.article,null); assert.equal(g.analysis.postgameReview,null);
+  assert.ok(g.analysis.stages.length,'desks stay');
+});
+test('without the owner edition the review page keeps its public behaviour and shows no private review', () => {
+  const {schedule,result,pins} = postgameSample();
+  const page = renderPage(schedule,'review',q('zh'),null,{now:'2026-01-02T01:00:00Z',result,pins});
+  assert.ok(!/測試賽後檢討|檢討第二段|postgame-review|postgame-missing|pregame-column/.test(page));
+  assert.ok(page.includes('today-empty'));
+});
+
+// Owner-only film guide under the postgame review. Synthetic data only.
+function filmSample() {
+  const s = postgameSample();
+  const {game,review} = s;
+  const video = slug => 'https://www.nba.com/watch/video/' + slug + '?game-highlights=' + id;
+  const film = {nbaGameId:id,espnGameId:espnId,reviewDigest:digest(review),boxSha256:review.boxSha256,preparedAt:'2026-01-01T23:40:00Z',moments:[
+    {period:1,clock:'11:46–11:44',zh:'測試觀察一',en:'Synthetic moment one',video:{url:video('synthetic-clip-one'),zh:'第一節開局片段',en:'First-quarter opening clip',duration:'2:47'}},
+    {period:4,clock:'0:26.8–0:19.2',zh:'測試觀察二',en:'Synthetic moment two',video:null},
+    {period:5,clock:'4:59–4:30',zh:'測試觀察三',en:'Synthetic moment three',video:{url:video('synthetic-clip-three'),zh:'延長賽片段',en:'Overtime clip',duration:'0:58'}}]};
+  game.filmGuide = film; game.pins.filmGuide = digest(film);
+  return Object.assign(s,{film,video});
+}
+test('film guide renders up to three game-clock moments under the review, linking out only to this game on NBA.com', () => {
+  const {schedule,opts,model,film} = filmSample();
+  assert.deepEqual(model().analysis.filmGuide,film);
+  for (const [lang,label,first,link,length,third] of [['zh','比賽鐘（比賽剩餘時間）','第 1 節','NBA 官網影片：第一節開局片段','片長 2:47','延長賽 1'],
+    ['en','Game clock (time remaining)','Q1','NBA.com video: First-quarter opening clip','Length 2:47','OT1']]) {
+    const page = renderPage(schedule,'review',q(lang),null,opts());
+    for (const t of ['id="film-guide"',label,first,link,length,third,'11:46–11:44','0:26.8–0:19.2']) assert.ok(page.includes(t),lang+' '+t);
+    assert.equal((page.match(/<li>/g) || []).length,3);
+    assert.equal((page.match(/href="https:\/\/www\.nba\.com\/watch\/video\//g) || []).length,2,'null video has no link');
+    assert.ok(!/<iframe|<video|<embed|<source/.test(page),'no embedded media');
+    const match = renderPage(schedule,'match',q(lang),null,opts());
+    assert.ok(!match.includes('film-guide') && !match.includes('Synthetic moment'),'not on the pregame page');
+  }
+});
+test('a mispinned, mismatched, early, malformed or off-site film guide hides only itself', () => {
+  const s = filmSample();
+  const {schedule,game,film,opts,model,video} = s;
+  const original = JSON.parse(JSON.stringify(film));
+  function hidden(label, mutate, repin = true) {
+    game.filmGuide = JSON.parse(JSON.stringify(original)); mutate(game.filmGuide);
+    game.pins.filmGuide = repin ? digest(game.filmGuide) : digest(original);
+    const g = model();
+    assert.equal(g.analysis.filmGuide,null,label);
+    assert.ok(g.analysis.postgameReview && g.analysis.article,label+': both articles stay');
+    const page = renderPage(schedule,'review',q('zh'),null,opts());
+    assert.ok(page.includes('id="postgame-review"') && !page.includes('film-guide'),label);
+  }
+  const url = (u) => f => { f.moments[0].video.url = u; };
+  hidden('wrong pin',f => { f.moments[0].zh = '改過'; },false);
+  hidden('review digest',f => { f.reviewDigest = '0'.repeat(64); });
+  hidden('box hash',f => { f.boxSha256 = 'c'.repeat(64); });
+  hidden('other game',f => { f.nbaGameId = '0090000002'; });
+  hidden('other ESPN id',f => { f.espnGameId = '1'; });
+  hidden('before the review',f => { f.preparedAt = '2026-01-01T23:29:59Z'; });
+  hidden('not filed yet',f => { f.preparedAt = '2026-01-02T02:00:00Z'; });
+  hidden('four moments',f => { f.moments.push(f.moments[1]); });
+  hidden('no moments',f => { f.moments = []; });
+  hidden('extra field',f => { f.source = 'x'; });
+  hidden('period zero',f => { f.moments[0].period = 0; });
+  hidden('fractional period',f => { f.moments[0].period = 1.5; });
+  for (const clock of ['11:46-11:44','11:44–11:46','12:01–11:59','5:01–4:59 OT','11:46','1:60–1:00','0:26.85–0:19.2'])
+    hidden('clock '+clock,f => { f.moments[clock === '5:01–4:59 OT' ? 2 : 0].clock = clock === '5:01–4:59 OT' ? '5:01–4:59' : clock; });
+  hidden('blank observation',f => { f.moments[0].en = ' '; });
+  hidden('duration',f => { f.moments[0].video.duration = '167s'; });
+  hidden('video extra field',f => { f.moments[0].video.embed = true; });
+  hidden('missing video label',f => { delete f.moments[0].video.en; });
+  for (const bad of [
+    'http://www.nba.com/watch/video/synthetic-clip-one?game-highlights='+id,
+    'https://nba.com/watch/video/synthetic-clip-one?game-highlights='+id,
+    'https://www.nba.com.evil.test/watch/video/synthetic-clip-one?game-highlights='+id,
+    'https://user:pw@www.nba.com/watch/video/synthetic-clip-one?game-highlights='+id,
+    'https://www.nba.com:8443/watch/video/synthetic-clip-one?game-highlights='+id,
+    'https://www.nba.com/watch/video/synthetic-clip-one?game-highlights=0090000002',
+    'https://www.nba.com/watch/video/synthetic-clip-one?game-highlights='+id+'&autoplay=1',
+    'https://www.nba.com/watch/video/synthetic-clip-one?game-highlights='+id+'&game-highlights='+id,
+    'https://www.nba.com/watch/video/synthetic-clip-one',
+    'https://www.nba.com/watch/video/synthetic-clip-one?game-highlights='+id+'#t=30',
+    'https://www.nba.com/game/synthetic-clip-one?game-highlights='+id,
+    'https://www.nba.com/watch/video/Synthetic_Clip?game-highlights='+id,
+    'https://www.nba.com/watch/video/a/b?game-highlights='+id,
+    'https://www.nba.com/watch/video/synthetic-clip-one?plsrc=other&game-highlights='+id,
+    'https://www.nba.com/watch/video/synthetic-clip-one?plsrc=nba&plsrc=nba&game-highlights='+id,
+    'javascript:alert(1)']) hidden('url '+bad,url(bad));
+  // NBA.com's own plsrc=nba alongside the single game-highlights parameter is accepted.
+  game.filmGuide = JSON.parse(JSON.stringify(original));
+  game.filmGuide.moments[0].video.url = 'https://www.nba.com/watch/video/synthetic-clip-one?plsrc=nba&game-highlights='+id;
+  game.pins.filmGuide = digest(game.filmGuide);
+  assert.ok(model().analysis.filmGuide,'plsrc=nba accepted');
+  // Without a valid review there is no film guide either.
+  game.filmGuide = JSON.parse(JSON.stringify(original)); game.pins.filmGuide = digest(original);
+  assert.equal(model({result:null}).analysis.filmGuide,null);
+  assert.ok(video('x').startsWith('https://www.nba.com/watch/video/'));
+});
+
+test('the two articles are independent: a valid review stands without the pregame body, and the preview stands without the review', () => {
+  // Review without the pregame body (absent, or failing its own pin) and without INITIAL.
+  for (const [label, drop] of [['pregame body fails its pin', g => { g.article = Object.assign({}, g.article, { preparedAt: '2026-01-01T11:00:01Z' }); }],
+    ['pregame body and INITIAL absent', g => { delete g.article; delete g.INITIAL; delete g.pins.INITIAL; }]]) {
+    const s = postgameSample();
+    const {schedule,game,opts,model} = s;
+    drop(game);
+    const g = model();
+    assert.equal(g.analysis.article,null,label); assert.ok(g.analysis.postgameReview,label+': review stands');
+    for (const lang of ['zh','en']) {
+      const review = renderPage(schedule,'review',q(lang),null,opts());
+      assert.ok(review.includes('id="postgame-review"') && review.includes(lang === 'zh' ? '檢討第二段' : 'Review two'),label);
+      assert.ok(!review.includes('#pregame-column') && !/閱讀賽前預測|Read the pregame preview/.test(review),label+': no preview link without the preview');
+      const match = renderPage(schedule,'match',q(lang),null,opts());
+      assert.ok(match.includes('postgame-entry') && !match.includes('id="pregame-column"') && !match.includes('Synthetic article'),label);
+      const home = renderPage(schedule,'home','?lang='+lang,null,opts());
+      assert.ok(home.includes(lang === 'zh' ? '測試賽後檢討' : 'Synthetic postgame review') && !home.includes('#pregame-column'),label+' home');
+      const listing = renderPage(schedule,'schedule','?lang='+lang,null,opts());
+      assert.ok(/review\.html\?[^"]*game=/.test(listing) && !listing.includes('#pregame-column'),label+' schedule');
+    }
+  }
+  // An article pin that is not a 64-hex digest cannot anchor a review.
+  {
+    const {game,model} = postgameSample();
+    game.pins.article = 'not-a-digest';
+    assert.equal(model().analysis.postgameReview,null);
+  }
+  // Preview without the review: the pregame article renders as filed, with no review link.
+  {
+    const {schedule,game,opts,model} = postgameSample();
+    delete game.postgameReview; delete game.pins.postgameReview;
+    const g = model();
+    assert.equal(g.analysis.postgameReview,null); assert.ok(g.analysis.article);
+    const match = renderPage(schedule,'match',q('zh'),null,opts());
+    assert.ok(match.includes('Synthetic article') && match.includes('id="pregame-column"') && !match.includes('postgame-entry') && !/review\.html\?[^"]*game=/.test(match));
+    const review = renderPage(schedule,'review',q('zh'),null,opts());
+    assert.ok(review.includes('這場的賽後檢討尚未刊出') && review.includes('#pregame-column'));
+  }
+});

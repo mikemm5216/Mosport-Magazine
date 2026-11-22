@@ -31,7 +31,13 @@ window.MOSPORT_PAGE = {
     }
 
     var featureCopy = savedGame && savedGame.analysis && savedGame.analysis.article ? savedGame.analysis.article[L] : null;
-    if (featureCopy) { storyTitle = featureCopy.title; storyLede = featureCopy.body.split(/\r?\n\s*\n/)[0]; }
+    /* A filed postgame review leads once the game is over; the pregame preview stays one click away. */
+    var postgame = savedGame && savedGame.analysis && savedGame.analysis.postgameReview ? savedGame.analysis.postgameReview[L] : null;
+    if (postgame) { storyTitle = postgame.title; storyLede = postgame.dek; }
+    else if (featureCopy) { storyTitle = featureCopy.title; storyLede = featureCopy.body.split(/\r?\n\s*\n/)[0]; }
+    var reviewHref = postgame ? c.href('review.html', { game: savedGame.gameId }) : '';
+    var pregameHref = featureCopy ? c.href('match.html', { game: savedGame.gameId }) + '#pregame-column' : '';
+    var reviewLabel = L === 'zh' ? '閱讀賽後檢討' : 'Read the postgame review', pregameLabel = L === 'zh' ? '閱讀賽前預測' : 'Read the pregame preview';
 
     /* Cover status: only what exists (tipoff passed, or a public pregame record). */
     var coverStatus = !savedGame ? '' : c.isFinal(savedGame) ? c.finalLine(savedGame) : savedGame.pastTipoff ? T('pastTipoffLabel')
@@ -67,7 +73,8 @@ window.MOSPORT_PAGE = {
         (savedGame ? '<div class="cv-brief">' +
           ('<p class="cv-game' + (storyTitle ? ' is-editorial' : '') + '">' + esc(storyTitle || c.teamName(savedGame.away, 'nick') + ' @ ' + c.teamName(savedGame.home, 'nick')) + '</p><p class="cv-time">' + esc(c.tipShort(savedGame)) + '</p>') +
           (coverStatus ? '<p class="cv-status">' + esc(coverStatus) + '</p>' : '') +
-          (featureCopy ? '<a class="cv-next" href="' + c.href('match.html', { game:savedGame.gameId }) + '">' + (L === 'zh' ? '閱讀賽前分析' : 'Read the matchup analysis') + ' →</a>' : '') + '</div>' : '') +
+          (postgame ? '<p><a class="cv-next" href="' + reviewHref + '">' + reviewLabel + ' →</a></p>' + (pregameHref ? '<p><a class="cv-next" href="' + pregameHref + '">' + pregameLabel + ' →</a></p>' : '') :
+            featureCopy ? '<a class="cv-next" href="' + c.href('match.html', { game:savedGame.gameId }) + '">' + (L === 'zh' ? '閱讀賽前分析' : 'Read the matchup analysis') + ' →</a>' : '') + '</div>' : '') +
         (teasers ? '<div class="cv-teasers">' + teasers + '</div>' : '') +
         '<div class="cv-foot">' +
           '<div class="cv-guide">' + demo +
@@ -114,7 +121,8 @@ window.MOSPORT_PAGE = {
           '<div class="lead-read' + (storyTitle ? ' has-editorial' : '') + '"><p class="ver">' + esc(c.statusLabel(savedGame)) + '</p><h3 class="lead-record-title">' + esc(storyTitle || (savedGame.pregameSnapshot || savedGame.pastTipoff || c.isFinal(savedGame) ? T('gameFacts') : c.teamName(savedGame.away, 'nick') + ' @ ' + c.teamName(savedGame.home, 'nick'))) + '</h3>' +
             (storyLede ? '<p class="lead-story">' + esc(storyLede) + '</p>' : '') + c.pregameRecord(savedGame, { reader: true }) + '</div>' +
           '<div class="lead-foot"><div><p class="lead-time">' + esc(c.tipLine(savedGame)) + '</p></div>' +
-            '<a class="pill" href="' + c.href('match.html', { game: savedGame.gameId }) + '">' + esc(featureCopy ? (L === 'zh' ? '閱讀賽前分析' : 'Read the matchup analysis') : T('gameDetails')) + ' <span aria-hidden="true">→</span></a></div>' +
+            (postgame ? '<a class="pill" href="' + reviewHref + '">' + reviewLabel + ' <span aria-hidden="true">→</span></a>' + (pregameHref ? ' <a class="pill" href="' + pregameHref + '">' + pregameLabel + ' <span aria-hidden="true">→</span></a>' : '') :
+            '<a class="pill" href="' + c.href('match.html', { game: savedGame.gameId }) + '">' + esc(featureCopy ? (L === 'zh' ? '閱讀賽前分析' : 'Read the matchup analysis') : T('gameDetails')) + ' <span aria-hidden="true">→</span></a>') + '</div>' +
         '</article>' +
         '<div class="lead-source">' + c.sourceNote(savedGame.source, { reader: true }) +
           (ed ? '<p class="pv">' + esc(T('cupRematchSource')) + ' <a href="' + esc(ed.sources.previousUrl) + '" rel="noopener noreferrer">NBA</a></p>' : '') + '</div>';

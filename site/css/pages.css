@@ -143,3 +143,11 @@ details summary { cursor: pointer; min-height: 44px; display: flex; align-items:
 .edition-article .pv, .edition-pick .pv { margin-top: .6em; }
 
 .edition-index { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+/* A verified final leads the matchup header; waiting is said plainly. */
+.m-final { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.m-final-lbl { font-family: var(--f-cond); font-weight: 700; letter-spacing: .08em; font-size: 13px; color: var(--sky); }
+.m-mid .m-score { font-family: 'Anton', Impact, sans-serif; font-size: 48px; line-height: 1; }
+.m-wait { color: var(--on2); }
+@media (min-width: 1024px) { .m-mid .m-score { font-size: 64px; } }
+.mo-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

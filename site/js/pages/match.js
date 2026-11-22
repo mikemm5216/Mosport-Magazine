@@ -190,6 +190,11 @@
           '<div class="m-teams">' +
             '<div class="m-team"><mo-team-logo code="' + esc(g.away) + '" size="xl"></mo-team-logo><p class="m-name">' + esc(c.teamName(g.away)) + '</p><p class="m-side">' + (L === 'zh' ? '客隊' : 'Away') + ' · ' + esc(g.away) + '</p></div>' +
             '<div class="m-mid"><h1 id="m-h">' + esc(g.away) + ' <span>@</span> ' + esc(g.home) + '</h1><p>' + esc(c.tipLine(g)) + '</p>' +
+              /* The game is over: the B-pinned, A-verified final leads the page. No picks,
+                 no personal result. Past tip-off without it, the page says it is waiting. */
+              (c.isFinal(g) ? '<p class="m-final" id="m-final" role="group" aria-label="' + esc(c.finalLine(g)) + '"><span class="m-final-lbl">' + (L === 'zh' ? '比賽結束 · 官方核實終場' : 'Game over · Verified final') +
+                '</span><span class="m-score">' + esc(String(g.score.away)) + ' <span aria-hidden="true">–</span> ' + esc(String(g.score.home)) + '</span></p>' :
+                g.pastTipoff ? '<p class="m-wait" id="m-wait">' + (L === 'zh' ? '已過開賽時間，等待官方核實賽果。' : 'Tip-off has passed. Waiting for the verified result.') + '</p>' : '') +
               (eligible ? '<p class="m-badges"><span class="b b-hero">' + T('ver_' + w.version) + '</span><span class="b b-hero2">' + (L === 'zh' ? '快照 ' : 'Snapshot ') + esc(w.snapshotId) + '</span></p>' : '') +
             '</div>' +
             '<div class="m-team"><mo-team-logo code="' + esc(g.home) + '" size="xl"></mo-team-logo><p class="m-name">' + esc(c.teamName(g.home)) + '</p><p class="m-side">' + (L === 'zh' ? '主隊' : 'Home') + ' · ' + esc(g.home) + '</p></div>' +
@@ -202,6 +207,14 @@
         /* An empty pregame card is not shown: no record, no tipoff notice, no reason line. */
         var pregameBody = c.pregameRecord(g) + (g.source ? '' : '<p class="pv">' + esc(T('noRead_' + g.noReadReason)) + '</p>');
         var analysis = g.analysis ? renderAnalysis(c, g) : '';
+        /* A filed postgame review leads; it is its own article at review.html. The pregame
+           column, its sources and the three desks below stay exactly as filed. */
+        var review = g.analysis && g.analysis.postgameReview;
+        if (review) {
+          analysis = '<aside class="card edition-article" id="postgame-entry"><p class="lbl lbl-brand">' + (L === 'zh' ? 'MOSPORT 賽後檢討' : 'MOSPORT Postgame Review') +
+            '</p><h2>' + esc(review[L].title) + '</h2><p>' + esc(review[L].dek) + '</p><p><a class="cta" href="' + esc(c.href('review.html', { game: g.gameId })) + '">' +
+            (L === 'zh' ? '閱讀賽後檢討' : 'Read the postgame review') + ' <span aria-hidden="true">→</span></a></p></aside>' + analysis;
+        }
         return c.topbar + '<main class="sheet">' + top + head + analysis +
           (R.status === 'STALE' ? c.stateMessage(R) : '') +
           (g.source ? '<section class="card"><p>' + esc(T('savedSchedule')) + ' · ' + esc(c.statusLabel(g)) + '</p><p class="pv">NBA game ID ' + esc(g.gameId) + '</p>' + c.sourceNote(g.source) + '</section>' : '') +
