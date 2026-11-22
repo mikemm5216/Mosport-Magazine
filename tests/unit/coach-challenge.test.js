@@ -9,11 +9,11 @@ let sqlite = true; try { require('node:sqlite'); } catch (_) { sqlite = false; }
 const game = () => ({ gameId:'espn:100', homeId:'HOME', awayId:'AWAY', tipoffAt:'2026-11-06T01:00:00.000Z', cutoffAt:'2026-11-06T00:45:00.000Z', revision:'a'.repeat(64), state:'SCHEDULED' });
 const command = (extra={}) => ({ requestId:'stance-1', gameId:'espn:100', kind:'STANCE', selection:'HOME', targetId:null, ...extra });
 function setup(t) {
-  const dir=mkdtempSync(join(tmpdir(),'coach-test-')); let now='2026-11-06T00:00:00.000Z'; let source=game();
-  const opts={ authenticate: token=> ['alice','bob','carol'].includes(token) ? {subject:token,active:true} : null, resolveGame:()=>source, clock:()=>now };
+  const dir=mkdtempSync(join(tmpdir(),'coach-test-')); let now='2026-11-06T00:00:00.000Z'; let source=game(); let official=null; let pin=null;
+  const opts={ authenticate: token=> ['alice','bob','carol'].includes(token) ? {subject:token,active:true} : null, resolveGame:()=>source, clock:()=>now, resolveOfficialResult:()=>official, resolveResultPin:()=>pin };
   const filename=join(dir,'ledger.sqlite'); const s=new ChallengeStore(filename,opts);
   t.after(()=>{s.close();rmSync(dir,{recursive:true,force:true});});
-  return { s,filename,opts,setTime:x=>now=x,setGame:x=>source=x };
+  return { s,filename,opts,setTime:x=>now=x,setGame:x=>source=x,setResult:(r,p)=>{official=r;pin=p;} };
 }
 function check(name, fn){test(name,{skip:!sqlite},fn);}
 check('persists original stance and opposing challenge across independent connections',t=>{
@@ -104,4 +104,81 @@ check('participant cannot hedge against their own locked position',t=>{
  assert.throws(()=>s.submit('bob',command({requestId:'bob-away',kind:'CHALLENGE',selection:'AWAY',targetId:'stance-1'})),/LOCKED_POSITION_CONFLICT/);
  s.submit('carol',command({requestId:'carol-away',kind:'CHALLENGE',selection:'AWAY',targetId:'stance-1'}));
  assert.throws(()=>s.submit('carol',command({requestId:'carol-home'})),/LOCKED_POSITION_CONFLICT/);
+});
+
+// Synthetic A-side coach-official-result@1 shape (NBA #178); no real game, score or receipt.
+const RECEIPT='c'.repeat(64);
+const result=(extra={})=>({ schema:'mosport-a/coach-official-result@1', status:'VERIFIED', nbaGameId:'0000000100', gameId:'espn:100', homeId:'HOME', awayId:'AWAY', tipoffAt:game().tipoffAt, gameRevision:'a'.repeat(64), homeScore:101, awayScore:99, winner:'HOME', revision:1, receiptSha256:RECEIPT, producedAt:'2026-11-06T03:30:00.000Z', ...extra });
+function pair(t){
+ const env=setup(t); env.s.submit('alice',command());
+ env.s.submit('bob',command({requestId:'challenge-1',kind:'CHALLENGE',selection:'AWAY',targetId:'stance-1'}));
+ env.setResult(result(),RECEIPT); return env;
+}
+const reason=r=>{assert.equal(r.status,'UNAVAILABLE');assert.equal(Object.keys(r).length,3);return r.reason;};
+check('settles a locked pair privately from the pinned same-game official result, writing nothing',t=>{
+ const {s}=pair(t); const before=s.db.prepare('SELECT request_id,body FROM coach_records ORDER BY request_id').all();
+ const a=s.readout('alice','challenge-1'), b=s.readout('bob','challenge-1');
+ assert.equal(a.status,'SETTLED');assert.equal(a.visibility,'PRIVATE');assert.equal(a.winner,'HOME');
+ assert.deepEqual([a.viewerRole,a.viewerSelection,a.viewerOutcome],['STANCE','HOME','WON']);
+ assert.deepEqual([b.viewerRole,b.viewerSelection,b.viewerOutcome],['CHALLENGE','AWAY','LOST']);
+ assert.equal(a.stanceDigest,b.stanceDigest);assert.equal(a.challengeDigest,b.challengeDigest);assert.equal(a.resultReceiptSha256,RECEIPT);
+ assert.ok(!JSON.stringify(a).includes('bob')&&!JSON.stringify(b).includes('alice'),'readout carries no participant subject');
+ assert.deepEqual(s.readout('alice','challenge-1'),a,'deterministic');
+ assert.deepEqual(s.db.prepare('SELECT request_id,body FROM coach_records ORDER BY request_id').all(),before);
+});
+check('unavailable without trusted identity or for a non-participant',t=>{
+ const {s,filename,opts}=pair(t);
+ assert.equal(reason(s.readout('forged','challenge-1')),'IDENTITY_UNAVAILABLE');
+ assert.equal(reason(s.readout('carol','challenge-1')),'IDENTITY_UNAVAILABLE');
+ const down=new ChallengeStore(filename,{...opts,authenticate:()=>{throw new Error('identity provider down');}});
+ try{assert.equal(reason(down.readout('alice','challenge-1')),'IDENTITY_UNAVAILABLE');}finally{down.close();}
+});
+check('unavailable unless both locked tickets exist as challenge plus original stance',t=>{
+ const {s}=pair(t);
+ for(const idv of ['missing','stance-1',null,'bad id']) assert.equal(reason(s.readout('alice',idv)),'TICKET_UNAVAILABLE');
+});
+check('unavailable when a stored ticket digest or opponent target no longer matches',t=>{
+ const {s}=pair(t);
+ s.db.exec('DROP TRIGGER coach_no_update'); // simulate out-of-band file tampering only
+ const tamper=(rid,fn)=>{const row=s.db.prepare('SELECT body FROM coach_records WHERE request_id=?').get(rid);const r=JSON.parse(row.body);fn(r);s.db.prepare('UPDATE coach_records SET body=? WHERE request_id=?').run(JSON.stringify(r),rid);return row.body;};
+ let orig=tamper('stance-1',r=>{r.selection='AWAY';});
+ assert.equal(reason(s.readout('alice','challenge-1')),'TICKET_DIGEST_MISMATCH');
+ s.db.prepare('UPDATE coach_records SET body=? WHERE request_id=?').run(orig,'stance-1');
+ orig=tamper('challenge-1',r=>{r.targetDigest='0'.repeat(64);const {digest,...b}=r;r.digest=require('node:crypto').createHash('sha256').update(JSON.stringify(b)).digest('hex');});
+ assert.equal(reason(s.readout('alice','challenge-1')),'TARGET_MISMATCH');
+ s.db.prepare('UPDATE coach_records SET body=? WHERE request_id=?').run(orig,'challenge-1');
+ assert.equal(s.readout('alice','challenge-1').status,'SETTLED');
+});
+check('unavailable when the official result is missing, unverified, unpinned or off-pin',t=>{
+ const {s,filename,opts,setResult}=pair(t);
+ for(const [r,p] of [[null,RECEIPT],[{schema:'mosport-a/coach-official-result@1',status:'MISSING'},RECEIPT],[result({status:'MISSING'}),RECEIPT],[result({extra:1}),RECEIPT],[result({schema:'mosport-b/game-result@1'}),RECEIPT]]){setResult(r,p);assert.equal(reason(s.readout('alice','challenge-1')),'RESULT_UNAVAILABLE');}
+ for(const p of [null,'d'.repeat(64),'C'.repeat(64)]){setResult(result(),p);assert.equal(reason(s.readout('alice','challenge-1')),'RESULT_PIN_MISMATCH');}
+ setResult(()=>{throw new Error('x');},RECEIPT);
+ const thrower=new ChallengeStore(filename,{...opts,resolveOfficialResult:()=>{throw new Error('provider down');}});
+ const bare=new ChallengeStore(filename,{authenticate:opts.authenticate,resolveGame:opts.resolveGame,clock:opts.clock});
+ try{assert.equal(reason(thrower.readout('alice','challenge-1')),'RESULT_UNAVAILABLE');assert.equal(reason(bare.readout('alice','challenge-1')),'RESULT_UNAVAILABLE');}finally{thrower.close();bare.close();}
+ assert.throws(()=>new ChallengeStore(filename,{...opts,resolveResultPin:'pin'}),/TRUSTED_ADAPTERS_REQUIRED/);
+});
+check('unavailable when the result is for another game, team identity, tipoff or snapshot revision',t=>{
+ const {s,setResult}=pair(t);
+ for(const extra of [{gameId:'espn:200'},{homeId:'AWAY',awayId:'HOME'},{homeId:'OTHER'},{tipoffAt:'2026-11-06T01:30:00.000Z'},{gameRevision:'b'.repeat(64)}]){setResult(result(extra),RECEIPT);assert.equal(reason(s.readout('alice','challenge-1')),'RESULT_GAME_MISMATCH');}
+});
+check('unavailable for internally inconsistent official result values',t=>{
+ const {s,setResult}=pair(t);
+ for(const extra of [{winner:'AWAY'},{homeScore:99,awayScore:99,winner:'HOME'},{homeScore:-1},{homeScore:1.5},{revision:0},{producedAt:game().tipoffAt},{producedAt:'not-a-time'},{nbaGameId:'x'}]){setResult(result(extra),RECEIPT);assert.equal(reason(s.readout('alice','challenge-1')),'RESULT_INVALID');}
+ setResult(result({homeScore:90,awayScore:99,winner:'AWAY',revision:2}),RECEIPT);
+ const r=s.readout('alice','challenge-1');assert.deepEqual([r.winner,r.viewerOutcome,r.resultRevision],['AWAY','LOST',2]);
+});
+check('unavailable when a ticket is outside the pinned game or after the cutoff',t=>{
+ const {s}=pair(t);
+ s.db.exec('DROP TRIGGER coach_game_no_update');
+ const g=s.db.prepare("SELECT body FROM coach_games WHERE game_id='espn:100'").get().body;
+ s.db.prepare("UPDATE coach_games SET body=? WHERE game_id='espn:100'").run(JSON.stringify({...JSON.parse(g),homeId:'OTHER'}));
+ assert.equal(reason(s.readout('alice','challenge-1')),'GAME_MISMATCH');
+ s.db.prepare("UPDATE coach_games SET body=? WHERE game_id='espn:100'").run(g);
+ s.db.exec('DROP TRIGGER coach_no_update');
+ const row=s.db.prepare("SELECT body FROM coach_records WHERE request_id='challenge-1'").get();const r=JSON.parse(row.body);
+ r.recordedAt=game().cutoffAt;const {digest,...b}=r;r.digest=require('node:crypto').createHash('sha256').update(JSON.stringify(b)).digest('hex');
+ s.db.prepare("UPDATE coach_records SET body=? WHERE request_id='challenge-1'").run(JSON.stringify(r));
+ assert.equal(reason(s.readout('alice','challenge-1')),'DEADLINE_VIOLATION');
 });

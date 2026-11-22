@@ -2,6 +2,11 @@
 // Internal Coach domain only. No HTTP route, public identity or World computation.
 const { createHash } = require('node:crypto');
 const SCHEMA = 'mosport-coach/challenge@1';
+const READOUT_SCHEMA = 'mosport-coach/challenge-readout@1';
+const RESULT_SCHEMA = 'mosport-a/coach-official-result@1';
+const RESULT_KEYS = ['schema','status','nbaGameId','gameId','homeId','awayId','tipoffAt','gameRevision','homeScore','awayScore','winner','revision','receiptSha256','producedAt'];
+const sha = value => typeof value === 'string' && /^[0-9a-f]{64}$/.test(value);
+const score = value => Number.isSafeInteger(value) && value >= 0;
 const id = value => typeof value === 'string' && /^[A-Za-z0-9][A-Za-z0-9:_-]{0,127}$/.test(value);
 const instant = value => typeof value === 'string' && /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString() === value;
 function requireThat(ok, reason) { if (!ok) throw new Error(reason); }
@@ -9,8 +14,10 @@ function exact(value, keys) { return value && typeof value === 'object' && !Arra
 function hash(value) { return createHash('sha256').update(JSON.stringify(value)).digest('hex'); }
 
 class ChallengeStore {
-  constructor(filename, { authenticate, resolveGame, clock = () => new Date().toISOString() } = {}) {
+  constructor(filename, { authenticate, resolveGame, clock = () => new Date().toISOString(), resolveOfficialResult = null, resolveResultPin = null } = {}) {
     requireThat(typeof authenticate === 'function' && typeof resolveGame === 'function' && typeof clock === 'function', 'TRUSTED_ADAPTERS_REQUIRED');
+    requireThat([resolveOfficialResult, resolveResultPin].every(f => f === null || typeof f === 'function'), 'TRUSTED_ADAPTERS_REQUIRED');
+    this.resolveOfficialResult = resolveOfficialResult; this.resolveResultPin = resolveResultPin;
     const { DatabaseSync } = require('node:sqlite'); // Optional internal runtime: Node >=22.12.
     this.db = new DatabaseSync(filename);
     this.authenticate = authenticate; this.resolveGame = resolveGame; this.clock = clock;
@@ -28,6 +35,44 @@ class ChallengeStore {
       CREATE TRIGGER IF NOT EXISTS coach_game_no_delete BEFORE DELETE ON coach_games BEGIN SELECT RAISE(ABORT,'IMMUTABLE_GAME'); END;`);
   }
   close() { this.db.close(); }
+  // Private, read-only settlement of one locked challenge pair. Writes nothing; never
+  // throws for a missing piece. Any untrusted or absent element yields UNAVAILABLE.
+  readout(authContext, challengeId) {
+    const unavailable = reason => ({ schema: READOUT_SCHEMA, status: 'UNAVAILABLE', reason });
+    let principal = null;
+    try { principal = this.authenticate(authContext); } catch (_) { principal = null; }
+    if (!(exact(principal, ['subject','active']) && id(principal.subject) && principal.active === true)) return unavailable('IDENTITY_UNAVAILABLE');
+    if (!id(challengeId)) return unavailable('TICKET_UNAVAILABLE');
+    const load = recordId => { const row = this.db.prepare('SELECT * FROM coach_records WHERE request_id=?').get(recordId); return row ? { row, record: JSON.parse(row.body) } : null; };
+    const intact = ({ row, record }) => { const { digest, ...body } = record; return sha(digest) && hash(body) === digest && body.schema === SCHEMA && body.recordId === row.request_id && body.actor === row.actor && body.kind === row.kind && body.game && body.game.gameId === row.game_id && body.visibility === 'PRIVATE'; };
+    const challenge = load(challengeId);
+    if (!challenge || challenge.record.kind !== 'CHALLENGE') return unavailable('TICKET_UNAVAILABLE');
+    const stance = load(challenge.record.targetId);
+    if (!stance || stance.record.kind !== 'STANCE') return unavailable('TICKET_UNAVAILABLE');
+    const c = challenge.record, o = stance.record;
+    // Do not reveal another pair's existence or contents to a non-participant.
+    if (principal.subject !== c.actor && principal.subject !== o.actor) return unavailable('IDENTITY_UNAVAILABLE');
+    if (!intact(challenge) || !intact(stance)) return unavailable('TICKET_DIGEST_MISMATCH');
+    if (c.targetDigest !== o.digest || c.actor === o.actor || c.selection === o.selection || !['HOME','AWAY'].includes(c.selection) || !['HOME','AWAY'].includes(o.selection)) return unavailable('TARGET_MISMATCH');
+    const pinned = this.db.prepare('SELECT body FROM coach_games WHERE game_id=?').get(o.game.gameId);
+    if (!pinned || JSON.stringify(o.game) !== pinned.body || JSON.stringify(c.game) !== pinned.body) return unavailable('GAME_MISMATCH');
+    const g = o.game;
+    if (!(instant(c.recordedAt) && instant(o.recordedAt) && o.recordedAt <= c.recordedAt && c.recordedAt < g.cutoffAt && g.cutoffAt < g.tipoffAt)) return unavailable('DEADLINE_VIOLATION');
+    let result = null, pin = null;
+    try {
+      result = this.resolveOfficialResult ? this.resolveOfficialResult(g.gameId) : null;
+      pin = this.resolveResultPin ? this.resolveResultPin(g.gameId) : null;
+    } catch (_) { return unavailable('RESULT_UNAVAILABLE'); }
+    if (!exact(result, RESULT_KEYS) || result.schema !== RESULT_SCHEMA || result.status !== 'VERIFIED') return unavailable('RESULT_UNAVAILABLE');
+    if (!sha(pin) || !sha(result.receiptSha256) || result.receiptSha256 !== pin) return unavailable('RESULT_PIN_MISMATCH');
+    if (result.gameId !== g.gameId || result.homeId !== g.homeId || result.awayId !== g.awayId || result.tipoffAt !== g.tipoffAt || result.gameRevision !== g.revision) return unavailable('RESULT_GAME_MISMATCH');
+    const expectedWinner = result.homeScore > result.awayScore ? 'HOME' : result.awayScore > result.homeScore ? 'AWAY' : null;
+    if (!(score(result.homeScore) && score(result.awayScore) && expectedWinner && result.winner === expectedWinner && Number.isSafeInteger(result.revision) && result.revision > 0 && instant(result.producedAt) && result.producedAt > g.tipoffAt && typeof result.nbaGameId === 'string' && /^\d{10}$/.test(result.nbaGameId))) return unavailable('RESULT_INVALID');
+    const viewer = principal.subject === o.actor ? o : c;
+    const body = { schema: READOUT_SCHEMA, status: 'SETTLED', visibility: 'PRIVATE', challengeId: c.recordId, stanceId: o.recordId, stanceDigest: o.digest, challengeDigest: c.digest, gameId: g.gameId, gameRevision: g.revision, homeId: g.homeId, awayId: g.awayId, homeScore: result.homeScore, awayScore: result.awayScore, winner: result.winner, resultRevision: result.revision, resultReceiptSha256: result.receiptSha256, viewerRole: viewer.kind, viewerSelection: viewer.selection, viewerOutcome: viewer.selection === result.winner ? 'WON' : 'LOST' };
+    return { ...body, digest: hash(body) };
+  }
+
   submit(authContext, command) {
     requireThat(exact(command, ['requestId','gameId','kind','selection','targetId']), 'INVALID_COMMAND');
     requireThat(id(command.requestId) && /^espn:\d+$/.test(command.gameId) && typeof command.gameId === 'string', 'INVALID_IDENTIFIER');
@@ -84,4 +129,4 @@ class ChallengeStore {
     }
   }
 }
-module.exports = { ChallengeStore, SCHEMA };
+module.exports = { ChallengeStore, SCHEMA, READOUT_SCHEMA, RESULT_SCHEMA };

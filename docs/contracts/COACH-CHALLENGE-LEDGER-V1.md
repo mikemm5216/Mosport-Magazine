@@ -48,10 +48,55 @@ cannot be reused by another actor or for different content. Credentials are neve
 persisted. Responses contain a content digest and the target's digest; hashes
 are integrity references, not signatures, authentication or tamper-proof storage.
 
+## Private readout (M4, NBA #178)
+
+`readout(authContext, challengeId)` is a read-only private settlement of one locked
+pair: the CHALLENGE record named by `challengeId` and the original STANCE it
+targets. It writes nothing; stored records keep `result: 'NOT_SETTLED'`, and the
+readout is recomputed on each call from the immutable tickets plus A's result.
+
+Two further optional server-owned adapters, both required for any settlement:
+
+- `resolveOfficialResult(gameId)` returns MOSPORT-A's
+  `mosport-a/coach-official-result@1` with exactly `schema, status, nbaGameId,
+  gameId, homeId, awayId, tipoffAt, gameRevision, homeScore, awayScore, winner,
+  revision, receiptSha256, producedAt` (A's `nba:official-result --coach-pin`
+  output, NBA #178). B never computes or adjusts a result.
+- `resolveResultPin(gameId)` returns B's independently held 64-hex original
+  `receiptSha256` for that game. Result and pin come from B's own trusted
+  provider, never from a request body.
+
+`SETTLED` requires all of: an authenticated `{subject, active: true}` who is one
+of the two participants; both tickets present with recomputed digests matching
+the stored ones; the challenge's `targetDigest` equal to the stance digest,
+different actors and opposite HOME/AWAY selections; both tickets carrying the
+pinned `coach_games` body; stance before challenge and both before `cutoffAt`,
+itself before tipoff; result `status: 'VERIFIED'`, `receiptSha256` equal to the
+pin; result `gameId`, `homeId`, `awayId`, `tipoffAt` and `gameRevision` equal to
+the locked game; non-negative integer scores, no tie, `winner` consistent with
+scores, positive `revision`, `producedAt` after tipoff and a 10-digit
+`nbaGameId`. The readout returns digests, scores, winner, result revision and
+receipt hash, plus the viewer's role, selection and WON/LOST. It carries no
+participant subject.
+
+Anything else returns exactly `{schema: 'mosport-coach/challenge-readout@1',
+status: 'UNAVAILABLE', reason}` with one of IDENTITY_UNAVAILABLE (also used for
+a non-participant, so as not to reveal the pair), TICKET_UNAVAILABLE,
+TICKET_DIGEST_MISMATCH, TARGET_MISMATCH, GAME_MISMATCH, DEADLINE_VIOLATION,
+RESULT_UNAVAILABLE, RESULT_PIN_MISMATCH, RESULT_GAME_MISMATCH or
+RESULT_INVALID. Adapter exceptions fail closed to UNAVAILABLE. The reason is
+for the private operator; a reader UI shows only that it is unavailable.
+
+The pair is settled only when the trusted pregame resolver pinned the same
+snapshot revision and team codes that A's result names. A ticket bound to any
+other revision, or a game with no real locked tickets, stays unavailable. No
+research prediction, finished game or invented participant can become a ticket,
+because `submit` still refuses anything at or after the cutoff.
+
 ## Explicit incomplete work
 
 No real user authentication, public API/UI, consent/share route, creator imports,
-rankings, settlement, cancellation policy, official-result adapter, moderation,
+rankings, persisted settlement records, B-side result/pin provider wiring, cancellation policy, moderation,
 user data retention/deletion policy, backup/restore, distributed fencing, or
 production security review. Do not load this module into the public site or
 accept requests before those integrations and Founder approvals. Runtime owners
