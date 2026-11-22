@@ -1,0 +1,61 @@
+name: MOSPORT M6 public-only GitHub Pages
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: mosport-public-pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Install Chromium for the existing browser QA
+        run: npx playwright install --with-deps chromium
+      - name: Existing tests and M6 privacy tests
+        run: npm test
+      - name: Build only eligible production assets
+        run: node scripts/build-public-pages.js dist-public
+      - name: Validate that the artifact has no demo, internal, owner, or unverified team assets
+        run: |
+          test -f dist-public/index.html
+          test -f dist-public/public-release-manifest.json
+          test ! -d dist-public/internal
+          test ! -d dist-public/js/fixtures
+          test ! -d dist-public/assets/teams
+          test ! -f dist-public/js/data/owner-edition.js
+          ! grep -Rl 'js/fixtures/' dist-public/*.html
+      - name: Upload public-only artifact (main only)
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist-public
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: [verify]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy artifact to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
