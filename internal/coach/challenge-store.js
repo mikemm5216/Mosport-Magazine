@@ -42,16 +42,22 @@ class ChallengeStore {
     let principal = null;
     try { principal = this.authenticate(authContext); } catch (_) { principal = null; }
     if (!(exact(principal, ['subject','active']) && id(principal.subject) && principal.active === true)) return unavailable('IDENTITY_UNAVAILABLE');
-    if (!id(challengeId)) return unavailable('TICKET_UNAVAILABLE');
-    const load = recordId => { const row = this.db.prepare('SELECT * FROM coach_records WHERE request_id=?').get(recordId); return row ? { row, record: JSON.parse(row.body) } : null; };
-    const intact = ({ row, record }) => { const { digest, ...body } = record; return sha(digest) && hash(body) === digest && body.schema === SCHEMA && body.recordId === row.request_id && body.actor === row.actor && body.kind === row.kind && body.game && body.game.gameId === row.game_id && body.visibility === 'PRIVATE'; };
-    const challenge = load(challengeId);
-    if (!challenge || challenge.record.kind !== 'CHALLENGE') return unavailable('TICKET_UNAVAILABLE');
-    const stance = load(challenge.record.targetId);
-    if (!stance || stance.record.kind !== 'STANCE') return unavailable('TICKET_UNAVAILABLE');
+    // Authorisation uses only SQL row columns written by submit, before any body is parsed.
+    // A missing record and a pair the caller is not in return the same NOT_VISIBLE, so a
+    // private ticket's existence is not revealed; finer reasons only after authorisation.
+    const row = recordId => (id(recordId) ? this.db.prepare('SELECT * FROM coach_records WHERE request_id=?').get(recordId) : undefined) || null;
+    const challengeRow = row(challengeId);
+    const stanceRow = challengeRow ? row(challengeRow.target_id) : null;
+    if (!challengeRow || (principal.subject !== challengeRow.actor && !(stanceRow && principal.subject === stanceRow.actor))) return unavailable('NOT_VISIBLE');
+    const parse = text => { try { const v = JSON.parse(text); return v && typeof v === 'object' && !Array.isArray(v) ? v : null; } catch (_) { return null; } };
+    const RECORD_KEYS = ['schema','recordId','kind','actor','selection','targetId','targetDigest','recordedAt','game','visibility','result','digest'];
+    const load = r => { const record = r ? parse(r.body) : null; return record && exact(record, RECORD_KEYS) ? { row: r, record } : null; };
+    const intact = ({ row: r, record }) => { const { digest, ...body } = record; return sha(digest) && hash(body) === digest && body.schema === SCHEMA && body.recordId === r.request_id && body.actor === r.actor && body.kind === r.kind && (r.kind === 'STANCE' ? body.targetId === null && r.target_id === null : id(body.targetId) && body.targetId === r.target_id) && body.game !== null && typeof body.game === 'object' && body.game.gameId === r.game_id && body.visibility === 'PRIVATE'; };
+    const challenge = load(challengeRow);
+    if (challengeRow.kind !== 'CHALLENGE' || !challenge || challenge.record.kind !== 'CHALLENGE') return unavailable('TICKET_UNAVAILABLE');
+    const stance = load(stanceRow);
+    if (!stance || stance.row.kind !== 'STANCE' || stance.record.kind !== 'STANCE') return unavailable('TICKET_UNAVAILABLE');
     const c = challenge.record, o = stance.record;
-    // Do not reveal another pair's existence or contents to a non-participant.
-    if (principal.subject !== c.actor && principal.subject !== o.actor) return unavailable('IDENTITY_UNAVAILABLE');
     if (!intact(challenge) || !intact(stance)) return unavailable('TICKET_DIGEST_MISMATCH');
     if (c.targetDigest !== o.digest || c.actor === o.actor || c.selection === o.selection || !['HOME','AWAY'].includes(c.selection) || !['HOME','AWAY'].includes(o.selection)) return unavailable('TARGET_MISMATCH');
     const pinned = this.db.prepare('SELECT body FROM coach_games WHERE game_id=?').get(o.game.gameId);

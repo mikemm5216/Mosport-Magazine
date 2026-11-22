@@ -129,13 +129,45 @@ check('settles a locked pair privately from the pinned same-game official result
 check('unavailable without trusted identity or for a non-participant',t=>{
  const {s,filename,opts}=pair(t);
  assert.equal(reason(s.readout('forged','challenge-1')),'IDENTITY_UNAVAILABLE');
- assert.equal(reason(s.readout('carol','challenge-1')),'IDENTITY_UNAVAILABLE');
+ assert.equal(reason(s.readout('carol','challenge-1')),'NOT_VISIBLE');
  const down=new ChallengeStore(filename,{...opts,authenticate:()=>{throw new Error('identity provider down');}});
  try{assert.equal(reason(down.readout('alice','challenge-1')),'IDENTITY_UNAVAILABLE');}finally{down.close();}
 });
-check('unavailable unless both locked tickets exist as challenge plus original stance',t=>{
- const {s}=pair(t);
- for(const idv of ['missing','stance-1',null,'bad id']) assert.equal(reason(s.readout('alice',idv)),'TICKET_UNAVAILABLE');
+check('authenticated non-member and missing ticket get one identical response; finer reasons only after authorisation',t=>{
+ const {s}=pair(t); const hidden=s.readout('carol','challenge-1');
+ assert.deepEqual(hidden,{schema:'mosport-coach/challenge-readout@1',status:'UNAVAILABLE',reason:'NOT_VISIBLE'});
+ for(const [who,idv] of [['carol','missing'],['alice','missing'],['bob','stance-1'],['carol','stance-1'],['alice',null],['alice','bad id'],['alice',{}]]) assert.deepEqual(s.readout(who,idv),hidden);
+ assert.equal(reason(s.readout('alice','stance-1')),'TICKET_UNAVAILABLE'); // own original stance is not a pair
+});
+check('corrupt, null or reshaped stored ticket bodies fail closed without throwing',t=>{
+ const {s}=pair(t); s.db.exec('DROP TRIGGER coach_no_update'); // simulate out-of-band file damage only
+ const ok=s.readout('alice','challenge-1'); assert.equal(ok.status,'SETTLED');
+ for(const rid of ['challenge-1','stance-1']){
+  const orig=s.db.prepare('SELECT body FROM coach_records WHERE request_id=?').get(rid).body;
+  for(const bad of ['{not json','null','[]','"x"','42',JSON.stringify({...JSON.parse(orig),extra:1}),JSON.stringify({...JSON.parse(orig),game:null})]){
+   s.db.prepare('UPDATE coach_records SET body=? WHERE request_id=?').run(bad,rid);
+   for(const who of ['alice','bob']){ let r; assert.doesNotThrow(()=>{r=s.readout(who,'challenge-1');}); assert.equal(r.status,'UNAVAILABLE'); assert.match(r.reason,/^(TICKET_UNAVAILABLE|TICKET_DIGEST_MISMATCH)$/); }
+   assert.equal(reason(s.readout('carol','challenge-1')),'NOT_VISIBLE');
+  }
+  s.db.prepare('UPDATE coach_records SET body=? WHERE request_id=?').run(orig,rid);
+ }
+ assert.deepEqual(s.readout('alice','challenge-1'),ok);
+});
+check('SQL target_id must equal body.targetId, and an original stance must target null',t=>{
+ const {s}=pair(t); s.db.exec('DROP TRIGGER coach_no_update');
+ const redigest=r=>{const {digest,...b}=r;r.digest=require('node:crypto').createHash('sha256').update(JSON.stringify(b)).digest('hex');return JSON.stringify(r);};
+ for(const [rid,change] of [['challenge-1',{targetId:'other'}],['stance-1',{targetId:'challenge-1'}]]){
+  const orig=s.db.prepare('SELECT body FROM coach_records WHERE request_id=?').get(rid).body;
+  s.db.prepare('UPDATE coach_records SET body=? WHERE request_id=?').run(redigest({...JSON.parse(orig),...change}),rid);
+  assert.equal(reason(s.readout('alice','challenge-1')),'TICKET_DIGEST_MISMATCH');
+  s.db.prepare('UPDATE coach_records SET body=? WHERE request_id=?').run(orig,rid);
+ }
+ s.db.prepare("UPDATE coach_records SET target_id='challenge-1' WHERE request_id='stance-1'").run();
+ assert.equal(reason(s.readout('alice','challenge-1')),'TICKET_DIGEST_MISMATCH');
+ s.db.prepare("UPDATE coach_records SET target_id=NULL WHERE request_id='stance-1'").run();
+ s.db.exec('DROP TRIGGER coach_no_delete'); s.db.prepare("DELETE FROM coach_records WHERE request_id='stance-1'").run();
+ assert.equal(reason(s.readout('alice','challenge-1')),'NOT_VISIBLE'); // stance owner no longer provable from rows
+ assert.equal(reason(s.readout('bob','challenge-1')),'TICKET_UNAVAILABLE');
 });
 check('unavailable when a stored ticket digest or opponent target no longer matches',t=>{
  const {s}=pair(t);

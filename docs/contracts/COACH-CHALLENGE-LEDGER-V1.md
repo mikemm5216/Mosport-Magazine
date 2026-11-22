@@ -68,7 +68,8 @@ Two further optional server-owned adapters, both required for any settlement:
 
 `SETTLED` requires all of: an authenticated `{subject, active: true}` who is one
 of the two participants; both tickets present with recomputed digests matching
-the stored ones; the challenge's `targetDigest` equal to the stance digest,
+the stored ones; each body's `targetId` equal to its SQL `target_id` (null for
+the original stance); the challenge's `targetDigest` equal to the stance digest,
 different actors and opposite HOME/AWAY selections; both tickets carrying the
 pinned `coach_games` body; stance before challenge and both before `cutoffAt`,
 itself before tipoff; result `status: 'VERIFIED'`, `receiptSha256` equal to the
@@ -80,8 +81,13 @@ receipt hash, plus the viewer's role, selection and WON/LOST. It carries no
 participant subject.
 
 Anything else returns exactly `{schema: 'mosport-coach/challenge-readout@1',
-status: 'UNAVAILABLE', reason}` with one of IDENTITY_UNAVAILABLE (also used for
-a non-participant, so as not to reveal the pair), TICKET_UNAVAILABLE,
+status: 'UNAVAILABLE', reason}`. Without an authenticated identity the reason is
+IDENTITY_UNAVAILABLE. Authorisation then uses only the SQL row columns `actor` and
+`target_id` written by `submit`, before any stored body is parsed: an unknown or
+malformed `challengeId`, and a pair the caller is not in, return the identical
+NOT_VISIBLE, so a private ticket's existence is never revealed. Only an
+authorised participant sees a finer reason: TICKET_UNAVAILABLE (also for a stored
+body that is not valid JSON, not an object or not exactly the record keys),
 TICKET_DIGEST_MISMATCH, TARGET_MISMATCH, GAME_MISMATCH, DEADLINE_VIOLATION,
 RESULT_UNAVAILABLE, RESULT_PIN_MISMATCH, RESULT_GAME_MISMATCH or
 RESULT_INVALID. Adapter exceptions fail closed to UNAVAILABLE. The reason is
