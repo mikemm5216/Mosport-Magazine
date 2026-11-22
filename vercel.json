@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "buildCommand": "node scripts/build-public-release.js dist-public",
+  "outputDirectory": "dist-public",
+  "framework": null
+}
