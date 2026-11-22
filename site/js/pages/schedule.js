@@ -20,8 +20,8 @@ window.MOSPORT_PAGE = {
       if (g.source) read = c.pregameRecord(g) + '<a class="pill" href="' + c.href('match.html', { game: g.gameId }) + '">' + esc(g.analysis && g.analysis.article ? (c.lang === 'zh' ? '閱讀賽前分析' : 'Read the matchup analysis') : T('gameDetails')) + ' →</a>';
       /* Game over with a filed review: the review leads, the pregame preview stays reachable. */
       if (g.source && g.analysis && g.analysis.postgameReview) read = c.pregameRecord(g) +
-        '<a class="pill" href="' + c.href('review.html', { game: g.gameId }) + '">' + (c.lang === 'zh' ? '閱讀賽後檢討' : 'Read the postgame review') + ' →</a> ' +
-        '<a class="pill" href="' + c.href('match.html', { game: g.gameId }) + '#pregame-column">' + (c.lang === 'zh' ? '閱讀賽前預測' : 'Read the pregame preview') + ' →</a>';
+        '<a class="pill" href="' + c.href('review.html', { game: g.gameId }) + '">' + (c.lang === 'zh' ? '閱讀賽後檢討' : 'Read the postgame review') + ' →</a>' +
+        (g.analysis.article ? ' <a class="pill" href="' + c.href('match.html', { game: g.gameId }) + '#pregame-column">' + (c.lang === 'zh' ? '閱讀賽前預測' : 'Read the pregame preview') + ' →</a>' : '');
       return '<tr><td><span class="sch-m"><mo-team-logo code="' + esc(g.away) + '" size="sm"></mo-team-logo><b>' + esc(g.away) + ' @ ' + esc(g.home) + '</b><span class="muted">' + esc(c.teamName(g.away, 'nick') + ' @ ' + c.teamName(g.home, 'nick')) + '</span><mo-team-logo code="' + esc(g.home) + '" size="sm"></mo-team-logo></span>' + (g.source ? '<p class="pv">NBA game ID ' + esc(g.gameId) + '</p>' + c.sourceNote(g.source) : '') + '</td>' +
         '<td>' + esc(c.tipShort(g)) + '</td><td>' + st + '</td><td>' + read + '</td></tr>';
     }).join('');
