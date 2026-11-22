@@ -6,7 +6,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const { build, ALLOW } = require('../../scripts/build-public-release.js');
+const { build, ALLOW, validatePublicDependencies } = require('../../scripts/build-public-release.js');
 const sha = x => crypto.createHash('sha256').update(x).digest('hex');
 function walk(dir, base=dir) {
   return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e => e.isDirectory()
@@ -31,6 +31,10 @@ test('M6 production build publishes only allowlisted files, exact source and tru
   assert.match(cfg,/mode:\s*["']production["']/);
   const registry=JSON.parse(fs.readFileSync(path.join(dest,'data/asset-registry.json')));
   assert.deepEqual(registry.teamLogos.entries,{});
+  // sourceUrl contains founder-linked Drive provenance; never include in public output.
+  assert.doesNotMatch(JSON.stringify(registry), /"sourceUrl"\s*:/);
+  assert.doesNotMatch(fs.readFileSync(path.join(dest,'data/asset-registry.js'),'utf8'), /"sourceUrl"\s*:/);
+
   for(const group of [registry.slots, registry.logos])for(const slot of Object.values(group)) {
     assert.ok(slot.versions.length<=1);
     for(const v of slot.versions) {
@@ -58,3 +62,12 @@ test('M6 builder fails closed if output already exists or targets a repository s
   assert.equal(fs.readFileSync(path.join(dest,'keep.txt'),'utf8'),'original');
   assert.throws(()=>build(path.resolve(__dirname,'../../site')),/UNSAFE_OUTPUT/);
 }));
+test('M6 builder rejects unallowlisted HTML dependencies before deployment', () => {
+  const eligible = new Set(['js/app.js', 'css/home.css']);
+  assert.doesNotThrow(() => validatePublicDependencies(
+    '<script src="js/app.js"></script><link rel="stylesheet" href="css/home.css">', eligible));
+  assert.throws(() => validatePublicDependencies(
+    '<script src="js/fixtures/missing.js"></script>', eligible), /PUBLIC_DEPENDENCY_MISSING/);
+  assert.throws(() => validatePublicDependencies(
+    '<script src="js/data/owner-edition.js"></script>', eligible), /PUBLIC_DEPENDENCY_MISSING/);
+});
