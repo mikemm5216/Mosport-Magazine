@@ -129,6 +129,23 @@
         !deskRows(score.desks, 'id outcome', function (row) { return outcome(row.outcome); })) return null;
     return score;
   }
+  /* Owner-only postgame review, a separate article from the pregame column. It renders only
+     beside the reader's own B-pinned, A-verified result (the pipeline passes no other), for
+     the same game, after both confirmations, once filed, and tied to the pinned pregame
+     article it reviews. Any miss hides this review alone; nothing else changes. */
+  function validReview(r, entry, schedule, article, result, now) {
+    var fields = ['nbaGameId','espnGameId','receiptRef','resultDigest','pregameDigest','boxSha256','preparedAt'];
+    if (!result || !article || !r || !pinned(r, entry.pins.postgameReview) || !exactKeys(r, fields.concat(['zh','en']).join(' ')) ||
+        !fields.every(function (k) { return typeof r[k] === 'string'; })) return false;
+    var seen = result.confirmations || {};
+    if (r.nbaGameId !== schedule.game.gameId || r.nbaGameId !== result.nbaGameId || r.espnGameId !== result.espnGameId ||
+        r.receiptRef !== result.receiptRef || r.resultDigest !== digest(result) || r.pregameDigest !== entry.pins.article ||
+        !hash64(r.boxSha256) || !seen.nba || !seen.espn || !beforeOrAt(seen.nba.observedAt, r.preparedAt) ||
+        !beforeOrAt(seen.espn.observedAt, r.preparedAt) || !beforeOrAt(r.preparedAt, now)) return false;
+    return [r.zh, r.en].every(function (copy) {
+      return exactKeys(copy, 'title dek body') && Object.values(copy).every(function (text) { return typeof text === 'string' && text.trim().length > 0; });
+    });
+  }
   function editionGame(edition, schedule, result, now) {
     var entry = edition && edition.games && edition.games[schedule.game.gameId];
     if (!entry || !entry.pins || !pinned(schedule, entry.pins.schedule)) return null;
@@ -152,7 +169,8 @@
         beforeOrAt(entry.exploration.source.observedAt,entry.deskCopy.preparedAt) && beforeOrAt(initial.lockedAt,entry.deskCopy.preparedAt)) {
       desks = {copy:entry.deskCopy, exploration:entry.exploration, score:explorationScore(entry,result,entry.exploration)};
     }
-    return { article:article, desks:desks, stages:stages, optedInAt:policy && policy.optedInAt, witnessedAt:witness && witness.witnessedAt, espnGameId:initial ? initial.espnGameId : null, finalWindowAt:new Date(C.parseInstant(schedule.game.tipoff)-900000).toISOString(),
+    var review = validReview(entry.postgameReview, entry, schedule, article, result, now) ? entry.postgameReview : null;
+    return { article:article, postgameReview:review, desks:desks, stages:stages, optedInAt:policy && policy.optedInAt, witnessedAt:witness && witness.witnessedAt, espnGameId:initial ? initial.espnGameId : null, finalWindowAt:new Date(C.parseInstant(schedule.game.tipoff)-900000).toISOString(),
       finalStatus:final && final.schema === 'mosport-a/research-pick@2' ? 'SEALED_FINAL' : final ? (C.parseInstant(final.lockedAt) === C.parseInstant(final.dataCutoff) ? 'ON_TIME' : 'LATE_RECORDED') : C.parseInstant(now) >= C.parseInstant(schedule.game.tipoff) ? 'NOT_RECORDED' : C.parseInstant(now) >= C.parseInstant(schedule.game.tipoff)-900000 ? 'OPEN' : 'PENDING' };
   }
   var api={ editionGame:editionGame, digest:digest };

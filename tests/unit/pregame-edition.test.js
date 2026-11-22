@@ -311,3 +311,89 @@ test('v2 uses the whole registered projection for scoring and never scores from 
   delete game.pins.finalWitness;
   assert.equal(score(pin),null);
 });
+
+// Owner-only postgame review: a second, separate article. Synthetic data only, never live evidence.
+function postgameSample() {
+  const base = sample();
+  const {schedule,game} = base;
+  const receiptRef = 'NBA-'+id+'-R1';
+  const result = {schema:'mosport-b/game-result@1',nbaGameId:id,espnGameId:espnId,away:'ORL',home:'DET',awayScore:95,homeScore:85,status:'FINAL',
+    officialUrl:schedule.source.originalUrl,confirmations:{nba:{observedAt:end},espn:{observedAt:end}},receiptRef};
+  const pins = {[id]:{digest:digest(result),receiptRef}};
+  const review = {nbaGameId:id,espnGameId:espnId,receiptRef,resultDigest:digest(result),pregameDigest:game.pins.article,boxSha256:'b'.repeat(64),
+    preparedAt:'2026-01-01T23:30:00Z',zh:{title:'測試賽後檢討',dek:'測試導言',body:'檢討第一段\n\n檢討第二段'},
+    en:{title:'Synthetic postgame review',dek:'Synthetic dek',body:'Review one\n\nReview two'}};
+  game.postgameReview = review; game.pins.postgameReview = digest(review);
+  const after = '2026-01-02T01:00:00Z';
+  const opts = extra => Object.assign({ownerEdition:base.edition,now:after,result,pins}, extra || {});
+  const model = extra => pipeline.run(schedule,Object.assign({mode:'production'},opts(extra))).model.schedule[0];
+  return Object.assign(base,{result,pins,review,after,opts,model});
+}
+const q = (lang, page) => '?lang='+lang+'&schedule='+id+'&game='+id;
+test('postgame review renders only on its own page; the pregame preview stays as filed and both link to each other', () => {
+  const {schedule,opts,model} = postgameSample();
+  assert.equal(model().analysis.postgameReview.zh.title,'測試賽後檢討');
+  for (const [lang,title,dek,body1,body2,toReview,toPregame,fin] of [
+    ['zh','測試賽後檢討','測試導言','檢討第一段','檢討第二段','閱讀賽後檢討','閱讀賽前預測','終場'],
+    ['en','Synthetic postgame review','Synthetic dek','Review one','Review two','Read the postgame review','Read the pregame preview','Final:']]) {
+    const review = renderPage(schedule,'review',q(lang),null,opts());
+    for (const t of [title,dek,body1,body2,fin,'id="postgame-review"']) assert.ok(review.includes(t),lang+' review '+t);
+    assert.match(review,new RegExp('href="match\\.html\\?[^"]*game='+id+'[^"]*#pregame-column"'));
+    assert.ok(!review.includes('Synthetic article') && !review.includes('reviewEmpty'),'no pregame body in the review');
+    const match = renderPage(schedule,'match',q(lang),null,opts());
+    for (const t of [title,dek,toReview,'Synthetic article','id="pregame-column"','4–2']) assert.ok(match.includes(t),lang+' match '+t);
+    assert.ok(!match.includes(body2),'review body is not placed in the pregame page');
+    assert.match(match,new RegExp('href="review\\.html\\?[^"]*game='+id));
+    const home = renderPage(schedule,'home','?lang='+lang,null,opts());
+    assert.ok(home.includes(title) && home.includes(toReview) && home.includes(toPregame),lang+' home leads with the review');
+    assert.match(home,new RegExp('href="review\\.html\\?[^"]*game='+id)); assert.match(home,/#pregame-column"/);
+    const listing = renderPage(schedule,'schedule','?lang='+lang,null,opts());
+    assert.ok(listing.includes(toReview) && listing.includes(toPregame),lang+' schedule');
+  }
+});
+test('a missing, mispinned, unverified, early or mismatched review hides only itself', () => {
+  const s = postgameSample();
+  const {schedule,game,review,result,pins,opts,model} = s;
+  const original = JSON.parse(JSON.stringify(review));
+  function hidden(label, mutate, extra, repin = true) {
+    game.postgameReview = JSON.parse(JSON.stringify(original)); mutate(game.postgameReview);
+    game.pins.postgameReview = repin ? digest(game.postgameReview) : digest(original);
+    const g = model(extra);
+    assert.equal(g.analysis.postgameReview,null,label);
+    assert.ok(g.analysis.article && g.analysis.stages.length,label+': pregame column and desks stay');
+    const page = renderPage(schedule,'review',q('zh'),null,opts(extra));
+    assert.ok(!page.includes('檢討第二段') && !page.includes('id="postgame-review"'),label);
+    const match = renderPage(schedule,'match',q('zh'),null,opts(extra));
+    assert.ok(!match.includes('postgame-entry') && match.includes('Synthetic article'),label);
+    return page;
+  }
+  hidden('wrong pin',r => { r.zh.title='改過的標題'; },undefined,false);
+  hidden('result digest',r => { r.resultDigest='0'.repeat(64); });
+  hidden('receipt',r => { r.receiptRef='NBA-'+id+'-R2'; });
+  hidden('espn id',r => { r.espnGameId='1'; });
+  hidden('nba id',r => { r.nbaGameId='0090000002'; });
+  hidden('pregame digest',r => { r.pregameDigest='0'.repeat(64); });
+  hidden('box hash format',r => { r.boxSha256='B'.repeat(64); });
+  hidden('before confirmations',r => { r.preparedAt='2026-01-01T22:59:59Z'; });
+  hidden('not filed yet',r => { r.preparedAt='2026-01-02T02:00:00Z'; });
+  hidden('extra field',r => { r.approvedBy='x'; });
+  hidden('non-string field',r => { r.boxSha256=null; });
+  hidden('missing dek',r => { delete r.en.dek; });
+  hidden('blank body',r => { r.zh.body='  '; });
+  const notFinal = hidden('no verified result',() => {},{result:null});
+  assert.ok(notFinal.includes('這場的賽後檢討尚未刊出') && /#pregame-column"/.test(notFinal),'missing review offers the pregame preview');
+  hidden('result not pinned',() => {},{pins:{}});
+  hidden('result digest differs from pin',() => {},{result:Object.assign({},result,{homeScore:86}),pins});
+  // A review is tied to the pinned pregame article it reviews: without that article it is hidden too.
+  game.postgameReview = JSON.parse(JSON.stringify(original)); game.pins.postgameReview = digest(game.postgameReview);
+  game.pins.article = '0'.repeat(64);
+  const g = model();
+  assert.equal(g.analysis.article,null); assert.equal(g.analysis.postgameReview,null);
+  assert.ok(g.analysis.stages.length,'desks stay');
+});
+test('without the owner edition the review page keeps its public behaviour and shows no private review', () => {
+  const {schedule,result,pins} = postgameSample();
+  const page = renderPage(schedule,'review',q('zh'),null,{now:'2026-01-02T01:00:00Z',result,pins});
+  assert.ok(!/測試賽後檢討|檢討第二段|postgame-review|postgame-missing|pregame-column/.test(page));
+  assert.ok(page.includes('today-empty'));
+});

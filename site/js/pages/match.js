@@ -207,6 +207,14 @@
         /* An empty pregame card is not shown: no record, no tipoff notice, no reason line. */
         var pregameBody = c.pregameRecord(g) + (g.source ? '' : '<p class="pv">' + esc(T('noRead_' + g.noReadReason)) + '</p>');
         var analysis = g.analysis ? renderAnalysis(c, g) : '';
+        /* A filed postgame review leads; it is its own article at review.html. The pregame
+           column, its sources and the three desks below stay exactly as filed. */
+        var review = g.analysis && g.analysis.postgameReview;
+        if (review) {
+          analysis = '<aside class="card edition-article" id="postgame-entry"><p class="lbl lbl-brand">' + (L === 'zh' ? 'MOSPORT 賽後檢討' : 'MOSPORT Postgame Review') +
+            '</p><h2>' + esc(review[L].title) + '</h2><p>' + esc(review[L].dek) + '</p><p><a class="cta" href="' + esc(c.href('review.html', { game: g.gameId })) + '">' +
+            (L === 'zh' ? '閱讀賽後檢討' : 'Read the postgame review') + ' <span aria-hidden="true">→</span></a></p></aside>' + analysis;
+        }
         return c.topbar + '<main class="sheet">' + top + head + analysis +
           (R.status === 'STALE' ? c.stateMessage(R) : '') +
           (g.source ? '<section class="card"><p>' + esc(T('savedSchedule')) + ' · ' + esc(c.statusLabel(g)) + '</p><p class="pv">NBA game ID ' + esc(g.gameId) + '</p>' + c.sourceNote(g.source) + '</section>' : '') +

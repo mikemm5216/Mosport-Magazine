@@ -22,7 +22,7 @@ function install(directory, editionDirectory) {
     if (schedule.game.gameId !== id || reader.digest(schedule) !== game.pins.schedule ||
         contracts.validateSchedule(schedule,{now:new Date().toISOString()}).length) throw Error('Invalid official schedule');
     const files = {article:'article.json',INITIAL:'initial.json',FINAL:'final.json',finalPolicy:'final-policy.json',finalWitness:'final-witness.json',scoreINITIAL:'score-initial.json',scoreFINAL:'score-final.json',
-      exploration:'exploration.json',deskCopy:'desk-copy.json',explorationScore:'exploration-score.json'};
+      exploration:'exploration.json',deskCopy:'desk-copy.json',explorationScore:'exploration-score.json',postgameReview:'postgame-review.json'};
     for (const [key,file] of Object.entries(files)) {
       if (!game.pins[key]) continue;
       game[key]=read(file);
@@ -39,7 +39,7 @@ function install(directory, editionDirectory) {
     schedules.set(id,schedule);
   }
   // Overlay only changed reader modules. Preserve private logo assets and existing result pins.
-  for (const file of ['js/app.js','js/data/pipeline.js','js/data/pregame-edition.js','js/pages/home.js','js/pages/schedule.js','js/pages/match.js','css/pages.css']) {
+  for (const file of ['js/app.js','js/data/pipeline.js','js/data/pregame-edition.js','js/pages/home.js','js/pages/schedule.js','js/pages/match.js','js/pages/review.js','css/pages.css']) {
     fs.copyFileSync(path.join(base,'site',file),path.join(dst,file));
   }
   for (const [id,schedule] of schedules) {
