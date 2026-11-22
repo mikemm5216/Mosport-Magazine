@@ -59,6 +59,11 @@
     function paragraphs(text) {
       return text.split(/\r?\n\s*\n/).filter(function (p) { return p.trim(); }).map(function (p) { return '<p>' + esc(p.trim()) + '</p>'; }).join('');
     }
+    /* M5: a desk card links to that desk's own postgame review only when it exists. */
+    function deskReviewLink(id) {
+      return a.deskReviews && a.deskReviews[id] ? '<p><a class="pill" href="' + esc(c.href('review.html', { game: g.gameId })) + '#desk-review-' + id + '">' +
+        (zh ? '閱讀本席賽後檢討' : 'Read this desk’s postgame review') + ' <span aria-hidden="true">→</span></a></p>' : '';
+    }
     var deskNames = zh ? {'season-record':'戰績觀察室', turnovers:'球權保管室', 'second-chance':'二波編輯台'} :
       {'season-record':'Record Desk', turnovers:'Turnover Desk', 'second-chance':'Second-Chance Desk'};
     function signedColumn(id) {
@@ -122,7 +127,7 @@
     var recordDesk = '<aside class="card edition-pick" id="desk-season-record" data-desk="season-record">' + recordHead +
       '<p class="pv">' + (zh ? '規則 v1 · 戰績核對 ' : 'Rule v1 · Records checked against ') + '<a href="' + esc(g.source.url) + '" rel="noopener noreferrer">NBA</a> · <a href="https://www.espn.com/nba/game/_/gameId/' + esc(a.espnGameId) + '" rel="noopener noreferrer">ESPN</a></p>' +
       (a.desks ? '<p>' + esc(baselineComparison(initial.pick)) + '</p>' : '') +
-      cards + policyInfo + (pending ? '<p class="pv">' + pending + '</p>' : '') + '</aside>';
+      cards + policyInfo + (pending ? '<p class="pv">' + pending + '</p>' : '') + deskReviewLink('season-record') + '</aside>';
     if (!a.desks) return article + recordDesk;
     var exploration = a.desks.exploration, score = a.desks.score;
     var sample = '<p class="pv edition-sample">' + (zh ? '三個專欄追蹤同一場比賽，樣本共 1 場。' : 'Three desks cover the same matchup. Sample: one game.') + '</p>';
@@ -137,7 +142,7 @@
         (zh ? '探索票登錄 ' : 'Pick recorded ') + time(exploration.filedAt) + '</p><p class="pv">' +
         '<a href="' + esc(exploration.source.url) + '" rel="noopener noreferrer">NBA</a> · ' + (zh ? '規則 v1' : 'Rule v1') + '</p>' +
         (score ? '<p>' + (zh ? '研究選擇 ' : 'Research pick: ') + labels[score.desks[index].outcome] + ' · ' +
-          (zh ? '基準 ' : 'Baseline: ') + labels[score.baselineOutcome] + '</p>' : '<p class="pv">' + (zh ? '尚未結算' : 'Scoring pending') + '</p>') + '</section></aside>';
+          (zh ? '基準 ' : 'Baseline: ') + labels[score.baselineOutcome] + '</p>' : '<p class="pv">' + (zh ? '尚未結算' : 'Scoring pending') + '</p>') + '</section>' + deskReviewLink(desk.id) + '</aside>';
     }).join('');
     var index = '<nav class="edition-index" aria-label="' + (zh ? '本場專欄' : 'Matchup columns') + '">' +
       (article ? '<a class="pill" href="#pregame-column">' + (zh ? '賽前專欄' : 'Pregame column') + '</a>' : '') +

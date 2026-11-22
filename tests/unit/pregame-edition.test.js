@@ -523,3 +523,140 @@ test('the two articles are independent: a valid review stands without the pregam
     assert.ok(review.includes('這場的賽後檢討尚未刊出') && review.includes('#pregame-column'));
   }
 });
+
+// M5 (NBA #180): three desk postgame reviews, each separately pinned. Synthetic data only, never live evidence.
+function deskReviewSample() {
+  const s = postgameSample();
+  const {game,schedule,review} = s;
+  const recorded = '2026-01-01T12:00:00Z';
+  game.exploration = {schema:'mosport-a/exploration@1',nbaGameId:id,espnGameId:espnId,away:'ORL',home:'DET',tipoffAt:tip,
+    initialDigest:game.pins.INITIAL,filedAt:recorded,source:{url:schedule.source.originalUrl,observedAt:observed,sha256:'a'.repeat(64)},
+    desks:[{id:'turnovers',version:'1',awayValue:10,homeValue:13,pick:'AWAY'},{id:'second-chance',version:'1',awayValue:14,homeValue:16,pick:'HOME'}]};
+  const columns = {};
+  for (const desk of ['season-record','turnovers','second-chance']) {
+    const copy = {title:'Pregame '+desk,body:'One.\n\nTwo.',watch:'Watch the ball.',limit:'One sample.'};
+    columns[desk] = {en:copy,zh:{...copy,title:'賽前 '+desk}};
+  }
+  game.deskCopy = {nbaGameId:id,preparedAt:recorded,columns};
+  game.pins.exploration = digest(game.exploration); game.pins.deskCopy = digest(game.deskCopy);
+  const shared = {nbaGameId:id,espnGameId:espnId,receiptRef:review.receiptRef,resultDigest:review.resultDigest,boxSha256:'b'.repeat(64),
+    pregameColumnsDigest:game.pins.deskCopy,preparedAt:'2026-01-01T23:45:00Z'};
+  const make = (deskId,kind,vote,pick,tag) => ({deskId,...shared,originalVoteDigest:vote,originalVoteKind:kind,originalPick:pick,
+    zh:{title:'測試'+tag+'檢討',dek:tag+'導言',body:tag+'第一段\n\n'+tag+'第二段'},en:{title:'Synthetic '+tag+' review',dek:tag+' dek',body:tag+' one\n\n'+tag+' two'}});
+  const keys = {'season-record':'deskReviewSeasonRecord',turnovers:'deskReviewTurnovers','second-chance':'deskReviewSecondChance'};
+  const originals = {
+    'season-record': make('season-record','INITIAL',game.pins.INITIAL,'AWAY','戰績'),
+    turnovers: make('turnovers','EXPLORATION',game.pins.exploration,'AWAY','失誤'),
+    'second-chance': make('second-chance','EXPLORATION',game.pins.exploration,'HOME','二波')};
+  function set(deskId, value, repin = true) {
+    const key = keys[deskId];
+    if (value === undefined) { delete game[key]; delete game.pins[key]; return; }
+    game[key] = value; game.pins[key] = repin ? digest(value) : digest(originals[deskId]);
+  }
+  for (const deskId of Object.keys(keys)) set(deskId, JSON.parse(JSON.stringify(originals[deskId])));
+  return Object.assign(s,{keys,originals,set});
+}
+const DESKS = ['season-record','turnovers','second-chance'];
+const present = g => DESKS.filter(d => g.analysis.deskReviews[d]);
+test('M5 (1, 7, 8): three complete, distinct desk reviews render on the review page with fixed anchors; pregame columns, votes and the editor review stay', () => {
+  const {schedule,opts,model,originals} = deskReviewSample();
+  const g = model();
+  assert.deepEqual(present(g),DESKS);
+  assert.equal(new Set(DESKS.map(d => g.analysis.deskReviews[d].zh.body)).size,3,'three different articles');
+  for (const [lang,label,picks,sample,back,forward] of [
+    ['zh','MOSPORT 研究專欄 · 戰績觀察室 · 賽後檢討',['賽前原票：魔術（賽前初選）','賽前原票：魔術（探索票）','賽前原票：活塞（探索票）'],'各席檢討同一場比賽，樣本共 1 場。','閱讀本席賽前專欄','閱讀本席賽後檢討'],
+    ['en','MOSPORT Research Column · Record Desk · Postgame review',['Original pregame pick: Magic (initial pick)','Original pregame pick: Magic (exploratory pick)','Original pregame pick: Pistons (exploratory pick)'],'Each desk reviews the same game. Sample: one game.','Read this desk’s pregame column','Read this desk’s postgame review']]) {
+    const page = renderPage(schedule,'review',q(lang),null,opts({realTeams:true}));
+    for (const d of DESKS) {
+      assert.ok(page.includes('id="desk-review-'+d+'"'),lang+' anchor '+d);
+      assert.ok(page.includes(originals[d][lang].title) && page.includes(originals[d][lang].dek),lang+' '+d);
+      assert.match(page,new RegExp('href="match\\.html\\?[^"]*game='+id+'[^"]*#desk-'+d+'"'),lang+' back link '+d);
+    }
+    assert.equal((page.match(/data-desk-review=/g) || []).length,3);
+    for (const t of [label,...picks,sample,back,'id="postgame-review"']) assert.ok(page.includes(t),lang+' '+t);
+    const match = renderPage(schedule,'match',q(lang),null,opts({realTeams:true}));
+    for (const d of DESKS) assert.match(match,new RegExp('href="review\\.html\\?[^"]*game='+id+'[^"]*#desk-review-'+d+'"'),lang+' match link '+d);
+    assert.equal(match.split(forward).length - 1,3);
+    // Original pregame columns, picks and the editor review entry are unchanged and not replaced by review text.
+    for (const t of ['postgame-entry','id="desk-season-record"','id="desk-turnovers"','id="desk-second-chance"',lang === 'zh' ? '賽前初選 · 魔術' : 'Initial pick · Magic',lang === 'zh' ? '探索票 · 魔術' : 'Exploratory pick · Magic',lang === 'zh' ? '探索票 · 活塞' : 'Exploratory pick · Pistons',lang === 'zh' ? '賽前 turnovers' : 'Pregame turnovers'])
+      assert.ok(match.includes(t),lang+' match keeps '+t);
+    assert.ok(!match.includes(originals.turnovers[lang].body.split('\n')[0]),'review body not placed in the pregame page');
+  }
+  // Public site: no desk review and nothing private.
+  const pub = renderPage(schedule,'review',q('zh'),null,{now:'2026-01-02T01:00:00Z',result:opts().result,pins:opts().pins});
+  assert.ok(!/desk-review|測試戰績檢討|研究專欄/.test(pub) && pub.includes('today-empty'));
+});
+test('M5 (2, 6): a missing desk review hides only itself; a single published review stands without the others or the editor review', () => {
+  const s = deskReviewSample();
+  const {schedule,game,opts,model,set} = s;
+  set('turnovers');
+  assert.deepEqual(present(model()),['season-record','second-chance']);
+  let page = renderPage(schedule,'review',q('zh'),null,opts());
+  assert.ok(!page.includes('desk-review-turnovers') && page.includes('desk-review-season-record') && page.includes('id="postgame-review"'));
+  let match = renderPage(schedule,'match',q('zh'),null,opts());
+  assert.ok(!match.includes('#desk-review-turnovers') && match.includes('#desk-review-second-chance'));
+  // Only one desk review published, and no editor review.
+  set('second-chance'); delete game.postgameReview; delete game.pins.postgameReview;
+  const g = model();
+  assert.deepEqual(present(g),['season-record']); assert.equal(g.analysis.postgameReview,null);
+  page = renderPage(schedule,'review',q('zh'),null,opts());
+  assert.ok(page.includes('id="desk-review-season-record"') && page.includes('本場 MOSPORT 總評尚未刊出') && page.includes('終場'));
+  assert.equal((page.match(/data-desk-review=/g) || []).length,1);
+  match = renderPage(schedule,'match',q('zh'),null,opts());
+  assert.equal(match.split('閱讀本席賽後檢討').length - 1,1);
+  assert.ok(match.includes('id="desk-turnovers"') && match.includes('id="desk-second-chance"'),'pregame desk columns stay');
+});
+test('M5 (3, 4, 5): wrong game, receipt, digest, desk ID or original vote, no verified final, or an early or future filing hide only that review', () => {
+  const s = deskReviewSample();
+  const {game,model,originals,set} = s;
+  function only(target, label, mutate, repin = true) {
+    for (const d of DESKS) set(d, JSON.parse(JSON.stringify(originals[d])));
+    const value = JSON.parse(JSON.stringify(originals[target])); mutate(value); set(target, value, repin);
+    const g = model();
+    assert.equal(g.analysis.deskReviews[target],null,target+': '+label);
+    assert.deepEqual(present(g),DESKS.filter(d => d !== target),target+': '+label+' leaves the others');
+    assert.ok(g.analysis.postgameReview && g.analysis.article && g.analysis.desks && g.analysis.stages.length,label+': editor review and pregame stay');
+  }
+  for (const target of DESKS) {
+    only(target,'wrong pin',r => { r.zh.title = '改過'; },false);
+    only(target,'other NBA game',r => { r.nbaGameId = '0090000002'; });
+    only(target,'other ESPN game',r => { r.espnGameId = '1'; });
+    only(target,'other receipt',r => { r.receiptRef = 'NBA-'+id+'-R2'; });
+    only(target,'result digest',r => { r.resultDigest = '0'.repeat(64); });
+    only(target,'box hash format',r => { r.boxSha256 = 'B'.repeat(64); });
+    only(target,'pregame columns digest',r => { r.pregameColumnsDigest = '0'.repeat(64); });
+    only(target,'original vote digest',r => { r.originalVoteDigest = '0'.repeat(64); });
+    only(target,'original pick flipped',r => { r.originalPick = r.originalPick === 'HOME' ? 'AWAY' : 'HOME'; });
+    only(target,'vote kind',r => { r.originalVoteKind = r.originalVoteKind === 'INITIAL' ? 'EXPLORATION' : 'INITIAL'; });
+    only(target,'desk id',r => { r.deskId = target === 'turnovers' ? 'second-chance' : 'turnovers'; });
+    only(target,'before confirmations',r => { r.preparedAt = '2026-01-01T22:59:59Z'; });
+    only(target,'not filed yet',r => { r.preparedAt = '2026-01-02T02:00:00Z'; });
+    only(target,'extra field',r => { r.outcome = 'HIT'; });
+    only(target,'non-string field',r => { r.preparedAt = 1; });
+    only(target,'blank body',r => { r.en.body = ' '; });
+  }
+  // Swapped articles: the second-chance review filed under the turnovers key is refused; second-chance itself stands.
+  for (const d of DESKS) set(d, JSON.parse(JSON.stringify(originals[d])));
+  set('turnovers', JSON.parse(JSON.stringify(originals['second-chance'])));
+  assert.deepEqual(present(model()),['season-record','second-chance']);
+  // No verified final: every desk review and the editor review are hidden; the pregame stays.
+  for (const d of DESKS) set(d, JSON.parse(JSON.stringify(originals[d])));
+  for (const extra of [{result:null},{pins:{}}]) {
+    const g = model(extra);
+    assert.deepEqual(present(g),[]); assert.equal(g.analysis.postgameReview,null); assert.ok(g.analysis.article && g.analysis.desks);
+  }
+  // A broken exploration hides the two exploratory desk reviews, not the record desk review.
+  game.exploration.filedAt = '2026-01-01T12:00:01Z';
+  assert.deepEqual(present(model()),['season-record']);
+});
+test('M5: a desk review is tied to the pregame columns by pin; without their bodies it stands, with no dead link back', () => {
+  const s = deskReviewSample();
+  const {schedule,game,opts,model} = s;
+  game.deskCopy = Object.assign({},game.deskCopy,{preparedAt:'2026-01-01T12:00:01Z'});   // body no longer matches its pin
+  const g = model();
+  assert.equal(g.analysis.desks,null); assert.deepEqual(present(g),DESKS);
+  const page = renderPage(schedule,'review',q('zh'),null,opts());
+  assert.ok(page.includes('#desk-season-record"') && !page.includes('#desk-turnovers"') && !page.includes('#desk-second-chance"'),'links back only to cards that exist');
+  game.pins.deskCopy = 'not-a-digest';
+  assert.deepEqual(present(model()),[]);
+});
