@@ -38,6 +38,17 @@ function cleanSlot(slot, art, assets) {
   if (selected && selected.darkFile) assets.add(selected.darkFile);
   return { ...slot, activeVersion: selected ? selected.id : null, versions: kept };
 }
+function stripPrivateSourceLinks(value) {
+  if (!value || typeof value !== 'object') return;
+  if (Array.isArray(value)) { value.forEach(stripPrivateSourceLinks); return; }
+  delete value.sourceUrl;
+  for (const child of Object.values(value)) stripPrivateSourceLinks(child);
+}
+function validatePublicDependencies(html, eligible) {
+  for (const m of html.matchAll(/<(?:script|link)\b[^>]+(?:src|href)="([^"?#]+)"/g)) {
+    if (!eligible.has(m[1])) throw Error('PUBLIC_DEPENDENCY_MISSING: '+m[1]);
+  }
+}
 function cleanRegistry(reg) {
   const assets = new Set();
   const cleaned = JSON.parse(JSON.stringify(reg));
@@ -45,6 +56,8 @@ function cleanRegistry(reg) {
   for (const [key,slot] of Object.entries(reg.logos || {})) cleaned.logos[key] = cleanSlot(slot, false, assets);
   /* All 30 currently registered NBA logo versions are rights=UNVERIFIED. */
   cleaned.teamLogos.entries = {};
+  // The public registry must not expose founder-owned Drive/source URLs.
+  stripPrivateSourceLinks(cleaned);
   const files = [...assets].sort();
   for (const rel of files) {
     if (!/^assets\/(art|brand)\/[a-zA-Z0-9._-]+\.(webp|png|svg)$/.test(rel))
@@ -86,6 +99,13 @@ function build(outDir) {
   const sourceFiles = [...ALLOW, ...fonts, ...activeAssets];
   if (new Set(sourceFiles).size !== sourceFiles.length) throw Error('DUPLICATED_ALLOWLIST_PATH');
   sourceFiles.forEach(read); // fail closed before creating output
+  const eligible = new Set([...sourceFiles, 'data/asset-registry.json',
+    'data/asset-registry.js', 'js/production-config.js']);
+  // A typo or injected HTML dependency must fail the Vercel build itself,
+  // not merely a test the Vercel build may never run.
+  for (const file of sourceFiles.filter(rel => rel.endsWith('.html'))) {
+    validatePublicDependencies(publicHtml(read(file)), eligible);
+  }
   fs.mkdirSync(path.dirname(destination), { recursive: true });
   const stage = fs.mkdtempSync(path.join(path.dirname(destination), '.mosport-public-'));
   const inventory = {};
@@ -125,4 +145,4 @@ if (require.main === module) {
     console.log('PUBLIC_VERCEL_CANDIDATE_OK files='+Object.keys(x.files).length+' sha='+x.sourceCommit);
   } catch(e) { console.error('PUBLIC_VERCEL_BLOCKED: '+e.message); process.exitCode=1; }
 }
-module.exports = { build, cleanRegistry, publicHtml, ALLOW, GAME_ID };
+module.exports = { build, cleanRegistry, publicHtml, validatePublicDependencies, ALLOW, GAME_ID };
