@@ -16,7 +16,9 @@
   if (!['schedule', 'issue', 'fixture'].some(function (key) { return q.has(key); })) {
     var editions = editionsAt(Date.now());
     var requested = q.get('game'), listed = editions.some(function (item) { return item.id === requested; });
-    q.set('schedule', listed ? requested : editions.length ? editions[0].id : '0022600051');
+    /* An owner-edition practice link opens its own saved game; the public site ignores it. */
+    var practice = owner && q.get('practice') === '1' && /^\d{10}$/.test(requested || '');
+    q.set('schedule', listed || practice ? requested : editions.length ? editions[0].id : '0022600051');
   }
   var store = {
     get: function (k) { try { return localStorage.getItem('mosport.' + k); } catch (e) { return null; } },

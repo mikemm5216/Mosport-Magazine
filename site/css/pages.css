@@ -143,3 +143,18 @@ details summary { cursor: pointer; min-height: 44px; display: flex; align-items:
 .edition-article .pv, .edition-pick .pv { margin-top: .6em; }
 
 .edition-index { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+/* Owner-edition post-game personal practice: sharp and simple, touch-sized. */
+.practice-card { max-width: 76ch; margin-inline: auto; }
+.practice-card p { line-height: 1.6; }
+.practice-teams { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; }
+.practice-team { flex: 1 1 14rem; min-height: 52px; padding: 8px 16px; border: 2px solid var(--rule); border-radius: 6px; background: var(--card); color: var(--ink); font: inherit; font-weight: 700; font-size: 16px; cursor: pointer; }
+.practice-team[aria-pressed="true"] { border-color: var(--blue); background: var(--blue); color: #fff; }
+.practice-team:disabled { cursor: default; }
+.practice-team:disabled:not([aria-pressed="true"]) { opacity: .45; }
+.practice-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.practice-card button.cta, .practice-card button.pill { border: 0; cursor: pointer; font: inherit; font-weight: 700; }
+.practice-card button.pill { border: 1px solid var(--rule); }
+.practice-card button.cta:disabled { opacity: .45; cursor: not-allowed; }
+.practice-status b, .practice-outcome { font-family: var(--f-cond); font-size: 18px; }
+.practice-won { color: var(--blue); }

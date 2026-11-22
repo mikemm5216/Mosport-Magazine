@@ -329,6 +329,104 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
         await ctx.close();
       }
     }
+    // Owner-edition post-game personal practice on the real pinned 0022600051 final.
+    // The owner edition is injected and the practice file is derived from the public
+    // verified result in this test only; neither ships with the public site.
+    {
+      const real = require('../../site/data/results/0022600051.json');
+      const practiceFile = { schema: 'mosport/owner-practice@1', nbaGameId: real.nbaGameId, espnGameId: real.espnGameId,
+        home: real.home, away: real.away, homeScore: real.homeScore, awayScore: real.awayScore };
+      const owner = { catalog: [{ id: '0090000009', away: 'ORL', home: 'DET', availableAt: '2026-01-01T00:00:00Z' }], games: {} };
+      const share = base + 'match.html?game=0022600051&practice=1';
+      const spoiler = /106|104|終場 湖人|Final: |命中|Hit ·/;
+      async function session(opts = {}) {
+        const ctx = await browser.newContext({ viewport: { width: opts.width || 1440, height: opts.width ? 844 : 900 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
+        const p = await ctx.newPage();
+        const errors = []; p.on('pageerror', e => errors.push(e.message));
+        const asked = []; p.on('request', r => { if (r.url().includes('/owner-edition/')) asked.push(r.url()); });
+        await p.clock.setFixedTime(new Date('2026-11-21T06:00:00Z'));
+        if (opts.owner !== false) await p.addInitScript(o => { window.MOSPORT_OWNER_EDITION = o; }, owner);
+        await p.route('**/data/owner-edition/coach-practice/*.json', route => opts.file === null ? route.fulfill({ status: 404, body: '' }) : route.fulfill({ json: opts.file || practiceFile }));
+        return { ctx, p, errors, asked };
+      }
+      const settle = p => p.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
+      const main = p => p.locator('main').innerText();
+      // Public site: the practice link is just the ordinary page; no entry, no buttons, no request.
+      {
+        const { ctx, p, errors, asked } = await session({ owner: false });
+        for (const url of [share + '&lang=zh', base + 'match.html?game=0022600051&lang=zh']) {
+          await p.goto(url); await settle(p); await p.waitForFunction(() => document.body.innerText.includes('終場'));
+          assert.equal(await p.locator('.practice-card, [data-act^="practice"]').count(), 0, url);
+        }
+        assert.deepEqual(asked, []); assert.deepEqual(errors, []); checks++;
+        await ctx.close();
+      }
+      // Owner: the matchup page offers the entry once the practice file agrees with the verified final.
+      {
+        const { ctx, p, errors } = await session();
+        await p.goto(base + 'match.html?schedule=0022600051&game=0022600051&lang=zh'); await settle(p);
+        await p.waitForSelector('#practice-entry');
+        assert.match(await p.locator('#practice-entry a').getAttribute('href'), /match\.html\?.*game=0022600051.*practice=1|practice=1.*game=0022600051/);
+        assert.ok((await p.locator('#practice-entry').innerText()).includes('賽後個人練習 · 不計入正式戰績'));
+        assert.deepEqual(errors, []); checks++;
+        await ctx.close();
+      }
+      // Owner share link: pregame first, pick by team name, lock, refresh, reveal, play again.
+      for (const [lang, width, names, wrong, right] of [
+        ['zh', 390, ['沙加緬度 國王', '洛杉磯 湖人'], '這次沒猜中', '猜對了'],
+        ['en', 390, ['Sacramento Kings', 'Los Angeles Lakers'], 'Not this time', 'You got it right'],
+        ['zh', 1440, ['沙加緬度 國王', '洛杉磯 湖人'], '這次沒猜中', '猜對了']
+      ]) {
+        const { ctx, p, errors } = await session({ width: width === 390 ? 390 : undefined });
+        await p.goto(share + '&lang=' + lang); await settle(p);
+        await p.waitForSelector('.practice-teams');
+        const teams = p.locator('.practice-team');
+        assert.deepEqual(await teams.allInnerTexts(), names, lang + ' team buttons');
+        assert.ok(!spoiler.test(await main(p)), lang + ': no final before reveal');
+        assert.ok(await p.locator('[data-act="practice-lock"]').isDisabled());
+        await teams.nth(0).click();
+        assert.equal(await teams.nth(0).getAttribute('aria-pressed'), 'true');
+        await p.locator('[data-act="practice-lock"]').click();
+        await p.waitForSelector('.practice-status');
+        assert.ok(/已鎖定|Locked/.test(await p.locator('.practice-status').innerText()));
+        assert.ok(await teams.nth(1).isDisabled());
+        assert.ok(!spoiler.test(await main(p)), lang + ': no final after lock');
+        await p.reload(); await settle(p); await p.waitForSelector('.practice-status');
+        assert.equal(await p.locator('.practice-team[aria-pressed="true"]').innerText(), names[0], lang + ': lock survives refresh');
+        assert.ok(!spoiler.test(await main(p)), lang + ': no final after refresh');
+        if (width === 390) assert.ok(await p.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), lang + ': no overflow');
+        if (width === 390) await p.screenshot({ path: path.join(ROOT, 'artifacts', 'practice-locked-' + lang + '-390.png'), fullPage: true });
+        await p.locator('[data-act="practice-reveal"]').click();
+        await p.waitForSelector('.practice-outcome');
+        const revealed = await p.locator('#practice').innerText();
+        assert.ok(revealed.includes(lang === 'zh' ? '終場 湖人 106：104 國王' : 'Final: Lakers 106–104 Kings') && revealed.includes(wrong), lang + ': reveal shows final and own result');
+        if (width === 390) await p.screenshot({ path: path.join(ROOT, 'artifacts', 'practice-revealed-' + lang + '-390.png'), fullPage: true });
+        await p.reload(); await settle(p); await p.waitForSelector('.practice-outcome');
+        await p.locator('[data-act="practice-again"]').click();
+        assert.equal(await p.locator('.practice-team[aria-pressed="true"]').count(), 0);
+        assert.ok(!spoiler.test(await main(p)), lang + ': new round hides the final again');
+        await teams.nth(1).click(); await p.locator('[data-act="practice-lock"]').click(); await p.locator('[data-act="practice-reveal"]').click();
+        assert.ok((await p.locator('.practice-outcome').innerText()).includes(right));
+        assert.deepEqual(errors, []); checks++;
+        await ctx.close();
+      }
+      // Missing, wrong-game or disagreeing practice data never produces a result or a button.
+      for (const [label, file] of [['404', null], ['score differs', Object.assign({}, practiceFile, { homeScore: 107 })],
+        ['other game', Object.assign({}, practiceFile, { nbaGameId: '0022600052' })], ['teams swapped', Object.assign({}, practiceFile, { home: real.away, away: real.home })],
+        ['extra field', Object.assign({}, practiceFile, { winner: 'HOME' })], ['other ESPN id', Object.assign({}, practiceFile, { espnGameId: '1' })]]) {
+        const { ctx, p, errors } = await session({ file });
+        await p.goto(share + '&lang=zh'); await settle(p);
+        await p.waitForFunction(() => document.querySelector('#practice [role="status"]') && !document.querySelector('#practice [aria-busy]'));
+        const text = await main(p);
+        assert.ok(text.includes('不提供練習') && !spoiler.test(text), label);
+        assert.equal(await p.locator('[data-act^="practice"]').count(), 0, label);
+        await p.goto(base + 'match.html?schedule=0022600051&game=0022600051&lang=zh'); await settle(p); await p.waitForFunction(() => document.body.innerText.includes('終場'));
+        await p.waitForTimeout(200);
+        assert.equal(await p.locator('#practice-entry').count(), 0, label + ': no entry');
+        assert.deepEqual(errors, []); checks++;
+        await ctx.close();
+      }
+    }
     await page.goto(url.replace('game=0022600051', 'game=UNKNOWN'));
     await page.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
     assert.ok((await content(page)).includes('找不到這場比賽')); checks++;
