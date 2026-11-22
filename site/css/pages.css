@@ -135,3 +135,11 @@ details summary { cursor: pointer; min-height: 44px; display: flex; align-items:
 /* Beta-0 saved schedule and future qualified context use the same page cards. */
 .pregame-record code { overflow-wrap: anywhere; }
 .pregame-missing { margin: 0 0 8px; }
+
+.edition-article, .edition-pick { max-width: 76ch; margin-inline: auto; }
+.edition-article h2, .edition-pick h2 { margin: .45em 0; font-family: var(--f-cond); }
+.edition-article h3, .edition-stage h3 { margin: 1em 0 .3em; }
+.edition-article p, .edition-pick p { line-height: 1.6; }
+.edition-article .pv, .edition-pick .pv { margin-top: .6em; }
+
+.edition-index { display: flex; flex-wrap: wrap; gap: .5rem; }
