@@ -22,7 +22,8 @@ function install(directory, editionDirectory) {
     if (schedule.game.gameId !== id || reader.digest(schedule) !== game.pins.schedule ||
         contracts.validateSchedule(schedule,{now:new Date().toISOString()}).length) throw Error('Invalid official schedule');
     const files = {article:'article.json',INITIAL:'initial.json',FINAL:'final.json',finalPolicy:'final-policy.json',finalWitness:'final-witness.json',scoreINITIAL:'score-initial.json',scoreFINAL:'score-final.json',
-      exploration:'exploration.json',deskCopy:'desk-copy.json',explorationScore:'exploration-score.json',postgameReview:'postgame-review.json'};
+      exploration:'exploration.json',deskCopy:'desk-copy.json',explorationScore:'exploration-score.json',postgameReview:'postgame-review.json',
+      deskReviewSeasonRecord:'desk-review-season-record.json',deskReviewTurnovers:'desk-review-turnovers.json',deskReviewSecondChance:'desk-review-second-chance.json'};
     for (const [key,file] of Object.entries(files)) {
       if (!game.pins[key]) continue;
       game[key]=read(file);
