@@ -7,85 +7,6 @@
   var showFirst = false;
   var requestedColumn = typeof location !== 'undefined' ? (location.hash || '').slice(1) : '';
 
-  /* Owner-edition post-game personal practice, never an official record. The final comes
-     only from the reader's own pin-verified result; the owner practice file must agree with
-     it exactly, or nothing is offered. The public site has no owner edition and no entry. */
-  var practiceState = {}, practiceMemory = {}, practiceGame = null, practicePending = null;
-  function ownerEdition() { return typeof window !== 'undefined' && window.MOSPORT_OWNER_EDITION || null; }
-  function practiceMode() { return !!ownerEdition() && new URLSearchParams(location.search).get('practice') === '1'; }
-  function practiceReady(c, g) { return !!ownerEdition() && c.isFinal(g) && practiceState[g.gameId] === 'OK'; }
-  function practiceMatches(p, g) {
-    var keys = 'away awayScore espnGameId home homeScore nbaGameId schema';
-    return !!p && typeof p === 'object' && !Array.isArray(p) && Object.keys(p).sort().join(' ') === keys &&
-      p.schema === 'mosport/owner-practice@1' && p.nbaGameId === g.gameId &&
-      typeof p.espnGameId === 'string' && /^\d+$/.test(p.espnGameId) && p.espnGameId === g.espnGameId &&
-      p.home === g.home && p.away === g.away &&
-      [p.homeScore, p.awayScore].every(function (n) { return Number.isSafeInteger(n) && n >= 0; }) && p.homeScore !== p.awayScore &&
-      p.homeScore === g.score.home && p.awayScore === g.score.away;
-  }
-  function loadPractice(g) {
-    if (!g || practiceState[g.gameId] || !/^\d{10}$/.test(g.gameId) || typeof fetch !== 'function') return;
-    practiceState[g.gameId] = 'LOADING';
-    function done(state) { practiceState[g.gameId] = state; if (window.MOSPORT_APP) window.MOSPORT_APP.render(); }
-    fetch('data/owner-edition/coach-practice/' + g.gameId + '.json', { cache: 'no-store', credentials: 'same-origin' })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (p) { done(practiceMatches(p, g) ? 'OK' : 'MISSING'); }, function () { done('MISSING'); });
-  }
-  function freshPlay() { return { pick: null, locked: false, lockedAt: null, revealed: false }; }
-  function validPlay(v) {
-    return !!v && typeof v === 'object' && ['HOME', 'AWAY', null].indexOf(v.pick) >= 0 && typeof v.locked === 'boolean' && typeof v.revealed === 'boolean' &&
-      (v.locked ? !!v.pick && typeof v.lockedAt === 'string' && Number.isFinite(Date.parse(v.lockedAt)) : v.lockedAt === null && !v.revealed);
-  }
-  function readPlay(id) {
-    var v = null;
-    try { v = JSON.parse(localStorage.getItem('mosport.practice.' + id)); } catch (e) { v = null; }
-    return validPlay(v) ? v : validPlay(practiceMemory[id]) ? practiceMemory[id] : freshPlay();
-  }
-  function writePlay(id, v) {
-    practiceMemory[id] = v;
-    try { localStorage.setItem('mosport.practice.' + id, JSON.stringify(v)); } catch (e) { /* this tab keeps it in memory */ }
-  }
-  function practiceLabel(zh) { return zh ? '賽後個人練習 · 不計入正式戰績' : 'Post-game personal practice · Not an official record'; }
-  function practiceEntry(c, g) {
-    if (!practiceReady(c, g)) return '';
-    var zh = c.lang === 'zh';
-    return '<aside class="card practice-card practice-entry" id="practice-entry"><p class="lbl lbl-brand">' + practiceLabel(zh) + '</p><p>' +
-      (zh ? '先讀賽前觀點，選一隊並鎖定，再揭曉這場的真實賽果。' : 'Read the pregame view, lock in a team, then reveal the real final.') +
-      '</p><a class="cta" href="' + c.esc(c.href('match.html', { game: g.gameId, practice: '1' })) + '">' + (zh ? '開始練習' : 'Start practice') + ' <span aria-hidden="true">→</span></a></aside>';
-  }
-  function practiceCard(c, g) {
-    var zh = c.lang === 'zh', esc = c.esc, state = practiceState[g.gameId];
-    var head = '<section class="card practice-card" id="practice" aria-labelledby="practice-h"><p class="lbl lbl-brand" id="practice-h">' + practiceLabel(zh) + '</p>';
-    var back = '<a class="pill" href="' + esc(c.href('match.html', { game: g.gameId })) + '">' + (zh ? '回到賽事頁' : 'Back to the game page') + '</a>';
-    if (!c.isFinal(g) || state === 'MISSING') {
-      return head + '<p role="status">' + (zh ? '這場沒有可核對的已驗證終場，不提供練習。' : 'There is no verified final to check for this game, so practice is not offered.') + '</p><p>' + back + '</p></section>';
-    }
-    if (state !== 'OK') return head + '<p role="status" aria-busy="true">' + (zh ? '讀取練習資料…' : 'Loading practice…') + '</p></section>';
-    var play = readPlay(g.gameId);
-    function name(side) { return c.teamName(side === 'HOME' ? g.home : g.away); }
-    var teams = '<div class="practice-teams" role="group" aria-label="' + (zh ? '選一隊' : 'Pick a team') + '">' + ['AWAY', 'HOME'].map(function (side) {
-      return '<button type="button" class="practice-team" data-act="practice-pick" data-side="' + side + '" aria-pressed="' + (play.pick === side) + '"' +
-        (play.locked ? ' disabled' : '') + '>' + esc(name(side)) + '</button>';
-    }).join('') + '</div>';
-    var body;
-    if (!play.locked) {
-      body = '<p>' + (zh ? '這場已經結束，比分先藏起來。選你認為贏球的一隊，按「鎖定」後才能揭曉。' : 'This game is over and the score is hidden. Pick the team you think won, lock it in, then reveal.') + '</p>' + teams +
-        '<p class="practice-actions"><button type="button" class="cta" data-act="practice-lock"' + (play.pick ? '' : ' disabled') + '>' + (zh ? '鎖定' : 'Lock it in') + '</button></p>';
-    } else {
-      var at = new Intl.DateTimeFormat(zh ? 'zh-TW' : 'en-US', { timeZone: 'Asia/Taipei', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(play.lockedAt));
-      body = teams + '<p class="practice-status" role="status"><b>' + (zh ? '已鎖定' : 'Locked') + '</b> · ' + esc(name(play.pick)) + ' · <time datetime="' + esc(play.lockedAt) + '">' + esc(at) + ' UTC+8</time></p>';
-      if (!play.revealed) {
-        body += '<p class="practice-actions"><button type="button" class="cta" data-act="practice-reveal">' + (zh ? '揭曉賽果' : 'Reveal the final') + '</button></p>';
-      } else {
-        var winner = g.score.home > g.score.away ? 'HOME' : 'AWAY', won = play.pick === winner;
-        body += '<p class="result-note practice-final">' + esc(c.finalLine(g)) + '</p><p class="practice-outcome practice-' + (won ? 'won' : 'lost') + '">' +
-          esc(zh ? (won ? '你選' + name(play.pick) + '，猜對了。' : '你選' + name(play.pick) + '，這次沒猜中。') : (won ? 'You picked the ' + name(play.pick) + '. You got it right.' : 'You picked the ' + name(play.pick) + '. Not this time.')) +
-          '</p><p class="practice-actions"><button type="button" class="pill" data-act="practice-again">' + (zh ? '再玩一局' : 'Play again') + '</button> ' + back + '</p>';
-      }
-    }
-    return head + body + '</section>';
-  }
-
 
   function recordColumn(c, g, initial) {
     var zh = c.lang === 'zh', esc = c.esc;
@@ -127,7 +48,7 @@
       '</p><h2>' + esc(title) + '</h2><p>' + esc(records + rule) + '</p><p>' + esc(comparison) + '</p>';
   }
 
-  function renderAnalysis(c, g, hideOutcomes) {
+  function renderAnalysis(c, g) {
     var a = g.analysis, zh = c.lang === 'zh', esc = c.esc;
     function time(iso, precise) {
       var options = {timeZone:'Asia/Taipei', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hour12:false};
@@ -171,7 +92,7 @@
       return '<section class="edition-stage"><h3>' + header + ' · ' + esc(pick(s.pick)) + '</h3><p>' + esc(record(g.away,s.awayRecord) + ' / ' + record(g.home,s.homeRecord)) +
         '</p><p class="pv">' + timing +
         '</p><p class="pv">' + (zh ? '主場基準選擇 ' : 'Home baseline pick: ') + esc(pick(s.baseline)) + '</p>' +
-        (hideOutcomes ? '' : s.evaluation ? '<p>' + (zh ? '研究選擇 ' : 'Research pick: ') + labels[s.evaluation.outcome] + ' · ' + (zh ? '基準 ' : 'Baseline: ') + labels[s.evaluation.baselineOutcome] + '</p>' : '<p class="pv">' + (s.late ? (zh ? '不列入成績' : 'Excluded from scoring') : (zh ? '尚未結算' : 'Scoring pending')) + '</p>') + '</section>';
+        (s.evaluation ? '<p>' + (zh ? '研究選擇 ' : 'Research pick: ') + labels[s.evaluation.outcome] + ' · ' + (zh ? '基準 ' : 'Baseline: ') + labels[s.evaluation.baselineOutcome] + '</p>' : '<p class="pv">' + (s.late ? (zh ? '不列入成績' : 'Excluded from scoring') : (zh ? '尚未結算' : 'Scoring pending')) + '</p>') + '</section>';
     }).join('');
     var pending = a.finalStatus === 'PENDING' ? (zh ? 'T−15 鎖定窗口開始於 ' : 'T−15 window opens ') + time(a.finalWindowAt) :
       a.finalStatus === 'OPEN' ? (zh ? 'T−15 窗口已開啟，等待鎖定紀錄。' : 'The T−15 window is open. Awaiting a lock.') :
@@ -215,7 +136,7 @@
         '<p class="pv">' + (zh ? 'NBA 資料觀測 ' : 'NBA source observed ') + time(exploration.source.observedAt) + ' · ' +
         (zh ? '探索票登錄 ' : 'Pick recorded ') + time(exploration.filedAt) + '</p><p class="pv">' +
         '<a href="' + esc(exploration.source.url) + '" rel="noopener noreferrer">NBA</a> · ' + (zh ? '規則 v1' : 'Rule v1') + '</p>' +
-        (hideOutcomes ? '' : score ? '<p>' + (zh ? '研究選擇 ' : 'Research pick: ') + labels[score.desks[index].outcome] + ' · ' +
+        (score ? '<p>' + (zh ? '研究選擇 ' : 'Research pick: ') + labels[score.desks[index].outcome] + ' · ' +
           (zh ? '基準 ' : 'Baseline: ') + labels[score.baselineOutcome] + '</p>' : '<p class="pv">' + (zh ? '尚未結算' : 'Scoring pending') + '</p>') + '</section></aside>';
     }).join('');
     var index = '<nav class="edition-index" aria-label="' + (zh ? '本場專欄' : 'Matchup columns') + '">' +
@@ -240,7 +161,6 @@
   window.MOSPORT_PAGE = {
     id: 'today',
     after: function () {
-      if (practicePending) { var pending = practicePending; practicePending = null; loadPractice(pending); }
       // Schedule data can arrive after the browser's initial fragment scroll.
       if (!/^(pregame-column|desk-(season-record|turnovers|second-chance))$/.test(requestedColumn)) return;
       var target = document.getElementById(requestedColumn);
@@ -249,18 +169,7 @@
         requestedColumn = '';
       }
     },
-    onAct: function (act, el, rerender) {
-      if (act === 'first') { showFirst = !showFirst; rerender(); return; }
-      if (!practiceGame || !/^practice-/.test(act)) return;
-      var play = readPlay(practiceGame);
-      if (act === 'practice-pick' && !play.locked && (el.dataset.side === 'HOME' || el.dataset.side === 'AWAY')) play.pick = el.dataset.side;
-      else if (act === 'practice-lock' && play.pick && !play.locked) { play.locked = true; play.lockedAt = new Date().toISOString(); }
-      else if (act === 'practice-reveal' && play.locked) play.revealed = true;
-      else if (act === 'practice-again') play = freshPlay();
-      else return;
-      writePlay(practiceGame, play);
-      rerender();
-    },
+    onAct: function (act, el, rerender) { if (act === 'first') { showFirst = !showFirst; rerender(); } },
     render: function (c) {
       var T = c.T, esc = c.esc, L = c.lang, R = c.issue;
       if (R.status !== 'OK' && R.status !== 'SCHEDULE_ONLY' && !(R.status === 'STALE' && c.meta && c.meta.scheduleOnly)) return c.topbar + '<main class="sheet">' + c.stateMessage(R) + '</main>';
@@ -281,6 +190,11 @@
           '<div class="m-teams">' +
             '<div class="m-team"><mo-team-logo code="' + esc(g.away) + '" size="xl"></mo-team-logo><p class="m-name">' + esc(c.teamName(g.away)) + '</p><p class="m-side">' + (L === 'zh' ? '客隊' : 'Away') + ' · ' + esc(g.away) + '</p></div>' +
             '<div class="m-mid"><h1 id="m-h">' + esc(g.away) + ' <span>@</span> ' + esc(g.home) + '</h1><p>' + esc(c.tipLine(g)) + '</p>' +
+              /* The game is over: the B-pinned, A-verified final leads the page. No picks,
+                 no personal result. Past tip-off without it, the page says it is waiting. */
+              (c.isFinal(g) ? '<p class="m-final" id="m-final" role="group" aria-label="' + esc(c.finalLine(g)) + '"><span class="m-final-lbl">' + (L === 'zh' ? '比賽結束 · 官方核實終場' : 'Game over · Verified final') +
+                '</span><span class="m-score">' + esc(String(g.score.away)) + ' <span aria-hidden="true">–</span> ' + esc(String(g.score.home)) + '</span></p>' :
+                g.pastTipoff ? '<p class="m-wait" id="m-wait">' + (L === 'zh' ? '已過開賽時間，等待官方核實賽果。' : 'Tip-off has passed. Waiting for the verified result.') + '</p>' : '') +
               (eligible ? '<p class="m-badges"><span class="b b-hero">' + T('ver_' + w.version) + '</span><span class="b b-hero2">' + (L === 'zh' ? '快照 ' : 'Snapshot ') + esc(w.snapshotId) + '</span></p>' : '') +
             '</div>' +
             '<div class="m-team"><mo-team-logo code="' + esc(g.home) + '" size="xl"></mo-team-logo><p class="m-name">' + esc(c.teamName(g.home)) + '</p><p class="m-side">' + (L === 'zh' ? '主隊' : 'Home') + ' · ' + esc(g.home) + '</p></div>' +
@@ -289,26 +203,11 @@
 
       var top = '<div class="m-top"><a class="back" href="' + c.href(g.source ? 'schedule.html' : 'index.html') + '">‹ ' + T(g.source ? 'openSchedule' : 'back') + '</a>' + (R.demo ? '<span class="demo-line"><span class="demo-badge">DEMO</span> ' + esc(d ? d.demo : T('demoNote')) + '</span>' : '') + '</div>';
 
-      practiceGame = null;
-      practicePending = ownerEdition() && c.isFinal(g) ? g : null;
-      if (practiceMode()) {
-        /* Until revealed: pregame view only — no final, no FINAL status, no research outcome. */
-        var ready = practiceReady(c, g), revealed = ready && readPlay(g.gameId).revealed;
-        if (ready) practiceGame = g.gameId;
-        var view = '';
-        if (g.analysis) view = renderAnalysis(c, g, !revealed);
-        else if (!revealed) {
-          var before = c.pregameRecord(Object.assign({}, g, { status: 'SCHEDULED', score: null, pastTipoff: false }), { reader: true });
-          view = before ? '<section class="card"><p class="lbl">' + esc(T('pregameTitle')) + '</p>' + before + '</section>' : '';
-        }
-        return c.topbar + '<main class="sheet">' + top + head + practiceCard(c, g) + view + '</main>';
-      }
-
       if (!eligible) {
         /* An empty pregame card is not shown: no record, no tipoff notice, no reason line. */
         var pregameBody = c.pregameRecord(g) + (g.source ? '' : '<p class="pv">' + esc(T('noRead_' + g.noReadReason)) + '</p>');
         var analysis = g.analysis ? renderAnalysis(c, g) : '';
-        return c.topbar + '<main class="sheet">' + top + head + practiceEntry(c, g) + analysis +
+        return c.topbar + '<main class="sheet">' + top + head + analysis +
           (R.status === 'STALE' ? c.stateMessage(R) : '') +
           (g.source ? '<section class="card"><p>' + esc(T('savedSchedule')) + ' · ' + esc(c.statusLabel(g)) + '</p><p class="pv">NBA game ID ' + esc(g.gameId) + '</p>' + c.sourceNote(g.source) + '</section>' : '') +
           (pregameBody ? '<section class="card"><p class="lbl">' + esc(T(c.isFinal(g) ? 'final' : 'pregameTitle')) + '</p>' + pregameBody + '</section>' : '') + '</main>';

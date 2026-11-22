@@ -144,17 +144,10 @@ details summary { cursor: pointer; min-height: 44px; display: flex; align-items:
 
 .edition-index { display: flex; flex-wrap: wrap; gap: .5rem; }
 
-/* Owner-edition post-game personal practice: sharp and simple, touch-sized. */
-.practice-card { max-width: 76ch; margin-inline: auto; }
-.practice-card p { line-height: 1.6; }
-.practice-teams { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; }
-.practice-team { flex: 1 1 14rem; min-height: 52px; padding: 8px 16px; border: 2px solid var(--rule); border-radius: 6px; background: var(--card); color: var(--ink); font: inherit; font-weight: 700; font-size: 16px; cursor: pointer; }
-.practice-team[aria-pressed="true"] { border-color: var(--blue); background: var(--blue); color: #fff; }
-.practice-team:disabled { cursor: default; }
-.practice-team:disabled:not([aria-pressed="true"]) { opacity: .45; }
-.practice-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-.practice-card button.cta, .practice-card button.pill { border: 0; cursor: pointer; font: inherit; font-weight: 700; }
-.practice-card button.pill { border: 1px solid var(--rule); }
-.practice-card button.cta:disabled { opacity: .45; cursor: not-allowed; }
-.practice-status b, .practice-outcome { font-family: var(--f-cond); font-size: 18px; }
-.practice-won { color: var(--blue); }
+/* A verified final leads the matchup header; waiting is said plainly. */
+.m-final { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.m-final-lbl { font-family: var(--f-cond); font-weight: 700; letter-spacing: .08em; font-size: 13px; color: var(--sky); }
+.m-mid .m-score { font-family: 'Anton', Impact, sans-serif; font-size: 48px; line-height: 1; }
+.m-wait { color: var(--on2); }
+@media (min-width: 1024px) { .m-mid .m-score { font-size: 64px; } }
+.mo-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

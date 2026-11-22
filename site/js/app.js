@@ -197,6 +197,7 @@
     if (page.after) page.after(ctx);
   }
   function noteHtml() {
+    if (state.finalNote) return '<div class="note" role="status"><span>' + esc(state.finalNote[state.lang]) + '</span><button type="button" class="ut" data-act="close-final">' + esc(T('close')) + '</button></div>';
     if (!state.note) return '';
     return '<div class="note" role="status"><span>' + esc(T(state.note)) + '</span><button type="button" class="ut" data-act="close-note">' + esc(T('close')) + '</button></div>';
   }
@@ -209,6 +210,7 @@
     else if (act === 'theme') { state.theme = state.theme === 'dark' ? 'light' : 'dark'; store.set('theme', state.theme); render(); }
     else if (act === 'note') { state.note = b.dataset.note; render(); }
     else if (act === 'close-note') { state.note = null; render(); }
+    else if (act === 'close-final') { state.finalNote = null; render(); }
     else if (window.MOSPORT_PAGE.onAct) window.MOSPORT_PAGE.onAct(act, b, render);
   });
 
@@ -251,13 +253,93 @@
     return next;
   }
   var extra = { result: null };
+  /* A page left open past tip-off asks again for the same two same-origin static files
+     the page already trusts — the B pins script and the pinned result — and shows the
+     final only when the unchanged pipeline validator accepts the pair. Only while the
+     page is visible, one request at a time, at most RECHECK_MAX timed passes per page
+     load; returning to the page (visibilitychange, pageshow) asks once more. No source
+     outside this site, nothing in the background, and it stops once the final shows. */
+  var RECHECK_MS = 5 * 60 * 1000, RECHECK_MAX = 36;
+  var recheck = { saved: undefined, timer: null, busy: false, left: RECHECK_MAX, announce: false, announced: {} };
+  function shownGame() {
+    var m = data.model;
+    return m && m.meta && m.meta.scheduleOnly && m.schedule && m.schedule[0] || null;
+  }
+  function waiting() { var g = shownGame(); return !!(g && g.pastTipoff && !g.score && recheck.saved != null); }
+  function pageVisible() { return typeof document.visibilityState !== 'string' || document.visibilityState === 'visible'; }
+  function armRecheck() {
+    if (recheck.timer || recheck.busy || recheck.left <= 0 || !pageVisible() || !waiting() || typeof setTimeout !== 'function') return;
+    recheck.timer = setTimeout(function () { recheck.timer = null; recheckResult(true); }, RECHECK_MS);
+  }
+  function recheckResult(timed) {
+    if (recheck.timer) { clearTimeout(recheck.timer); recheck.timer = null; }
+    if (recheck.busy || !pageVisible() || !waiting() || typeof fetch !== 'function' || !document.createElement) return;
+    if (timed) { if (recheck.left <= 0) return; recheck.left--; }
+    recheck.busy = true;
+    var id = shownGame().gameId, saved = recheck.saved;
+    function finish(res) {
+      recheck.busy = false;
+      /* Ignore an answer for a page that has since changed games or already shows a final. */
+      if (res != null && recheck.saved === saved && waiting() && shownGame().gameId === id) {
+        extra = { result: JSON.parse(JSON.stringify(res)) };
+        recheck.announce = true;
+        refresh(saved);
+      } else armRecheck();
+    }
+    /* Reload the trusted pin list itself: a first pin ships with the next deployment. */
+    var tag = document.createElement('script');
+    tag.src = 'js/data/result-pins.js?recheck=' + Date.now();
+    tag.onload = tag.onerror = function () {
+      if (tag.parentNode) tag.parentNode.removeChild(tag);
+      var pins = window.MOSPORT_RESULT_PINS || {};
+      if (!/^\d{10}$/.test(id) || !Object.prototype.hasOwnProperty.call(pins, id)) { finish(null); return; }
+      fetch('data/results/' + id + '.json', { credentials: 'same-origin', cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(finish, function () { finish(null); });
+    };
+    (document.head || document.documentElement).appendChild(tag);
+  }
+  function announceFinal() {
+    if (!recheck.announce) return;
+    recheck.announce = false;
+    /* Only a final that the validator accepted on this pass, once per game per page. */
+    var g = shownGame();
+    if (!g || !g.score || recheck.announced[g.gameId]) return;
+    recheck.announced[g.gameId] = true;
+    var lang = state.lang;
+    state.finalNote = {};
+    ['zh', 'en'].forEach(function (l) {
+      state.lang = l;
+      state.finalNote[l] = (l === 'zh' ? '比賽結束。' : 'The game is over. ') + finalLine(g);
+    });
+    state.lang = lang;
+    var live = document.getElementById('mo-live');
+    if (!live) {
+      live = document.createElement('div');
+      live.id = 'mo-live'; live.className = 'mo-live';
+      live.setAttribute('role', 'status'); live.setAttribute('aria-live', 'polite');
+      document.body.appendChild(live);
+    }
+    live.textContent = state.finalNote[state.lang];
+    render();
+  }
+  if (typeof document.addEventListener === 'function') {
+    document.addEventListener('visibilitychange', function () {
+      if (pageVisible()) recheckResult(false);
+      else if (recheck.timer) { clearTimeout(recheck.timer); recheck.timer = null; }
+    });
+  }
+  if (typeof window.addEventListener === 'function') window.addEventListener('pageshow', function (e) { if (e && e.persisted) recheckResult(false); });
   function refresh(saved) {
     if (boundaryTimer) { clearTimeout(boundaryTimer); boundaryTimer = null; }
+    recheck.saved = saved;
     for (;;) {
       var raw = saved == null ? saved : JSON.parse(saved);
       var now = nowFor(raw);
       data.model = window.MOSPORT_PIPELINE.run(raw, { mode: window.MOSPORT_CONFIG.mode, now: now, result: extra.result, pins: window.MOSPORT_RESULT_PINS || {}, ownerEdition: owner }).model;
       render();
+      announceFinal();
+      armRecheck();
       var next = nextBoundary(raw, Date.parse(now));
       if (next === null || typeof setTimeout !== 'function') return;
       var wait = next - Date.now();

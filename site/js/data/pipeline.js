@@ -109,7 +109,7 @@
     var game = publicGame(raw.game, false);
     game.source = publicSource(raw.source);
     game.pastTipoff = pastTipoff;
-    if (result) { game.status = 'FINAL'; game.score = { away: result.awayScore, home: result.homeScore }; game.espnGameId = result.espnGameId; }
+    if (result) { game.status = 'FINAL'; game.score = { away: result.awayScore, home: result.homeScore }; }
     game.pregameSnapshot = null;
     /* Curated official matchup facts may appear before a public World release;
        they are suppressed before observation, after tip-off and on expired saved
