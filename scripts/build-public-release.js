@@ -44,30 +44,97 @@ function stripPrivateSourceLinks(value) {
   delete value.sourceUrl;
   for (const child of Object.values(value)) stripPrivateSourceLinks(child);
 }
-// Every tag that makes the browser fetch something, in any case and with any
-// quoting, must name an allowlisted same-site relative file. Anchors are
-// navigation, not fetched dependencies, and are not checked here.
-// The tag body is quote-aware (a '>' inside a quoted value does not end the tag)
-// and an attribute may follow whitespace, '/', or a closing quote, as browsers allow.
-const DEPENDENCY_TAG = /<(?:script|link|img|source|iframe|frame|embed|object|audio|video|track|input|image|feimage|use|base)\b(?:[^>"']|"[^"]*"|'[^']*')*>/gi;
-const URL_ATTR = /[\s/"'](src|href|srcset|data|poster|xlink:href|imagesrcset)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/gi;
-function dependencyUrls(tag) {
-  const out = [];
-  for (const a of tag.matchAll(URL_ATTR)) {
-    const value = (a[2] ?? a[3] ?? a[4]).trim();
-    if (/srcset$/i.test(a[1])) value.split(',').forEach(part => { const u = part.trim().split(/\s+/)[0]; if (u) out.push(u); });
-    else out.push(value);
+// Public HTML is checked with a small linear tokenizer that follows the browser's
+// start-tag and attribute rules (WHATWG tokenizer: attribute names end at
+// whitespace, '/', '>' or '='; a stray quote is part of a name; values are
+// "…", '…' or unquoted). Anything that could make the browser fetch a file
+// must name an allowlisted same-site relative path; constructs that could
+// fetch without a plain URL attribute (<style>, inline script, style="…url()",
+// <base>, meta refresh) fail closed. Anchors (<a>/<area> href) are navigation.
+const MAX_PUBLIC_HTML = 64 * 1024;
+const URL_ATTRS = new Set(['src', 'href', 'srcset', 'imagesrcset', 'data', 'poster', 'xlink:href',
+  'background', 'action', 'formaction', 'codebase', 'manifest', 'ping', 'longdesc', 'archive', 'lowsrc', 'dynsrc']);
+// Always raw text in browsers. <noscript> is NOT listed: with scripting off it is
+// parsed as markup, so its content is scanned like any other markup.
+const RAW_TEXT = new Set(['script', 'style', 'textarea', 'title', 'xmp', 'iframe', 'noembed', 'noframes', 'plaintext']);
+function tokenizeStartTags(html) {
+  const tags = [], n = html.length, ws = c => c === ' ' || c === '\t' || c === '\n' || c === '\f' || c === '\r';
+  let i = 0;
+  const fail = what => { throw Error('PUBLIC_HTML_UNPARSEABLE: ' + what + ' at ' + i); };
+  while (i < n) {
+    const lt = html.indexOf('<', i);
+    if (lt < 0) break;
+    i = lt + 1;
+    const c = html[i];
+    if (c === '!') {
+      if (html.startsWith('!--', i)) {
+        // Browsers also end a comment at '<!-->', '<!--->' and '--!>'; fail closed on those forms.
+        const end = html.indexOf('-->', i + 3);
+        if (end < 0 || html.startsWith('>', i + 3) || html.startsWith('->', i + 3) || html.slice(i + 3, end).includes('--!>')) fail('ambiguous comment');
+        i = end + 3;
+      } else { const end = html.indexOf('>', i); if (end < 0) fail('unterminated markup declaration'); i = end + 1; }
+      continue;
+    }
+    if (c === '/' || c === '?') { const end = html.indexOf('>', i); if (end < 0) fail('unterminated tag'); i = end + 1; continue; }
+    if (!c || !/[A-Za-z]/.test(c)) continue; // literal '<' in text
+    let j = i; while (j < n && !ws(html[j]) && html[j] !== '/' && html[j] !== '>') j++;
+    const tag = { name: html.slice(i, j).toLowerCase(), attrs: [], body: '' };
+    i = j;
+    for (;;) {
+      while (i < n && (ws(html[i]) || html[i] === '/')) i++;
+      if (i >= n) fail('unterminated <' + tag.name + '>');
+      if (html[i] === '>') { i++; break; }
+      let k = i + 1; // the first character, even '=' or a quote, belongs to the name
+      while (k < n && !ws(html[k]) && html[k] !== '/' && html[k] !== '>' && html[k] !== '=') k++;
+      const name = html.slice(i, k).toLowerCase();
+      i = k; while (i < n && ws(html[i])) i++;
+      let value = '';
+      if (html[i] === '=') {
+        i++; while (i < n && ws(html[i])) i++;
+        const q = html[i];
+        if (q === '"' || q === "'") { const end = html.indexOf(q, i + 1); if (end < 0) fail('unterminated attribute value'); value = html.slice(i + 1, end); i = end + 1; }
+        else { let e = i; while (e < n && !ws(html[e]) && html[e] !== '>') e++; value = html.slice(i, e); i = e; }
+      }
+      tag.attrs.push([name, value]);
+    }
+    if (RAW_TEXT.has(tag.name)) {
+      const close = html.toLowerCase().indexOf('</' + tag.name, i);
+      if (close < 0) fail('unterminated <' + tag.name + '> content');
+      tag.body = html.slice(i, close); i = close;
+    }
+    tags.push(tag);
   }
-  return out;
+  return tags;
+}
+function urlValues(name, value) {
+  if (name === 'srcset' || name === 'imagesrcset') return value.split(',').map(p => p.trim().split(/\s+/)[0]).filter(Boolean);
+  if (name === 'archive' || name === 'ping') return value.split(/[\s,]+/).filter(Boolean);
+  return [value];
 }
 function validatePublicDependencies(html, eligible) {
-  for (const t of html.matchAll(DEPENDENCY_TAG)) {
-    if (/^<base\b/i.test(t[0])) throw Error('PUBLIC_DEPENDENCY_BASE: '+t[0]);
-    for (const raw of dependencyUrls(t[0])) {
-      const rel = raw.replace(/[?#].*$/, '');
-      if (!rel || /^[a-z][a-z0-9+.-]*:/i.test(raw) || raw.startsWith('//') || raw.startsWith('\\')
-        || rel.startsWith('/') || rel.includes('\\') || rel.split('/').includes('..') || !eligible.has(rel)) {
-        throw Error('PUBLIC_DEPENDENCY_MISSING: '+raw);
+  if (html.length > MAX_PUBLIC_HTML) throw Error('PUBLIC_HTML_TOO_LARGE: ' + html.length);
+  for (const tag of tokenizeStartTags(html)) {
+    if (tag.name === 'base' || tag.name === 'style') throw Error('PUBLIC_DEPENDENCY_' + tag.name.toUpperCase());
+    if (tag.name === 'script' && tag.body.trim()) throw Error('PUBLIC_INLINE_SCRIPT');
+    for (const [name, value] of tag.attrs) {
+      // Values are entity-decoded by browsers and CSS has its own escapes, so any style
+      // value able to spell url()/@import/image-set() fails closed, as does an escaped http-equiv.
+      if (name === 'style' && /[(&\\@]/.test(value)) throw Error('PUBLIC_DEPENDENCY_STYLE_URL');
+      if (name === 'http-equiv' && /refresh|&/i.test(value)) throw Error('PUBLIC_DEPENDENCY_REFRESH');
+      if (name === 'srcdoc' || /^on/.test(name)) throw Error('PUBLIC_INLINE_CODE: ' + name);
+      if (!URL_ATTRS.has(name)) continue;
+      if (name === 'href' && (tag.name === 'a' || tag.name === 'area')) {
+        // browsers drop tabs/newlines/controls inside a URL, so 'java\tscript:' still runs
+        if (/^(?:javascript|vbscript|data):/i.test(value.replace(/[\u0000-\u0020]/g, ''))) throw Error('PUBLIC_INLINE_CODE: href');
+        continue;
+      }
+      for (const raw0 of urlValues(name, value)) {
+        const raw = raw0.trim(), rel = raw.replace(/[?#].*$/, '');
+        if (!rel || /^[a-z][a-z0-9+.-]*:/i.test(raw) || raw.startsWith('//') || raw.startsWith('\\')
+          || rel.startsWith('/') || rel.includes('\\') || rel.includes('&') || rel.includes('%')
+          || rel.split('/').includes('..') || !eligible.has(rel)) {
+          throw Error('PUBLIC_DEPENDENCY_MISSING: ' + raw);
+        }
       }
     }
   }

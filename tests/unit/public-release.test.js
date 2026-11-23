@@ -78,7 +78,9 @@ test('M6 dependency check is not bypassed by quoting, case, other fetching tags 
     "<SCRIPT SRC='js/app.js'></SCRIPT>", '<script src=js/app.js></script>', '<script src="js/app.js?v=2"></script>',
     '<link rel="icon" href="assets/brand/mosport-mark.svg">', '<img src="assets/brand/mosport-mark.svg" alt="">',
     '<a href="https://www.nba.com/">NBA</a>', '<img alt="a > b" src="assets/brand/mosport-mark.svg">',
-    '<script/src="js/app.js"></script>', '<script type="module"src="js/app.js"></script>'
+    '<script/src="js/app.js"></script>', '<script type="module"src="js/app.js"></script>',
+    '<!-- note --><script src="js/app.js"></script>', '<title>a < b</title><script src="js/app.js"></script>',
+    '<a href="review.html?game=1">x</a><a href="mailto:x@example.com">m</a>', '<div style="color:red;margin:0">x</div>'
   ]) assert.doesNotThrow(() => validatePublicDependencies(ok, eligible), ok);
   for (const bad of [
     "<script src='js/fixtures/demo.js'></script>", '<script src=js/data/owner-edition.js></script>',
@@ -93,6 +95,35 @@ test('M6 dependency check is not bypassed by quoting, case, other fetching tags 
     '<script/src="https://cdn.example/x.js"></script>', '<script type="x"src="https://cdn.example/x.js"></script>',
     "<script type='x'src='internal/store.js'></script>", '<img alt="a > b" src="https://cdn.example/x.png">',
     "<img alt='a > b' src=assets/teams/PHI.svg>", '<svg><filter><feImage href="https://cdn.example/x.png"/></filter></svg>',
-    '<svg><image xlink:href="assets/teams/PHI.svg"/></svg>'
+    '<svg><image xlink:href="assets/teams/PHI.svg"/></svg>',
+    // independent QA of a82ffcf: an unpaired quote must not hide a tag, and non-attribute fetches fail closed
+    '<img alt=a"b src=https://cdn.example/x.png>', '<script x" src="https://cdn.example/x.js"></script>',
+    "<script x' src=internal/store.js></script>", '<body background="https://cdn.example/x.png">',
+    '<img src="js/app.js&#x2f;x">', '<img src="js/%2e%2e/internal/x.js">'
   ]) assert.throws(() => validatePublicDependencies(bad, eligible), /PUBLIC_DEPENDENCY_(MISSING|BASE)/, bad);
+  for (const [bad, code] of [
+    ['<style>@import url(https://cdn.example/x.css)</style>', /PUBLIC_DEPENDENCY_STYLE$/],
+    ['<div style="background:url(https://cdn.example/x.png)"></div>', /PUBLIC_DEPENDENCY_STYLE_URL/],
+    ['<div style="background:u&#114;l(https://cdn.example/x.png)"></div>', /PUBLIC_DEPENDENCY_STYLE_URL/],
+    ['<div style="background:u\\72 l(https://cdn.example/x.png)"></div>', /PUBLIC_DEPENDENCY_STYLE_URL/],
+    ['<meta http-equiv="re&#102;resh" content="0;url=https://cdn.example/">', /PUBLIC_DEPENDENCY_REFRESH/],
+    ['<script type=module>import "https://cdn.example/x.js"</script>', /PUBLIC_INLINE_SCRIPT/],
+    ['<meta http-equiv="refresh" content="0;url=https://cdn.example/">', /PUBLIC_DEPENDENCY_REFRESH/],
+    ['<iframe srcdoc="<script src=https://cdn.example/x.js></script>"></iframe>', /PUBLIC_INLINE_CODE/],
+    ['<img src="js/app.js" onload="fetch(1)">', /PUBLIC_INLINE_CODE/],
+    ['<a href="javascript:fetch(1)">x</a>', /PUBLIC_INLINE_CODE/],
+    ['<a href=" java\tscript:fetch(1)">x</a>', /PUBLIC_INLINE_CODE/],
+    ['<!--><script src="https://cdn.example/x.js"></script>-->', /PUBLIC_HTML_UNPARSEABLE/],
+    ['<!-- a --!><script src="https://cdn.example/x.js"></script>-->', /PUBLIC_HTML_UNPARSEABLE/],
+    ['<script src="js/app.js"', /PUBLIC_HTML_UNPARSEABLE/],
+    ['<img alt="unterminated src=js/app.js>', /PUBLIC_HTML_UNPARSEABLE/],
+    ['<noscript><img src="https://cdn.example/x.png"></noscript>', /PUBLIC_DEPENDENCY_MISSING/],
+    ['<p>' + 'x'.repeat(64 * 1024) + '</p>', /PUBLIC_HTML_TOO_LARGE/]
+  ]) assert.throws(() => validatePublicDependencies(bad, eligible), code, bad);
+  // linear time: a pathological page just under the size cap is decided quickly
+  const started = Date.now();
+  for (const evil of ['<a' + ' x="'.repeat(16000), '<script ' + '"'.repeat(60000), '<'.repeat(60000), '<img alt=a"b '.repeat(4500)]) {
+    try { validatePublicDependencies(evil, eligible); } catch (e) { /* any rejection is fine */ }
+  }
+  assert.ok(Date.now() - started < 2000);
 });
