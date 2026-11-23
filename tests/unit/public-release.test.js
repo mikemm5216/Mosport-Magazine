@@ -78,6 +78,7 @@ test('M6 public shells follow a strict grammar: no tag, quoting, parser-differen
     "<SCRIPT SRC='js/app.js'></SCRIPT>", '<script src=js/app.js></script>', '<script src="js/app.js?v=2"></script>',
     '<script/src="js/app.js"></script>', '<link rel="icon" href="assets/brand/mosport-mark.svg">',
     '<LINK REL=Stylesheet HREF=css/home.css>', '<!-- note --><script src="js/app.js"></script>',
+    '<meta charset="UTF-8"><script src="\n js/app.js \t"></script>',
     '<!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">' +
       '<title>MOSPORT · More than sport</title><link rel="stylesheet" href="css/home.css"></head><body class="x"><div id="app"></div><script src="js/app.js"></script></body></html>'
   ]) assert.doesNotThrow(() => validatePublicDependencies(ok, eligible), ok);
@@ -106,7 +107,11 @@ test('M6 public shells follow a strict grammar: no tag, quoting, parser-differen
     `<p>${'İ'.repeat(40)}</p><title></title><img src=${X}.png>`, `<title>${'İ'.repeat(40)}</title><img src=${X}.png>`,
     `<title><script src="js/app.js"></script></title>`, `<script src="js/app.js"><!--<script>--></script>`,
     `<!--><script src="${X}.js"></script>-->`, `<!-- a --!><script src="${X}.js"></script>-->`, `<! x><img src=${X}>`,
-    '<script src="js/app.js"', '<title>unterminated', '<html lang="x" lang="y">', 'a < b', '<p>' + 'x'.repeat(64 * 1024) + '</p>'
+    '<script src="js/app.js"', '<title>unterminated', '<html lang="x" lang="y">', 'a < b', '<p>' + 'x'.repeat(64 * 1024) + '</p>',
+    // independent QA of 08d4304: F1 non-ASCII whitespace around URLs, F2 non-UTF-8 charset and control bytes
+    '<script src="\u00a0js/app.js"></script>', '<script src="js/app.js\ufeff"></script>', '<script src="\u2028js/app.js"></script>',
+    '<script src="js/app.js\u00a0"></script>', '<meta charset="iso-2022-jp">', '<meta charset=" shift_jis ">',
+    `<meta charset="utf-8"><title>\x1b$B</title><img src=${X}.png>`, '<div id="a\x00b"></div>'
   ]) assert.throws(() => validatePublicDependencies(bad, eligible), /PUBLIC_(DEPENDENCY|HTML|INLINE)/, bad);
   // linear time: pathological pages up to the size cap are decided quickly
   const started = Date.now();

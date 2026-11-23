@@ -60,6 +60,8 @@ const PUBLIC_LINK_RELS = new Set(['icon', 'stylesheet']);
 const PUBLIC_RAW_TEXT = new Set(['title', 'script']);
 function parsePublicHtml(html) {
   if (html.length > MAX_PUBLIC_HTML) throw Error('PUBLIC_HTML_TOO_LARGE: ' + html.length);
+  // Control bytes (e.g. ESC for ISO-2022-JP) let a non-UTF-8 decoder see different markup.
+  if (/[\x00-\x08\x0b\x0e-\x1f\x7f]/.test(html)) throw Error('PUBLIC_HTML_CONTROL_CHARACTER');
   const tags = [], n = html.length, ws = c => c === ' ' || c === '\t' || c === '\n' || c === '\f' || c === '\r';
   const fail = (code, at) => { throw Error(code + ' at ' + at); };
   const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
@@ -120,14 +122,16 @@ function parsePublicHtml(html) {
   return tags;
 }
 function publicUrl(raw, eligible) {
-  const v = raw.trim(), rel = v.replace(/[?#].*$/, '');
-  if (!rel || /^[a-z][a-z0-9+.-]*:/i.test(v) || v.startsWith('//') || /[\\&%]/.test(rel)
-    || rel.startsWith('/') || rel.split('/').includes('..') || !eligible.has(rel)) {
+  // Browsers strip only ASCII whitespace around a URL; anything else (NBSP, BOM, U+2028)
+  // stays in the path, so only those five characters are trimmed here.
+  const v = raw.replace(/^[\t\n\f\r ]+|[\t\n\f\r ]+$/g, ''), rel = v.replace(/[?#].*$/, '');
+  if (!rel || !/^[A-Za-z0-9._\/-]+$/.test(rel) || rel.startsWith('/') || rel.split('/').includes('..') || !eligible.has(rel)) {
     throw Error('PUBLIC_DEPENDENCY_MISSING: ' + raw);
   }
 }
 function validatePublicDependencies(html, eligible) {
   for (const tag of parsePublicHtml(html)) {
+    if (tag.name === 'meta' && tag.attrs.has('charset') && tag.attrs.get('charset').trim().toLowerCase() !== 'utf-8') throw Error('PUBLIC_HTML_CHARSET');
     if (tag.name === 'link') {
       if (!PUBLIC_LINK_RELS.has((tag.attrs.get('rel') || '').trim().toLowerCase())) throw Error('PUBLIC_DEPENDENCY_LINK_REL');
       publicUrl(tag.attrs.get('href') || '', eligible);
