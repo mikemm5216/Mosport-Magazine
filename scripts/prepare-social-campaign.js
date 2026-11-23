@@ -73,7 +73,7 @@ function createDraft(opts) {
   const copy = {
     threads: fact + '\nMOSPORT keeps verified game facts separate from analysis that has not been published. ' +
       'See the source-backed game page: ' + link('threads'),
-    x: fact + ' Verified facts, no invented predictions. ' + link('x'),
+    x: 'NBA archive: LAL 106–104 SAC. Official final. ' + link('x'),
     instagram: fact + '\nMOSPORT: evidence first. An archived official NBA result, not a live game. ' +
       'See the game page via our bio link. #NBA #MOSPORT'
   };
