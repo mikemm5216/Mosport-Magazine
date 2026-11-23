@@ -31,7 +31,7 @@ test('M6 Social campaign uses verified final and creates EN drafts, not external
     assert.equal(url.searchParams.get('utm_source'),post.channel);
     assert.equal(url.searchParams.get('utm_medium'),'organic_social');
     assert.equal(url.searchParams.get('utm_campaign'),'mosport_beta0_launch');
-    assert.match(post.text,/Lakers 106, Kings 104/);
+    assert.match(post.text, post.channel === 'x' ? /LAL 106–104 SAC/ : /Lakers 106, Kings 104/);
     assert.match(post.text,/archive|archived/i);
     assert.equal(post.approval.state,'PENDING_HUMAN');
     assert.equal(post.publication.state,'NOT_POSTED');
