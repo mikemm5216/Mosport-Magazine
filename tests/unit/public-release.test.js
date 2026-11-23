@@ -29,6 +29,7 @@ test('M6 production build publishes only allowlisted files, exact source and tru
   assert.ok(ALLOW.every(file => shipped.includes(file)));
   const cfg=fs.readFileSync(path.join(dest,'js/production-config.js'),'utf8');
   assert.match(cfg,/mode:\s*["']production["']/);
+  assert.match(cfg,/defaultLanguage:\s*["']en["']/);
   const registry=JSON.parse(fs.readFileSync(path.join(dest,'data/asset-registry.json')));
   assert.deepEqual(registry.teamLogos.entries,{});
   // sourceUrl contains founder-linked Drive provenance; never include in public output.
@@ -45,6 +46,7 @@ test('M6 production build publishes only allowlisted files, exact source and tru
   }
   for(const file of ['index.html','schedule.html','match.html','review.html']) {
     const html=fs.readFileSync(path.join(dest,file),'utf8');
+    assert.match(html, /<html lang="en"/, file+' should be English-first');
     assert.ok(!/js\/fixtures\//.test(html));
     assert.ok(!/owner-edition\.js/.test(html));
     assert.ok(html.indexOf('js/production-config.js')<html.indexOf('js/assets/loader.js'));
