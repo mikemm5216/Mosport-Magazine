@@ -77,7 +77,8 @@ test('M6 dependency check is not bypassed by quoting, case, other fetching tags 
   for (const ok of [
     "<SCRIPT SRC='js/app.js'></SCRIPT>", '<script src=js/app.js></script>', '<script src="js/app.js?v=2"></script>',
     '<link rel="icon" href="assets/brand/mosport-mark.svg">', '<img src="assets/brand/mosport-mark.svg" alt="">',
-    '<a href="https://www.nba.com/">NBA</a>'
+    '<a href="https://www.nba.com/">NBA</a>', '<img alt="a > b" src="assets/brand/mosport-mark.svg">',
+    '<script/src="js/app.js"></script>', '<script type="module"src="js/app.js"></script>'
   ]) assert.doesNotThrow(() => validatePublicDependencies(ok, eligible), ok);
   for (const bad of [
     "<script src='js/fixtures/demo.js'></script>", '<script src=js/data/owner-edition.js></script>',
@@ -87,6 +88,11 @@ test('M6 dependency check is not bypassed by quoting, case, other fetching tags 
     '<script src="data:text/javascript,1"></script>', '<img src="assets/teams/PHI.svg">',
     '<img srcset="assets/brand/mosport-mark.svg 1x, assets/teams/PHI.svg 2x">',
     '<iframe src="internal/editor.html"></iframe>', '<embed src="x.swf">', '<object data="x.pdf"></object>',
-    '<video poster="assets/x.webp"></video>', '<base href="https://evil.example/">', '<script src=""></script>'
+    '<video poster="assets/x.webp"></video>', '<base href="https://evil.example/">', '<script src=""></script>',
+    // independent QA of 1c2bb7e: separator and quoted-'>' bypasses
+    '<script/src="https://cdn.example/x.js"></script>', '<script type="x"src="https://cdn.example/x.js"></script>',
+    "<script type='x'src='internal/store.js'></script>", '<img alt="a > b" src="https://cdn.example/x.png">',
+    "<img alt='a > b' src=assets/teams/PHI.svg>", '<svg><filter><feImage href="https://cdn.example/x.png"/></filter></svg>',
+    '<svg><image xlink:href="assets/teams/PHI.svg"/></svg>'
   ]) assert.throws(() => validatePublicDependencies(bad, eligible), /PUBLIC_DEPENDENCY_(MISSING|BASE)/, bad);
 });

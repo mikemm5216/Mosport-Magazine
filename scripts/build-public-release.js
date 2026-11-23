@@ -47,8 +47,10 @@ function stripPrivateSourceLinks(value) {
 // Every tag that makes the browser fetch something, in any case and with any
 // quoting, must name an allowlisted same-site relative file. Anchors are
 // navigation, not fetched dependencies, and are not checked here.
-const DEPENDENCY_TAG = /<(?:script|link|img|source|iframe|frame|embed|object|audio|video|track|input|image|use|base)\b[^>]*>/gi;
-const URL_ATTR = /\s(src|href|srcset|data|poster|xlink:href|imagesrcset)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/gi;
+// The tag body is quote-aware (a '>' inside a quoted value does not end the tag)
+// and an attribute may follow whitespace, '/', or a closing quote, as browsers allow.
+const DEPENDENCY_TAG = /<(?:script|link|img|source|iframe|frame|embed|object|audio|video|track|input|image|feimage|use|base)\b(?:[^>"']|"[^"]*"|'[^']*')*>/gi;
+const URL_ATTR = /[\s/"'](src|href|srcset|data|poster|xlink:href|imagesrcset)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/gi;
 function dependencyUrls(tag) {
   const out = [];
   for (const a of tag.matchAll(URL_ATTR)) {
