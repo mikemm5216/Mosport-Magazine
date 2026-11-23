@@ -44,98 +44,97 @@ function stripPrivateSourceLinks(value) {
   delete value.sourceUrl;
   for (const child of Object.values(value)) stripPrivateSourceLinks(child);
 }
-// Public HTML is checked with a small linear tokenizer that follows the browser's
-// start-tag and attribute rules (WHATWG tokenizer: attribute names end at
-// whitespace, '/', '>' or '='; a stray quote is part of a name; values are
-// "…", '…' or unquoted). Anything that could make the browser fetch a file
-// must name an allowlisted same-site relative path; constructs that could
-// fetch without a plain URL attribute (<style>, inline script, style="…url()",
-// <base>, meta refresh) fail closed. Anchors (<a>/<area> href) are navigation.
+// The public pages are four tiny HTML shells we author; the renderer builds the
+// rest in JS from allowlisted files. So the shells are held to a strict grammar
+// instead of being parsed generally: only the tags and attributes they use, only
+// <!doctype html> and unambiguous comments, end tags exactly '</name>', no stray
+// '<', raw-text bodies without '<', <link> limited to icon/stylesheet, <script>
+// only with src and an empty body. Every src/href must be an allowlisted
+// same-site relative file. Anything else fails the build (linear time; 64 KiB cap).
 const MAX_PUBLIC_HTML = 64 * 1024;
-const URL_ATTRS = new Set(['src', 'href', 'srcset', 'imagesrcset', 'data', 'poster', 'xlink:href',
-  'background', 'action', 'formaction', 'codebase', 'manifest', 'ping', 'longdesc', 'archive', 'lowsrc', 'dynsrc']);
-// Always raw text in browsers. <noscript> is NOT listed: with scripting off it is
-// parsed as markup, so its content is scanned like any other markup.
-const RAW_TEXT = new Set(['script', 'style', 'textarea', 'title', 'xmp', 'iframe', 'noembed', 'noframes', 'plaintext']);
-function tokenizeStartTags(html) {
+const PUBLIC_TAGS = {
+  html: ['lang', 'data-theme'], head: [], meta: ['charset', 'name', 'content'], title: [],
+  link: ['rel', 'href'], body: ['class'], div: ['id', 'class'], script: ['src']
+};
+const PUBLIC_LINK_RELS = new Set(['icon', 'stylesheet']);
+const PUBLIC_RAW_TEXT = new Set(['title', 'script']);
+function parsePublicHtml(html) {
+  if (html.length > MAX_PUBLIC_HTML) throw Error('PUBLIC_HTML_TOO_LARGE: ' + html.length);
   const tags = [], n = html.length, ws = c => c === ' ' || c === '\t' || c === '\n' || c === '\f' || c === '\r';
+  const fail = (code, at) => { throw Error(code + ' at ' + at); };
+  const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
   let i = 0;
-  const fail = what => { throw Error('PUBLIC_HTML_UNPARSEABLE: ' + what + ' at ' + i); };
   while (i < n) {
     const lt = html.indexOf('<', i);
     if (lt < 0) break;
     i = lt + 1;
-    const c = html[i];
-    if (c === '!') {
-      if (html.startsWith('!--', i)) {
-        // Browsers also end a comment at '<!-->', '<!--->' and '--!>'; fail closed on those forms.
-        const end = html.indexOf('-->', i + 3);
-        if (end < 0 || html.startsWith('>', i + 3) || html.startsWith('->', i + 3) || html.slice(i + 3, end).includes('--!>')) fail('ambiguous comment');
-        i = end + 3;
-      } else { const end = html.indexOf('>', i); if (end < 0) fail('unterminated markup declaration'); i = end + 1; }
-      continue;
+    if (/^!doctype html>/i.test(html.slice(i, i + 14))) { i += 14; continue; }
+    if (html.startsWith('!--', i)) {
+      // Browsers also end a comment at '<!-->', '<!--->' and '--!>'; those forms fail closed.
+      const end = html.indexOf('-->', i + 3);
+      if (end < 0 || html[i + 3] === '>' || html.startsWith('->', i + 3) || html.slice(i + 3, end).includes('--!>')) fail('PUBLIC_HTML_UNPARSEABLE: ambiguous comment', lt);
+      i = end + 3; continue;
     }
-    if (c === '/' || c === '?') { const end = html.indexOf('>', i); if (end < 0) fail('unterminated tag'); i = end + 1; continue; }
-    if (!c || !/[A-Za-z]/.test(c)) continue; // literal '<' in text
+    const endTag = /^\/([A-Za-z]+)>/.exec(html.slice(i, i + 16));
+    if (endTag) {
+      if (!own(PUBLIC_TAGS, endTag[1].toLowerCase())) fail('PUBLIC_HTML_TAG_NOT_ALLOWED: /' + endTag[1], lt);
+      i += endTag[0].length; continue;
+    }
+    if (!/[A-Za-z]/.test(html[i] || '')) fail('PUBLIC_HTML_UNPARSEABLE: stray <', lt);
     let j = i; while (j < n && !ws(html[j]) && html[j] !== '/' && html[j] !== '>') j++;
-    const tag = { name: html.slice(i, j).toLowerCase(), attrs: [], body: '' };
+    const name = html.slice(i, j).toLowerCase();
+    if (!own(PUBLIC_TAGS, name)) fail('PUBLIC_HTML_TAG_NOT_ALLOWED: ' + name, lt);
+    const tag = { name, attrs: new Map(), body: '' };
     i = j;
     for (;;) {
       while (i < n && (ws(html[i]) || html[i] === '/')) i++;
-      if (i >= n) fail('unterminated <' + tag.name + '>');
+      if (i >= n) fail('PUBLIC_HTML_UNPARSEABLE: unterminated <' + name + '>', lt);
       if (html[i] === '>') { i++; break; }
       let k = i + 1; // the first character, even '=' or a quote, belongs to the name
       while (k < n && !ws(html[k]) && html[k] !== '/' && html[k] !== '>' && html[k] !== '=') k++;
-      const name = html.slice(i, k).toLowerCase();
+      const attr = html.slice(i, k).toLowerCase();
+      if (!PUBLIC_TAGS[name].includes(attr)) fail('PUBLIC_HTML_ATTRIBUTE_NOT_ALLOWED: ' + name + ' ' + attr, i);
+      if (tag.attrs.has(attr)) fail('PUBLIC_HTML_ATTRIBUTE_DUPLICATED: ' + name + ' ' + attr, i);
       i = k; while (i < n && ws(html[i])) i++;
       let value = '';
       if (html[i] === '=') {
         i++; while (i < n && ws(html[i])) i++;
         const q = html[i];
-        if (q === '"' || q === "'") { const end = html.indexOf(q, i + 1); if (end < 0) fail('unterminated attribute value'); value = html.slice(i + 1, end); i = end + 1; }
+        if (q === '"' || q === "'") { const end = html.indexOf(q, i + 1); if (end < 0) fail('PUBLIC_HTML_UNPARSEABLE: unterminated value', i); value = html.slice(i + 1, end); i = end + 1; }
         else { let e = i; while (e < n && !ws(html[e]) && html[e] !== '>') e++; value = html.slice(i, e); i = e; }
       }
-      tag.attrs.push([name, value]);
+      tag.attrs.set(attr, value);
     }
-    if (RAW_TEXT.has(tag.name)) {
-      const close = html.toLowerCase().indexOf('</' + tag.name, i);
-      if (close < 0) fail('unterminated <' + tag.name + '> content');
-      tag.body = html.slice(i, close); i = close;
+    if (PUBLIC_RAW_TEXT.has(name)) {
+      // Search the original string (no case-mapped copy, whose indexes can shift).
+      const close = new RegExp('</' + name + '[\\t\\n\\f\\r />]', 'gi');
+      close.lastIndex = i;
+      const m = close.exec(html);
+      if (!m) fail('PUBLIC_HTML_UNPARSEABLE: unterminated <' + name + '> content', lt);
+      tag.body = html.slice(i, m.index);
+      if (tag.body.includes('<')) fail('PUBLIC_HTML_UNPARSEABLE: markup inside <' + name + '>', i);
+      i = m.index;
     }
     tags.push(tag);
   }
   return tags;
 }
-function urlValues(name, value) {
-  if (name === 'srcset' || name === 'imagesrcset') return value.split(',').map(p => p.trim().split(/\s+/)[0]).filter(Boolean);
-  if (name === 'archive' || name === 'ping') return value.split(/[\s,]+/).filter(Boolean);
-  return [value];
+function publicUrl(raw, eligible) {
+  const v = raw.trim(), rel = v.replace(/[?#].*$/, '');
+  if (!rel || /^[a-z][a-z0-9+.-]*:/i.test(v) || v.startsWith('//') || /[\\&%]/.test(rel)
+    || rel.startsWith('/') || rel.split('/').includes('..') || !eligible.has(rel)) {
+    throw Error('PUBLIC_DEPENDENCY_MISSING: ' + raw);
+  }
 }
 function validatePublicDependencies(html, eligible) {
-  if (html.length > MAX_PUBLIC_HTML) throw Error('PUBLIC_HTML_TOO_LARGE: ' + html.length);
-  for (const tag of tokenizeStartTags(html)) {
-    if (tag.name === 'base' || tag.name === 'style') throw Error('PUBLIC_DEPENDENCY_' + tag.name.toUpperCase());
-    if (tag.name === 'script' && tag.body.trim()) throw Error('PUBLIC_INLINE_SCRIPT');
-    for (const [name, value] of tag.attrs) {
-      // Values are entity-decoded by browsers and CSS has its own escapes, so any style
-      // value able to spell url()/@import/image-set() fails closed, as does an escaped http-equiv.
-      if (name === 'style' && /[(&\\@]/.test(value)) throw Error('PUBLIC_DEPENDENCY_STYLE_URL');
-      if (name === 'http-equiv' && /refresh|&/i.test(value)) throw Error('PUBLIC_DEPENDENCY_REFRESH');
-      if (name === 'srcdoc' || /^on/.test(name)) throw Error('PUBLIC_INLINE_CODE: ' + name);
-      if (!URL_ATTRS.has(name)) continue;
-      if (name === 'href' && (tag.name === 'a' || tag.name === 'area')) {
-        // browsers drop tabs/newlines/controls inside a URL, so 'java\tscript:' still runs
-        if (/^(?:javascript|vbscript|data):/i.test(value.replace(/[\u0000-\u0020]/g, ''))) throw Error('PUBLIC_INLINE_CODE: href');
-        continue;
-      }
-      for (const raw0 of urlValues(name, value)) {
-        const raw = raw0.trim(), rel = raw.replace(/[?#].*$/, '');
-        if (!rel || /^[a-z][a-z0-9+.-]*:/i.test(raw) || raw.startsWith('//') || raw.startsWith('\\')
-          || rel.startsWith('/') || rel.includes('\\') || rel.includes('&') || rel.includes('%')
-          || rel.split('/').includes('..') || !eligible.has(rel)) {
-          throw Error('PUBLIC_DEPENDENCY_MISSING: ' + raw);
-        }
-      }
+  for (const tag of parsePublicHtml(html)) {
+    if (tag.name === 'link') {
+      if (!PUBLIC_LINK_RELS.has((tag.attrs.get('rel') || '').trim().toLowerCase())) throw Error('PUBLIC_DEPENDENCY_LINK_REL');
+      publicUrl(tag.attrs.get('href') || '', eligible);
+    }
+    if (tag.name === 'script') {
+      if (tag.body.trim() || !tag.attrs.has('src')) throw Error('PUBLIC_INLINE_SCRIPT');
+      publicUrl(tag.attrs.get('src'), eligible);
     }
   }
 }

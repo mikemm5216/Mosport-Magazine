@@ -72,57 +72,46 @@ test('M6 builder rejects unallowlisted HTML dependencies before deployment', () 
     '<script src="js/data/owner-edition.js"></script>', eligible), /PUBLIC_DEPENDENCY_MISSING/);
 });
 
-test('M6 dependency check is not bypassed by quoting, case, other fetching tags or URL forms', () => {
+test('M6 public shells follow a strict grammar: no tag, quoting, parser-differential or URL form ships an unlisted fetch', () => {
   const eligible = new Set(['js/app.js', 'css/home.css', 'assets/brand/mosport-mark.svg']);
   for (const ok of [
     "<SCRIPT SRC='js/app.js'></SCRIPT>", '<script src=js/app.js></script>', '<script src="js/app.js?v=2"></script>',
-    '<link rel="icon" href="assets/brand/mosport-mark.svg">', '<img src="assets/brand/mosport-mark.svg" alt="">',
-    '<a href="https://www.nba.com/">NBA</a>', '<img alt="a > b" src="assets/brand/mosport-mark.svg">',
-    '<script/src="js/app.js"></script>', '<script type="module"src="js/app.js"></script>',
-    '<!-- note --><script src="js/app.js"></script>', '<title>a < b</title><script src="js/app.js"></script>',
-    '<a href="review.html?game=1">x</a><a href="mailto:x@example.com">m</a>', '<div style="color:red;margin:0">x</div>'
+    '<script/src="js/app.js"></script>', '<link rel="icon" href="assets/brand/mosport-mark.svg">',
+    '<LINK REL=Stylesheet HREF=css/home.css>', '<!-- note --><script src="js/app.js"></script>',
+    '<!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">' +
+      '<title>MOSPORT · More than sport</title><link rel="stylesheet" href="css/home.css"></head><body class="x"><div id="app"></div><script src="js/app.js"></script></body></html>'
   ]) assert.doesNotThrow(() => validatePublicDependencies(ok, eligible), ok);
+  const X = 'https://cdn.example/x';
   for (const bad of [
-    "<script src='js/fixtures/demo.js'></script>", '<script src=js/data/owner-edition.js></script>',
-    '<SCRIPT SRC="internal/store.js"></SCRIPT>', "<LINK REL=stylesheet HREF='css/extra.css'>",
-    '<script src="https://cdn.example/x.js"></script>', "<script src='//cdn.example/x.js'></script>",
-    '<script src="/js/app.js"></script>', '<script src="js/../internal/store.js"></script>',
-    '<script src="data:text/javascript,1"></script>', '<img src="assets/teams/PHI.svg">',
-    '<img srcset="assets/brand/mosport-mark.svg 1x, assets/teams/PHI.svg 2x">',
-    '<iframe src="internal/editor.html"></iframe>', '<embed src="x.swf">', '<object data="x.pdf"></object>',
-    '<video poster="assets/x.webp"></video>', '<base href="https://evil.example/">', '<script src=""></script>',
-    // independent QA of 1c2bb7e: separator and quoted-'>' bypasses
-    '<script/src="https://cdn.example/x.js"></script>', '<script type="x"src="https://cdn.example/x.js"></script>',
-    "<script type='x'src='internal/store.js'></script>", '<img alt="a > b" src="https://cdn.example/x.png">',
-    "<img alt='a > b' src=assets/teams/PHI.svg>", '<svg><filter><feImage href="https://cdn.example/x.png"/></filter></svg>',
-    '<svg><image xlink:href="assets/teams/PHI.svg"/></svg>',
-    // independent QA of a82ffcf: an unpaired quote must not hide a tag, and non-attribute fetches fail closed
-    '<img alt=a"b src=https://cdn.example/x.png>', '<script x" src="https://cdn.example/x.js"></script>',
-    "<script x' src=internal/store.js></script>", '<body background="https://cdn.example/x.png">',
-    '<img src="js/app.js&#x2f;x">', '<img src="js/%2e%2e/internal/x.js">'
-  ]) assert.throws(() => validatePublicDependencies(bad, eligible), /PUBLIC_DEPENDENCY_(MISSING|BASE)/, bad);
-  for (const [bad, code] of [
-    ['<style>@import url(https://cdn.example/x.css)</style>', /PUBLIC_DEPENDENCY_STYLE$/],
-    ['<div style="background:url(https://cdn.example/x.png)"></div>', /PUBLIC_DEPENDENCY_STYLE_URL/],
-    ['<div style="background:u&#114;l(https://cdn.example/x.png)"></div>', /PUBLIC_DEPENDENCY_STYLE_URL/],
-    ['<div style="background:u\\72 l(https://cdn.example/x.png)"></div>', /PUBLIC_DEPENDENCY_STYLE_URL/],
-    ['<meta http-equiv="re&#102;resh" content="0;url=https://cdn.example/">', /PUBLIC_DEPENDENCY_REFRESH/],
-    ['<script type=module>import "https://cdn.example/x.js"</script>', /PUBLIC_INLINE_SCRIPT/],
-    ['<meta http-equiv="refresh" content="0;url=https://cdn.example/">', /PUBLIC_DEPENDENCY_REFRESH/],
-    ['<iframe srcdoc="<script src=https://cdn.example/x.js></script>"></iframe>', /PUBLIC_INLINE_CODE/],
-    ['<img src="js/app.js" onload="fetch(1)">', /PUBLIC_INLINE_CODE/],
-    ['<a href="javascript:fetch(1)">x</a>', /PUBLIC_INLINE_CODE/],
-    ['<a href=" java\tscript:fetch(1)">x</a>', /PUBLIC_INLINE_CODE/],
-    ['<!--><script src="https://cdn.example/x.js"></script>-->', /PUBLIC_HTML_UNPARSEABLE/],
-    ['<!-- a --!><script src="https://cdn.example/x.js"></script>-->', /PUBLIC_HTML_UNPARSEABLE/],
-    ['<script src="js/app.js"', /PUBLIC_HTML_UNPARSEABLE/],
-    ['<img alt="unterminated src=js/app.js>', /PUBLIC_HTML_UNPARSEABLE/],
-    ['<noscript><img src="https://cdn.example/x.png"></noscript>', /PUBLIC_DEPENDENCY_MISSING/],
-    ['<p>' + 'x'.repeat(64 * 1024) + '</p>', /PUBLIC_HTML_TOO_LARGE/]
-  ]) assert.throws(() => validatePublicDependencies(bad, eligible), code, bad);
-  // linear time: a pathological page just under the size cap is decided quickly
+    // URL forms and earlier bypasses
+    "<script src='js/fixtures/demo.js'></script>", '<script src=js/data/owner-edition.js></script>', '<SCRIPT SRC="internal/store.js"></SCRIPT>',
+    "<LINK REL=stylesheet HREF='css/extra.css'>", `<script src="${X}.js"></script>`, "<script src='//cdn.example/x.js'></script>",
+    '<script src="/js/app.js"></script>', '<script src="js/../internal/store.js"></script>', '<script src="data:text/javascript,1"></script>',
+    '<script src="js/app.js&#x2f;x"></script>', '<script src="js/%2e%2e/x.js"></script>', '<script src=""></script>', '<script></script>',
+    `<script/src="${X}.js"></script>`, `<script type="x"src="${X}.js"></script>`, `<img alt="a > b" src="${X}.png">`,
+    // a82ffcf regression: an unpaired quote must not hide anything
+    `<img alt=a"b src=${X}.png>`, `<script x" src="${X}.js"></script>`, "<script x' src=internal/store.js></script>",
+    // tags and attributes outside the shell grammar
+    '<base href="https://evil.example/">', '<style>@import url(x)</style>', '<div style="background:url(x)"></div>',
+    '<body background="x.png">', '<meta http-equiv="refresh" content="0;url=x">', '<iframe srcdoc="x"></iframe>',
+    '<script src="js/app.js" onload="fetch(1)"></script>', '<a href="javascript:fetch(1)">x</a>', '<a href="java&#x09;script:x">x</a>',
+    '<link rel="preload" href="css/home.css">', '<link rel="modulepreload" href="js/app.js">', '<link rel=icon href=css/home.css imagesrcset=x>',
+    '<script src="js/app.js" src="https://cdn.example/x.js"></script>', '<script type=module>import "x"</script>',
+    '<object data="x.pdf"></object>', '<embed src="x.swf">', '<video poster="x.webp"></video>', '<input type=image src=x>',
+    // independent QA of 1e10ac1, classes A–F (parser differentials and SVG/MathML)
+    `<svg><rect fill="url(${X})"/></svg>`, `<svg><image><animate attributeName=href values=${X}></image></svg>`,
+    `<svg><title><img src=${X}.png></title></svg>`, `<math><style><img src=${X}.png></style></math>`,
+    `<svg><![CDATA[><img src=${X}.png>]]></svg>`, `<noscript><img src="${X}.png"></noscript>`, `<template><img src=${X}.png></template>`,
+    `<title></titlex><img src=${X}.png></title>`, `<div></div a=">"><img src=${X}.png>`, `</div x><img src=${X}.png>`,
+    `<p>${'İ'.repeat(40)}</p><title></title><img src=${X}.png>`, `<title>${'İ'.repeat(40)}</title><img src=${X}.png>`,
+    `<title><script src="js/app.js"></script></title>`, `<script src="js/app.js"><!--<script>--></script>`,
+    `<!--><script src="${X}.js"></script>-->`, `<!-- a --!><script src="${X}.js"></script>-->`, `<! x><img src=${X}>`,
+    '<script src="js/app.js"', '<title>unterminated', '<html lang="x" lang="y">', 'a < b', '<p>' + 'x'.repeat(64 * 1024) + '</p>'
+  ]) assert.throws(() => validatePublicDependencies(bad, eligible), /PUBLIC_(DEPENDENCY|HTML|INLINE)/, bad);
+  // linear time: pathological pages up to the size cap are decided quickly
   const started = Date.now();
-  for (const evil of ['<a' + ' x="'.repeat(16000), '<script ' + '"'.repeat(60000), '<'.repeat(60000), '<img alt=a"b '.repeat(4500)]) {
+  for (const evil of ['<title>' + '</title><title>'.repeat(4000), '<div' + ' id="'.repeat(16000), '<script ' + '"'.repeat(60000),
+    '<'.repeat(60000), '<!--' + '-'.repeat(60000), '<html lang=a"b '.repeat(4000)]) {
     try { validatePublicDependencies(evil, eligible); } catch (e) { /* any rejection is fine */ }
   }
   assert.ok(Date.now() - started < 2000);
