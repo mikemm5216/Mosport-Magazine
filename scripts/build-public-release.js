@@ -44,9 +44,30 @@ function stripPrivateSourceLinks(value) {
   delete value.sourceUrl;
   for (const child of Object.values(value)) stripPrivateSourceLinks(child);
 }
+// Every tag that makes the browser fetch something, in any case and with any
+// quoting, must name an allowlisted same-site relative file. Anchors are
+// navigation, not fetched dependencies, and are not checked here.
+const DEPENDENCY_TAG = /<(?:script|link|img|source|iframe|frame|embed|object|audio|video|track|input|image|use|base)\b[^>]*>/gi;
+const URL_ATTR = /\s(src|href|srcset|data|poster|xlink:href|imagesrcset)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/gi;
+function dependencyUrls(tag) {
+  const out = [];
+  for (const a of tag.matchAll(URL_ATTR)) {
+    const value = (a[2] ?? a[3] ?? a[4]).trim();
+    if (/srcset$/i.test(a[1])) value.split(',').forEach(part => { const u = part.trim().split(/\s+/)[0]; if (u) out.push(u); });
+    else out.push(value);
+  }
+  return out;
+}
 function validatePublicDependencies(html, eligible) {
-  for (const m of html.matchAll(/<(?:script|link)\b[^>]+(?:src|href)="([^"?#]+)"/g)) {
-    if (!eligible.has(m[1])) throw Error('PUBLIC_DEPENDENCY_MISSING: '+m[1]);
+  for (const t of html.matchAll(DEPENDENCY_TAG)) {
+    if (/^<base\b/i.test(t[0])) throw Error('PUBLIC_DEPENDENCY_BASE: '+t[0]);
+    for (const raw of dependencyUrls(t[0])) {
+      const rel = raw.replace(/[?#].*$/, '');
+      if (!rel || /^[a-z][a-z0-9+.-]*:/i.test(raw) || raw.startsWith('//') || raw.startsWith('\\')
+        || rel.startsWith('/') || rel.includes('\\') || rel.split('/').includes('..') || !eligible.has(rel)) {
+        throw Error('PUBLIC_DEPENDENCY_MISSING: '+raw);
+      }
+    }
   }
 }
 function cleanRegistry(reg) {

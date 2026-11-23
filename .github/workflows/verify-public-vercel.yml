@@ -39,4 +39,6 @@ jobs:
           test ! -f dist-public/js/data/owner-edition.js
           if grep -Rq 'js/fixtures/' dist-public/*.html; then echo 'UNSAFE_FIXTURE_REFERENCE'; exit 1; fi
           if grep -Rq 'owner-edition.js' dist-public/*.html; then echo 'UNSAFE_OWNER_REFERENCE'; exit 1; fi
+          if grep -RqE 'internal/' dist-public/*.html; then echo 'UNSAFE_INTERNAL_REFERENCE'; exit 1; fi
+          if grep -RqE 'sourceUrl|(drive|docs)\.google\.com' dist-public; then echo 'UNSAFE_PRIVATE_SOURCE_LINK'; exit 1; fi
 # Vercel Git integration owns previews/production. This workflow never deploys.
