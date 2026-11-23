@@ -11,7 +11,12 @@ window.MOSPORT_PAGE = {
     var hasIssue = !!(I && !I.scheduleOnly);
     var savedGame = I && I.scheduleOnly ? R.schedule[0] : null;
     var issueLine = hasIssue ? T('issueLine', { vol: String(I.volume).padStart(2, '0'), no: I.number, date: c.issueDateLong(I.date) }) : (savedGame ? c.tipDate(savedGame) : T('nbaEdition'));
-    var topic = hasIssue ? I.topic : { line1: 'NBA', line2: 'TODAY' };
+    /* A saved game from another Taipei day never poses as TODAY: past → LATEST, future → UP NEXT. */
+    var day = savedGame && c.tipDay ? c.tipDay(savedGame) : 0;
+    var mast = day === 0 ? { word: 'TODAY', mast: 'todayMast', open: 'openToday' }
+      : day > 0 ? { word: 'UP NEXT', mast: 'nextMast', open: 'openNext' }
+      : { word: 'LATEST', mast: 'latestMast', open: 'openLatest' };
+    var topic = hasIssue ? I.topic : { line1: 'NBA', line2: mast.word };
     var edition = hasIssue ? I.edition[L] : T('nba');
     var pageNumber = hasIssue ? '<b>' + String(I.page).padStart(2, '0') + '</b>' : '';
     var readCount = R.games.length + (R.lead ? 1 : 0);
@@ -79,7 +84,7 @@ window.MOSPORT_PAGE = {
         '<div class="cv-foot">' +
           '<div class="cv-guide">' + demo +
             (lines.length ? '<div class="cv-lines"><span class="cv-plus" aria-hidden="true">+</span><ul>' + lines.map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></div>' : '') +
-            '<a class="cv-next" href="#today">' + esc(T('openToday')) + ' <span aria-hidden="true">↓</span></a>' +
+            '<a class="cv-next" href="#today">' + esc(T(mast.open)) + ' <span aria-hidden="true">↓</span></a>' +
           '</div>' +
           '<p class="cv-coach">' + B.coach.split(' ').reduce(function (a, w, i) { return a + (i === 2 ? ' <br>' : i ? ' ' : '') + w; }, '') + '</p>' +
         '</div>' +
@@ -172,7 +177,7 @@ window.MOSPORT_PAGE = {
     var inner =
       '<section class="pg pg-inner" id="today" tabindex="-1" aria-labelledby="today-h">' +
         '<div class="runhead"><span>MOSPORT · ' + esc(topic.line1 + ' ' + topic.line2) + '</span><span class="rh-right"><span>' + esc(issueLine) + '</span>' + pageNumber + '</span></div>' +
-        '<div class="today-head"><h2 id="today-h" class="today-mast">' + T('todayMast') + '</h2>' +
+        '<div class="today-head"><h2 id="today-h" class="today-mast">' + esc(T(mast.mast)) + '</h2>' +
           '<div class="today-date">' + (date ? '<p class="td-d">' + esc(date) + '</p>' : '') + '<p class="td-s">' + esc(slate) + '</p></div></div>' +
         stateNote + lead + games + stories + emptyMsg +
         '<footer class="pg-foot">' + (R.demo ? '<span>' + demo + ' ' + esc(T('demoNote').replace(/^DEMO · /, '')) + '</span>' : '<span>' + esc(B.slogan) + '</span>') +
