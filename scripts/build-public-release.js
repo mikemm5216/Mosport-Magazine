@@ -95,6 +95,8 @@ function publicHtml(bytes) {
   if (/js\/fixtures\//.test(html) || /owner-edition\.js/.test(html)) throw Error('UNSAFE_HTML_SCRIPT');
   const anchor = '<script src="js/assets/loader.js"></script>';
   if (html.split(anchor).length !== 2) throw Error('PRODUCTION_CONFIG_ANCHOR_MISSING');
+  if (!html.includes('<html lang="zh-Hant"')) throw Error('HTML_LANGUAGE_BASE_NOT_FOUND');
+  html = html.replace('<html lang="zh-Hant"', '<html lang="en"');
   return html.replace(anchor, '<script src="js/production-config.js"></script>\n' + anchor);
 }
 function officialGate() {
@@ -145,7 +147,7 @@ function build(outDir) {
     }
     put('data/asset-registry.json', Buffer.from(JSON.stringify(cleaned, null, 2)+'\n'));
     put('data/asset-registry.js', Buffer.from('/* M6 public-only registry (source: reviewed asset-registry.json) */\nwindow.MOSPORT_ASSET_REGISTRY = '+JSON.stringify(cleaned, null, 2)+';\n'));
-    put('js/production-config.js', Buffer.from('/* Static public build; no private owner manifest and no DEMO providers. */\nwindow.MOSPORT_CONFIG = { mode: "production", assetRegistryUrl: null };\n'));
+    put('js/production-config.js', Buffer.from('/* Static public build; no private owner manifest and no DEMO providers. */\nwindow.MOSPORT_CONFIG = { mode: "production", defaultLanguage: "en", assetRegistryUrl: null };\n'));
     put('.nojekyll', Buffer.alloc(0));
     const release = {
       schema: 'mosport-public-static@1',
