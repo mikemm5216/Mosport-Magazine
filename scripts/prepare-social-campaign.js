@@ -39,11 +39,14 @@ function verifiedPublicRecord(dir) {
       throw Error('PUBLIC_FILE_NOT_REGULAR: ' + rel);
     const bytes = fs.readFileSync(file);
     if (sha256(bytes) !== expected) throw Error('PUBLIC_FILE_PIN_MISMATCH: ' + rel);
+    // The manifest travels with the artifact and can be rewritten with it, so the
+    // build's byte-identical copy must also match the reviewed source in this repo.
+    if (sha256(fs.readFileSync(path.join(root, rel))) !== expected) throw Error('PUBLIC_FILE_NOT_REPO_SOURCE: ' + rel);
     return JSON.parse(bytes.toString('utf8'));
   }
+  const root = path.resolve(__dirname, '..', 'site');
   const schedule = verified('data/schedules/' + GAME + '.json');
   const result = verified('data/results/' + GAME + '.json');
-  const root = path.resolve(__dirname, '..', 'site');
   // Reuse the one B-side contract and fixed official result pin. No new score engine.
   const C = require(path.join(root, 'js/contracts/contracts.js'));
   const pins = require(path.join(root, 'js/data/result-pins.js'));

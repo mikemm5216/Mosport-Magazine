@@ -36,9 +36,21 @@ test('M6 Social campaign uses verified final and creates EN drafts, not external
     assert.equal(post.approval.state,'PENDING_HUMAN');
     assert.equal(post.publication.state,'NOT_POSTED');
     assert.equal(post.performance.state,'NOT_OBSERVED');
-    assert.equal(post.publication.platformUrl,null);
-    assert.equal(post.performance.impressions,null);
+    assert.equal(url.searchParams.get('utm_content'),'0022600051-official-final');
+    assert.equal(post.locale,'en');
+    assert.equal(post.contentSha256,require('node:crypto').createHash('sha256').update(post.text).digest('hex'));
+    assert.match(post.text,/Official final|official NBA result/);
+    if (post.channel !== 'x') assert.match(post.text,/not live|not a live game/);
+    assert.doesNotMatch(post.text,/\blive now\b|\btoday\b|\btonight\b/i);
+    if (post.channel !== 'x') assert.match(post.text,/Nov 20, 2026 \(Pacific time\)/);
+    assert.deepEqual(post.approval,{state:'PENDING_HUMAN',receiptRef:null});
+    assert.deepEqual(post.publication,{state:'NOT_POSTED',platformPostId:null,platformUrl:null,publishedAt:null});
+    // Unobserved metrics stay null; 0 would claim a measurement that never happened.
+    assert.deepEqual(post.performance,{state:'NOT_OBSERVED',measuredAt:null,impressions:null,engagement:null,landingVisits:null});
+    assert.equal(post.accountId,null);
   }
+  const limits={threads:500,x:280,instagram:2200};
+  for (const post of draft.posts) assert.ok(post.text.length <= limits[post.channel], post.channel+' length');
   assert.ok(draft.posts.find(p=>p.channel==='x').text.length <= 280);
   assert.equal(draft.posts.find(p=>p.channel==='instagram').assetRequired,true);
   const pathToDraft=path.join(tmp,'handoff.json');
@@ -102,3 +114,21 @@ test('M6 Social never overwrites a concurrent writer and never removes another w
   const left=fs.readdirSync(tmp).filter(n=>n.endsWith('.tmp')).sort();
   assert.deepEqual(left,foreign.map(f=>path.basename(f)).sort(),'only the other writer temp files remain');
 }));
+test('M6 Social rejects an artifact whose manifest was rewritten to match altered schedule or result bytes',()=>{
+  const C=require('../../site/js/contracts/contracts.js');
+  const sha=b=>require('node:crypto').createHash('sha256').update(b).digest('hex');
+  for (const [rel,edit] of [
+    ['data/schedules/0022600051.json', s => { s.game.tipoff='2026-11-21T01:56:00Z'; s.source.contentFingerprint=C.sha256(C.canonical({game:s.game,originalUrl:s.source.originalUrl,observedAt:s.source.observedAt})); return s; }],
+    ['data/results/0022600051.json', r => { r.homeScore=107; return r; }],
+    ['data/results/0022600051.json', r => { r.confirmations.nba.observedAt='2026-11-21T06:00:00.000Z'; return r; }]
+  ]) withBuilt((dir)=>{
+    const file=path.join(dir,rel);
+    const bytes=Buffer.from(JSON.stringify(edit(JSON.parse(fs.readFileSync(file,'utf8'))),null,2)+'\n');
+    fs.writeFileSync(file,bytes);
+    const mf=path.join(dir,'public-release-manifest.json');
+    const manifest=JSON.parse(fs.readFileSync(mf,'utf8'));
+    manifest.files[rel]=sha(bytes);
+    fs.writeFileSync(mf,JSON.stringify(manifest,null,2)+'\n');
+    assert.throws(()=>createDraft({publicDir:dir,siteUrl:'https://mosport.app/'}),/PUBLIC_FILE_NOT_REPO_SOURCE/,rel);
+  });
+});

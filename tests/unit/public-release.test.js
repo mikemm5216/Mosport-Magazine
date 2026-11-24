@@ -123,3 +123,44 @@ test('M6 public shells follow a strict grammar: no tag, quoting, parser-differen
   }
   assert.ok(Date.now() - started < 2000);
 });
+test('M6 public build opens in English for a new visitor and keeps an explicit or saved zh choice', async () => {
+  const { chromium } = require('playwright');
+  const http = require('node:http');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'mosport-public-lang-'));
+  const dest = path.join(dir, 'public');
+  build(dest);
+  const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
+  const server = http.createServer((req, res) => {
+    const rel = decodeURIComponent(new URL(req.url, 'http://x').pathname).replace(/^\/+/, '') || 'index.html';
+    const file = path.join(dest, rel);
+    if (!file.startsWith(dest + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) { res.writeHead(404); return res.end(); }
+    res.writeHead(200, { 'content-type': types[path.extname(file)] || 'application/octet-stream' });
+    res.end(fs.readFileSync(file));
+  });
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  const base = 'http://127.0.0.1:' + server.address().port + '/';
+  const browser = await chromium.launch();
+  try {
+    const read = async (url, saved) => {
+      const ctx = await browser.newContext();
+      const page = await ctx.newPage();
+      if (saved) { await page.goto(base + 'index.html'); await page.evaluate(v => localStorage.setItem('mosport.lang', v), saved); }
+      await page.goto(base + url);
+      await page.waitForFunction(() => /\d{2,3}\s*[–\-：:]\s*\d{2,3}/.test(document.body.innerText));
+      const out = await page.evaluate(() => ({ lang: document.documentElement.lang, mode: window.MOSPORT_CONFIG.mode,
+        cjk: /[一-鿿]/.test(document.body.innerText.replace(/繁中/g, '')) }));
+      await ctx.close();
+      return out;
+    };
+    const landing = 'match.html?game=0022600051&utm_source=x&utm_medium=organic_social&utm_campaign=mosport_beta0_launch&utm_content=0022600051-official-final';
+    for (const url of ['index.html', landing]) {
+      assert.deepEqual(await read(url), { lang: 'en', mode: 'production', cjk: false }, url + ' fresh visitor');
+      assert.deepEqual(await read(url + (url.includes('?') ? '&' : '?') + 'lang=zh'), { lang: 'zh-Hant', mode: 'production', cjk: true }, url + ' ?lang=zh');
+      assert.deepEqual(await read(url, 'zh'), { lang: 'zh-Hant', mode: 'production', cjk: true }, url + ' saved zh');
+    }
+  } finally {
+    await browser.close();
+    server.close();
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
