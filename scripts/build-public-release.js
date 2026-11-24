@@ -44,31 +44,101 @@ function stripPrivateSourceLinks(value) {
   delete value.sourceUrl;
   for (const child of Object.values(value)) stripPrivateSourceLinks(child);
 }
-// Every tag that makes the browser fetch something, in any case and with any
-// quoting, must name an allowlisted same-site relative file. Anchors are
-// navigation, not fetched dependencies, and are not checked here.
-// The tag body is quote-aware (a '>' inside a quoted value does not end the tag)
-// and an attribute may follow whitespace, '/', or a closing quote, as browsers allow.
-const DEPENDENCY_TAG = /<(?:script|link|img|source|iframe|frame|embed|object|audio|video|track|input|image|feimage|use|base)\b(?:[^>"']|"[^"]*"|'[^']*')*>/gi;
-const URL_ATTR = /[\s/"'](src|href|srcset|data|poster|xlink:href|imagesrcset)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/gi;
-function dependencyUrls(tag) {
-  const out = [];
-  for (const a of tag.matchAll(URL_ATTR)) {
-    const value = (a[2] ?? a[3] ?? a[4]).trim();
-    if (/srcset$/i.test(a[1])) value.split(',').forEach(part => { const u = part.trim().split(/\s+/)[0]; if (u) out.push(u); });
-    else out.push(value);
+// The public pages are four tiny HTML shells we author; the renderer builds the
+// rest in JS from allowlisted files. So the shells are held to a strict grammar
+// instead of being parsed generally: only the tags and attributes they use, only
+// <!doctype html> and unambiguous comments, end tags exactly '</name>', no stray
+// '<', raw-text bodies without '<', <link> limited to icon/stylesheet, <script>
+// only with src and an empty body. Every src/href must be an allowlisted
+// same-site relative file. Anything else fails the build (linear time; 64 KiB cap).
+const MAX_PUBLIC_HTML = 64 * 1024;
+const PUBLIC_TAGS = {
+  html: ['lang', 'data-theme'], head: [], meta: ['charset', 'name', 'content'], title: [],
+  link: ['rel', 'href'], body: ['class'], div: ['id', 'class'], script: ['src']
+};
+const PUBLIC_LINK_RELS = new Set(['icon', 'stylesheet']);
+const PUBLIC_RAW_TEXT = new Set(['title', 'script']);
+function parsePublicHtml(html) {
+  if (html.length > MAX_PUBLIC_HTML) throw Error('PUBLIC_HTML_TOO_LARGE: ' + html.length);
+  // Control bytes (e.g. ESC for ISO-2022-JP) let a non-UTF-8 decoder see different markup.
+  if (/[\x00-\x08\x0b\x0e-\x1f\x7f]/.test(html)) throw Error('PUBLIC_HTML_CONTROL_CHARACTER');
+  const tags = [], n = html.length, ws = c => c === ' ' || c === '\t' || c === '\n' || c === '\f' || c === '\r';
+  const fail = (code, at) => { throw Error(code + ' at ' + at); };
+  const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+  let i = 0;
+  while (i < n) {
+    const lt = html.indexOf('<', i);
+    if (lt < 0) break;
+    i = lt + 1;
+    if (/^!doctype html>/i.test(html.slice(i, i + 14))) { i += 14; continue; }
+    if (html.startsWith('!--', i)) {
+      // Browsers also end a comment at '<!-->', '<!--->' and '--!>'; those forms fail closed.
+      const end = html.indexOf('-->', i + 3);
+      if (end < 0 || html[i + 3] === '>' || html.startsWith('->', i + 3) || html.slice(i + 3, end).includes('--!>')) fail('PUBLIC_HTML_UNPARSEABLE: ambiguous comment', lt);
+      i = end + 3; continue;
+    }
+    const endTag = /^\/([A-Za-z]+)>/.exec(html.slice(i, i + 16));
+    if (endTag) {
+      if (!own(PUBLIC_TAGS, endTag[1].toLowerCase())) fail('PUBLIC_HTML_TAG_NOT_ALLOWED: /' + endTag[1], lt);
+      i += endTag[0].length; continue;
+    }
+    if (!/[A-Za-z]/.test(html[i] || '')) fail('PUBLIC_HTML_UNPARSEABLE: stray <', lt);
+    let j = i; while (j < n && !ws(html[j]) && html[j] !== '/' && html[j] !== '>') j++;
+    const name = html.slice(i, j).toLowerCase();
+    if (!own(PUBLIC_TAGS, name)) fail('PUBLIC_HTML_TAG_NOT_ALLOWED: ' + name, lt);
+    const tag = { name, attrs: new Map(), body: '' };
+    i = j;
+    for (;;) {
+      while (i < n && (ws(html[i]) || html[i] === '/')) i++;
+      if (i >= n) fail('PUBLIC_HTML_UNPARSEABLE: unterminated <' + name + '>', lt);
+      if (html[i] === '>') { i++; break; }
+      let k = i + 1; // the first character, even '=' or a quote, belongs to the name
+      while (k < n && !ws(html[k]) && html[k] !== '/' && html[k] !== '>' && html[k] !== '=') k++;
+      const attr = html.slice(i, k).toLowerCase();
+      if (!PUBLIC_TAGS[name].includes(attr)) fail('PUBLIC_HTML_ATTRIBUTE_NOT_ALLOWED: ' + name + ' ' + attr, i);
+      if (tag.attrs.has(attr)) fail('PUBLIC_HTML_ATTRIBUTE_DUPLICATED: ' + name + ' ' + attr, i);
+      i = k; while (i < n && ws(html[i])) i++;
+      let value = '';
+      if (html[i] === '=') {
+        i++; while (i < n && ws(html[i])) i++;
+        const q = html[i];
+        if (q === '"' || q === "'") { const end = html.indexOf(q, i + 1); if (end < 0) fail('PUBLIC_HTML_UNPARSEABLE: unterminated value', i); value = html.slice(i + 1, end); i = end + 1; }
+        else { let e = i; while (e < n && !ws(html[e]) && html[e] !== '>') e++; value = html.slice(i, e); i = e; }
+      }
+      tag.attrs.set(attr, value);
+    }
+    if (PUBLIC_RAW_TEXT.has(name)) {
+      // Search the original string (no case-mapped copy, whose indexes can shift).
+      const close = new RegExp('</' + name + '[\\t\\n\\f\\r />]', 'gi');
+      close.lastIndex = i;
+      const m = close.exec(html);
+      if (!m) fail('PUBLIC_HTML_UNPARSEABLE: unterminated <' + name + '> content', lt);
+      tag.body = html.slice(i, m.index);
+      if (tag.body.includes('<')) fail('PUBLIC_HTML_UNPARSEABLE: markup inside <' + name + '>', i);
+      i = m.index;
+    }
+    tags.push(tag);
   }
-  return out;
+  return tags;
+}
+function publicUrl(raw, eligible) {
+  // Browsers strip only ASCII whitespace around a URL; anything else (NBSP, BOM, U+2028)
+  // stays in the path, so only those five characters are trimmed here.
+  const v = raw.replace(/^[\t\n\f\r ]+|[\t\n\f\r ]+$/g, ''), rel = v.replace(/[?#].*$/, '');
+  if (!rel || !/^[A-Za-z0-9._\/-]+$/.test(rel) || rel.startsWith('/') || rel.split('/').includes('..') || !eligible.has(rel)) {
+    throw Error('PUBLIC_DEPENDENCY_MISSING: ' + raw);
+  }
 }
 function validatePublicDependencies(html, eligible) {
-  for (const t of html.matchAll(DEPENDENCY_TAG)) {
-    if (/^<base\b/i.test(t[0])) throw Error('PUBLIC_DEPENDENCY_BASE: '+t[0]);
-    for (const raw of dependencyUrls(t[0])) {
-      const rel = raw.replace(/[?#].*$/, '');
-      if (!rel || /^[a-z][a-z0-9+.-]*:/i.test(raw) || raw.startsWith('//') || raw.startsWith('\\')
-        || rel.startsWith('/') || rel.includes('\\') || rel.split('/').includes('..') || !eligible.has(rel)) {
-        throw Error('PUBLIC_DEPENDENCY_MISSING: '+raw);
-      }
+  for (const tag of parsePublicHtml(html)) {
+    if (tag.name === 'meta' && tag.attrs.has('charset') && tag.attrs.get('charset').trim().toLowerCase() !== 'utf-8') throw Error('PUBLIC_HTML_CHARSET');
+    if (tag.name === 'link') {
+      if (!PUBLIC_LINK_RELS.has((tag.attrs.get('rel') || '').trim().toLowerCase())) throw Error('PUBLIC_DEPENDENCY_LINK_REL');
+      publicUrl(tag.attrs.get('href') || '', eligible);
+    }
+    if (tag.name === 'script') {
+      if (tag.body.trim() || !tag.attrs.has('src')) throw Error('PUBLIC_INLINE_SCRIPT');
+      publicUrl(tag.attrs.get('src'), eligible);
     }
   }
 }
