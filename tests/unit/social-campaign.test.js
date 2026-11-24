@@ -15,7 +15,7 @@ function withBuilt(fn) {
   } finally { fs.rmSync(tmp,{recursive:true,force:true}); }
 }
 test('M6 Social campaign uses verified final and creates EN drafts, not external publications', () => withBuilt((dir,tmp) => {
-  const draft = createDraft({publicDir:dir,siteUrl:'https://mosport.app/'});
+  const draft = createDraft({publicDir:dir,siteUrl:'https://magazine.mosport.app/'});
   assert.equal(draft.schema,'mosport-media/social-campaign-draft@1');
   assert.equal(draft.status,'DRAFT_ONLY_NOT_AUTHORIZED_FOR_PUBLISH');
   assert.equal(draft.language,'en');
@@ -26,7 +26,7 @@ test('M6 Social campaign uses verified final and creates EN drafts, not external
   assert.deepEqual(draft.posts.map(p=>p.channel), ['threads','x','instagram']);
   for (const post of draft.posts) {
     const url = new URL(post.trackableLandingUrl);
-    assert.equal(url.origin,'https://mosport.app');
+    assert.equal(url.origin,'https://magazine.mosport.app');
     assert.equal(url.searchParams.get('game'),'0022600051');
     assert.equal(url.searchParams.get('utm_source'),post.channel);
     assert.equal(url.searchParams.get('utm_medium'),'organic_social');
@@ -69,25 +69,27 @@ test('M6 Social refuses untrusted site base and tampered official artifacts',()=
   const f=path.join(dir,rel);
   const raw=fs.readFileSync(f,'utf8');
   fs.writeFileSync(f,raw.replace('"homeScore": 106','"homeScore": 107'));
-  assert.throws(()=>createDraft({publicDir:dir,siteUrl:'https://mosport.app/'}),
+  assert.throws(()=>createDraft({publicDir:dir,siteUrl:'https://magazine.mosport.app/'}),
     /PUBLIC_FILE_PIN_MISMATCH/, 'cannot use altered result');
 }));
 test('M6 Social accepts only exact approved origins: no explicit port or look-alike Vercel project',()=>{
-  for(const url of ['https://mosport.app:8443/','https://www.mosport.app:8080/','https://mosport.app:80/'])
+  for(const url of ['https://magazine.mosport.app:8443/','https://magazine.mosport.app:80/'])
     assert.throws(()=>publicSite(url),/SITE_PORT_NOT_APPROVED/,url);
-  for(const url of ['https://mosport-magazine.vercel.app/','https://mosport-magazine-evil.vercel.app/',
-    'https://mosport-magazine-git-x-michael-mos-projects.vercel.app/','https://mosport.app./','https://api.mosport.app/'])
+  // The apex and www serve the Baseball site (Founder decision 2026-11-24, #35).
+  for(const url of ['https://mosport.app/','https://www.mosport.app/','https://mosport-magazine.vercel.app/',
+    'https://mosport-magazine-evil.vercel.app/','https://mosport-magazine-git-x-michael-mos-projects.vercel.app/',
+    'https://magazine.mosport.app./','https://magazine.mosport.app.evil.example/','https://api.mosport.app/'])
     assert.throws(()=>publicSite(url),/SITE_HOST_NOT_MOSPORT/,url);
-  assert.equal(publicSite('https://mosport.app:443/').href,'https://mosport.app/');
-  assert.equal(publicSite('https://www.mosport.app').href,'https://www.mosport.app/');
+  assert.equal(publicSite('https://magazine.mosport.app:443/').href,'https://magazine.mosport.app/');
+  assert.equal(publicSite('https://magazine.mosport.app').href,'https://magazine.mosport.app/');
 });
 test('M6 Social draft labels the release commit as a manifest claim, not a deployment binding',()=>withBuilt((dir)=>{
-  const draft=createDraft({publicDir:dir,siteUrl:'https://mosport.app/'});
+  const draft=createDraft({publicDir:dir,siteUrl:'https://magazine.mosport.app/'});
   assert.equal(draft.source.publicReleaseSourceCommitState,'MANIFEST_CLAIM_NOT_BOUND_TO_DEPLOYMENT');
   assert.equal(draft.landingVerification,'NOT_VERIFIED');
 }));
 test('M6 Social refuses a symlinked output path that resolves inside the public artifact',()=>withBuilt((dir,tmp)=>{
-  const draft=createDraft({publicDir:dir,siteUrl:'https://mosport.app/'});
+  const draft=createDraft({publicDir:dir,siteUrl:'https://magazine.mosport.app/'});
   fs.symlinkSync(path.join(dir,'data'),path.join(tmp,'into-public'));
   assert.throws(()=>writeDraft(path.join(tmp,'into-public','draft.json'),draft,dir),/CANNOT_WRITE_IN_PUBLIC_ARTIFACT/);
   assert.ok(!fs.existsSync(path.join(dir,'data','draft.json')));
@@ -97,7 +99,7 @@ test('M6 Social refuses a symlinked output path that resolves inside the public 
   assert.ok(!fs.existsSync(path.join(dir,'draft.json')));
 }));
 test('M6 Social never overwrites a concurrent writer and never removes another writer temp file',()=>withBuilt((dir,tmp)=>{
-  const draft=createDraft({publicDir:dir,siteUrl:'https://mosport.app/'});
+  const draft=createDraft({publicDir:dir,siteUrl:'https://magazine.mosport.app/'});
   const out=path.join(tmp,'handoff.json');
   const foreign=[out+'.tmp',out+'.999.0000000000000000.tmp'];
   for(const f of foreign) fs.writeFileSync(f,'OTHER WRITER TEMP');
@@ -129,6 +131,6 @@ test('M6 Social rejects an artifact whose manifest was rewritten to match altere
     const manifest=JSON.parse(fs.readFileSync(mf,'utf8'));
     manifest.files[rel]=sha(bytes);
     fs.writeFileSync(mf,JSON.stringify(manifest,null,2)+'\n');
-    assert.throws(()=>createDraft({publicDir:dir,siteUrl:'https://mosport.app/'}),/PUBLIC_FILE_NOT_REPO_SOURCE/,rel);
+    assert.throws(()=>createDraft({publicDir:dir,siteUrl:'https://magazine.mosport.app/'}),/PUBLIC_FILE_NOT_REPO_SOURCE/,rel);
   });
 });
