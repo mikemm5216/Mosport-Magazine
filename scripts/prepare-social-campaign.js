@@ -14,9 +14,11 @@ const CHANNELS = ['threads', 'x', 'instagram'];
 // Vercel user can register a project whose name matches 'mosport-magazine-*', and
 // preview deployments may sit behind Vercel login. Matching here is not landing
 // verification either; that stays NOT_VERIFIED until checked on the live page.
-// Founder decision 2026-11-24 (#35): the Magazine is served at magazine.mosport.app;
-// mosport.app and www.mosport.app serve the Baseball site and are not landing pages.
-const APPROVED_ORIGINS = new Set(['https://magazine.mosport.app']);
+// Founder decision 2026-11-24 (#35 #7127647129): Mosport has ONE public origin,
+// https://www.mosport.app. The apex only redirects there and no subdomain is a
+// landing page. Until the approved cutover, www still serves the old site, so
+// landingVerification stays NOT_VERIFIED.
+const APPROVED_ORIGINS = new Set(['https://www.mosport.app']);
 function publicSite(input) {
   const url = new URL(input);
   if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash || url.pathname !== '/')
