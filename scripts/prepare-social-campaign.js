@@ -10,14 +10,18 @@ const GAME = '0022600051';
 const CAMPAIGN = 'mosport_beta0_launch';
 const CHANNELS = ['threads', 'x', 'instagram'];
 
+// Exact approved public origins only. A hostname pattern is not ownership: any
+// Vercel user can register a project whose name matches 'mosport-magazine-*', and
+// preview deployments may sit behind Vercel login. Matching here is not landing
+// verification either; that stays NOT_VERIFIED until checked on the live page.
+const APPROVED_ORIGINS = new Set(['https://mosport.app', 'https://www.mosport.app']);
 function publicSite(input) {
   const url = new URL(input);
   if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash || url.pathname !== '/')
     throw Error('SITE_URL_MUST_BE_VERIFIED_HTTPS_ORIGIN');
-  const host = url.hostname.toLowerCase();
-  if (!(host === 'mosport.app' || host === 'www.mosport.app' ||
-      /^mosport-magazine(?:-[a-z0-9-]+)?\.vercel\.app$/.test(host)))
-    throw Error('SITE_HOST_NOT_MOSPORT');
+  // WHATWG URL drops the default :443, so any remaining port is non-default.
+  if (url.port !== '') throw Error('SITE_PORT_NOT_APPROVED');
+  if (!APPROVED_ORIGINS.has(url.origin)) throw Error('SITE_HOST_NOT_MOSPORT');
   return url;
 }
 function verifiedPublicRecord(dir) {
@@ -95,22 +99,38 @@ function createDraft(opts) {
       nbaGameId: GAME, officialResultReceipt: record.result.receiptRef,
       resultPin: record.pin, officialUrl: record.result.officialUrl,
       sourceObservedAt: record.result.confirmations.nba.observedAt,
-      publicReleaseSourceCommit: record.manifest.sourceCommit
+      publicReleaseSourceCommit: record.manifest.sourceCommit,
+      // Read from the manifest only; nothing here proves which commit is deployed.
+      publicReleaseSourceCommitState: 'MANIFEST_CLAIM_NOT_BOUND_TO_DEPLOYMENT'
     },
     siteUrl: base.href, landingVerification: 'NOT_VERIFIED', posts,
     distributionRule: 'Human approval and platform authorization required for every external post'
   };
 }
+// Containment is judged on real paths, so a symlinked parent cannot point back
+// into the public artifact. The draft is published with link(), which never
+// replaces an existing file, and each call uses its own temp name, so concurrent
+// writers cannot overwrite each other's output or delete each other's temp file.
 function writeDraft(target, draft, publicDir) {
-  const out = path.resolve(target), root = path.resolve(publicDir);
-  if (out === root || out.startsWith(root + path.sep)) throw Error('CANNOT_WRITE_IN_PUBLIC_ARTIFACT');
-  if (fs.existsSync(out) || fs.existsSync(out + '.tmp')) throw Error('OUTPUT_ALREADY_EXISTS');
-  if (!fs.existsSync(path.dirname(out))) throw Error('OUTPUT_PARENT_MISSING');
-  const temp = out + '.tmp';
+  const out = path.resolve(target);
+  let root, parent;
+  try { root = fs.realpathSync(publicDir); } catch (_) { throw Error('PUBLIC_ARTIFACT_NOT_DIRECTORY'); }
+  try { parent = fs.realpathSync(path.dirname(out)); } catch (_) { throw Error('OUTPUT_PARENT_MISSING'); }
+  const real = path.join(parent, path.basename(out));
+  const roots = [root, path.resolve(publicDir)];
+  const inside = p => roots.some(r => p === r || p.startsWith(r + path.sep));
+  if (inside(out) || inside(real)) throw Error('CANNOT_WRITE_IN_PUBLIC_ARTIFACT');
+  if (fs.existsSync(real)) throw Error('OUTPUT_ALREADY_EXISTS');
+  const temp = real + '.' + process.pid + '.' + crypto.randomBytes(8).toString('hex') + '.tmp';
+  let created = false;
   try {
-    fs.writeFileSync(temp, JSON.stringify(draft, null, 2) + '\n', {flag:'wx', mode:0o600});
-    fs.renameSync(temp, out);
-  } catch (e) { try { fs.unlinkSync(temp); } catch (_) {} throw e; }
+    fs.writeFileSync(temp, JSON.stringify(draft, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+    created = true;
+    try { fs.linkSync(temp, real); }
+    catch (e) { if (e.code === 'EEXIST') throw Error('OUTPUT_ALREADY_EXISTS'); throw e; }
+  } finally {
+    if (created) { try { fs.unlinkSync(temp); } catch (_) { /* already gone */ } }
+  }
 }
 if (require.main === module) {
   try {
