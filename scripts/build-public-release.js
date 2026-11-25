@@ -159,12 +159,22 @@ function cleanRegistry(reg) {
   }
   return { cleaned, files };
 }
+// Fetched from Vercel at runtime, never shipped in the artifact or its manifest.
+const VERCEL_ANALYTICS_SCRIPT = '_vercel/insights/script.js';
 function publicHtml(bytes) {
   let html = bytes.toString('utf8');
   html = html.replace(/<script\s+src="js\/fixtures\/[^"]+"><\/script>\s*/g, '');
   if (/js\/fixtures\//.test(html) || /owner-edition\.js/.test(html)) throw Error('UNSAFE_HTML_SCRIPT');
   const anchor = '<script src="js/assets/loader.js"></script>';
   if (html.split(anchor).length !== 2) throw Error('PRODUCTION_CONFIG_ANCHOR_MISSING');
+  if (!html.includes('<html lang="zh-Hant"')) throw Error('HTML_LANGUAGE_BASE_NOT_FOUND');
+  html = html.replace('<html lang="zh-Hant"', '<html lang="en"');
+  // Vercel Web Analytics (basic, cookieless; Founder decision 2026-11-24/25, Hobby plan).
+  // Served by Vercel at /_vercel/insights/script.js; the shells sit at the site root,
+  // so the relative form passes the strict dependency gate unchanged. Production only.
+  const bodyEnd = '</body>';
+  if (html.split(bodyEnd).length !== 2) throw Error('PUBLIC_HTML_BODY_END_MISSING');
+  html = html.replace(bodyEnd, '<script src="' + VERCEL_ANALYTICS_SCRIPT + '"></script>\n' + bodyEnd);
   return html.replace(anchor, '<script src="js/production-config.js"></script>\n' + anchor);
 }
 function officialGate() {
@@ -193,7 +203,7 @@ function build(outDir) {
   if (new Set(sourceFiles).size !== sourceFiles.length) throw Error('DUPLICATED_ALLOWLIST_PATH');
   sourceFiles.forEach(read); // fail closed before creating output
   const eligible = new Set([...sourceFiles, 'data/asset-registry.json',
-    'data/asset-registry.js', 'js/production-config.js']);
+    'data/asset-registry.js', 'js/production-config.js', VERCEL_ANALYTICS_SCRIPT]);
   // A typo or injected HTML dependency must fail the Vercel build itself,
   // not merely a test the Vercel build may never run.
   for (const file of sourceFiles.filter(rel => rel.endsWith('.html'))) {
@@ -215,7 +225,7 @@ function build(outDir) {
     }
     put('data/asset-registry.json', Buffer.from(JSON.stringify(cleaned, null, 2)+'\n'));
     put('data/asset-registry.js', Buffer.from('/* M6 public-only registry (source: reviewed asset-registry.json) */\nwindow.MOSPORT_ASSET_REGISTRY = '+JSON.stringify(cleaned, null, 2)+';\n'));
-    put('js/production-config.js', Buffer.from('/* Static public build; no private owner manifest and no DEMO providers. */\nwindow.MOSPORT_CONFIG = { mode: "production", assetRegistryUrl: null };\n'));
+    put('js/production-config.js', Buffer.from('/* Static public build; no private owner manifest and no DEMO providers. */\nwindow.MOSPORT_CONFIG = { mode: "production", defaultLanguage: "en", assetRegistryUrl: null };\n'));
     put('.nojekyll', Buffer.alloc(0));
     const release = {
       schema: 'mosport-public-static@1',

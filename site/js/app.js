@@ -25,7 +25,7 @@
     set: function (k, v) { try { localStorage.setItem('mosport.' + k, v); } catch (e) { /* unavailable */ } }
   };
   var state = {
-    lang: q.get('lang') === 'en' || q.get('lang') === 'zh' ? q.get('lang') : (store.get('lang') || 'zh'),
+    lang: q.get('lang') === 'en' || q.get('lang') === 'zh' ? q.get('lang') : (store.get('lang') || (window.MOSPORT_CONFIG && window.MOSPORT_CONFIG.defaultLanguage === 'en' ? 'en' : 'zh')),
     theme: q.get('theme') === 'dark' || q.get('theme') === 'light' ? q.get('theme') : (store.get('theme') || 'light'),
     note: null
   };
