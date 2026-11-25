@@ -1,0 +1,89 @@
+{
+  "asOf": "2026-11-25T14:00:00Z",
+  "method": "Web search over public reporting (2026-11-25). Direct page fetches of nba.com/espn.com/cnbc.com/nbcnews.com were blocked by this session's network policy (not widened); timestamps come from dated URLs, titles and search-index snippets. Date-only values are read as 00:00 UTC. null = timestamp not established. No platform engagement API is connected; engagement is null for every candidate.",
+  "candidates": [
+    {
+      "id": "nba-cup-group-final-week",
+      "eventKey": "nba-cup-2026-group-play-final-week",
+      "title": "NBA Cup group play enters its final week (games Nov 24, 25, 27 ET); clinching scenarios and point-differential tiebreakers",
+      "nextEventAt": "2026-11-25T22:00:00Z",
+      "audience": "core",
+      "engagement": null,
+      "evidence": { "officialSourcePresent": true, "primaryFetched": false, "keyFactsTotal": 4, "keyFactsVerified": 3, "conflictsNoted": 1,
+        "notes": "Verified: final group games Nov 24/25/27; DAL 120-101 DEN and BOS 131-116 WAS on Nov 24 (recap titles); tiebreaker order head-to-head > point differential > total points, OT recorded as 0 differential (NBA.com Cup 101 + independent guides). Unverified: knockout dates. Conflict: group records differ between outlets." },
+      "content": { "rightsSafeVisual": true, "uniqueAngle": true, "landingRelevant": false, "sensitive": false },
+      "sources": [
+        { "url": "https://www.nba.com/news/emirates-nba-cup-2026-live-updates-november-24", "publisher": "NBA.com", "tier": "official", "claimType": "fact", "publishedAt": "2026-11-24" },
+        { "url": "https://www.nba.com/news/emirates-nba-cup-2026-clinching-scenarios", "publisher": "NBA.com", "tier": "official", "claimType": "fact", "publishedAt": null },
+        { "url": "https://www.nba.com/news/nba-cup-101", "publisher": "NBA.com", "tier": "official", "claimType": "fact", "publishedAt": null },
+        { "url": "https://www.espn.com/nba/recap?gameId=401909316", "publisher": "ESPN", "tier": "major", "claimType": "fact", "publishedAt": "2026-11-24" },
+        { "url": "https://www.nbcsports.com/nba/news/nba-cup-2026-update-standings-clinching-scenarios-with-critical-cup-games-on-nbc-and-peacock-tuesday", "publisher": "NBC Sports", "tier": "major", "claimType": "fact", "publishedAt": "2026-11-24" },
+        { "url": "https://bleacherreport.com/articles/25537516-nba-cup-2026-standings-bracket-predictions-after-november-24-group-play", "publisher": "Bleacher Report", "tier": "major", "claimType": "speculation", "publishedAt": "2026-11-24" },
+        { "url": "https://www.vavel.com/en-us/nba/2026/11/25/1279891-nba-play-in-tournament-and-nba-cup-format-tiebreaker-rules-explained.html", "publisher": "VAVEL", "tier": "secondary", "claimType": "fact", "publishedAt": "2026-11-25" },
+        { "url": "https://985thesportshub.com/2026/11/24/where-celtics-stand-in-nba-cup-play-after-wizards-win", "publisher": "98.5 The Sports Hub", "tier": "secondary", "claimType": "fact", "publishedAt": "2026-11-24" }
+      ]
+    },
+    {
+      "id": "wembanyama-shunk",
+      "eventKey": "wembanyama-shunk-2026-11",
+      "title": "Wembanyama's 'shunk' (blister-driven finish, Nov 20) and Steven Adams's 'plagiarism' joke (Nov 23)",
+      "nextEventAt": "2026-11-26T03:00:00Z",
+      "audience": "core",
+      "engagement": null,
+      "evidence": { "officialSourcePresent": true, "primaryFetched": false, "keyFactsTotal": 4, "keyFactsVerified": 3, "conflictsNoted": 0,
+        "notes": "Verified: debut Nov 20 vs LAC; blister on right middle finger (NBA.com/ESPN); recorded as a dunk. Unverified: reported ~100M views in 24h (secondary claim, not measured)." },
+      "content": { "rightsSafeVisual": false, "uniqueAngle": false, "landingRelevant": false, "sensitive": false },
+      "sources": [
+        { "url": "https://www.upi.com/Sports_News/NBA/2026/11/20/Spurs-Victor-Wembanyama-debuts-shunk/6971795185654/", "publisher": "UPI", "tier": "major", "claimType": "fact", "publishedAt": "2026-11-20" },
+        { "url": "https://www.nba.com/news/innovation-by-injury-finger-blister-forces-victor-wembanyama-into-debuting-the-shunk", "publisher": "NBA.com", "tier": "official", "claimType": "fact", "publishedAt": null },
+        { "url": "https://www.espn.com/nba/story/_/id/50538594/spurs-victor-wembanyama-shunk-done-due-blister", "publisher": "ESPN", "tier": "major", "claimType": "fact", "publishedAt": null },
+        { "url": "https://sports.yahoo.com/articles/rockets-center-steven-adams-jokingly-032023524.html", "publisher": "Yahoo Sports", "tier": "major", "claimType": "reaction", "publishedAt": "2026-11-23" },
+        { "url": "https://collegefootballnetwork.com/nba/this-is-actually-disturbing-nba-fans-blast-league-for-posting-about-victor-wembanyamas-shunk-12-times-in-16-hours/", "publisher": "College Football Network", "tier": "secondary", "claimType": "reaction", "publishedAt": null }
+      ]
+    },
+    {
+      "id": "lebron-bron-ai-likeness-suit",
+      "eventKey": "lebron-v-playvision-2026-11",
+      "title": "LeBron James sues the makers of AI betting-research app 'Bron' over name, AI likeness and voice (filed Nov 17, SDNY)",
+      "nextEventAt": null,
+      "audience": "core",
+      "engagement": null,
+      "evidence": { "officialSourcePresent": false, "primaryFetched": false, "keyFactsTotal": 3, "keyFactsVerified": 3, "conflictsNoted": 0,
+        "notes": "Verified across outlets: filed Nov 17 in SDNY against PlayVision Inc. and co-founders; seeks damages and an injunction. Court docket not read directly." },
+      "content": { "rightsSafeVisual": true, "uniqueAngle": true, "landingRelevant": false, "sensitive": true },
+      "sources": [
+        { "url": "https://www.cnbc.com/2026/11/18/lebron-james-startup-ai-lawsuit.html", "publisher": "CNBC", "tier": "major", "claimType": "fact", "publishedAt": "2026-11-18" },
+        { "url": "https://www.nbcnews.com/sports/nba/lebron-james-sues-makers-ai-sports-betting-app-saying-used-likeness-ni-rcna609973", "publisher": "NBC News", "tier": "major", "claimType": "fact", "publishedAt": null },
+        { "url": "https://www.courthousenews.com/lebron-james-sues-sports-betting-app-over-ai-likeness-trademark-infringement/", "publisher": "Courthouse News", "tier": "secondary", "claimType": "fact", "publishedAt": null }
+      ]
+    },
+    {
+      "id": "afcon-cas-senegal",
+      "eventKey": "afcon-2025-cas-ruling",
+      "title": "CAS reinstates Senegal as AFCON 2025 champions",
+      "nextEventAt": null,
+      "audience": "adjacent",
+      "engagement": null,
+      "evidence": { "officialSourcePresent": false, "primaryFetched": false, "keyFactsTotal": 1, "keyFactsVerified": 0, "conflictsNoted": 0,
+        "notes": "Seen only in a daily digest summary; no primary or major source read." },
+      "content": { "rightsSafeVisual": true, "uniqueAngle": false, "landingRelevant": false, "sensitive": false },
+      "sources": [
+        { "url": "https://dave.sport/news/the-daily-2026-11-24/", "publisher": "dave.sport", "tier": "secondary", "claimType": "fact", "publishedAt": "2026-11-24" }
+      ]
+    },
+    {
+      "id": "nba-cup-dal-den",
+      "eventKey": "nba-cup-2026-group-play-final-week",
+      "title": "Cooper Flagg 24 pts / 12 ast as Dallas beats Denver 120-101 in Cup play (Nov 24)",
+      "nextEventAt": "2026-11-25T22:00:00Z",
+      "audience": "core",
+      "engagement": null,
+      "evidence": { "officialSourcePresent": true, "primaryFetched": false, "keyFactsTotal": 1, "keyFactsVerified": 1, "conflictsNoted": 0, "notes": "Clustered into the NBA Cup final-week event." },
+      "content": { "rightsSafeVisual": true, "uniqueAngle": false, "landingRelevant": false, "sensitive": false },
+      "sources": [
+        { "url": "https://www.espn.com/nba/recap?gameId=401909316", "publisher": "ESPN", "tier": "major", "claimType": "fact", "publishedAt": "2026-11-24" },
+        { "url": "https://www.nba.com/news/starting-5-november-24-2026", "publisher": "NBA.com", "tier": "official", "claimType": "fact", "publishedAt": "2026-11-24" }
+      ]
+    }
+  ]
+}

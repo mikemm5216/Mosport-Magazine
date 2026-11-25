@@ -1,0 +1,74 @@
+{
+  "schema": "mosport-media/trend-social-package@1",
+  "status": "DRAFT_PENDING_C4_APPROVAL",
+  "trend": "nba-cup-group-final-week",
+  "radarReport": "trend-radar-report.json",
+  "recommendedWindow": "Fri 2026-11-27, 11:00-13:00 ET (Sat 00:00-02:00 Taipei), before the final group-play games; facts above are as of Nov 25 and must be re-checked before posting",
+  "posts": [
+    {
+      "channel": "threads",
+      "account": "@mosp_ort",
+      "text": "NBA Cup group play wraps up Friday, and margins matter.\n\nTied in a group? Tiebreakers: head-to-head, then group-play point differential, then total points scored. An overtime game counts as a 0 differential for both teams.\n\nEast Group A: Orlando finished 3-1; Toronto and Detroit (2-1) each have one game left (as of Nov. 25).\n\nEvidence-first NBA: https://www.mosport.app/?utm_source=threads&utm_medium=organic_social&utm_campaign=trend_radar_v1&utm_content=nba-cup-tiebreakers",
+      "textLength": 477,
+      "textSha256": "d5ee6aec9bbef4fdcbfc9b41ddc8b04677fd29ed9cf857d21ba6d5e8afcdfcca",
+      "asset": {
+        "file": "nba-cup-tiebreakers-2026-11-25-threads-1x1.png",
+        "width": 1080,
+        "height": 1080,
+        "sha256": "d5d7c271076d3c4bcb5206fa32237340a9ad5785121f164e2fd5289fb7dc1933"
+      },
+      "landingUrl": "https://www.mosport.app/?utm_source=threads&utm_medium=organic_social&utm_campaign=trend_radar_v1&utm_content=nba-cup-tiebreakers",
+      "approval": {
+        "state": "PENDING_HUMAN",
+        "receiptRef": null
+      },
+      "publication": {
+        "state": "NOT_POSTED",
+        "platformPostId": null,
+        "platformUrl": null
+      },
+      "performance": {
+        "state": "NOT_OBSERVED",
+        "views": null,
+        "interactions": null,
+        "landingVisits": null
+      }
+    },
+    {
+      "channel": "instagram",
+      "account": "@mosp_ort",
+      "text": "Every point counts in NBA Cup group play. Overtime points don't.\n\nIf teams finish tied in a group, the tiebreakers run:\n1. Head-to-head\n2. Group-play point differential\n3. Total points scored\n\nAn overtime game is recorded as a 0 point differential for both teams.\n\nEast Group A: Orlando has finished 3-1; Toronto and Detroit (both 2-1) each have one game left (as of Nov. 25). Final group games are Friday, Nov. 27 (ET).\n\nSource: NBA.com, Emirates NBA Cup rules. Evidence-first NBA coverage from MOSPORT. Link in bio.\n\n#NBA #NBACup #MOSPORT",
+      "textLength": 540,
+      "textSha256": "c4ce80a3b2e829863fbaa35176323a828b1dd1af6446125ca2eb5faf56659f7f",
+      "asset": {
+        "file": "nba-cup-tiebreakers-2026-11-25-instagram-4x5.png",
+        "width": 1080,
+        "height": 1350,
+        "sha256": "ba53afa5df1b26c9b9955a30819c44a59baf99fbc266de655eb518a4a52695b0"
+      },
+      "landingUrl": "https://www.mosport.app/ (profile link in bio; caption URLs are not clickable on Instagram)",
+      "bioLinkVerified": false,
+      "approval": {
+        "state": "PENDING_HUMAN",
+        "receiptRef": null
+      },
+      "publication": {
+        "state": "NOT_POSTED",
+        "platformPostId": null,
+        "platformUrl": null
+      },
+      "performance": {
+        "state": "NOT_OBSERVED",
+        "views": null,
+        "interactions": null,
+        "landingVisits": null
+      }
+    }
+  ],
+  "rights": {
+    "brandMark": "site/assets/brand/mosport-mark.svg (Mosport-owned)",
+    "fonts": "Anton, Barlow Condensed, Inter: SIL Open Font License (site/assets/fonts/LICENSE-*)",
+    "imagery": "none: no photos, team logos, player likeness, NBA marks or footage; text and grid only",
+    "trademarks": "\"NBA Cup\"/\"Emirates NBA Cup\" used as words to name the competition (nominative); no logos"
+  }
+}
