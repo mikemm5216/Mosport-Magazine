@@ -185,3 +185,15 @@ test('M6 builder allows only the one Vercel analytics runtime path, nothing else
     assert.throws(()=>validatePublicDependencies(html.replace('_vercel/insights/script.js', bad), eligible),
       /PUBLIC_DEPENDENCY_MISSING/, bad);
 });
+test('Vercel config redirects only the project vercel.app host to the one public origin',()=>{
+  const cfg=JSON.parse(fs.readFileSync(path.join(__dirname,'../../vercel.json'),'utf8'));
+  assert.equal(cfg.buildCommand,'node scripts/build-public-release.js dist-public');
+  assert.equal(cfg.outputDirectory,'dist-public');
+  assert.deepEqual(cfg.redirects,[{source:'/:path*',has:[{type:'host',value:'mosport-magazine\\.vercel\\.app'}],
+    destination:'https://www.mosport.app/:path*',permanent:true}]);
+  // Exact host match: deployment URLs, previews and www itself are not redirected.
+  const re=new RegExp('^'+cfg.redirects[0].has[0].value+'$');
+  assert.ok(re.test('mosport-magazine.vercel.app'));
+  for(const h of ['www.mosport.app','mosport-magazine-env3ij3to-michael-mos-projects.vercel.app','mosport-magazine-michael-mos-projects.vercel.app','mosport-magazineXvercel.app'])
+    assert.ok(!re.test(h),h);
+});
