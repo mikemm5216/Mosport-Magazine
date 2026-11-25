@@ -159,6 +159,8 @@ function cleanRegistry(reg) {
   }
   return { cleaned, files };
 }
+// Fetched from Vercel at runtime, never shipped in the artifact or its manifest.
+const VERCEL_ANALYTICS_SCRIPT = '_vercel/insights/script.js';
 function publicHtml(bytes) {
   let html = bytes.toString('utf8');
   html = html.replace(/<script\s+src="js\/fixtures\/[^"]+"><\/script>\s*/g, '');
@@ -167,6 +169,12 @@ function publicHtml(bytes) {
   if (html.split(anchor).length !== 2) throw Error('PRODUCTION_CONFIG_ANCHOR_MISSING');
   if (!html.includes('<html lang="zh-Hant"')) throw Error('HTML_LANGUAGE_BASE_NOT_FOUND');
   html = html.replace('<html lang="zh-Hant"', '<html lang="en"');
+  // Vercel Web Analytics (basic, cookieless; Founder decision 2026-11-24/25, Hobby plan).
+  // Served by Vercel at /_vercel/insights/script.js; the shells sit at the site root,
+  // so the relative form passes the strict dependency gate unchanged. Production only.
+  const bodyEnd = '</body>';
+  if (html.split(bodyEnd).length !== 2) throw Error('PUBLIC_HTML_BODY_END_MISSING');
+  html = html.replace(bodyEnd, '<script src="' + VERCEL_ANALYTICS_SCRIPT + '"></script>\n' + bodyEnd);
   return html.replace(anchor, '<script src="js/production-config.js"></script>\n' + anchor);
 }
 function officialGate() {
@@ -195,7 +203,7 @@ function build(outDir) {
   if (new Set(sourceFiles).size !== sourceFiles.length) throw Error('DUPLICATED_ALLOWLIST_PATH');
   sourceFiles.forEach(read); // fail closed before creating output
   const eligible = new Set([...sourceFiles, 'data/asset-registry.json',
-    'data/asset-registry.js', 'js/production-config.js']);
+    'data/asset-registry.js', 'js/production-config.js', VERCEL_ANALYTICS_SCRIPT]);
   // A typo or injected HTML dependency must fail the Vercel build itself,
   // not merely a test the Vercel build may never run.
   for (const file of sourceFiles.filter(rel => rel.endsWith('.html'))) {

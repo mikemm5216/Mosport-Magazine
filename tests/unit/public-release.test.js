@@ -50,9 +50,18 @@ test('M6 production build publishes only allowlisted files, exact source and tru
     assert.ok(!/js\/fixtures\//.test(html));
     assert.ok(!/owner-edition\.js/.test(html));
     assert.ok(html.indexOf('js/production-config.js')<html.indexOf('js/assets/loader.js'));
+    // Basic Vercel Web Analytics: exactly once, last script before </body>, served by Vercel.
+    const analytics='<script src="_vercel/insights/script.js"></script>';
+    assert.equal(html.split(analytics).length,2,file+' analytics include exactly once');
+    assert.ok(html.indexOf(analytics)>html.indexOf('js/app.js') && html.indexOf(analytics)<html.indexOf('</body>'),file+' analytics after app.js');
     for(const m of html.matchAll(/<(?:script|link)[^>]+(?:src|href)="([^"?#]+)"/g))
-      assert.ok(shipped.includes(m[1]),file+' missing dependency '+m[1]);
+      if (m[1] !== '_vercel/insights/script.js') assert.ok(shipped.includes(m[1]),file+' missing dependency '+m[1]);
   }
+  // The runtime path is never shipped or pinned, and prototype shells never load it.
+  assert.ok(!shipped.some(f=>f.startsWith('_vercel/')));
+  assert.ok(!Object.keys(record.files).some(f=>f.startsWith('_vercel/')));
+  for(const file of ['index.html','schedule.html','match.html','review.html'])
+    assert.ok(!fs.readFileSync(path.join(__dirname,'../../site',file),'utf8').includes('_vercel/'),'prototype '+file);
   for(const rel of [...(fs.readFileSync(path.join(dest,'css/fonts.css'),'utf8')).matchAll(/url\('\.\.\/([^']+)'\)/g)].map(m=>m[1]))
     assert.ok(shipped.includes(rel),'font referenced by CSS missing '+rel);
   assert.ok(!shipped.includes('site/data/schedules/0022600274.json'));
@@ -163,4 +172,16 @@ test('M6 public build opens in English for a new visitor and keeps an explicit o
     server.close();
     fs.rmSync(dir, { recursive: true, force: true });
   }
+});
+test('M6 builder allows only the one Vercel analytics runtime path, nothing else under _vercel',()=>{
+  const { publicHtml } = require('../../scripts/build-public-release.js');
+  const html = publicHtml(fs.readFileSync(path.join(__dirname,'../../site/index.html')));
+  // Eligible = every dependency the real shell uses, so only the substituted URL can fail.
+  const eligible = new Set([...html.matchAll(/(?:src|href)="([^"?#]+)"/g)].map(m=>m[1]));
+  assert.ok(eligible.has('_vercel/insights/script.js'));
+  validatePublicDependencies(html, eligible); // the real shell passes
+  for (const bad of ['_vercel/insights/other.js','/_vercel/insights/script.js',
+    'https://cdn.vercel-insights.com/v1/script.js','_vercel/speed-insights/script.js'])
+    assert.throws(()=>validatePublicDependencies(html.replace('_vercel/insights/script.js', bad), eligible),
+      /PUBLIC_DEPENDENCY_MISSING/, bad);
 });
