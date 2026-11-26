@@ -1,6 +1,6 @@
 {
   "schema": "mosport-media/trend-social-package@1",
-  "status": "DRAFT_PENDING_C4_APPROVAL",
+  "status": "THREADS_PUBLISHED_IG_DRAFT",
   "trend": "nba-first-month-viewership-record",
   "radarReport": "trend-radar-report.json",
   "selection": "No candidate reached STRONG. Highest total (nba-cup-group-play-final-night, 80.9) is blocked by the evidence gate (52 < 60) and duplicates Threads post 442566111 already scheduled for Fri 11:30 ET. Recommended: nba-first-month-viewership-record (77.4, RISING): official source, 4/4 key facts verified, unique non-duplicate angle, core audience; held back from STRONG only by freshness (league release dated Nov 23, read conservatively as 00:00 UTC).",
@@ -21,30 +21,34 @@
       },
       "landingUrl": "https://www.mosport.app/?utm_source=threads&utm_medium=organic_social&utm_campaign=trend_radar_v1&utm_content=nba-viewership-month-one",
       "approval": {
-        "state": "PENDING_HUMAN",
-        "receiptRef": null
+        "state": "APPROVED",
+        "by": "Founder",
+        "how": "chat 2026-11-26 19:42 Asia/Taipei: design C + captions, '直接發!'",
+        "note": "Design C layout not reviewed by ChatGPT before publication; Founder direct order."
       },
       "metricool": {
-        "state": "DRAFT",
+        "state": "PUBLISHED",
         "blogId": "8356352",
-        "postId": "442712928",
+        "postId": "442995522",
         "uuid": "8326146948964108500",
         "previousIds": [
-          "442609440"
+          "442609440",
+          "442712928"
         ],
         "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-13096825436576135763.png",
-        "draft": true,
-        "autoPublish": false,
-        "placeholderDate": "2026-11-26T23:30:00 Asia/Taipei",
-        "providerStatus": "PENDING",
+        "draft": false,
+        "autoPublish": true,
+        "placeholderDate": null,
+        "providerStatus": "PUBLISHED",
         "sourceMediaUrl": "https://raw.githubusercontent.com/mikemm5216/Mosport-Magazine/d70240c4d1d4ae22c3078847f6d69a4fa3d263df/docs/social/2026-11-26/nba-viewership-month-one-2026-11-26-threads-1x1.png",
         "rehostedMediaBytes": "UNKNOWN (static.metricool.com not reachable from this session; network not widened)",
         "readBack": "Metricool update response 2026-11-26 (Threads 14:37, Instagram 19:17 Asia/Taipei): text, alt text, draft and autoPublish match this package"
       },
       "publication": {
-        "state": "NOT_POSTED",
-        "platformPostId": null,
-        "platformUrl": null
+        "state": "PUBLISHED",
+        "platformPostId": "18146039599720644",
+        "platformUrl": "https://www.threads.com/@mosp_ort/post/DgNCZZIiOIV",
+        "publishedAt": "2026-11-26T19:50:00+08:00"
       },
       "performance": {
         "state": "NOT_OBSERVED",
@@ -76,24 +80,25 @@
       },
       "landingUrl": "bio link https://www.mosport.app/ (unconfirmed)",
       "approval": {
-        "state": "PENDING_HUMAN",
-        "receiptRef": null,
+        "state": "PENDING_BIO_LINK",
         "blockers": [
-          "Instagram bio link https://www.mosport.app/ UNCONFIRMED"
+          "Instagram bio link https://www.mosport.app/ UNCONFIRMED",
+          "hashtag set change proposed, awaiting Founder"
         ]
       },
       "metricool": {
         "state": "DRAFT",
         "blogId": "8356352",
-        "postId": "442965294",
+        "postId": "443000613",
         "uuid": "-893026767331243151",
         "previousIds": [
-          "442609793"
+          "442609793",
+          "442965294"
         ],
         "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-7481676236948867569.png",
         "draft": true,
         "autoPublish": false,
-        "placeholderDate": "2026-11-26T23:30:00 Asia/Taipei",
+        "placeholderDate": "2026-11-28T23:30:00 Asia/Taipei",
         "providerStatus": "PENDING",
         "sourceMediaUrl": "https://raw.githubusercontent.com/mikemm5216/Mosport-Magazine/d70240c4d1d4ae22c3078847f6d69a4fa3d263df/docs/social/2026-11-26/nba-viewership-month-one-2026-11-26-instagram-4x5.png",
         "rehostedMediaBytes": "UNKNOWN (static.metricool.com not reachable from this session; network not widened)",
