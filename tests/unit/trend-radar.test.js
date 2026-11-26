@@ -116,3 +116,17 @@ test('a zero baseline or non-finite measurement is UNAVAILABLE with a reason and
   }
   assert.equal(R.rank([cand({ engagement: { ...base, value: 0 } })], asOf).ranked[0].parts.engagement.score, 20);
 });
+
+test('a date-time without Z or a numeric offset is rejected; date-only, Z and offset forms are accepted', () => {
+  // Review #37 6067991672: a timezone-less date-time would be read in the runner's local zone.
+  for (const bad of ['2026-11-25T10:00:00', '2026-11-25T10:00', '2026-11-25T10:00:00.5', '2026-11-25T10:00:00+0800', '2026-11-25 10:00:00Z']) {
+    assert.throws(() => R.rank([cand()], bad), /BAD_TIMESTAMP/, bad);
+    assert.throws(() => R.rank([cand({ sources: [{ url: 'u', publisher: 'A', tier: 'major', claimType: 'fact', publishedAt: bad }] })], asOf), /BAD_TIMESTAMP/, bad);
+  }
+  const at = v => R.rank([cand({ sources: [{ url: 'u', publisher: 'A', tier: 'major', claimType: 'fact', publishedAt: v }] })], asOf).ranked[0].parts.freshness.ageHours;
+  assert.equal(at('2026-11-25'), 14);
+  assert.equal(at('2026-11-25T10:00:00Z'), 4);
+  assert.equal(at('2026-11-25T18:00:00+08:00'), 4);
+  assert.equal(at('2026-11-25T05:00:00-05:00'), 4);
+  assert.equal(at('2026-11-25T10:00:00.250Z'), 4);
+});
