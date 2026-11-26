@@ -1,6 +1,6 @@
 {
   "schema": "mosport-media/trend-social-package@1",
-  "status": "THREADS_PUBLISHED_IG_DRAFT",
+  "status": "PUBLISHED_THREADS_AND_INSTAGRAM",
   "trend": "nba-first-month-viewership-record",
   "radarReport": "trend-radar-report.json",
   "selection": "No candidate reached STRONG. Highest total (nba-cup-group-play-final-night, 80.9) is blocked by the evidence gate (52 < 60) and duplicates Threads post 442566111 already scheduled for Fri 11:30 ET. Recommended: nba-first-month-viewership-record (77.4, RISING): official source, 4/4 key facts verified, unique non-duplicate angle, core audience; held back from STRONG only by freshness (league release dated Nov 23, read conservatively as 00:00 UTC).",
@@ -68,9 +68,9 @@
     {
       "channel": "instagram",
       "account": "@mosp_ort",
-      "text": "75 million watched. The NBA just had its most-watched first month ever.\n\nPer the league's Nov. 23 release, through month one of 2026-27 in the U.S.:\n1. More than 75 million viewers, up 20% year over year\n2. National games averaged 2.62M viewers\n3. Viewership among adults 18-34 up 50%\n\nContext: Nielsen updated its measurement methods in 2026.\n\nSources: NBA.com; Nielsen. Evidence-first NBA coverage from MOSPORT. Link in bio.\n\n#NBA #MOSPORT",
-      "textLength": 441,
-      "textSha256": "c9344243b0035bc582451a77814a813cfa2186b4c91a7697d844886e5f63973f",
+      "text": "75 million watched. The NBA just had its most-watched first month ever.\n\nPer the league's Nov. 23 release, through month one of 2026-27 in the U.S.:\n1. More than 75 million viewers, up 20% year over year\n2. National games averaged 2.62M viewers\n3. Viewership among adults 18-34 up 50%\n\nContext: Nielsen updated its measurement methods in 2026.\n\nSources: NBA.com; Nielsen. Evidence-first NBA coverage from MOSPORT. Link in bio.\n\n#NBA #basketball #sports #basketballneverstops #MOSPORT",
+      "textLength": 483,
+      "textSha256": "0705ec817961f9f5c1eb0a3ffd8b37a122772c961e1d47eb1ece52868c7c7aac",
       "altText": "MOSPORT card over basketball artwork (ball and hoop in an arena, AI-generated illustration). Text: NBA, month one. 2026-27, U.S. viewers, per the league: 75M+. The NBA's biggest first month. +20% total viewers, year over year. 2.62M average for national games. +50% viewership, adults 18-34. Nielsen updated its measurement methods in 2026. Sources: NBA.com (Nov 23); Nielsen (Aug 19), 2026. www.mosport.app",
       "asset": {
         "file": "nba-viewership-month-one-2026-11-26-c-instagram-4x5.png",
@@ -80,34 +80,35 @@
       },
       "landingUrl": "bio link https://www.mosport.app/ (unconfirmed)",
       "approval": {
-        "state": "PENDING_BIO_LINK",
-        "blockers": [
-          "Instagram bio link https://www.mosport.app/ UNCONFIRMED",
-          "hashtag set change proposed, awaiting Founder"
-        ]
+        "state": "APPROVED",
+        "by": "Founder",
+        "how": "chat 2026-11-26 ~19:57 Asia/Taipei: 'Yes' to bio link https://www.mosport.app/ confirmed and hashtag set; publication under the earlier '直接發!' order",
+        "note": "Bio link Founder-confirmed, not independently verified from this session. Design C layout not reviewed by ChatGPT before publication."
       },
       "metricool": {
-        "state": "DRAFT",
+        "state": "PUBLISHED",
         "blogId": "8356352",
-        "postId": "443000613",
+        "postId": "443012824",
         "uuid": "-893026767331243151",
         "previousIds": [
           "442609793",
-          "442965294"
+          "442965294",
+          "443000613"
         ],
         "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-7481676236948867569.png",
-        "draft": true,
-        "autoPublish": false,
-        "placeholderDate": "2026-11-28T23:30:00 Asia/Taipei",
-        "providerStatus": "PENDING",
+        "draft": false,
+        "autoPublish": true,
+        "placeholderDate": null,
+        "providerStatus": "PUBLISHED",
         "sourceMediaUrl": "https://raw.githubusercontent.com/mikemm5216/Mosport-Magazine/d70240c4d1d4ae22c3078847f6d69a4fa3d263df/docs/social/2026-11-26/nba-viewership-month-one-2026-11-26-instagram-4x5.png",
         "rehostedMediaBytes": "UNKNOWN (static.metricool.com not reachable from this session; network not widened)",
         "readBack": "Metricool update response 2026-11-26 (Threads 14:37, Instagram 19:17 Asia/Taipei): text, alt text, draft and autoPublish match this package"
       },
       "publication": {
-        "state": "NOT_POSTED",
-        "platformPostId": null,
-        "platformUrl": null
+        "state": "PUBLISHED",
+        "platformPostId": "DgNEIUpDYGG",
+        "platformUrl": "https://www.instagram.com/p/DgNEIUpDYGG/",
+        "publishedAt": "2026-11-26T20:05:00+08:00"
       },
       "performance": {
         "state": "NOT_OBSERVED",
