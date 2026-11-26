@@ -1,0 +1,80 @@
+{
+  "schema": "mosport-media/trend-social-package@1",
+  "status": "DRAFT_PENDING_C4_APPROVAL",
+  "trend": "nba-first-month-viewership-record",
+  "radarReport": "trend-radar-report.json",
+  "selection": "No candidate reached STRONG. Highest total (nba-cup-group-play-final-night, 80.9) is blocked by the evidence gate (52 < 60) and duplicates Threads post 442566111 already scheduled for Fri 11:30 ET. Recommended: nba-first-month-viewership-record (77.4, RISING): official source, 4/4 key facts verified, unique non-duplicate angle, core audience; held back from STRONG only by freshness (league release dated Nov 23, read conservatively as 00:00 UTC).",
+  "recommendedWindow": "After Founder approval; not before the scheduled NBA Cup post (Fri 2026-11-27 11:30 ET) so the two do not crowd each other. Suggested: Sat 2026-11-28 or Sun 2026-11-29, 12:00-14:00 ET. The figures are the league's first-month totals and do not go stale within that window.",
+  "posts": [
+    {
+      "channel": "threads",
+      "account": "@mosp_ort",
+      "text": "The NBA just had its most-watched first month ever.\n\nPer the league (Nov. 23), through month one of 2026-27 in the U.S.:\n• 75M+ viewers, up 20% year over year\n• Games averaging 2.62M viewers, a record at this point of a season\n• Adults 18-34 viewership up 50%\n\nCaveat: Nielsen measurement changes have tended to favor live sports.\n\nEvidence-first NBA: https://www.mosport.app/?utm_source=threads&utm_medium=organic_social&utm_campaign=trend_radar_v1&utm_content=nba-viewership-month-one",
+      "textLength": 486,
+      "textSha256": "cafc23f380c31f79cb6473d9d3f93bb395ae496a6582ef5ce80829ce1fbe0734",
+      "altText": "MOSPORT card: 75 million watched. A first-month record. Through month one of 2026-27 (U.S.): 01 75M+ viewers, up 20%. 02 2.62M average per game, a record pace. 03 Adults 18-34 viewership up 50%. Across NBC/Peacock, Prime Video and ESPN. Nielsen measurement changes have tended to favor live sports. Source: NBA.com league release, Nov 23, 2026.",
+      "asset": {
+        "file": "nba-viewership-month-one-2026-11-26-threads-1x1.png",
+        "width": 1080,
+        "height": 1080,
+        "sha256": "366d32f9674742f501e6d9c0ebebc481222a0f01a74b81ea96aadb006a76769e"
+      },
+      "landingUrl": "https://www.mosport.app/?utm_source=threads&utm_medium=organic_social&utm_campaign=trend_radar_v1&utm_content=nba-viewership-month-one",
+      "approval": {
+        "state": "PENDING_HUMAN",
+        "receiptRef": null
+      },
+      "metricool": {
+        "state": "NOT_CREATED",
+        "postId": null,
+        "draft": true
+      },
+      "publication": {
+        "state": "NOT_POSTED",
+        "platformPostId": null,
+        "platformUrl": null
+      },
+      "performance": {
+        "state": "NOT_OBSERVED",
+        "views": null,
+        "interactions": null,
+        "landingVisits": null
+      }
+    },
+    {
+      "channel": "instagram",
+      "account": "@mosp_ort",
+      "text": "75 million watched. The NBA just had its most-watched first month ever.\n\nPer the league's Nov. 23 release, through month one of 2026-27 in the U.S.:\n1. More than 75 million viewers, up 20% year over year\n2. Games averaging 2.62 million viewers, a record at this point of a season\n3. Viewership among adults 18-34 up 50%\n\nAcross NBC/Peacock, Prime Video and ESPN. Caveat: Nielsen measurement changes in recent years have tended to favor live sports.\n\nSource: NBA.com. Evidence-first NBA coverage from MOSPORT. Link in bio.\n\n#NBA #MOSPORT",
+      "textLength": 536,
+      "textSha256": "2ee0a816cd0bc36c99a3988d55f60b11a2a2e48fb86ac58b41dd5e84e354cd30",
+      "altText": "MOSPORT card: 75 million watched. A first-month record. Through month one of 2026-27 (U.S.): 01 75M+ viewers, up 20%. 02 2.62M average per game, a record pace. 03 Adults 18-34 viewership up 50%. Across NBC/Peacock, Prime Video and ESPN. Nielsen measurement changes have tended to favor live sports. Source: NBA.com league release, Nov 23, 2026.",
+      "asset": {
+        "file": "nba-viewership-month-one-2026-11-26-instagram-4x5.png",
+        "width": 1080,
+        "height": 1350,
+        "sha256": "a5094f81ec30964fa58656817f08188a2d31b60d465f273450c2364b2f8d1ea3"
+      },
+      "landingUrl": "bio link https://www.mosport.app/ (unconfirmed)",
+      "approval": {
+        "state": "PENDING_HUMAN",
+        "receiptRef": null
+      },
+      "metricool": {
+        "state": "NOT_CREATED",
+        "postId": null,
+        "draft": true
+      },
+      "publication": {
+        "state": "NOT_POSTED",
+        "platformPostId": null,
+        "platformUrl": null
+      },
+      "performance": {
+        "state": "NOT_OBSERVED",
+        "views": null,
+        "interactions": null,
+        "landingVisits": null
+      }
+    }
+  ]
+}

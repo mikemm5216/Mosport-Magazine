@@ -1,0 +1,182 @@
+{
+  "asOf": "2026-11-26T03:30:00Z",
+  "weights": {
+    "freshness": 0.25,
+    "engagement": 0.15,
+    "corroboration": 0.15,
+    "audience": 0.15,
+    "evidence": 0.15,
+    "content": 0.15
+  },
+  "thresholds": {
+    "strongTotal": 70,
+    "strongEvidence": 60,
+    "strongFreshness": 60,
+    "risingTotal": 50
+  },
+  "ranked": [
+    {
+      "id": "nba-cup-group-play-final-night",
+      "eventKey": "nba-cup-2026-group-play-final-night",
+      "title": "NBA Cup group play ends Friday Nov 27; several groups still undecided",
+      "mergedIds": [
+        "nba-cup-group-play-final-night"
+      ],
+      "total": 80.9,
+      "tier": "RISING",
+      "parts": {
+        "freshness": {
+          "score": 85,
+          "ageHours": 27.5,
+          "nextEventWithin72h": true
+        },
+        "engagement": {
+          "score": null,
+          "status": "UNAVAILABLE",
+          "reason": "no comparable measured metric and baseline"
+        },
+        "corroboration": {
+          "score": 100,
+          "publishers": {
+            "official": [
+              "NBA.com"
+            ],
+            "major": [
+              "NBC Sports",
+              "Yahoo Sports"
+            ],
+            "secondary": [
+              "Bleacher Report"
+            ],
+            "social": []
+          }
+        },
+        "audience": {
+          "score": 100
+        },
+        "evidence": {
+          "score": 52
+        },
+        "content": {
+          "score": 65
+        }
+      },
+      "effectiveWeights": {
+        "freshness": 0.294,
+        "corroboration": 0.176,
+        "audience": 0.176,
+        "evidence": 0.176,
+        "content": 0.176
+      }
+    },
+    {
+      "id": "nba-first-month-viewership-record",
+      "eventKey": "nba-2026-27-first-month-viewership",
+      "title": "NBA's first month of 2026-27 draws 75M+ U.S. viewers, the most in league history (league release, Mon Nov 23)",
+      "mergedIds": [
+        "nba-first-month-viewership-record"
+      ],
+      "total": 77.4,
+      "tier": "RISING",
+      "parts": {
+        "freshness": {
+          "score": 35,
+          "ageHours": 75.5,
+          "nextEventWithin72h": false
+        },
+        "engagement": {
+          "score": null,
+          "status": "UNAVAILABLE",
+          "reason": "no comparable measured metric and baseline"
+        },
+        "corroboration": {
+          "score": 100,
+          "publishers": {
+            "official": [
+              "NBA.com"
+            ],
+            "major": [
+              "Forbes",
+              "The Hollywood Reporter",
+              "Yahoo Sports"
+            ],
+            "secondary": [
+              "Barrett Media"
+            ],
+            "social": []
+          }
+        },
+        "audience": {
+          "score": 100
+        },
+        "evidence": {
+          "score": 80
+        },
+        "content": {
+          "score": 100
+        }
+      },
+      "effectiveWeights": {
+        "freshness": 0.294,
+        "corroboration": 0.176,
+        "audience": 0.176,
+        "evidence": 0.176,
+        "content": 0.176
+      }
+    },
+    {
+      "id": "nfl-thanksgiving-tripleheader",
+      "eventKey": "nfl-2026-thanksgiving-day-games",
+      "title": "NFL Thanksgiving tripleheader today: Bears at Lions, Eagles at Cowboys, Chiefs at Bills",
+      "mergedIds": [
+        "nfl-thanksgiving-tripleheader"
+      ],
+      "total": 60.3,
+      "tier": "RISING",
+      "parts": {
+        "freshness": {
+          "score": 100,
+          "ageHours": 3.5,
+          "nextEventWithin72h": true
+        },
+        "engagement": {
+          "score": null,
+          "status": "UNAVAILABLE",
+          "reason": "no comparable measured metric and baseline"
+        },
+        "corroboration": {
+          "score": 45,
+          "publishers": {
+            "official": [],
+            "major": [
+              "Yahoo Sports"
+            ],
+            "secondary": [
+              "JournalArta",
+              "The Sportscast"
+            ],
+            "social": []
+          }
+        },
+        "audience": {
+          "score": 60
+        },
+        "evidence": {
+          "score": 25
+        },
+        "content": {
+          "score": 45
+        }
+      },
+      "effectiveWeights": {
+        "freshness": 0.294,
+        "corroboration": 0.176,
+        "audience": 0.176,
+        "evidence": 0.176,
+        "content": 0.176
+      }
+    }
+  ],
+  "aiCandidates": [],
+  "recordOnly": []
+}
