@@ -19,20 +19,31 @@ const TIER_CAP = { official: 1, major: 2, secondary: 2, social: 0 };
 const WEIGHTS = { freshness: 0.25, engagement: 0.15, corroboration: 0.15, audience: 0.15, evidence: 0.15, content: 0.15 };
 const THRESHOLDS = { strongTotal: 70, strongEvidence: 60, strongFreshness: 60, risingTotal: 50 };
 
+const ISO = /^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2})(?::(\d{2})(?:\.\d+)?)?(Z|([+-])(\d{2}):(\d{2})))?$/;
+
 function parseTime(value) {
   if (value == null) return null;
-  // Strict ISO-8601 only: Date.parse accepts strings like 'Nov 24' and guesses a year.
-  if (!/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2}))?$/.test(value)) throw Error('BAD_TIMESTAMP: ' + value);
-  const v = /^\d{4}-\d{2}-\d{2}$/.test(value) ? value + 'T00:00:00Z' : value;
-  const t = Date.parse(v);
+  // Strict ISO-8601 only: Date.parse accepts strings like 'Nov 24' and guesses a year,
+  // and normalises overflow such as Feb 30 into another day, so every field is range-checked.
+  const m = typeof value === 'string' ? ISO.exec(value) : null;
+  if (!m) throw Error('BAD_TIMESTAMP: ' + value);
+  const [, y, mo, d, h = '00', mi = '00', sec = '00', , , oh = '00', om = '00'] = m;
+  const day = new Date(Date.UTC(+y, +mo - 1, +d));
+  if (day.getUTCFullYear() !== +y || day.getUTCMonth() !== +mo - 1 || day.getUTCDate() !== +d
+    || +h > 23 || +mi > 59 || +sec > 59 || +oh > 23 || +om > 59) throw Error('BAD_TIMESTAMP: ' + value);
+  const t = Date.parse(m[4] == null ? value + 'T00:00:00Z' : value);
   if (Number.isNaN(t)) throw Error('BAD_TIMESTAMP: ' + value);
   return t;
 }
 const hoursBetween = (a, b) => (a - b) / 3600000;
 
-/** Freshness from the latest dated development, or a scheduled related event within 72h. */
+/** Freshness from the latest dated development, or a scheduled related event within 72h.
+ * A publication after asOf was not available at the cutoff and is rejected, never scored as fresh. */
 function freshness(c, asOf) {
-  const latest = Math.max(...c.sources.map(s => parseTime(s.publishedAt)).filter(t => t != null), -Infinity);
+  if (!Number.isFinite(asOf)) throw Error('MISSING_AS_OF');
+  const published = c.sources.map(s => parseTime(s.publishedAt)).filter(t => t != null);
+  if (published.some(t => t > asOf)) throw Error('FUTURE_PUBLICATION: ' + c.id);
+  const latest = Math.max(...published, -Infinity);
   let fromLatest = 0, age = null;
   if (latest !== -Infinity) {
     age = hoursBetween(asOf, latest);
@@ -44,11 +55,17 @@ function freshness(c, asOf) {
     nextEventWithin72h: upcoming > 0 };
 }
 
-/** Velocity only against a real, comparable baseline; otherwise UNAVAILABLE. */
+/** Velocity only against a real, comparable baseline; otherwise UNAVAILABLE. A zero baseline has
+ * no defined ratio policy, so it is UNAVAILABLE rather than scored as infinite growth. */
 function engagement(c) {
   const e = c.engagement;
-  if (!e || e.value == null || e.baseline == null || !e.metric || !e.windowHours || !e.baselineSource)
-    return { score: null, status: 'UNAVAILABLE', reason: 'no comparable measured metric and baseline' };
+  const unavailable = reason => ({ score: null, status: 'UNAVAILABLE', reason });
+  if (!e || e.value == null || e.baseline == null || !e.metric || e.windowHours == null || !e.baselineSource)
+    return unavailable('no comparable measured metric and baseline');
+  if (!Number.isFinite(e.value) || e.value < 0 || !Number.isFinite(e.baseline) || e.baseline < 0)
+    return unavailable('measurement is not a finite non-negative number');
+  if (!Number.isFinite(e.windowHours) || e.windowHours <= 0) return unavailable('measurement window is not positive');
+  if (e.baseline === 0) return unavailable('baseline is zero: no ratio policy defined');
   const ratio = e.value / e.baseline;
   const score = ratio >= 3 ? 100 : ratio >= 2 ? 80 : ratio >= 1.25 ? 60 : ratio >= 1 ? 40 : 20;
   return { score, status: 'MEASURED', ratio: Math.round(ratio * 100) / 100 };
@@ -113,6 +130,7 @@ function scoreCandidate(c, asOf) {
 
 /** Rank by total, then evidence, then freshness, then id. Only the top 3 STRONG go to the AI stage. */
 function rank(candidates, asOfIso) {
+  if (asOfIso == null) throw Error('MISSING_AS_OF');
   const asOf = parseTime(asOfIso);
   const scored = cluster(candidates).map(c => scoreCandidate(c, asOf)).sort((a, b) =>
     b.total - a.total || b.parts.evidence.score - a.parts.evidence.score

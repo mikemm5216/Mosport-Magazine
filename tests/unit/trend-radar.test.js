@@ -75,3 +75,44 @@ test('the committed 2026-11-25 radar report is exactly reproducible from its inp
     assert.deepEqual(R.rank(input.candidates, input.asOf), JSON.parse(fs.readFileSync(path.join(dir, out), 'utf8')), out);
   }
 });
+
+test('a missing or invalid asOf is rejected, and calendar overflow is not normalised into another day', () => {
+  for (const bad of [undefined, null]) assert.throws(() => R.rank([cand()], bad), /MISSING_AS_OF/);
+  assert.throws(() => R.freshness(cand(), null), /MISSING_AS_OF/);
+  for (const bad of ['2026-02-30', '2026-02-29T10:00:00Z', '2026-13-01', '2026-11-25T24:00:00Z',
+    '2026-11-25T10:60:00Z', '2026-11-25T10:00:60Z', '2026-11-25T10:00:00+25:00', 20261125])
+    assert.throws(() => R.rank([cand()], bad), /BAD_TIMESTAMP/, String(bad));
+  assert.throws(() => R.rank([cand({ sources: [{ url: 'u', publisher: 'A', tier: 'major', claimType: 'fact', publishedAt: '2026-02-30T00:00:00Z' }] })], asOf), /BAD_TIMESTAMP/);
+  assert.equal(R.rank([cand()], '2028-02-29T00:00:00+08:00').asOf, '2028-02-29T00:00:00+08:00');
+});
+
+test('a publication after asOf is rejected, never scored as fresh; a future scheduled event still counts', () => {
+  // Reviewer reproduction (#37 review 6067926789): previously ageHours -24, freshness 100, STRONG.
+  const future = cand({ sources: [{ url: 'https://a/1', publisher: 'A', tier: 'official', claimType: 'fact', publishedAt: '2026-11-26T14:00:00Z' }] });
+  assert.throws(() => R.rank([future], asOf), /FUTURE_PUBLICATION: c/);
+  const mixed = cand({ sources: [...cand().sources, { url: 'https://c/1', publisher: 'C', tier: 'secondary', claimType: 'fact', publishedAt: '2026-11-25T14:00:01Z' }] });
+  assert.throws(() => R.rank([mixed], asOf), /FUTURE_PUBLICATION/);
+  assert.equal(R.rank([cand({ sources: [{ url: 'u', publisher: 'A', tier: 'official', claimType: 'fact', publishedAt: asOf }] })], asOf).ranked[0].parts.freshness.ageHours, 0);
+  const scheduled = cand({ nextEventAt: '2026-11-27T19:00:00Z', sources: [{ url: 'u', publisher: 'A', tier: 'official', claimType: 'fact', publishedAt: '2026-11-20T00:00:00Z' }] });
+  const f = R.rank([scheduled], asOf).ranked[0].parts.freshness;
+  assert.equal(f.score, 85);
+  assert.equal(f.nextEventWithin72h, true);
+});
+
+test('a zero baseline or non-finite measurement is UNAVAILABLE with a reason and its weight is redistributed', () => {
+  const base = { metric: 'views', windowHours: 24, value: 300, baseline: 100, baselineSource: 'measured 7d median' };
+  const cases = [
+    [{ baseline: 0 }, /baseline is zero/], // reviewer reproduction: previously MEASURED, score 100, ratio Infinity
+    [{ value: Infinity }, /finite/], [{ value: NaN }, /finite/], [{ value: -1 }, /finite/], [{ value: '300' }, /finite/],
+    [{ baseline: -5 }, /finite/], [{ baseline: Infinity }, /finite/],
+    [{ windowHours: 0 }, /window/], [{ windowHours: -24 }, /window/], [{ windowHours: Infinity }, /window/]];
+  for (const [over, reason] of cases) {
+    const s = R.rank([cand({ engagement: { ...base, ...over } })], asOf).ranked[0];
+    assert.equal(s.parts.engagement.status, 'UNAVAILABLE', JSON.stringify(over));
+    assert.equal(s.parts.engagement.score, null);
+    assert.match(s.parts.engagement.reason, reason);
+    assert.ok(!('engagement' in s.effectiveWeights));
+    assert.equal(JSON.parse(JSON.stringify(s)).parts.engagement.score, null);
+  }
+  assert.equal(R.rank([cand({ engagement: { ...base, value: 0 } })], asOf).ranked[0].parts.engagement.score, 20);
+});
