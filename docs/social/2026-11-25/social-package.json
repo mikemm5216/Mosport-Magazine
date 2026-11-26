@@ -1,6 +1,6 @@
 {
   "schema": "mosport-media/trend-social-package@1",
-  "status": "SCHEDULED_BOTH",
+  "status": "DRAFT_PENDING_C4_APPROVAL",
   "trend": "nba-cup-group-final-week",
   "radarReport": "trend-radar-report.json",
   "recommendedWindow": "Fri 2026-11-27, 11:00-13:00 ET (Sat 00:00-02:00 Taipei), before the final group-play games; facts above are as of Nov 25 and must be re-checked before posting",
@@ -19,9 +19,8 @@
       },
       "landingUrl": "https://www.mosport.app/?utm_source=threads&utm_medium=organic_social&utm_campaign=trend_radar_v1&utm_content=nba-cup-tiebreakers",
       "approval": {
-        "state": "APPROVED",
-        "by": "Founder",
-        "receipt": "#35 7180485347 (C4 receipt; its Wednesday East Group A statement corrected in #35 7181034998, creative unaffected)"
+        "state": "PENDING_HUMAN",
+        "receiptRef": null
       },
       "publication": {
         "state": "NOT_POSTED",
@@ -48,10 +47,10 @@
         "sha256": "ba53afa5df1b26c9b9955a30819c44a59baf99fbc266de655eb518a4a52695b0"
       },
       "landingUrl": "https://www.mosport.app/ (profile link in bio; caption URLs are not clickable on Instagram)",
+      "bioLinkVerified": false,
       "approval": {
-        "state": "APPROVED",
-        "by": "Founder",
-        "receipt": "#35 7180485347 (C4 receipt; its Wednesday East Group A statement corrected in #35 7181034998, creative unaffected)"
+        "state": "PENDING_HUMAN",
+        "receiptRef": null
       },
       "publication": {
         "state": "NOT_POSTED",
@@ -72,35 +71,7 @@
     "imagery": "none: no photos, team logos, player likeness, NBA marks or footage; text and grid only",
     "trademarks": "\"NBA Cup\"/\"Emirates NBA Cup\" used as words to name the competition (nominative); no logos"
   },
-  "packageRole": "ORIGINAL CREATIVE PACKAGE (written 2026-11-25). Creative fields (text, hashes, assets, rights, window) are immutable; draft-era state fields are preserved under draftEraState. Current state is in operationalState.",
-  "draftEraState": {
-    "status": "DRAFT_PENDING_C4_APPROVAL",
-    "posts": {
-      "threads": {
-        "approval": {
-          "state": "PENDING_HUMAN",
-          "receiptRef": null
-        },
-        "publication": {
-          "state": "NOT_POSTED",
-          "platformPostId": null,
-          "platformUrl": null
-        }
-      },
-      "instagram": {
-        "approval": {
-          "state": "PENDING_HUMAN",
-          "receiptRef": null
-        },
-        "publication": {
-          "state": "NOT_POSTED",
-          "platformPostId": null,
-          "platformUrl": null
-        },
-        "bioLinkVerified": false
-      }
-    }
-  },
+  "packageRole": "ORIGINAL CREATIVE PACKAGE as written 2026-11-25, kept immutable: status, approval and publication fields below are the draft-era record and are NOT current state. Current approvals, Metricool IDs, schedule and the pre-publish check are in operationalState.",
   "operationalState": {
     "readBackAt": "2026-11-26T13:51:00Z",
     "source": "Metricool getScheduledPosts (brand 8356352)",
@@ -155,6 +126,11 @@
       "codeReview": "scoped Trend Radar V1 code review PASS at ba7127a (review 6068087180, COMMENT, not GitHub APPROVED)",
       "laterCommits": "docs/social only (no code)",
       "consolidation": "B PR #34 -> #36 -> #37 consolidation pending; must preserve live #36 code"
-    }
+    },
+    "approvals": {
+      "c4": "Founder APPROVED both posts: #35 7180485347 (its Wednesday East Group A statement corrected in #35 7181034998; creative unaffected)",
+      "instagramBioLink": "Founder-confirmed https://www.mosport.app/ in #35 7191601373; not independently verified"
+    },
+    "currentStatus": "SCHEDULED_BOTH (not yet posted)"
   }
 }
