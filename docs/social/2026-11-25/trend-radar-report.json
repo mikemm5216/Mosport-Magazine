@@ -1,0 +1,237 @@
+{
+  "asOf": "2026-11-25T14:00:00Z",
+  "weights": {
+    "freshness": 0.25,
+    "engagement": 0.15,
+    "corroboration": 0.15,
+    "audience": 0.15,
+    "evidence": 0.15,
+    "content": 0.15
+  },
+  "thresholds": {
+    "strongTotal": 70,
+    "strongEvidence": 60,
+    "strongFreshness": 60,
+    "risingTotal": 50
+  },
+  "ranked": [
+    {
+      "id": "nba-cup-group-final-week",
+      "eventKey": "nba-cup-2026-group-play-final-week",
+      "title": "NBA Cup group play enters its final week (games Nov 24, 25, 27 ET); clinching scenarios and point-differential tiebreakers",
+      "mergedIds": [
+        "nba-cup-group-final-week",
+        "nba-cup-dal-den"
+      ],
+      "total": 91.5,
+      "tier": "STRONG",
+      "parts": {
+        "freshness": {
+          "score": 100,
+          "ageHours": 14,
+          "nextEventWithin72h": true
+        },
+        "engagement": {
+          "score": null,
+          "status": "UNAVAILABLE",
+          "reason": "no comparable measured metric and baseline"
+        },
+        "corroboration": {
+          "score": 100,
+          "publishers": {
+            "official": [
+              "NBA.com"
+            ],
+            "major": [
+              "ESPN",
+              "NBC Sports",
+              "Yahoo Sports"
+            ],
+            "secondary": [
+              "98.5 The Sports Hub",
+              "VAVEL"
+            ],
+            "social": []
+          }
+        },
+        "audience": {
+          "score": 100
+        },
+        "evidence": {
+          "score": 72
+        },
+        "content": {
+          "score": 80
+        }
+      },
+      "effectiveWeights": {
+        "freshness": 0.294,
+        "corroboration": 0.176,
+        "audience": 0.176,
+        "evidence": 0.176,
+        "content": 0.176
+      }
+    },
+    {
+      "id": "wembanyama-shunk",
+      "eventKey": "wembanyama-shunk-2026-11",
+      "title": "Wembanyama's 'shunk' (blister-driven finish, Nov 20) and Steven Adams's 'plagiarism' joke (Nov 23)",
+      "mergedIds": [
+        "wembanyama-shunk"
+      ],
+      "total": 73.5,
+      "tier": "STRONG",
+      "parts": {
+        "freshness": {
+          "score": 85,
+          "ageHours": 62,
+          "nextEventWithin72h": true
+        },
+        "engagement": {
+          "score": null,
+          "status": "UNAVAILABLE",
+          "reason": "no comparable measured metric and baseline"
+        },
+        "corroboration": {
+          "score": 90,
+          "publishers": {
+            "official": [
+              "NBA.com"
+            ],
+            "major": [
+              "ESPN",
+              "UPI"
+            ],
+            "secondary": [],
+            "social": []
+          }
+        },
+        "audience": {
+          "score": 100
+        },
+        "evidence": {
+          "score": 70
+        },
+        "content": {
+          "score": 15
+        }
+      },
+      "effectiveWeights": {
+        "freshness": 0.294,
+        "corroboration": 0.176,
+        "audience": 0.176,
+        "evidence": 0.176,
+        "content": 0.176
+      }
+    },
+    {
+      "id": "lebron-bron-ai-likeness-suit",
+      "eventKey": "lebron-v-playvision-2026-11",
+      "title": "LeBron James sues the makers of AI betting-research app 'Bron' over name, AI likeness and voice (filed Nov 17, SDNY)",
+      "mergedIds": [
+        "lebron-bron-ai-likeness-suit"
+      ],
+      "total": 46.8,
+      "tier": "LOW",
+      "parts": {
+        "freshness": {
+          "score": 0,
+          "ageHours": 182,
+          "nextEventWithin72h": false
+        },
+        "engagement": {
+          "score": null,
+          "status": "UNAVAILABLE",
+          "reason": "no comparable measured metric and baseline"
+        },
+        "corroboration": {
+          "score": 60,
+          "publishers": {
+            "official": [],
+            "major": [
+              "CNBC",
+              "NBC News"
+            ],
+            "secondary": [
+              "Courthouse News"
+            ],
+            "social": []
+          }
+        },
+        "audience": {
+          "score": 100
+        },
+        "evidence": {
+          "score": 40
+        },
+        "content": {
+          "score": 65
+        }
+      },
+      "effectiveWeights": {
+        "freshness": 0.294,
+        "corroboration": 0.176,
+        "audience": 0.176,
+        "evidence": 0.176,
+        "content": 0.176
+      }
+    },
+    {
+      "id": "afcon-cas-senegal",
+      "eventKey": "afcon-2025-cas-ruling",
+      "title": "CAS reinstates Senegal as AFCON 2025 champions",
+      "mergedIds": [
+        "afcon-cas-senegal"
+      ],
+      "total": 43.8,
+      "tier": "LOW",
+      "parts": {
+        "freshness": {
+          "score": 80,
+          "ageHours": 38,
+          "nextEventWithin72h": false
+        },
+        "engagement": {
+          "score": null,
+          "status": "UNAVAILABLE",
+          "reason": "no comparable measured metric and baseline"
+        },
+        "corroboration": {
+          "score": 10,
+          "publishers": {
+            "official": [],
+            "major": [],
+            "secondary": [
+              "dave.sport"
+            ],
+            "social": []
+          }
+        },
+        "audience": {
+          "score": 60
+        },
+        "evidence": {
+          "score": 0
+        },
+        "content": {
+          "score": 45
+        }
+      },
+      "effectiveWeights": {
+        "freshness": 0.294,
+        "corroboration": 0.176,
+        "audience": 0.176,
+        "evidence": 0.176,
+        "content": 0.176
+      }
+    }
+  ],
+  "aiCandidates": [
+    "nba-cup-group-final-week",
+    "wembanyama-shunk"
+  ],
+  "recordOnly": [
+    "lebron-bron-ai-likeness-suit",
+    "afcon-cas-senegal"
+  ]
+}

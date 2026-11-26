@@ -1,0 +1,30 @@
+{
+  "design": "C (Founder-selected direction 2026-11-26): hero stat + tiles over owned basketball art",
+  "renderer": "one-off scratch template, copied to card-c-source/ (render-card-c.js + generated HTML); repo renderer unchanged; non-file requests aborted; overflow check passed",
+  "background": {
+    "registrySlot": "cover-desktop-art",
+    "version": "claude-crop-v1",
+    "status": "ACTIVE",
+    "rights": "OWNED",
+    "file": "site/assets/art/cover-desktop-art.v1-claude-crop.webp",
+    "sha256": "04e7e7cc91efccaf3797091319bd2547adfbacca347e823d8bd139d6c7ac7d9f",
+    "generator": "ChatGPT ImageGen",
+    "approval": "Founder 2026-11-20, Mosport-Magazine #22 comment 7033490923",
+    "containsPerson": false,
+    "containsLogo": false,
+    "containsText": false
+  },
+  "teamLogos": "not used: registry rights UNVERIFIED, production policy allows only OWNED/LICENSED/EMBED_PERMITTED",
+  "threads-1x1": {
+    "file": "nba-viewership-month-one-2026-11-26-c-threads-1x1.png",
+    "width": 1080,
+    "height": 1080,
+    "sha256": "6a37d62cf0a898fd7148d627d3c6dde38a24dd5ee4c0b189b92e513f0da716a8"
+  },
+  "instagram-4x5": {
+    "file": "nba-viewership-month-one-2026-11-26-c-instagram-4x5.png",
+    "width": 1080,
+    "height": 1350,
+    "sha256": "ecfeb5621e7e13152ede3e7acea8716d613ca2c479d0db23a9cee93f52254a3c"
+  }
+}
