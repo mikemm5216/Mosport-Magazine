@@ -12,12 +12,12 @@
       "text": "The NBA just had its most-watched first month ever.\n\nPer the league (Nov. 23), through month one of 2026-27 in the U.S.:\n• 75M+ viewers, up 20% year over year\n• National games averaged 2.62M viewers\n• Adults 18-34 viewership up 50%\n\nContext: Nielsen updated its measurement methods in 2026.\n\nEvidence-first NBA: https://www.mosport.app/?utm_source=threads&utm_medium=organic_social&utm_campaign=trend_radar_v1&utm_content=nba-viewership-month-one",
       "textLength": 446,
       "textSha256": "1da3edd868821735b18a02ced5a678a32392c845d057e4427bae0da2cbff1c60",
-      "altText": "MOSPORT card: 75 million watched. A first-month record. Through month one of 2026-27 (U.S.): 01 75M+ viewers, up 20%. 02 2.62M average for national games. 03 Adults 18-34 viewership up 50%. Nielsen updated its measurement methods in 2026. Sources: NBA.com (Nov 23); Nielsen (Aug 19), 2026.",
+      "altText": "MOSPORT card over basketball artwork (ball and hoop in an arena, AI-generated illustration). Text: NBA, month one. 2026-27, U.S. viewers, per the league: 75M+. The NBA's biggest first month. +20% total viewers, year over year. 2.62M average for national games. +50% viewership, adults 18-34. Nielsen updated its measurement methods in 2026. Sources: NBA.com (Nov 23); Nielsen (Aug 19), 2026. www.mosport.app",
       "asset": {
-        "file": "nba-viewership-month-one-2026-11-26-threads-1x1.png",
+        "file": "nba-viewership-month-one-2026-11-26-c-threads-1x1.png",
         "width": 1080,
         "height": 1080,
-        "sha256": "55d826648073f2ae0ea35f623fc762f18bd9b577b867373f89ece978dcef20c3"
+        "sha256": "6a37d62cf0a898fd7148d627d3c6dde38a24dd5ee4c0b189b92e513f0da716a8"
       },
       "landingUrl": "https://www.mosport.app/?utm_source=threads&utm_medium=organic_social&utm_campaign=trend_radar_v1&utm_content=nba-viewership-month-one",
       "approval": {
@@ -51,7 +51,15 @@
         "views": null,
         "interactions": null,
         "landingVisits": null
-      }
+      },
+      "supersededAssets": [
+        {
+          "file": "nba-viewership-month-one-2026-11-26-threads-1x1.png",
+          "width": 1080,
+          "height": 1080,
+          "sha256": "55d826648073f2ae0ea35f623fc762f18bd9b577b867373f89ece978dcef20c3"
+        }
+      ]
     },
     {
       "channel": "instagram",
@@ -59,12 +67,12 @@
       "text": "75 million watched. The NBA just had its most-watched first month ever.\n\nPer the league's Nov. 23 release, through month one of 2026-27 in the U.S.:\n1. More than 75 million viewers, up 20% year over year\n2. National games averaged 2.62M viewers\n3. Viewership among adults 18-34 up 50%\n\nContext: Nielsen updated its measurement methods in 2026.\n\nSources: NBA.com; Nielsen. Evidence-first NBA coverage from MOSPORT. Link in bio.\n\n#NBA #MOSPORT",
       "textLength": 441,
       "textSha256": "c9344243b0035bc582451a77814a813cfa2186b4c91a7697d844886e5f63973f",
-      "altText": "MOSPORT card: 75 million watched. A first-month record. Through month one of 2026-27 (U.S.): 01 75M+ viewers, up 20%. 02 2.62M average for national games. 03 Adults 18-34 viewership up 50%. Nielsen updated its measurement methods in 2026. Sources: NBA.com (Nov 23); Nielsen (Aug 19), 2026.",
+      "altText": "MOSPORT card over basketball artwork (ball and hoop in an arena, AI-generated illustration). Text: NBA, month one. 2026-27, U.S. viewers, per the league: 75M+. The NBA's biggest first month. +20% total viewers, year over year. 2.62M average for national games. +50% viewership, adults 18-34. Nielsen updated its measurement methods in 2026. Sources: NBA.com (Nov 23); Nielsen (Aug 19), 2026. www.mosport.app",
       "asset": {
-        "file": "nba-viewership-month-one-2026-11-26-instagram-4x5.png",
+        "file": "nba-viewership-month-one-2026-11-26-c-instagram-4x5.png",
         "width": 1080,
         "height": 1350,
-        "sha256": "b6d3c11989e9ac328bb6eaed02d1c947ed51c72ab0a487e867e291756881cfc6"
+        "sha256": "ecfeb5621e7e13152ede3e7acea8716d613ca2c479d0db23a9cee93f52254a3c"
       },
       "landingUrl": "bio link https://www.mosport.app/ (unconfirmed)",
       "approval": {
@@ -101,7 +109,16 @@
         "views": null,
         "interactions": null,
         "landingVisits": null
-      }
+      },
+      "supersededAssets": [
+        {
+          "file": "nba-viewership-month-one-2026-11-26-instagram-4x5.png",
+          "width": 1080,
+          "height": 1350,
+          "sha256": "b6d3c11989e9ac328bb6eaed02d1c947ed51c72ab0a487e867e291756881cfc6"
+        }
+      ],
+      "aiDisclosure": "isAiGenerated=true (background art generated with ChatGPT ImageGen)"
     }
   ],
   "storyType": "Timely editorial/stat story (league release dated Nov 23), not a live trend spike.",
@@ -126,6 +143,9 @@
     },
     {
       "note": "Creative corrections per #35 7184421837: 2.62M qualified as national-game average without record claim; platform list and Nielsen-effect caveat replaced by 'Nielsen updated its measurement methods in 2026.'; sources NBA.com (Nov 23) + Nielsen (Aug 19). Headline and other figures unchanged."
+    },
+    {
+      "note": "Design C selected by Founder (2026-11-26 chat): same facts and captions; owned basketball art background; team logos not used (rights UNVERIFIED)."
     }
   ]
 }
