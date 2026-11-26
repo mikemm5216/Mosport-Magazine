@@ -25,9 +25,21 @@
         "receiptRef": null
       },
       "metricool": {
-        "state": "NOT_CREATED",
-        "postId": null,
-        "draft": true
+        "state": "DRAFT",
+        "blogId": "8356352",
+        "postId": "442712928",
+        "uuid": "8326146948964108500",
+        "previousIds": [
+          "442609440"
+        ],
+        "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-13096825436576135763.png",
+        "draft": true,
+        "autoPublish": false,
+        "placeholderDate": "2026-11-26T23:30:00 Asia/Taipei",
+        "providerStatus": "PENDING",
+        "sourceMediaUrl": "https://raw.githubusercontent.com/mikemm5216/Mosport-Magazine/d70240c4d1d4ae22c3078847f6d69a4fa3d263df/docs/social/2026-11-26/nba-viewership-month-one-2026-11-26-threads-1x1.png",
+        "rehostedMediaBytes": "UNKNOWN (static.metricool.com not reachable from this session; network not widened)",
+        "readBack": "Metricool update response 2026-11-26 (Threads 14:37, Instagram 19:17 Asia/Taipei): text, alt text, draft and autoPublish match this package"
       },
       "publication": {
         "state": "NOT_POSTED",
@@ -57,12 +69,27 @@
       "landingUrl": "bio link https://www.mosport.app/ (unconfirmed)",
       "approval": {
         "state": "PENDING_HUMAN",
-        "receiptRef": null
+        "receiptRef": null,
+        "blockers": [
+          "Instagram bio link https://www.mosport.app/ UNCONFIRMED"
+        ]
       },
       "metricool": {
-        "state": "NOT_CREATED",
-        "postId": null,
-        "draft": true
+        "state": "DRAFT",
+        "blogId": "8356352",
+        "postId": "442965294",
+        "uuid": "-893026767331243151",
+        "previousIds": [
+          "442609793"
+        ],
+        "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-7481676236948867569.png",
+        "draft": true,
+        "autoPublish": false,
+        "placeholderDate": "2026-11-26T23:30:00 Asia/Taipei",
+        "providerStatus": "PENDING",
+        "sourceMediaUrl": "https://raw.githubusercontent.com/mikemm5216/Mosport-Magazine/d70240c4d1d4ae22c3078847f6d69a4fa3d263df/docs/social/2026-11-26/nba-viewership-month-one-2026-11-26-instagram-4x5.png",
+        "rehostedMediaBytes": "UNKNOWN (static.metricool.com not reachable from this session; network not widened)",
+        "readBack": "Metricool update response 2026-11-26 (Threads 14:37, Instagram 19:17 Asia/Taipei): text, alt text, draft and autoPublish match this package"
       },
       "publication": {
         "state": "NOT_POSTED",
