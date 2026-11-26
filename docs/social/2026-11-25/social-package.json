@@ -1,6 +1,6 @@
 {
   "schema": "mosport-media/trend-social-package@1",
-  "status": "DRAFT_PENDING_C4_APPROVAL",
+  "status": "SCHEDULED_BOTH",
   "trend": "nba-cup-group-final-week",
   "radarReport": "trend-radar-report.json",
   "recommendedWindow": "Fri 2026-11-27, 11:00-13:00 ET (Sat 00:00-02:00 Taipei), before the final group-play games; facts above are as of Nov 25 and must be re-checked before posting",
@@ -19,8 +19,9 @@
       },
       "landingUrl": "https://www.mosport.app/?utm_source=threads&utm_medium=organic_social&utm_campaign=trend_radar_v1&utm_content=nba-cup-tiebreakers",
       "approval": {
-        "state": "PENDING_HUMAN",
-        "receiptRef": null
+        "state": "APPROVED",
+        "by": "Founder",
+        "receipt": "#35 7180485347 (C4 receipt; its Wednesday East Group A statement corrected in #35 7181034998, creative unaffected)"
       },
       "publication": {
         "state": "NOT_POSTED",
@@ -47,10 +48,10 @@
         "sha256": "ba53afa5df1b26c9b9955a30819c44a59baf99fbc266de655eb518a4a52695b0"
       },
       "landingUrl": "https://www.mosport.app/ (profile link in bio; caption URLs are not clickable on Instagram)",
-      "bioLinkVerified": false,
       "approval": {
-        "state": "PENDING_HUMAN",
-        "receiptRef": null
+        "state": "APPROVED",
+        "by": "Founder",
+        "receipt": "#35 7180485347 (C4 receipt; its Wednesday East Group A statement corrected in #35 7181034998, creative unaffected)"
       },
       "publication": {
         "state": "NOT_POSTED",
@@ -70,5 +71,90 @@
     "fonts": "Anton, Barlow Condensed, Inter: SIL Open Font License (site/assets/fonts/LICENSE-*)",
     "imagery": "none: no photos, team logos, player likeness, NBA marks or footage; text and grid only",
     "trademarks": "\"NBA Cup\"/\"Emirates NBA Cup\" used as words to name the competition (nominative); no logos"
+  },
+  "packageRole": "ORIGINAL CREATIVE PACKAGE (written 2026-11-25). Creative fields (text, hashes, assets, rights, window) are immutable; draft-era state fields are preserved under draftEraState. Current state is in operationalState.",
+  "draftEraState": {
+    "status": "DRAFT_PENDING_C4_APPROVAL",
+    "posts": {
+      "threads": {
+        "approval": {
+          "state": "PENDING_HUMAN",
+          "receiptRef": null
+        },
+        "publication": {
+          "state": "NOT_POSTED",
+          "platformPostId": null,
+          "platformUrl": null
+        }
+      },
+      "instagram": {
+        "approval": {
+          "state": "PENDING_HUMAN",
+          "receiptRef": null
+        },
+        "publication": {
+          "state": "NOT_POSTED",
+          "platformPostId": null,
+          "platformUrl": null
+        },
+        "bioLinkVerified": false
+      }
+    }
+  },
+  "operationalState": {
+    "readBackAt": "2026-11-26T13:51:00Z",
+    "source": "Metricool getScheduledPosts (brand 8356352)",
+    "threads": {
+      "postId": "442566111",
+      "uuid": "-3442658382100084677",
+      "previousIds": [
+        "441796911"
+      ],
+      "draft": false,
+      "autoPublish": true,
+      "providerStatus": "PENDING",
+      "scheduledAt": "2026-11-28T00:30:00+08:00 (2026-11-27 11:30 ET)",
+      "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-17513308555704950672.png",
+      "textMatchesPackage": true
+    },
+    "instagram": {
+      "postId": "443023664",
+      "uuid": "5227968651471308629",
+      "previousIds": [
+        "442561661"
+      ],
+      "draft": false,
+      "autoPublish": true,
+      "providerStatus": "PENDING",
+      "scheduledAt": "2026-11-28T00:30:00+08:00 (2026-11-27 11:30 ET)",
+      "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-1777459905083320999.png",
+      "textMatchesPackage": true,
+      "release": "scheduled 2026-11-26T12:07Z under the existing C4 approval after the Founder confirmed the bio link (#35 7191601373); caption and media unchanged",
+      "bioLink": {
+        "url": "https://www.mosport.app/",
+        "state": "FOUNDER_CONFIRMED",
+        "independentlyVerified": false
+      }
+    },
+    "rehostedMediaBytes": "UNKNOWN (static.metricool.com not reachable from this session; network not widened)",
+    "prePublishCheck": {
+      "id": "trig_01Nd4XHiXc677ebnW2UWCi3u",
+      "runOnceAt": "2026-11-27T14:00:00Z (22:00 Asia/Taipei, 09:00 ET)",
+      "enabled": true,
+      "covers": [
+        "Threads uuid -3442658382100084677 (id 442566111)",
+        "Instagram uuid 5227968651471308629 (id 443023664)"
+      ],
+      "mechanism": "One-shot reminder bound to Claude Code session session_01HmHaAQCsohAJxCC68q5xfH (persist_session=true). Firing delivers a message into that session; checks and any revert-to-draft run only if that session resumes and processes it.",
+      "limitation": "NOT a guaranteed unattended interceptor. If the session cannot resume, nothing reverts the posts, and Metricool publishes both at 2026-11-28T00:30 Asia/Taipei (autoPublish=true) per the existing approval. No execution evidence of a fire yet.",
+      "updated": "prompt widened to cover both Cup posts at 2026-11-26T12:07:20Z"
+    },
+    "prStatus": {
+      "pr": "mikemm5216/Mosport-Magazine#37",
+      "state": "DRAFT, unmerged",
+      "codeReview": "scoped Trend Radar V1 code review PASS at ba7127a (review 6068087180, COMMENT, not GitHub APPROVED)",
+      "laterCommits": "docs/social only (no code)",
+      "consolidation": "B PR #34 -> #36 -> #37 consolidation pending; must preserve live #36 code"
+    }
   }
 }
