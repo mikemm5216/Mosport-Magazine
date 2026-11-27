@@ -1,0 +1,27 @@
+{
+  "schema": "mosport-b/schedule-entry@1",
+  "mode": "LIVE",
+  "validUntil": "2026-11-28T00:00:00Z",
+  "game": {
+    "gameId": "0022600064",
+    "away": "MIA",
+    "home": "NYK",
+    "status": "SCHEDULED",
+    "tipoff": "2026-11-28T00:00:00Z"
+  },
+  "source": {
+    "schema": "mosport-b/source-receipt@1",
+    "id": "NBA-SCHEDULE-0022600064-20261127T121619",
+    "kind": "OFFICIAL_FACT",
+    "originalUrl": "https://www.nba.com/game/mia-vs-nyk-0022600064",
+    "publisher": "NBA",
+    "observedAt": "2026-11-27T12:16:19Z",
+    "rightsStatus": "LINK_ONLY",
+    "accessMethod": "OFFICIAL_PAGE",
+    "contentFingerprint": "e41c3085b02dbc8ddf706c6d1abbb2ee7557ba39b475c1c3d8ae74668251467f",
+    "language": "en",
+    "verificationState": "CONFIRMED",
+    "demo": false
+  },
+  "contextSnapshot": null
+}

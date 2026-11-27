@@ -8,6 +8,7 @@ const crypto = require('node:crypto');
 const root = path.resolve(__dirname, '..');
 const sourceRoot = path.join(root, 'site');
 const GAME_ID = '0022600051';
+const FOLLOW_UP_GAME_IDS = ['0022600064', '0022600068', '0022600071'];
 const ALLOW = [
   'index.html', 'schedule.html', 'match.html', 'review.html',
   'css/fonts.css', 'css/tokens.css', 'css/components.css', 'css/home.css', 'css/pages.css',
@@ -188,18 +189,47 @@ function officialGate() {
   if (schedule.contextSnapshot != null) throw Error('PRIVATE_SNAPSHOT_MUST_NOT_SHIP');
   if (result.receiptRef !== 'NBA-0022600051-R1' || result.awayScore !== 104 || result.homeScore !== 106)
     throw Error('UNEXPECTED_RESULT_RELEASE');
+  const files = [];
+  for (const id of FOLLOW_UP_GAME_IDS) {
+    const schedulePath = `data/schedules/${id}.json`;
+    const resultPath = `data/results/${id}.json`;
+    const hasSchedule = !!fs.lstatSync(path.join(sourceRoot, schedulePath), { throwIfNoEntry: false });
+    const hasResult = !!fs.lstatSync(path.join(sourceRoot, resultPath), { throwIfNoEntry: false });
+    const hasPin = Object.prototype.hasOwnProperty.call(pins, id);
+    if (!hasSchedule) {
+      if (hasResult || hasPin) throw Error('OFFICIAL_SCHEDULE_MISSING: ' + id);
+      continue;
+    }
+    const entry = JSON.parse(read(schedulePath));
+    if (C.validateSchedule(entry, { now }).length || entry.game.gameId !== id)
+      throw Error('OFFICIAL_SCHEDULE_REJECTED: ' + id);
+    if (entry.contextSnapshot != null) throw Error('PRIVATE_SNAPSHOT_MUST_NOT_SHIP: ' + id);
+    if (entry.editorial != null || entry.source.rightsStatus !== 'LINK_ONLY' ||
+        Object.keys(entry).some(key => !['schema', 'mode', 'validUntil', 'game', 'source', 'editorial', 'contextSnapshot'].includes(key)) ||
+        Object.keys(entry.game).some(key => !['gameId', 'away', 'home', 'status', 'tipoff'].includes(key)) ||
+        Object.keys(entry.source).some(key => !['schema', 'id', 'kind', 'originalUrl', 'publisher', 'observedAt', 'rightsStatus', 'accessMethod', 'contentFingerprint', 'language', 'verificationState', 'demo'].includes(key)))
+      throw Error('NON_PUBLIC_SCHEDULE_FIELDS: ' + id);
+    files.push(schedulePath);
+    if (!hasResult && !hasPin) continue;
+    if (!hasResult) throw Error('OFFICIAL_FINAL_MISSING: ' + id);
+    const final = JSON.parse(read(resultPath));
+    if (C.validateGameResult(final, entry, pins[id], now).length)
+      throw Error('OFFICIAL_FINAL_REJECTED: ' + id);
+    files.push(resultPath);
+  }
+  return files;
 }
 function build(outDir) {
   const destination = path.resolve(outDir);
   if (destination === sourceRoot || destination === root || destination.startsWith(sourceRoot+path.sep))
     throw Error('UNSAFE_OUTPUT');
   if (fs.existsSync(destination)) throw Error('OUTPUT_MUST_NOT_EXIST');
-  officialGate();
+  const followUpFiles = officialGate();
   const { cleaned, files: activeAssets } = cleanRegistry(JSON.parse(read('data/asset-registry.json')));
   const fonts = fs.readdirSync(path.join(sourceRoot, 'assets/fonts'))
     .filter(name => /^([a-z0-9-]+\.woff2|LICENSE-[A-Za-z0-9-]+\.txt)$/.test(name))
     .map(name => 'assets/fonts/'+name).sort();
-  const sourceFiles = [...ALLOW, ...fonts, ...activeAssets];
+  const sourceFiles = [...ALLOW, ...followUpFiles, ...fonts, ...activeAssets];
   if (new Set(sourceFiles).size !== sourceFiles.length) throw Error('DUPLICATED_ALLOWLIST_PATH');
   sourceFiles.forEach(read); // fail closed before creating output
   const eligible = new Set([...sourceFiles, 'data/asset-registry.json',

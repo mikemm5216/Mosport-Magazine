@@ -1,0 +1,27 @@
+{
+  "schema": "mosport-b/schedule-entry@1",
+  "mode": "LIVE",
+  "validUntil": "2026-11-28T02:30:00Z",
+  "game": {
+    "gameId": "0022600071",
+    "away": "LAL",
+    "home": "SAS",
+    "status": "SCHEDULED",
+    "tipoff": "2026-11-28T02:30:00Z"
+  },
+  "source": {
+    "schema": "mosport-b/source-receipt@1",
+    "id": "NBA-SCHEDULE-0022600071-20261127T121619",
+    "kind": "OFFICIAL_FACT",
+    "originalUrl": "https://www.nba.com/game/lal-vs-sas-0022600071",
+    "publisher": "NBA",
+    "observedAt": "2026-11-27T12:16:19Z",
+    "rightsStatus": "LINK_ONLY",
+    "accessMethod": "OFFICIAL_PAGE",
+    "contentFingerprint": "8e5f3a452bf3606b9c03af02db4302962f410302761b7f3ea82e2b2a993af1ea",
+    "language": "en",
+    "verificationState": "CONFIRMED",
+    "demo": false
+  },
+  "contextSnapshot": null
+}

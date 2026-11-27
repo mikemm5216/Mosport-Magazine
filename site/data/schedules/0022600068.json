@@ -1,0 +1,27 @@
+{
+  "schema": "mosport-b/schedule-entry@1",
+  "mode": "LIVE",
+  "validUntil": "2026-11-28T01:00:00Z",
+  "game": {
+    "gameId": "0022600068",
+    "away": "ATL",
+    "home": "BOS",
+    "status": "SCHEDULED",
+    "tipoff": "2026-11-28T01:00:00Z"
+  },
+  "source": {
+    "schema": "mosport-b/source-receipt@1",
+    "id": "NBA-SCHEDULE-0022600068-20261127T121619",
+    "kind": "OFFICIAL_FACT",
+    "originalUrl": "https://www.nba.com/game/atl-vs-bos-0022600068",
+    "publisher": "NBA",
+    "observedAt": "2026-11-27T12:16:19Z",
+    "rightsStatus": "LINK_ONLY",
+    "accessMethod": "OFFICIAL_PAGE",
+    "contentFingerprint": "4e35f27e92da493792d98d636ba840d364461e89c2c0dbe676efc8515e89ee76",
+    "language": "en",
+    "verificationState": "CONFIRMED",
+    "demo": false
+  },
+  "contextSnapshot": null
+}
