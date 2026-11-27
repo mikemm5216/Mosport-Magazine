@@ -186,8 +186,10 @@ const visibleText = (page, sel) => page.evaluate((s) => [...document.querySelect
     /* Edition and appearance survive navigation (fresh context, no stored preference). */
     const { ctx, page } = await open(browser, 'index.html?lang=en&theme=dark', 1440, 900);
     for (const sel of ['.topbar .tb-nav a[href^="schedule.html"]', '.topbar .tb-nav a[href^="review.html"]', '.topbar .tb-nav a[href^="index.html"]', '.lead .cta']) {
-      await page.click(sel);
-      await page.waitForTimeout(250);
+      const link = page.locator(sel);
+      const destination = await link.evaluate(el => el.href);
+      await Promise.all([page.waitForURL(destination, { waitUntil: 'load' }), link.click()]);
+      await page.locator('.topbar .tb-nav').waitFor({ state: 'visible' });
       const s = await page.evaluate(() => [document.documentElement.lang, document.documentElement.dataset.theme]);
       check(`nav keeps en + dark: ${sel}`, s[0] === 'en' && s[1] === 'dark', s.join(','));
     }
