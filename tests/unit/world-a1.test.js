@@ -106,7 +106,9 @@ test('an edit without re-signing fails the fingerprint; schema, owner and produc
   assert.equal(code(p), 'PACKAGE_FINGERPRINT_MISMATCH');
   const r = clone(REAL); r.revision = 'sha256:' + '0'.repeat(64);
   assert.equal(code(r), 'PACKAGE_FINGERPRINT_MISMATCH');
-  assert.equal(code(Object.assign(clone(REAL), { schema: 'mosport-a/world-analysis-package@2' })), 'SCHEMA_UNSUPPORTED');
+  assert.equal(code(Object.assign(clone(REAL), { schema: 'mosport-a/world-analysis-package@3' })), 'SCHEMA_UNSUPPORTED');
+  /* @2 exists now, but a v1 body under the v2 schema still fails on its producer version. */
+  assert.equal(code(resign(Object.assign(clone(REAL), { schema: 'mosport-a/world-analysis-package@2' }))), 'WRONG_VALUE');
   assert.equal(code(resign(Object.assign(clone(REAL), { owner: 'MOSPORT-B' }))), 'WRONG_VALUE');
   assert.equal(code(resign(Object.assign(clone(REAL), { producerVersion: 'world-package/1.0.1' }))), 'WRONG_VALUE');
   assert.equal(code(null), 'NOT_OBJECT');
@@ -234,4 +236,117 @@ test('select needs the complete revision set and never falls back past a bad rev
 
 test('B still cannot build a LIVE magazine issue from an A package (worldSource unchanged)', () => {
   assert.deepEqual(C.ENUM.worldSource, ['PROTOTYPE_FIXTURE']);
+});
+
+/* ---------------- @2: optional observed NBA game id ---------------- */
+/* The shared A/B synthetic wire: A's synthetic v1 example with only schema, producer
+   and the identity changed, then re-signed. Synthetic pins only: no real crosswalk. */
+const NBA_ID = '0022700001';
+const ID_AT = '2027-10-14T20:01:00.000Z';
+const IDENTITY = {
+  status: 'OBSERVED', value: NBA_ID, observedAt: ID_AT,
+  sources: {
+    nba: { sourceRef: 'https://www.nba.com/game/' + NBA_ID, observedAt: ID_AT, rawSha256: 'a'.repeat(64) },
+    espn: { sourceRef: 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20271014&limit=200', observedAt: ID_AT, rawSha256: 'b'.repeat(64) }
+  }
+};
+const SHARED_V2_FINGERPRINT = '69d17f21dbf354e47ed6f7b5631057a334e69a1038c58b4a34cfb88c9d06371b';
+function v2(identity) {
+  const p = clone(SYN);
+  p.schema = W.SCHEMA_V2; p.producerVersion = W.PRODUCER_V2;
+  if (identity !== undefined) p.game.nbaGameId = clone(identity);
+  return resign(p);
+}
+const known = (f) => { const p = v2(IDENTITY); f(p); return code(resign(p)); };
+
+test('the shared synthetic v2 wire has the agreed fingerprint and validates; v1 is unchanged', () => {
+  assert.equal(SYN.schema, W.SCHEMA);
+  assert.equal(W.validate(clone(SYN)).ok, true);
+  const shared = v2(IDENTITY);
+  assert.equal(shared.fingerprint, SHARED_V2_FINGERPRINT);
+  assert.equal(shared.revision, 'sha256:' + SHARED_V2_FINGERPRINT);
+  assert.equal(W.validate(shared).ok, true);
+  assert.equal(W.validate(v2()).ok, true);
+  const view = W.internalView(v2(IDENTITY), SYN.asOf);
+  assert.equal(view.status, 'OK');
+  assert.equal(view.schema, W.SCHEMA_V2);
+  assert.deepEqual(view.game.nbaGameId, IDENTITY);
+  assert.deepEqual(W.internalView(v2(), SYN.asOf).game.nbaGameId, { status: 'BLOCKED_MISSING', reason: 'IDENTITY_UNRESOLVED' });
+});
+
+test('v1 and v2 version literals and identity branches cannot be swapped', () => {
+  const v1Known = clone(SYN); v1Known.game.nbaGameId = clone(IDENTITY); resign(v1Known);
+  assert.deepEqual([W.validate(v1Known).code, W.validate(v1Known).path], ['UNKNOWN_FIELD', 'package.game.nbaGameId.observedAt']);
+  const v2OldProducer = v2(IDENTITY); v2OldProducer.producerVersion = W.PRODUCER; resign(v2OldProducer);
+  assert.equal(code(v2OldProducer), 'WRONG_VALUE');
+  const v1NewProducer = resign(Object.assign(clone(SYN), { producerVersion: W.PRODUCER_V2 }));
+  assert.equal(code(v1NewProducer), 'WRONG_VALUE');
+  assert.equal(known((p) => { p.game.nbaGameId.status = 'RESOLVED'; }), 'WRONG_VALUE');
+  /* revision-set rules are unchanged: @1 and @2 at different as-of times may coexist */
+  const later = v2(IDENTITY); later.asOf = '2027-10-14T20:12:00.000Z'; resign(later);
+  assert.equal(W.select([clone(SYN), later], '2027-12-01T00:00:00Z').pkg.fingerprint, later.fingerprint);
+});
+
+test('the identity must be observed strictly before lock, as-of and any snapshot', () => {
+  assert.equal(known((p) => { p.game.nbaGameId.observedAt = p.game.nbaGameId.sources.espn.observedAt = p.lockAt; }), 'INVALID_IDENTITY_CHRONOLOGY');
+  assert.equal(known((p) => { p.game.nbaGameId.observedAt = p.game.nbaGameId.sources.espn.observedAt = '2027-10-14T20:10:00.001Z'; }), 'INVALID_IDENTITY_CHRONOLOGY');
+  /* lock never exceeds as-of, so lock is the binding bound; one millisecond before it is accepted */
+  assert.equal(known((p) => { p.game.nbaGameId.observedAt = p.game.nbaGameId.sources.espn.observedAt = '2027-10-14T20:09:59.999Z'; }), undefined);
+  assert.equal(known((p) => {
+    p.evidence.snapshot = { capturedAt: '2027-10-14T20:05:00.000Z', sha256: 'e'.repeat(64) }; p.evidence.snapshotMissingReason = null;
+    p.game.nbaGameId.observedAt = p.game.nbaGameId.sources.espn.observedAt = '2027-10-14T20:05:00.000Z';
+  }), 'INVALID_IDENTITY_CHRONOLOGY');
+  assert.equal(known((p) => { p.evidence.snapshot = { capturedAt: '2027-10-14T20:05:00.000Z', sha256: 'e'.repeat(64) }; p.evidence.snapshotMissingReason = null; }), undefined);
+  /* identity time is exactly the later of its two sources */
+  assert.equal(known((p) => { p.game.nbaGameId.observedAt = '2027-10-14T20:00:30.000Z'; }), 'INVALID_IDENTITY_CHRONOLOGY');
+  assert.equal(known((p) => { p.game.nbaGameId.sources.nba.observedAt = '2027-10-14T20:01:30.000Z'; }), 'INVALID_IDENTITY_CHRONOLOGY');
+  assert.equal(known((p) => { p.game.nbaGameId.sources.nba.observedAt = '2027-10-14T20:00:30.000Z'; }), undefined);
+});
+
+test('identity value, competition prefix, source URLs, hashes and instants follow their contracts', () => {
+  const nbaRef = (ref) => known((p) => { p.game.nbaGameId.sources.nba.sourceRef = ref; });
+  for (const ok of ['https://www.nba.com/game/' + NBA_ID + '/box-score', 'https://www.nba.com/game/mia-vs-nyk-' + NBA_ID, 'https://www.nba.com/game/mia-vs-nyk-' + NBA_ID + '/box-score']) assert.equal(nbaRef(ok), undefined, ok);
+  /* the slug pattern is A's gameCrosswalkUrls pattern, so a "a--" prefix is accepted like A */
+  assert.equal(nbaRef('https://www.nba.com/game/a--' + NBA_ID), undefined);
+  for (const bad of ['http://www.nba.com/game/' + NBA_ID, 'https://nba.com/game/' + NBA_ID, 'https://www.nba.com:443/game/' + NBA_ID,
+    'https://user@www.nba.com/game/' + NBA_ID, 'https://www.nba.com/game/' + NBA_ID + '?x=1', 'https://www.nba.com/game/' + NBA_ID + '#top',
+    'https://www.nba.com/game/' + NBA_ID + '/', 'https://www.nba.com/game/Mia-' + NBA_ID]) assert.equal(nbaRef(bad), 'BAD_FORMAT', bad);
+  assert.equal(nbaRef('https://www.nba.com/game/0022700002'), 'INVALID_IDENTITY_PROVENANCE');
+  const espnRef = (ref) => known((p) => { p.game.nbaGameId.sources.espn.sourceRef = ref; });
+  assert.equal(espnRef('https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20271014'), 'BAD_FORMAT');
+  assert.equal(espnRef('https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20271014&limit=100'), 'BAD_FORMAT');
+  assert.equal(espnRef('https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20271015&limit=200'), 'INVALID_IDENTITY_PROVENANCE');
+  /* prefix by competition: 002 regular season, 004 postseason, 005 play-in */
+  const withId = (id, competition) => known((p) => {
+    p.game.nbaGameId.value = id; p.game.nbaGameId.sources.nba.sourceRef = 'https://www.nba.com/game/' + id;
+    if (competition) p.game.competition = competition;
+  });
+  assert.equal(withId('0042700001'), 'IDENTITY_COMPETITION_MISMATCH');
+  assert.equal(withId('0052700001'), 'IDENTITY_COMPETITION_MISMATCH');
+  assert.equal(withId('0042700001', 'NBA_POSTSEASON'), undefined);
+  assert.equal(withId('0052700001', 'NBA_PLAY_IN'), undefined);
+  assert.equal(withId('0022700001', 'NBA_POSTSEASON'), 'IDENTITY_COMPETITION_MISMATCH');
+  for (const bad of ['0012700001', '0032700001', '002270000', '00227000011']) assert.equal(withId(bad), 'BAD_FORMAT', bad);
+  assert.equal(known((p) => { p.game.nbaGameId.sources.nba.rawSha256 = 'A'.repeat(64); }), 'BAD_FORMAT');
+  assert.equal(known((p) => { p.game.nbaGameId.sources.espn.rawSha256 = 'b'.repeat(63); }), 'BAD_FORMAT');
+  assert.equal(known((p) => { p.game.nbaGameId.sources.nba.observedAt = '2027-10-14T20:01:00Z'; }), 'NON_CANONICAL_INSTANT');
+  assert.equal(known((p) => { p.game.nbaGameId.observedAt = '2027-10-14T20:01:00.000+00:00'; }), 'NON_CANONICAL_INSTANT');
+});
+
+test('v2 still refuses unknown fields and re-signed fabricated judgments, and stays non-public', () => {
+  assert.equal(known((p) => { p.game.nbaGameId.reason = null; }), 'UNKNOWN_FIELD');
+  assert.equal(known((p) => { p.game.nbaGameId.sources.nba.bytes = 'x'; }), 'UNKNOWN_FIELD');
+  assert.equal(known((p) => { delete p.game.nbaGameId.sources.espn; }), 'MISSING_FIELD');
+  for (const [k, val] of [['homeWinProbability', 0.61], ['state', 'ISSUED'], ['distributionEligibility', 'PUBLIC'], ['publiclyEligible', true]]) {
+    assert.equal(known((p) => { p.world[k] = val; }), 'WRONG_VALUE', k);
+  }
+  assert.equal(known((p) => { p.qualification.rights = 'VERIFIED'; }), 'WRONG_VALUE');
+  const pub = W.publicProjection(v2(IDENTITY), SYN.asOf);
+  assert.equal(pub.game, null);
+  for (const b of ['WORLD_NOT_ISSUED', 'WORLD_INTERNAL', 'SCHEDULE_NOT_PUBLIC_ELIGIBLE', 'RIGHTS_UNVERIFIED']) assert.ok(pub.blockers.includes(b), b);
+  const view = W.internalView(v2(IDENTITY), SYN.asOf);
+  assert.deepEqual(view.consumerLimits, W.CONSUMER_LIMITS);
+  for (const limit of ['IDENTITY_NOT_RESOLVED_BY_B', 'SOURCE_BYTES_NOT_AVAILABLE_TO_B']) assert.ok(view.consumerLimits.includes(limit), limit);
+  const json = JSON.stringify(view);
+  for (const leak of ['homeWinProbability', 'interval60', 'verdict', 'percent']) assert.ok(!json.includes(leak), leak);
 });

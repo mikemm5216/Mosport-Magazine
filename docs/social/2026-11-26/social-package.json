@@ -1,0 +1,249 @@
+{
+  "schema": "mosport-media/trend-social-package@1",
+  "status": "PUBLISHED_THREADS_AND_INSTAGRAM",
+  "trend": "nba-first-month-viewership-record",
+  "radarReport": "trend-radar-report.json",
+  "selection": "No candidate reached STRONG. Highest total (nba-cup-group-play-final-night, 80.9) is blocked by the evidence gate (52 < 60) and duplicates Threads post 442566111 already scheduled for Fri 11:30 ET. Recommended: nba-first-month-viewership-record (77.4, RISING): official source, 4/4 key facts verified, unique non-duplicate angle, core audience; held back from STRONG only by freshness (league release dated Nov 23, read conservatively as 00:00 UTC).",
+  "recommendedWindow": "Editorial recommendation (#35 7184421837): 2026-11-26 23:30 Asia/Taipei = 10:30 America/New_York, only after Founder C4 approval; not analytics-proven. If missed, propose the next concrete slot; never schedule in the past.",
+  "posts": [
+    {
+      "channel": "threads",
+      "account": "@mosp_ort",
+      "text": "The NBA just had its most-watched first month ever.\n\nPer the league (Nov. 23), through month one of 2026-27 in the U.S.:\n• 75M+ viewers, up 20% year over year\n• National games averaged 2.62M viewers\n• Adults 18-34 viewership up 50%\n\nContext: Nielsen updated its measurement methods in 2026.\n\nEvidence-first NBA: https://www.mosport.app/?utm_source=threads&utm_medium=organic_social&utm_campaign=trend_radar_v1&utm_content=nba-viewership-month-one",
+      "textLength": 446,
+      "textSha256": "1da3edd868821735b18a02ced5a678a32392c845d057e4427bae0da2cbff1c60",
+      "altText": "MOSPORT card over basketball artwork (ball and hoop in an arena, AI-generated illustration). Text: NBA, month one. 2026-27, U.S. viewers, per the league: 75M+. The NBA's biggest first month. +20% total viewers, year over year. 2.62M average for national games. +50% viewership, adults 18-34. Nielsen updated its measurement methods in 2026. Sources: NBA.com (Nov 23); Nielsen (Aug 19), 2026. www.mosport.app",
+      "asset": {
+        "file": "nba-viewership-month-one-2026-11-26-c-threads-1x1.png",
+        "width": 1080,
+        "height": 1080,
+        "sha256": "6a37d62cf0a898fd7148d627d3c6dde38a24dd5ee4c0b189b92e513f0da716a8"
+      },
+      "landingUrl": "https://www.mosport.app/?utm_source=threads&utm_medium=organic_social&utm_campaign=trend_radar_v1&utm_content=nba-viewership-month-one",
+      "approval": {
+        "state": "APPROVED",
+        "by": "Founder",
+        "how": "chat 2026-11-26 19:42 Asia/Taipei: design C + captions, '直接發!'",
+        "note": "Design C layout not reviewed by ChatGPT before publication; Founder direct order.",
+        "receipt": "#35 7191306302"
+      },
+      "metricool": {
+        "state": "PUBLISHED",
+        "blogId": "8356352",
+        "postId": "442995522",
+        "uuid": "8326146948964108500",
+        "previousIds": [
+          "442609440",
+          "442712928"
+        ],
+        "draft": false,
+        "autoPublish": true,
+        "providerStatus": "PUBLISHED",
+        "sourceMediaUrl": "https://raw.githubusercontent.com/mikemm5216/Mosport-Magazine/b4890ed5537662415155970c98800671d2760131/docs/social/2026-11-26/nba-viewership-month-one-2026-11-26-c-threads-1x1.png",
+        "rehostedMediaBytes": "UNKNOWN (static.metricool.com not reachable from this session; network not widened). Source PNG at sourceMediaUrl matches asset.sha256.",
+        "publishedRehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-9696906178724556789.png",
+        "draftReadBacks": [
+          {
+            "postId": "442609440",
+            "observedAt": "2026-11-26T03:25Z",
+            "observation": "created as draft (design A first draft)",
+            "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-7060328028531592526.png"
+          },
+          {
+            "postId": "442712928",
+            "observedAt": "2026-11-26T06:37Z",
+            "observation": "updated draft (corrected captions, design A)",
+            "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-13096825436576135763.png"
+          }
+        ],
+        "scheduleReadBack": {
+          "postId": "442995522",
+          "observation": "2026-11-26T11:43Z update response: draft=false, autoPublish=true, design C, provider PENDING"
+        }
+      },
+      "publication": {
+        "state": "PUBLISHED",
+        "platformPostId": "18146039599720644",
+        "platformUrl": "https://www.threads.com/@mosp_ort/post/DgNCZZIiOIV",
+        "scheduledAt": "2026-11-26T19:50:00+08:00",
+        "platformPublishedAt": null,
+        "platformPublishedAtNote": "UNKNOWN: platform timestamp not independently observed (threads.com / instagram.com not fetched). scheduledAt is the Metricool schedule, not an observed platform time.",
+        "publicationReadBacks": [
+          {
+            "observedAt": "2026-11-26T11:56Z (approx.)",
+            "source": "Metricool getScheduledPosts",
+            "providerStatus": "PUBLISHED",
+            "publicUrl": "https://www.threads.com/@mosp_ort/post/DgNCZZIiOIV"
+          },
+          {
+            "observedAt": "2026-11-26T13:51:00Z",
+            "source": "Metricool getScheduledPosts",
+            "providerStatus": "PUBLISHED",
+            "publicUrl": "https://www.threads.com/@mosp_ort/post/DgNCZZIiOIV"
+          }
+        ]
+      },
+      "performance": {
+        "state": "NOT_OBSERVED",
+        "views": null,
+        "interactions": null,
+        "landingVisits": null
+      },
+      "supersededAssets": [
+        {
+          "file": "nba-viewership-month-one-2026-11-26-threads-1x1.png",
+          "width": 1080,
+          "height": 1080,
+          "sha256": "55d826648073f2ae0ea35f623fc762f18bd9b577b867373f89ece978dcef20c3"
+        }
+      ]
+    },
+    {
+      "channel": "instagram",
+      "account": "@mosp_ort",
+      "text": "75 million watched. The NBA just had its most-watched first month ever.\n\nPer the league's Nov. 23 release, through month one of 2026-27 in the U.S.:\n1. More than 75 million viewers, up 20% year over year\n2. National games averaged 2.62M viewers\n3. Viewership among adults 18-34 up 50%\n\nContext: Nielsen updated its measurement methods in 2026.\n\nSources: NBA.com; Nielsen. Evidence-first NBA coverage from MOSPORT. Link in bio.\n\n#NBA #basketball #sports #basketballneverstops #MOSPORT",
+      "textLength": 483,
+      "textSha256": "0705ec817961f9f5c1eb0a3ffd8b37a122772c961e1d47eb1ece52868c7c7aac",
+      "altText": "MOSPORT card over basketball artwork (ball and hoop in an arena, AI-generated illustration). Text: NBA, month one. 2026-27, U.S. viewers, per the league: 75M+. The NBA's biggest first month. +20% total viewers, year over year. 2.62M average for national games. +50% viewership, adults 18-34. Nielsen updated its measurement methods in 2026. Sources: NBA.com (Nov 23); Nielsen (Aug 19), 2026. www.mosport.app",
+      "asset": {
+        "file": "nba-viewership-month-one-2026-11-26-c-instagram-4x5.png",
+        "width": 1080,
+        "height": 1350,
+        "sha256": "ecfeb5621e7e13152ede3e7acea8716d613ca2c479d0db23a9cee93f52254a3c"
+      },
+      "landingUrl": "https://www.mosport.app/ (Instagram profile bio link; caption URLs are not clickable on Instagram)",
+      "approval": {
+        "state": "APPROVED",
+        "by": "Founder",
+        "how": "chat 2026-11-26 ~19:57 Asia/Taipei: 'Yes' to bio link https://www.mosport.app/ confirmed and hashtag set; publication under the earlier '直接發!' order",
+        "note": "Bio link Founder-confirmed, not independently verified from this session. Design C layout not reviewed by ChatGPT before publication.",
+        "receipt": "#35 7191601373"
+      },
+      "metricool": {
+        "state": "PUBLISHED",
+        "blogId": "8356352",
+        "postId": "443012824",
+        "uuid": "-893026767331243151",
+        "previousIds": [
+          "442609793",
+          "442965294",
+          "443000613"
+        ],
+        "draft": false,
+        "autoPublish": true,
+        "providerStatus": "PUBLISHED",
+        "sourceMediaUrl": "https://raw.githubusercontent.com/mikemm5216/Mosport-Magazine/b4890ed5537662415155970c98800671d2760131/docs/social/2026-11-26/nba-viewership-month-one-2026-11-26-c-instagram-4x5.png",
+        "rehostedMediaBytes": "UNKNOWN (static.metricool.com not reachable from this session; network not widened). Source PNG at sourceMediaUrl matches asset.sha256.",
+        "publishedRehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-10526420496162171549.png",
+        "draftReadBacks": [
+          {
+            "postId": "442609793",
+            "observedAt": "2026-11-26T03:26Z",
+            "observation": "created as draft (design A first draft)",
+            "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-3210505893603873648.png"
+          },
+          {
+            "postId": "442965294",
+            "observedAt": "2026-11-26T11:17Z",
+            "observation": "updated draft (corrected captions, design A; first attempt interrupted by worker restart, read back unchanged, retried once)",
+            "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-7481676236948867569.png"
+          },
+          {
+            "postId": "443000613",
+            "observedAt": "2026-11-26T11:47Z",
+            "observation": "updated draft (design C, isAiGenerated=true, still draft)",
+            "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-13315403981803883643.png"
+          }
+        ],
+        "scheduleReadBack": {
+          "postId": "443012824",
+          "observation": "2026-11-26T11:58Z update response: draft=false, autoPublish=true, design C, hashtags replaced, provider PENDING"
+        }
+      },
+      "publication": {
+        "state": "PUBLISHED",
+        "platformPostId": "DgNEIUpDYGG",
+        "platformUrl": "https://www.instagram.com/p/DgNEIUpDYGG/",
+        "scheduledAt": "2026-11-26T20:05:00+08:00",
+        "platformPublishedAt": null,
+        "platformPublishedAtNote": "UNKNOWN: platform timestamp not independently observed (threads.com / instagram.com not fetched). scheduledAt is the Metricool schedule, not an observed platform time.",
+        "publicationReadBacks": [
+          {
+            "observedAt": "2026-11-26T12:07Z (approx.)",
+            "source": "Metricool getScheduledPosts",
+            "providerStatus": "PUBLISHED",
+            "publicUrl": "https://www.instagram.com/p/DgNEIUpDYGG/"
+          },
+          {
+            "observedAt": "2026-11-26T13:51:00Z",
+            "source": "Metricool getScheduledPosts",
+            "providerStatus": "PUBLISHED",
+            "publicUrl": "https://www.instagram.com/p/DgNEIUpDYGG/"
+          }
+        ]
+      },
+      "performance": {
+        "state": "NOT_OBSERVED",
+        "views": null,
+        "interactions": null,
+        "landingVisits": null
+      },
+      "supersededAssets": [
+        {
+          "file": "nba-viewership-month-one-2026-11-26-instagram-4x5.png",
+          "width": 1080,
+          "height": 1350,
+          "sha256": "b6d3c11989e9ac328bb6eaed02d1c947ed51c72ab0a487e867e291756881cfc6"
+        }
+      ],
+      "aiDisclosure": "isAiGenerated=true (background art generated with ChatGPT ImageGen)",
+      "bioLink": {
+        "url": "https://www.mosport.app/",
+        "state": "FOUNDER_CONFIRMED",
+        "receipt": "#35 7191601373 (Founder 'Yes', 2026-11-26 ~19:57 Asia/Taipei)",
+        "independentlyVerified": false
+      }
+    }
+  ],
+  "storyType": "Timely editorial/stat story (league release dated Nov 23), not a live trend spike.",
+  "sources": [
+    {
+      "publisher": "NBA.com",
+      "url": "https://www.nba.com/news/first-month-of-nba-season-reaches-more-than-75-million-viewers",
+      "date": "2026-11-23",
+      "readBy": "ChatGPT reviewer, full article (#35 7184421837); Claude via search snippet only (direct fetch blocked by network policy)"
+    },
+    {
+      "publisher": "Nielsen",
+      "url": "https://www.nielsen.com/news-center/2026/nielsen-incorporates-new-enhancements-to-improve-its-data-measurement-leading-into-the-new-fall-tv-season/",
+      "date": "2026-08-19",
+      "readBy": "ChatGPT reviewer, full article (#35 7184421837)"
+    }
+  ],
+  "revisions": [
+    {
+      "commit": "e2bc7db83f428bb5e79078dd515e7fa75b046eac",
+      "note": "first draft (superseded)"
+    },
+    {
+      "note": "Creative corrections per #35 7184421837: 2.62M qualified as national-game average without record claim; platform list and Nielsen-effect caveat replaced by 'Nielsen updated its measurement methods in 2026.'; sources NBA.com (Nov 23) + Nielsen (Aug 19). Headline and other figures unchanged."
+    },
+    {
+      "note": "Design C selected by Founder (2026-11-26 chat): same facts and captions; owned basketball art background; team logos not used (rights UNVERIFIED)."
+    }
+  ],
+  "prStatus": {
+    "pr": "mikemm5216/Mosport-Magazine#37",
+    "state": "DRAFT, unmerged",
+    "codeReview": "scoped Trend Radar V1 code review PASS at ba7127a (review 6068087180, COMMENT, not GitHub APPROVED)",
+    "laterCommits": "docs/social only (no code)",
+    "consolidation": "B PR #34 -> #36 -> #37 consolidation pending; must preserve live #36 code"
+  },
+  "recordsReconciled": {
+    "at": "2026-11-26T13:51:00Z",
+    "by": "Claude Code",
+    "per": "#35 7193107248",
+    "scope": "L0 operational records only; creative, captions and published posts unchanged"
+  },
+  "prePublishCheckForCupPosts": "see docs/social/2026-11-25/social-package.json operationalState.prePublishCheck"
+}

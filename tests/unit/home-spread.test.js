@@ -234,3 +234,31 @@ test('official NBA Cup rematch headline reaches the real default homepage after 
   assert.ok(missing.includes('lead-record-title">國王 @ 湖人<') && !missing.includes('賽前看點') && !EMPTY_READ.test(text(missing)) && !missing.includes('class="cv-status"'));
   assert.ok(!missing.includes('lead-story') && !missing.includes('13 分之差'));
 });
+
+test('a saved game from another Taipei day never poses as TODAY on the home masthead', () => {
+  const C = require('../../site/js/contracts/contracts.js');
+  const mastOf = html => (html.match(/class="today-mast">([^<]*)</) || [])[1];
+  const coverOf = html => (html.match(/class="cv-t2">([^<]*)</) || [])[1];
+  const dateOf = html => (html.match(/class="td-d">([^<]*)</) || [])[1];
+  // The real 0051 schedule tips off 2026/11/21 11:00 Taipei; a sealed copy one day later tests the future case.
+  const tomorrow = clone(schedule);
+  tomorrow.game.tipoff = tomorrow.validUntil = new Date(Date.parse(schedule.game.tipoff) + 86400000).toISOString();
+  tomorrow.source.contentFingerprint = C.sha256(C.canonical({ game: tomorrow.game, originalUrl: tomorrow.source.originalUrl, observedAt: tomorrow.source.observedAt }));
+  for (const [raw, clock, word, day] of [
+    [schedule, '2026-11-21T01:56:33Z', 'TODAY', ['2026/11/21', '11/21/2026']],   // same Taipei day
+    [schedule, '2026-11-21T16:30:00Z', 'LATEST', ['2026/11/21', '11/21/2026']],  // 00:30 the next Taipei day
+    [schedule, '2026-11-23T02:21:00Z', 'LATEST', ['2026/11/21', '11/21/2026']],  // two days later
+    [tomorrow, '2026-11-21T02:30:00Z', 'UP NEXT', ['2026/11/22', '11/22/2026']]  // game is on the next Taipei day
+  ]) {
+    for (const [lang, open, date] of [['zh', '閱讀 ' + word, day[0]], ['en', 'Read ' + word, day[1]]]) {
+      const html = home(raw, '?lang=' + lang, null, { mode: 'production', now: clock });
+      const at = clock + ' ' + lang;
+      assert.ok(html.includes('lead-schedule'), at);
+      assert.equal(mastOf(html), word, at);
+      assert.equal(coverOf(html), word, at);
+      assert.equal(dateOf(html), date, at);
+      assert.ok(html.includes(open + ' <span') && html.includes('MOSPORT · NBA ' + word), at);
+      if (word !== 'TODAY') assert.ok(!html.includes('TODAY<') && !html.includes('NBA TODAY'), at);
+    }
+  }
+});

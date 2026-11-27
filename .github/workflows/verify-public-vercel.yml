@@ -1,0 +1,44 @@
+name: MOSPORT M6 Vercel public-release verification
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mosport-m6-release-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Existing tests and M6 public release gate
+        run: npm test
+      - name: Build exact public-only Vercel artifact
+        run: node scripts/build-public-release.js dist-public
+      - name: Verify production artifact contains no private or unlicensed assets
+        run: |
+          test -f dist-public/index.html
+          test -f dist-public/public-release-manifest.json
+          test ! -d dist-public/internal
+          test ! -d dist-public/js/fixtures
+          test ! -d dist-public/assets/teams
+          test ! -f dist-public/js/data/owner-edition.js
+          if grep -Rq 'js/fixtures/' dist-public/*.html; then echo 'UNSAFE_FIXTURE_REFERENCE'; exit 1; fi
+          if grep -Rq 'owner-edition.js' dist-public/*.html; then echo 'UNSAFE_OWNER_REFERENCE'; exit 1; fi
+          if grep -RqE 'internal/' dist-public/*.html; then echo 'UNSAFE_INTERNAL_REFERENCE'; exit 1; fi
+          if grep -RqE 'sourceUrl|(drive|docs)\.google\.com' dist-public; then echo 'UNSAFE_PRIVATE_SOURCE_LINK'; exit 1; fi
+# Vercel Git integration owns previews/production. This workflow never deploys.

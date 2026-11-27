@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "buildCommand": "node scripts/build-public-release.js dist-public",
+  "outputDirectory": "dist-public",
+  "framework": null,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "mosport-magazine\\.vercel\\.app" }],
+      "destination": "https://www.mosport.app/:path*",
+      "permanent": true
+    }
+  ]
+}

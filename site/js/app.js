@@ -25,7 +25,7 @@
     set: function (k, v) { try { localStorage.setItem('mosport.' + k, v); } catch (e) { /* unavailable */ } }
   };
   var state = {
-    lang: q.get('lang') === 'en' || q.get('lang') === 'zh' ? q.get('lang') : (store.get('lang') || 'zh'),
+    lang: q.get('lang') === 'en' || q.get('lang') === 'zh' ? q.get('lang') : (store.get('lang') || (window.MOSPORT_CONFIG && window.MOSPORT_CONFIG.defaultLanguage === 'en' ? 'en' : 'zh')),
     theme: q.get('theme') === 'dark' || q.get('theme') === 'light' ? q.get('theme') : (store.get('theme') || 'light'),
     note: null
   };
@@ -67,6 +67,15 @@
   }
   function tipShort(g) { return T('taipei') + ' ' + fmt(g.tipoff, 'Asia/Taipei', g.source ? { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' } : { hour: '2-digit', minute: '2-digit' }); }
   function tipDate(g) { return fmt(g.tipoff, 'Asia/Taipei', { year: 'numeric', month: '2-digit', day: '2-digit' }); }
+  /* Taipei calendar day of the game against the reader's clock: -1 past, 0 today, 1 future, null unknown.
+     new Date() (not Date.now) so a pinned test clock and the real clock follow the same path. */
+  function taipeiDay(ms) { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms)); }
+  function tipDay(g) {
+    var t = g && Date.parse(g.tipoff);
+    if (!Number.isFinite(t)) return null;
+    var a = taipeiDay(t), b = taipeiDay(new Date().getTime());
+    return a === b ? 0 : a < b ? -1 : 1;
+  }
   function sourceNote(source, options) {
     if (!source) return '';
     if (options && options.reader) {
@@ -183,7 +192,7 @@
     }
     var model = data.model;
     var ctx = {
-      lang: state.lang, theme: state.theme, T: T, esc: esc, teamName: teamName, tipLine: tipLine, tipShort: tipShort, tipDate: tipDate,
+      lang: state.lang, theme: state.theme, T: T, esc: esc, teamName: teamName, tipLine: tipLine, tipShort: tipShort, tipDate: tipDate, tipDay: tipDay,
       issueDate: issueDate, issueDateLong: issueDateLong, issue: model, meta: model.meta,
       stateMessage: stateMessage, sourceNote: sourceNote, pregameRecord: pregameRecord, statusLabel: statusLabel, tipoffNotice: tipoffNotice, finalLine: finalLine, isFinal: isFinal,
       href: function (path, extra) { var k = new URLSearchParams(keepQuery().slice(1)); Object.keys(extra || {}).forEach(function (x) { k.set(x, extra[x]); }); var s = k.toString(); return path + (s ? '?' + s : ''); },

@@ -1,0 +1,199 @@
+/* M6 public Vercel static release-gate: no private content, no DEMO, no unlicensed logos. */
+'use strict';
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const crypto = require('node:crypto');
+const { build, ALLOW, validatePublicDependencies } = require('../../scripts/build-public-release.js');
+const sha = x => crypto.createHash('sha256').update(x).digest('hex');
+function walk(dir, base=dir) {
+  return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e => e.isDirectory()
+    ? walk(path.join(dir,e.name),base) : [path.relative(base,path.join(dir,e.name)).replaceAll(path.sep,'/')]);
+}
+function withTemp(fn) {const d=fs.mkdtempSync(path.join(os.tmpdir(),'mosport-public-test-'));try{return fn(d)}finally{fs.rmSync(d,{recursive:true,force:true})}}
+test('M6 production build publishes only allowlisted files, exact source and trusted result', () => withTemp(dir => {
+  const dest=path.join(dir,'public');
+  const record=build(dest);
+  assert.equal(record.schema, 'mosport-public-static@1');
+  assert.equal(record.publicGameId,'0022600051');
+  assert.equal(record.resultReceipt,'NBA-0022600051-R1');
+  assert.equal(record.gameMode,'production');
+  const shipped=walk(dest).sort();
+  assert.deepEqual(shipped,Object.keys(record.files).concat('public-release-manifest.json').sort());
+  for(const [file,expected] of Object.entries(record.files)) {
+    assert.equal(sha(fs.readFileSync(path.join(dest,file))),expected,file+' fingerprint');
+    assert.ok(!/^(?:internal\/|js\/fixtures\/|assets\/teams\/|assets\/flags\/)|owner-edition|\.map$|\.zip$/.test(file),file);
+  }
+  assert.ok(ALLOW.every(file => shipped.includes(file)));
+  const cfg=fs.readFileSync(path.join(dest,'js/production-config.js'),'utf8');
+  assert.match(cfg,/mode:\s*["']production["']/);
+  assert.match(cfg,/defaultLanguage:\s*["']en["']/);
+  const registry=JSON.parse(fs.readFileSync(path.join(dest,'data/asset-registry.json')));
+  assert.deepEqual(registry.teamLogos.entries,{});
+  // sourceUrl contains founder-linked Drive provenance; never include in public output.
+  assert.doesNotMatch(JSON.stringify(registry), /"sourceUrl"\s*:/);
+  assert.doesNotMatch(fs.readFileSync(path.join(dest,'data/asset-registry.js'),'utf8'), /"sourceUrl"\s*:/);
+
+  for(const group of [registry.slots, registry.logos])for(const slot of Object.values(group)) {
+    assert.ok(slot.versions.length<=1);
+    for(const v of slot.versions) {
+      assert.ok(['OWNED','LICENSED'].includes(v.rights.status));
+      assert.equal(v.status,'ACTIVE');
+      assert.ok(shipped.includes(v.file));
+    }
+  }
+  for(const file of ['index.html','schedule.html','match.html','review.html']) {
+    const html=fs.readFileSync(path.join(dest,file),'utf8');
+    assert.match(html, /<html lang="en"/, file+' should be English-first');
+    assert.ok(!/js\/fixtures\//.test(html));
+    assert.ok(!/owner-edition\.js/.test(html));
+    assert.ok(html.indexOf('js/production-config.js')<html.indexOf('js/assets/loader.js'));
+    // Basic Vercel Web Analytics: exactly once, last script before </body>, served by Vercel.
+    const analytics='<script src="_vercel/insights/script.js"></script>';
+    assert.equal(html.split(analytics).length,2,file+' analytics include exactly once');
+    assert.ok(html.indexOf(analytics)>html.indexOf('js/app.js') && html.indexOf(analytics)<html.indexOf('</body>'),file+' analytics after app.js');
+    for(const m of html.matchAll(/<(?:script|link)[^>]+(?:src|href)="([^"?#]+)"/g))
+      if (m[1] !== '_vercel/insights/script.js') assert.ok(shipped.includes(m[1]),file+' missing dependency '+m[1]);
+  }
+  // The runtime path is never shipped or pinned, and prototype shells never load it.
+  assert.ok(!shipped.some(f=>f.startsWith('_vercel/')));
+  assert.ok(!Object.keys(record.files).some(f=>f.startsWith('_vercel/')));
+  for(const file of ['index.html','schedule.html','match.html','review.html'])
+    assert.ok(!fs.readFileSync(path.join(__dirname,'../../site',file),'utf8').includes('_vercel/'),'prototype '+file);
+  for(const rel of [...(fs.readFileSync(path.join(dest,'css/fonts.css'),'utf8')).matchAll(/url\('\.\.\/([^']+)'\)/g)].map(m=>m[1]))
+    assert.ok(shipped.includes(rel),'font referenced by CSS missing '+rel);
+  assert.ok(!shipped.includes('site/data/schedules/0022600274.json'));
+}));
+test('M6 builder fails closed if output already exists or targets a repository source',()=>withTemp(dir => {
+  const dest=path.join(dir,'public');fs.mkdirSync(dest);
+  fs.writeFileSync(path.join(dest,'keep.txt'),'original');
+  assert.throws(()=>build(dest),/OUTPUT_MUST_NOT_EXIST/);
+  assert.equal(fs.readFileSync(path.join(dest,'keep.txt'),'utf8'),'original');
+  assert.throws(()=>build(path.resolve(__dirname,'../../site')),/UNSAFE_OUTPUT/);
+}));
+test('M6 builder rejects unallowlisted HTML dependencies before deployment', () => {
+  const eligible = new Set(['js/app.js', 'css/home.css']);
+  assert.doesNotThrow(() => validatePublicDependencies(
+    '<script src="js/app.js"></script><link rel="stylesheet" href="css/home.css">', eligible));
+  assert.throws(() => validatePublicDependencies(
+    '<script src="js/fixtures/missing.js"></script>', eligible), /PUBLIC_DEPENDENCY_MISSING/);
+  assert.throws(() => validatePublicDependencies(
+    '<script src="js/data/owner-edition.js"></script>', eligible), /PUBLIC_DEPENDENCY_MISSING/);
+});
+
+test('M6 public shells follow a strict grammar: no tag, quoting, parser-differential or URL form ships an unlisted fetch', () => {
+  const eligible = new Set(['js/app.js', 'css/home.css', 'assets/brand/mosport-mark.svg']);
+  for (const ok of [
+    "<SCRIPT SRC='js/app.js'></SCRIPT>", '<script src=js/app.js></script>', '<script src="js/app.js?v=2"></script>',
+    '<script/src="js/app.js"></script>', '<link rel="icon" href="assets/brand/mosport-mark.svg">',
+    '<LINK REL=Stylesheet HREF=css/home.css>', '<!-- note --><script src="js/app.js"></script>',
+    '<meta charset="UTF-8"><script src="\n js/app.js \t"></script>',
+    '<!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">' +
+      '<title>MOSPORT · More than sport</title><link rel="stylesheet" href="css/home.css"></head><body class="x"><div id="app"></div><script src="js/app.js"></script></body></html>'
+  ]) assert.doesNotThrow(() => validatePublicDependencies(ok, eligible), ok);
+  const X = 'https://cdn.example/x';
+  for (const bad of [
+    // URL forms and earlier bypasses
+    "<script src='js/fixtures/demo.js'></script>", '<script src=js/data/owner-edition.js></script>', '<SCRIPT SRC="internal/store.js"></SCRIPT>',
+    "<LINK REL=stylesheet HREF='css/extra.css'>", `<script src="${X}.js"></script>`, "<script src='//cdn.example/x.js'></script>",
+    '<script src="/js/app.js"></script>', '<script src="js/../internal/store.js"></script>', '<script src="data:text/javascript,1"></script>',
+    '<script src="js/app.js&#x2f;x"></script>', '<script src="js/%2e%2e/x.js"></script>', '<script src=""></script>', '<script></script>',
+    `<script/src="${X}.js"></script>`, `<script type="x"src="${X}.js"></script>`, `<img alt="a > b" src="${X}.png">`,
+    // a82ffcf regression: an unpaired quote must not hide anything
+    `<img alt=a"b src=${X}.png>`, `<script x" src="${X}.js"></script>`, "<script x' src=internal/store.js></script>",
+    // tags and attributes outside the shell grammar
+    '<base href="https://evil.example/">', '<style>@import url(x)</style>', '<div style="background:url(x)"></div>',
+    '<body background="x.png">', '<meta http-equiv="refresh" content="0;url=x">', '<iframe srcdoc="x"></iframe>',
+    '<script src="js/app.js" onload="fetch(1)"></script>', '<a href="javascript:fetch(1)">x</a>', '<a href="java&#x09;script:x">x</a>',
+    '<link rel="preload" href="css/home.css">', '<link rel="modulepreload" href="js/app.js">', '<link rel=icon href=css/home.css imagesrcset=x>',
+    '<script src="js/app.js" src="https://cdn.example/x.js"></script>', '<script type=module>import "x"</script>',
+    '<object data="x.pdf"></object>', '<embed src="x.swf">', '<video poster="x.webp"></video>', '<input type=image src=x>',
+    // independent QA of 1e10ac1, classes A–F (parser differentials and SVG/MathML)
+    `<svg><rect fill="url(${X})"/></svg>`, `<svg><image><animate attributeName=href values=${X}></image></svg>`,
+    `<svg><title><img src=${X}.png></title></svg>`, `<math><style><img src=${X}.png></style></math>`,
+    `<svg><![CDATA[><img src=${X}.png>]]></svg>`, `<noscript><img src="${X}.png"></noscript>`, `<template><img src=${X}.png></template>`,
+    `<title></titlex><img src=${X}.png></title>`, `<div></div a=">"><img src=${X}.png>`, `</div x><img src=${X}.png>`,
+    `<p>${'İ'.repeat(40)}</p><title></title><img src=${X}.png>`, `<title>${'İ'.repeat(40)}</title><img src=${X}.png>`,
+    `<title><script src="js/app.js"></script></title>`, `<script src="js/app.js"><!--<script>--></script>`,
+    `<!--><script src="${X}.js"></script>-->`, `<!-- a --!><script src="${X}.js"></script>-->`, `<! x><img src=${X}>`,
+    '<script src="js/app.js"', '<title>unterminated', '<html lang="x" lang="y">', 'a < b', '<p>' + 'x'.repeat(64 * 1024) + '</p>',
+    // independent QA of 08d4304: F1 non-ASCII whitespace around URLs, F2 non-UTF-8 charset and control bytes
+    '<script src="\u00a0js/app.js"></script>', '<script src="js/app.js\ufeff"></script>', '<script src="\u2028js/app.js"></script>',
+    '<script src="js/app.js\u00a0"></script>', '<meta charset="iso-2022-jp">', '<meta charset=" shift_jis ">',
+    `<meta charset="utf-8"><title>\x1b$B</title><img src=${X}.png>`, '<div id="a\x00b"></div>'
+  ]) assert.throws(() => validatePublicDependencies(bad, eligible), /PUBLIC_(DEPENDENCY|HTML|INLINE)/, bad);
+  // linear time: pathological pages up to the size cap are decided quickly
+  const started = Date.now();
+  for (const evil of ['<title>' + '</title><title>'.repeat(4000), '<div' + ' id="'.repeat(16000), '<script ' + '"'.repeat(60000),
+    '<'.repeat(60000), '<!--' + '-'.repeat(60000), '<html lang=a"b '.repeat(4000)]) {
+    try { validatePublicDependencies(evil, eligible); } catch (e) { /* any rejection is fine */ }
+  }
+  assert.ok(Date.now() - started < 2000);
+});
+test('M6 public build opens in English for a new visitor and keeps an explicit or saved zh choice', async () => {
+  const { chromium } = require('playwright');
+  const http = require('node:http');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'mosport-public-lang-'));
+  const dest = path.join(dir, 'public');
+  build(dest);
+  const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
+  const server = http.createServer((req, res) => {
+    const rel = decodeURIComponent(new URL(req.url, 'http://x').pathname).replace(/^\/+/, '') || 'index.html';
+    const file = path.join(dest, rel);
+    if (!file.startsWith(dest + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) { res.writeHead(404); return res.end(); }
+    res.writeHead(200, { 'content-type': types[path.extname(file)] || 'application/octet-stream' });
+    res.end(fs.readFileSync(file));
+  });
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  const base = 'http://127.0.0.1:' + server.address().port + '/';
+  const browser = await chromium.launch();
+  try {
+    const read = async (url, saved) => {
+      const ctx = await browser.newContext();
+      const page = await ctx.newPage();
+      if (saved) { await page.goto(base + 'index.html'); await page.evaluate(v => localStorage.setItem('mosport.lang', v), saved); }
+      await page.goto(base + url);
+      await page.waitForFunction(() => /\d{2,3}\s*[–\-：:]\s*\d{2,3}/.test(document.body.innerText));
+      const out = await page.evaluate(() => ({ lang: document.documentElement.lang, mode: window.MOSPORT_CONFIG.mode,
+        cjk: /[一-鿿]/.test(document.body.innerText.replace(/繁中/g, '')) }));
+      await ctx.close();
+      return out;
+    };
+    const landing = 'match.html?game=0022600051&utm_source=x&utm_medium=organic_social&utm_campaign=mosport_beta0_launch&utm_content=0022600051-official-final';
+    for (const url of ['index.html', landing]) {
+      assert.deepEqual(await read(url), { lang: 'en', mode: 'production', cjk: false }, url + ' fresh visitor');
+      assert.deepEqual(await read(url + (url.includes('?') ? '&' : '?') + 'lang=zh'), { lang: 'zh-Hant', mode: 'production', cjk: true }, url + ' ?lang=zh');
+      assert.deepEqual(await read(url, 'zh'), { lang: 'zh-Hant', mode: 'production', cjk: true }, url + ' saved zh');
+    }
+  } finally {
+    await browser.close();
+    server.close();
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+test('M6 builder allows only the one Vercel analytics runtime path, nothing else under _vercel',()=>{
+  const { publicHtml } = require('../../scripts/build-public-release.js');
+  const html = publicHtml(fs.readFileSync(path.join(__dirname,'../../site/index.html')));
+  // Eligible = every dependency the real shell uses, so only the substituted URL can fail.
+  const eligible = new Set([...html.matchAll(/(?:src|href)="([^"?#]+)"/g)].map(m=>m[1]));
+  assert.ok(eligible.has('_vercel/insights/script.js'));
+  validatePublicDependencies(html, eligible); // the real shell passes
+  for (const bad of ['_vercel/insights/other.js','/_vercel/insights/script.js',
+    'https://cdn.vercel-insights.com/v1/script.js','_vercel/speed-insights/script.js'])
+    assert.throws(()=>validatePublicDependencies(html.replace('_vercel/insights/script.js', bad), eligible),
+      /PUBLIC_DEPENDENCY_MISSING/, bad);
+});
+test('Vercel config redirects only the project vercel.app host to the one public origin',()=>{
+  const cfg=JSON.parse(fs.readFileSync(path.join(__dirname,'../../vercel.json'),'utf8'));
+  assert.equal(cfg.buildCommand,'node scripts/build-public-release.js dist-public');
+  assert.equal(cfg.outputDirectory,'dist-public');
+  assert.deepEqual(cfg.redirects,[{source:'/:path*',has:[{type:'host',value:'mosport-magazine\\.vercel\\.app'}],
+    destination:'https://www.mosport.app/:path*',permanent:true}]);
+  // Exact host match: deployment URLs, previews and www itself are not redirected.
+  const re=new RegExp('^'+cfg.redirects[0].has[0].value+'$');
+  assert.ok(re.test('mosport-magazine.vercel.app'));
+  for(const h of ['www.mosport.app','mosport-magazine-env3ij3to-michael-mos-projects.vercel.app','mosport-magazine-michael-mos-projects.vercel.app','mosport-magazineXvercel.app'])
+    assert.ok(!re.test(h),h);
+});

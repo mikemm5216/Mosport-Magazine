@@ -432,7 +432,35 @@ const noNumbers = text => !/\d+(?:\.\d+)?\s*%|DEMO|HOME_COURT|World · Coach Rea
         const { ctx, p, errors, served, asked } = await session({ pins, result });
         await p.goto(url('zh')); await settle(p);
         assert.ok((await header(p)).includes('等待官方核實賽果'), label);
-        await tick(p, 100);
+        // Await application of each new result and re-arming of the next timer
+        // before advancing the page clock again. Other renders reuse the result.
+        await p.evaluate(delay => {
+          const schedule = window.setTimeout;
+          const pipeline = window.MOSPORT_PIPELINE;
+          const run = pipeline.run;
+          const applied = new WeakSet();
+          const progress = window.__testRecheckProgress = { timers: 0, results: 0 };
+          window.setTimeout = function (callback, timeout, ...args) {
+            if (timeout === delay) progress.timers++;
+            return schedule.call(this, callback, timeout, ...args);
+          };
+          pipeline.run = function (raw, options) {
+            const outcome = run.call(this, raw, options);
+            const result = options?.result;
+            if (result && !applied.has(result)) {
+              applied.add(result);
+              progress.results++;
+            }
+            return outcome;
+          };
+        }, STEP);
+        for (let i = 1; i <= 96; i++) {
+          await p.clock.runFor(STEP);
+          await p.waitForFunction(({ results, timers }) => {
+            const progress = window.__testRecheckProgress;
+            return progress.results === results && progress.timers === timers;
+          }, { results: i, timers: Math.min(i, 95) }, { timeout: 5000 });
+        }
         assert.equal(await p.locator('#m-final, .note').count(), 0, label);
         assert.ok(!(await p.locator('main').innerText()).includes('終場 湖人'), label);
         assert.equal(await p.locator('#mo-live').textContent(), '', label);

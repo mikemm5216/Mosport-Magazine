@@ -1,5 +1,5 @@
 /*
- * B-P2-01a internal inspector for a MOSPORT-A world-analysis-package@1 file.
+ * B-P2-01a internal inspector for a MOSPORT-A world-analysis-package@1 or @2 file.
  * Renders MOSPORT_WORLD_A1.internalView only (textContent, never innerHTML).
  * The read clock defaults to now; ?now=<ISO> pins it for review and tests.
  */
@@ -14,6 +14,9 @@
 
   function el(tag, text, cls) { var e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; }
   function reason(m) { return m.status + ' · ' + m.reason; }
+  /* A known NBA id (@2) is shown with its observation time; a missing one with its reason. */
+  function identity(m) { return m.status === 'OBSERVED' ? m.status + ' · ' + m.value + ' · ' + m.observedAt : reason(m); }
+  function pin(s) { return s.sourceRef + ' · ' + s.observedAt + ' · ' + s.rawSha256; }
   function rows(dl, pairs) {
     pairs.forEach(function (p) { dl.appendChild(el('dt', p[0])); var d = el('dd', p[1]); d.dataset.key = p[2] || ''; dl.appendChild(d); });
   }
@@ -43,7 +46,7 @@
       ['Why', reason(v.world.why), 'why'],
       ['開賽 · Tipoff (UTC)', v.game.tipoffAt, 'tipoff'],
       ['場館 · Venue', v.game.venue.venueId + ' · ' + v.game.venue.timeZone + ' · ' + v.game.venue.localDate, 'venue'],
-      ['NBA game id', reason(v.game.nbaGameId), 'nbaGameId'],
+      ['NBA game id', identity(v.game.nbaGameId), 'nbaGameId'],
       ['賽程資格 · Schedule', v.qualification.schedule + (v.qualification.reason ? ' · ' + v.qualification.reason : ''), 'schedule'],
       ['來源 · Source receipt', v.evidence.sourceClass + ' · ' + v.evidence.receiptObservedAt + ' · ' + v.evidence.receiptSha256, 'receipt'],
       ['賽前快照 · Snapshot', v.evidence.snapshot ? v.evidence.snapshot.capturedAt + ' · ' + v.evidence.snapshot.sha256 : 'BLOCKED_MISSING · ' + v.evidence.snapshotMissingReason, 'snapshot'],
@@ -52,6 +55,10 @@
       ['賽後 · Follow', 'status ' + reason(v.follow.status) + ' / score ' + reason(v.follow.score) + ' / settlement ' + reason(v.follow.settlement), 'follow'],
       ['Revision', v.revision, 'revision'],
       ['B 無法驗證 · Not verified by B', v.consumerLimits.join(', '), 'limits']
+    ]);
+    if (v.game.nbaGameId.status === 'OBSERVED') rows(dl, [
+      ['NBA id 來源 · NBA source', pin(v.game.nbaGameId.sources.nba), 'nbaGameIdNba'],
+      ['NBA id 對照 · ESPN crosswalk', pin(v.game.nbaGameId.sources.espn), 'nbaGameIdEspn']
     ]);
     out.appendChild(dl);
   }

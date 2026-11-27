@@ -1,0 +1,76 @@
+{
+  "asOf": "2026-11-26T03:30:00Z",
+  "method": "Web search over public reporting (2026-11-26, Asia/Taipei morning). Direct page fetches of nba.com and basketball.realgm.com were blocked by this session's network policy (not widened); facts and dates come from search-index snippets of the named pages, dated URLs and titles. Date-only values are read as 00:00 UTC. null = timestamp not established. No platform engagement API is connected; engagement is null for every candidate.",
+  "candidates": [
+    {
+      "id": "nba-first-month-viewership-record",
+      "eventKey": "nba-2026-27-first-month-viewership",
+      "title": "NBA's first month of 2026-27 draws 75M+ U.S. viewers, the most in league history (league release, Mon Nov 23)",
+      "nextEventAt": null,
+      "audience": "core",
+      "engagement": null,
+      "evidence": {
+        "officialSourcePresent": true,
+        "primaryFetched": false,
+        "keyFactsTotal": 4,
+        "keyFactsVerified": 4,
+        "conflictsNoted": 0,
+        "notes": "Verified from the NBA.com release snippet ('First month of NBA season reaches more than 75 million viewers') and agreeing Forbes/Barrett/Yahoo reports dated Nov 23: (1) more than 75 million U.S. viewers in the first month across NBC/Peacock, Prime Video and ESPN; (2) highest opening month in league history, up 20% year over year; (3) games averaging 2.62 million viewers, a record through this point of any season; (4) adults 18-34 viewership up 50%. Not used: the '+37% national average' figure (in Yahoo/RealGM headlines but not seen in the NBA.com snippet). Caveat reported by Hollywood Reporter: Nielsen measurement changes have tended to benefit live sports."
+      },
+      "content": { "rightsSafeVisual": true, "uniqueAngle": true, "landingRelevant": true, "sensitive": false },
+      "sources": [
+        { "url": "https://www.nba.com/news/first-month-of-nba-season-reaches-more-than-75-million-viewers", "publisher": "NBA.com", "tier": "official", "claimType": "fact", "publishedAt": "2026-11-23" },
+        { "url": "https://www.forbes.com/sites/markmedina/2026/11/23/nba-ratings-set-records-for-start-of-2026-27-season/", "publisher": "Forbes", "tier": "major", "claimType": "fact", "publishedAt": "2026-11-23" },
+        { "url": "https://ca.sports.yahoo.com/news/nba-viewership-off-to-record-start-national-games-up-37-from-last-season-204335964.html", "publisher": "Yahoo Sports", "tier": "major", "claimType": "fact", "publishedAt": null },
+        { "url": "https://www.hollywoodreporter.com/tv/tv-news/nba-tv-ratings-up-2026-27-first-month-1236762311/", "publisher": "The Hollywood Reporter", "tier": "major", "claimType": "fact", "publishedAt": null },
+        { "url": "https://barrettmedia.com/2026/11/23/nba-first-month-viewership-record/", "publisher": "Barrett Media", "tier": "secondary", "claimType": "fact", "publishedAt": "2026-11-23" }
+      ]
+    },
+    {
+      "id": "nba-cup-group-play-final-night",
+      "eventKey": "nba-cup-2026-group-play-final-night",
+      "title": "NBA Cup group play ends Friday Nov 27; several groups still undecided",
+      "nextEventAt": "2026-11-27T23:00:00Z",
+      "audience": "core",
+      "engagement": null,
+      "evidence": {
+        "officialSourcePresent": true,
+        "primaryFetched": false,
+        "keyFactsTotal": 3,
+        "keyFactsVerified": 2,
+        "conflictsNoted": 1,
+        "notes": "Verified: Friday Nov 27 is the final night of group play (NBA.com clinching-scenarios page, Yahoo, NBC Sports); tiebreaker order head-to-head > point differential > total points. Unverified: which Wednesday Nov 25 results settled which groups (search returned pre-Wednesday previews). Conflict: sources disagree on whether East Group B could be clinched by Miami on Wednesday or only on Friday. Duplicate: MOSPORT already has Threads post 442566111 scheduled on this event (Fri 11:30 ET), so this angle is not unique."
+      },
+      "content": { "rightsSafeVisual": true, "uniqueAngle": false, "landingRelevant": true, "sensitive": false },
+      "sources": [
+        { "url": "https://www.nba.com/news/emirates-nba-cup-2026-clinching-scenarios", "publisher": "NBA.com", "tier": "official", "claimType": "fact", "publishedAt": null },
+        { "url": "https://www.nba.com/news/emirates-nba-cup-2026-live-updates-november-25", "publisher": "NBA.com", "tier": "official", "claimType": "fact", "publishedAt": "2026-11-25" },
+        { "url": "https://sports.yahoo.com/nba/article/nba-cup-2026-standings-schedule-stakes-and-clinching-scenarios-for-final-week-of-group-play-225143666.html", "publisher": "Yahoo Sports", "tier": "major", "claimType": "fact", "publishedAt": null },
+        { "url": "https://www.nbcsports.com/nba/news/nba-cup-2026-update-standings-clinching-scenarios-with-critical-cup-games-on-nbc-and-peacock-tuesday", "publisher": "NBC Sports", "tier": "major", "claimType": "fact", "publishedAt": null },
+        { "url": "https://bleacherreport.com/articles/25537516-nba-cup-2026-standings-bracket-predictions-after-november-24-group-play", "publisher": "Bleacher Report", "tier": "secondary", "claimType": "fact", "publishedAt": "2026-11-24" }
+      ]
+    },
+    {
+      "id": "nfl-thanksgiving-tripleheader",
+      "eventKey": "nfl-2026-thanksgiving-day-games",
+      "title": "NFL Thanksgiving tripleheader today: Bears at Lions, Eagles at Cowboys, Chiefs at Bills",
+      "nextEventAt": "2026-11-26T18:00:00Z",
+      "audience": "adjacent",
+      "engagement": null,
+      "evidence": {
+        "officialSourcePresent": false,
+        "primaryFetched": false,
+        "keyFactsTotal": 3,
+        "keyFactsVerified": 3,
+        "conflictsNoted": 1,
+        "notes": "Verified across Yahoo Sports and schedule guides: three Thanksgiving games (Bears at Lions 1:00 PM ET CBS, Eagles at Cowboys 4:30 PM ET FOX, Chiefs at Bills 8:20 PM ET NBC). No NFL.com page found by search. Unverified: team records (8-2 claim not confirmed). Conflict: sources differ on the Thanksgiving Eve game and its channel. Outside MOSPORT's NBA landing focus."
+      },
+      "content": { "rightsSafeVisual": true, "uniqueAngle": false, "landingRelevant": false, "sensitive": false },
+      "sources": [
+        { "url": "https://sports.yahoo.com/articles/nfl-thanksgiving-schedule-chiefs-bills-125541392.html", "publisher": "Yahoo Sports", "tier": "major", "claimType": "fact", "publishedAt": null },
+        { "url": "https://thesportscast.net/2026/11/25/thanksgiving-football-2026-nfl-schedule/", "publisher": "The Sportscast", "tier": "secondary", "claimType": "fact", "publishedAt": "2026-11-25" },
+        { "url": "https://journalarta.com/en/2026/11/26/thanksgiving-football-games-2026-schedule-traditions/", "publisher": "JournalArta", "tier": "secondary", "claimType": "fact", "publishedAt": "2026-11-26" }
+      ]
+    }
+  ]
+}
