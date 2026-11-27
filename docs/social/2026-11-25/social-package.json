@@ -1,0 +1,136 @@
+{
+  "schema": "mosport-media/trend-social-package@1",
+  "status": "DRAFT_PENDING_C4_APPROVAL",
+  "trend": "nba-cup-group-final-week",
+  "radarReport": "trend-radar-report.json",
+  "recommendedWindow": "Fri 2026-11-27, 11:00-13:00 ET (Sat 00:00-02:00 Taipei), before the final group-play games; facts above are as of Nov 25 and must be re-checked before posting",
+  "posts": [
+    {
+      "channel": "threads",
+      "account": "@mosp_ort",
+      "text": "NBA Cup group play wraps up Friday, and margins matter.\n\nTied in a group? Tiebreakers: head-to-head, then group-play point differential, then total points scored. An overtime game counts as a 0 differential for both teams.\n\nEast Group A: Orlando finished 3-1; Toronto and Detroit (2-1) each have one game left (as of Nov. 25).\n\nEvidence-first NBA: https://www.mosport.app/?utm_source=threads&utm_medium=organic_social&utm_campaign=trend_radar_v1&utm_content=nba-cup-tiebreakers",
+      "textLength": 477,
+      "textSha256": "d5ee6aec9bbef4fdcbfc9b41ddc8b04677fd29ed9cf857d21ba6d5e8afcdfcca",
+      "asset": {
+        "file": "nba-cup-tiebreakers-2026-11-25-threads-1x1.png",
+        "width": 1080,
+        "height": 1080,
+        "sha256": "d5d7c271076d3c4bcb5206fa32237340a9ad5785121f164e2fd5289fb7dc1933"
+      },
+      "landingUrl": "https://www.mosport.app/?utm_source=threads&utm_medium=organic_social&utm_campaign=trend_radar_v1&utm_content=nba-cup-tiebreakers",
+      "approval": {
+        "state": "PENDING_HUMAN",
+        "receiptRef": null
+      },
+      "publication": {
+        "state": "NOT_POSTED",
+        "platformPostId": null,
+        "platformUrl": null
+      },
+      "performance": {
+        "state": "NOT_OBSERVED",
+        "views": null,
+        "interactions": null,
+        "landingVisits": null
+      }
+    },
+    {
+      "channel": "instagram",
+      "account": "@mosp_ort",
+      "text": "Every point counts in NBA Cup group play. Overtime points don't.\n\nIf teams finish tied in a group, the tiebreakers run:\n1. Head-to-head\n2. Group-play point differential\n3. Total points scored\n\nAn overtime game is recorded as a 0 point differential for both teams.\n\nEast Group A: Orlando has finished 3-1; Toronto and Detroit (both 2-1) each have one game left (as of Nov. 25). Final group games are Friday, Nov. 27 (ET).\n\nSource: NBA.com, Emirates NBA Cup rules. Evidence-first NBA coverage from MOSPORT. Link in bio.\n\n#NBA #NBACup #MOSPORT",
+      "textLength": 540,
+      "textSha256": "c4ce80a3b2e829863fbaa35176323a828b1dd1af6446125ca2eb5faf56659f7f",
+      "asset": {
+        "file": "nba-cup-tiebreakers-2026-11-25-instagram-4x5.png",
+        "width": 1080,
+        "height": 1350,
+        "sha256": "ba53afa5df1b26c9b9955a30819c44a59baf99fbc266de655eb518a4a52695b0"
+      },
+      "landingUrl": "https://www.mosport.app/ (profile link in bio; caption URLs are not clickable on Instagram)",
+      "bioLinkVerified": false,
+      "approval": {
+        "state": "PENDING_HUMAN",
+        "receiptRef": null
+      },
+      "publication": {
+        "state": "NOT_POSTED",
+        "platformPostId": null,
+        "platformUrl": null
+      },
+      "performance": {
+        "state": "NOT_OBSERVED",
+        "views": null,
+        "interactions": null,
+        "landingVisits": null
+      }
+    }
+  ],
+  "rights": {
+    "brandMark": "site/assets/brand/mosport-mark.svg (Mosport-owned)",
+    "fonts": "Anton, Barlow Condensed, Inter: SIL Open Font License (site/assets/fonts/LICENSE-*)",
+    "imagery": "none: no photos, team logos, player likeness, NBA marks or footage; text and grid only",
+    "trademarks": "\"NBA Cup\"/\"Emirates NBA Cup\" used as words to name the competition (nominative); no logos"
+  },
+  "packageRole": "ORIGINAL CREATIVE PACKAGE as written 2026-11-25, kept immutable: status, approval and publication fields below are the draft-era record and are NOT current state. Current approvals, Metricool IDs, schedule and the pre-publish check are in operationalState.",
+  "operationalState": {
+    "readBackAt": "2026-11-26T13:51:00Z",
+    "source": "Metricool getScheduledPosts (brand 8356352)",
+    "threads": {
+      "postId": "442566111",
+      "uuid": "-3442658382100084677",
+      "previousIds": [
+        "441796911"
+      ],
+      "draft": false,
+      "autoPublish": true,
+      "providerStatus": "PENDING",
+      "scheduledAt": "2026-11-28T00:30:00+08:00 (2026-11-27 11:30 ET)",
+      "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-17513308555704950672.png",
+      "textMatchesPackage": true
+    },
+    "instagram": {
+      "postId": "443023664",
+      "uuid": "5227968651471308629",
+      "previousIds": [
+        "442561661"
+      ],
+      "draft": false,
+      "autoPublish": true,
+      "providerStatus": "PENDING",
+      "scheduledAt": "2026-11-28T00:30:00+08:00 (2026-11-27 11:30 ET)",
+      "rehostedMedia": "https://static.metricool.com/planner/202611/8356352-file-1777459905083320999.png",
+      "textMatchesPackage": true,
+      "release": "scheduled 2026-11-26T12:07Z under the existing C4 approval after the Founder confirmed the bio link (#35 7191601373); caption and media unchanged",
+      "bioLink": {
+        "url": "https://www.mosport.app/",
+        "state": "FOUNDER_CONFIRMED",
+        "independentlyVerified": false
+      }
+    },
+    "rehostedMediaBytes": "UNKNOWN (static.metricool.com not reachable from this session; network not widened)",
+    "prePublishCheck": {
+      "id": "trig_01Nd4XHiXc677ebnW2UWCi3u",
+      "runOnceAt": "2026-11-27T14:00:00Z (22:00 Asia/Taipei, 09:00 ET)",
+      "enabled": true,
+      "covers": [
+        "Threads uuid -3442658382100084677 (id 442566111)",
+        "Instagram uuid 5227968651471308629 (id 443023664)"
+      ],
+      "mechanism": "One-shot reminder bound to Claude Code session session_01HmHaAQCsohAJxCC68q5xfH (persist_session=true). Firing delivers a message into that session; checks and any revert-to-draft run only if that session resumes and processes it.",
+      "limitation": "NOT a guaranteed unattended interceptor. If the session cannot resume, nothing reverts the posts, and Metricool publishes both at 2026-11-28T00:30 Asia/Taipei (autoPublish=true) per the existing approval. No execution evidence of a fire yet.",
+      "updated": "prompt widened to cover both Cup posts at 2026-11-26T12:07:20Z"
+    },
+    "prStatus": {
+      "pr": "mikemm5216/Mosport-Magazine#37",
+      "state": "DRAFT, unmerged",
+      "codeReview": "scoped Trend Radar V1 code review PASS at ba7127a (review 6068087180, COMMENT, not GitHub APPROVED)",
+      "laterCommits": "docs/social only (no code)",
+      "consolidation": "B PR #34 -> #36 -> #37 consolidation pending; must preserve live #36 code"
+    },
+    "approvals": {
+      "c4": "Founder APPROVED both posts: #35 7180485347 (its Wednesday East Group A statement corrected in #35 7181034998; creative unaffected)",
+      "instagramBioLink": "Founder-confirmed https://www.mosport.app/ in #35 7191601373; not independently verified"
+    },
+    "currentStatus": "SCHEDULED_BOTH (not yet posted)"
+  }
+}
