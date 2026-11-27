@@ -1,6 +1,7 @@
 /*
- * B-P2-01a — read-only consumer of MOSPORT-A's game-level World Analysis Package v1
- * (`mosport-a/world-analysis-package@1`, owned by mikemm5216/Mosport-NBA,
+ * B-P2-01a — read-only consumer of MOSPORT-A's game-level World Analysis Package
+ * (`mosport-a/world-analysis-package@1`, and `@2` which differs only by an optional
+ * observed NBA game id; owned by mikemm5216/Mosport-NBA,
  * docs/contracts/WORLD-ANALYSIS-PACKAGE-V1.md). Pure functions, no DOM, no network.
  * Works in the browser (window.MOSPORT_WORLD_A1) and in Node (module.exports).
  *
@@ -11,6 +12,11 @@
  * registry digests, A's identity resolution (ESPN team id → franchise → display
  * code at tipoff; venue zone and alias windows), all of which need A replay, or the
  * source bytes themselves.
+ *
+ * @2 adds one branch: game.nbaGameId may be OBSERVED with the NBA and ESPN source
+ * pins A used for the crosswalk. B checks only their format, URL contract and
+ * timing; the pins carry no bytes, so B does not re-verify the crosswalk itself.
+ * @1 still refuses a known id, and every other @1 rule applies unchanged to @2.
  *
  * v1 cannot carry an issued judgment: world.state is only NOT_ISSUED, every number
  * is null, distribution is INTERNAL and rights are UNVERIFIED. So nothing from a v1
@@ -23,6 +29,9 @@
 
   var SCHEMA = 'mosport-a/world-analysis-package@1';
   var PRODUCER = 'world-package/1.0.0';
+  var SCHEMA_V2 = 'mosport-a/world-analysis-package@2';
+  var PRODUCER_V2 = 'world-package/2.0.0';
+  var PRODUCERS = {}; PRODUCERS[SCHEMA] = PRODUCER; PRODUCERS[SCHEMA_V2] = PRODUCER_V2;
   var FRESH_MS = 15 * 60 * 1000;
   var READ_STATES = ['ACTIVE', 'STALE', 'WITHDRAWN', 'SUPERSEDED'];
   /* What B cannot verify from the file alone. Shown with every internal view. */
@@ -35,17 +44,38 @@
   function oneOf(a) { return { oneOf: a }; }
   function obj(shape) { return { obj: shape }; }
   function nullable(d) { return { nullable: d }; }
+  /* A tagged union: the branch is chosen by the value's own status field. */
+  function byStatus(branches) { return { byStatus: branches }; }
   function missing(reason) { return obj({ status: lit('BLOCKED_MISSING'), value: lit(null), reason: lit(reason) }); }
 
   var HASH = re('^[0-9a-f]{64}$');
   var INSTANT = { instant: true };
   var ESPN_SCOREBOARD = re('^https://site\\.api\\.espn\\.com/apis/site/v2/sports/basketball/nba/scoreboard\\?dates=\\d{8}$');
   var TEAM = obj({ franchiseId: re('^MNBA-F\\d{2}$'), espnTeamId: re('^\\d+$'), displayCode: re('^[A-Z0-9]{2,4}$') });
+  /* @2 identity pins. NBA: the game page (optional slug, optional /box-score), no query,
+     fragment, credentials or port. ESPN: the crosswalk scoreboard request with limit=200,
+     a different request from the receipt's scoreboard (which has no limit). */
+  var NBA_GAME_PAGE = /^https:\/\/www\.nba\.com\/game\/(?:[a-z0-9-]+-)?(00[245]\d{7})(?:\/box-score)?$/;
+  var ESPN_CROSSWALK = re('^https://site\\.api\\.espn\\.com/apis/site/v2/sports/basketball/nba/scoreboard\\?dates=\\d{8}&limit=200$');
+  /* NBA id prefix by competition, as in A's official identity schema. */
+  var NBA_ID_PREFIX = { '002': 'NBA_REGULAR_SEASON', '004': 'NBA_POSTSEASON', '005': 'NBA_PLAY_IN' };
+  var IDENTITY_MISSING = missing('IDENTITY_UNRESOLVED');
+  var IDENTITY_OBSERVED = obj({
+    status: lit('OBSERVED'),
+    value: re('^00[245]\\d{7}$'),
+    observedAt: INSTANT,
+    sources: obj({
+      nba: obj({ sourceRef: { re: NBA_GAME_PAGE }, observedAt: INSTANT, rawSha256: HASH }),
+      espn: obj({ sourceRef: ESPN_CROSSWALK, observedAt: INSTANT, rawSha256: HASH })
+    })
+  });
 
-  var SHAPE = obj({
-    schema: lit(SCHEMA),
+  /* One shape for both versions; only the version literals and the identity branch differ. */
+  function shapeFor(schema) {
+    return obj({
+    schema: lit(schema),
     owner: lit('MOSPORT-A'),
-    producerVersion: lit(PRODUCER),
+    producerVersion: lit(PRODUCERS[schema]),
     packageId: re('^mosport-a:espn:[0-9]+$'),
     revision: re('^sha256:[0-9a-f]{64}$'),
     fingerprint: HASH,
@@ -55,7 +85,7 @@
     game: obj({
       canonicalId: re('^espn:[0-9]+$'),
       espnGameId: re('^[0-9]+$'),
-      nbaGameId: missing('IDENTITY_UNRESOLVED'),
+      nbaGameId: schema === SCHEMA_V2 ? byStatus({ BLOCKED_MISSING: IDENTITY_MISSING, OBSERVED: IDENTITY_OBSERVED }) : IDENTITY_MISSING,
       competition: oneOf(['NBA_REGULAR_SEASON', 'NBA_PLAY_IN', 'NBA_POSTSEASON']),
       home: TEAM,
       away: TEAM,
@@ -109,7 +139,9 @@
       score: missing('POSTGAME_ONLY'),
       settlement: missing('SOURCE_NOT_PUBLISHED')
     })
-  });
+    });
+  }
+  var SHAPES = {}; SHAPES[SCHEMA] = shapeFor(SCHEMA); SHAPES[SCHEMA_V2] = shapeFor(SCHEMA_V2);
 
   function isPlain(v) { return v !== null && typeof v === 'object' && Object.getPrototypeOf(v) === Object.prototype; }
 
@@ -123,6 +155,11 @@
   /* Returns the first problem { code, path } or null. */
   function check(d, v, path) {
     if (d.nullable) return v === null ? null : check(d.nullable, v, path);
+    if (d.byStatus) {
+      if (!isPlain(v)) return { code: 'NOT_OBJECT', path: path };
+      if (!Object.prototype.hasOwnProperty.call(d.byStatus, v.status)) return { code: 'WRONG_VALUE', path: path + '.status' };
+      return check(d.byStatus[v.status], v, path);
+    }
     if ('lit' in d) return v === d.lit ? null : { code: 'WRONG_VALUE', path: path };
     if (d.re) return typeof v === 'string' && d.re.test(v) ? null : { code: 'BAD_FORMAT', path: path };
     if (d.oneOf) return d.oneOf.indexOf(v) !== -1 ? null : { code: 'WRONG_VALUE', path: path };
@@ -160,8 +197,8 @@
    */
   function validate(raw) {
     if (!isPlain(raw)) return fail('NOT_OBJECT', 'package');
-    if (raw.schema !== SCHEMA) return fail('SCHEMA_UNSUPPORTED', 'package.schema');
-    var shape = check(SHAPE, raw, 'package');
+    if (raw.schema !== SCHEMA && raw.schema !== SCHEMA_V2) return fail('SCHEMA_UNSUPPORTED', 'package.schema');
+    var shape = check(SHAPES[raw.schema], raw, 'package');
     if (shape) return fail(shape.code, shape.path);
     var p = raw;
     if (fingerprintOf(p) !== p.fingerprint || p.revision !== 'sha256:' + p.fingerprint) return fail('PACKAGE_FINGERPRINT_MISMATCH', 'package.fingerprint');
@@ -186,6 +223,17 @@
     if (p.evidence.snapshot) {
       var cap = epoch(p.evidence.snapshot.capturedAt);
       if (cap > lock || cap <= observed) return fail('INVALID_SNAPSHOT_CHRONOLOGY', 'package.evidence.snapshot.capturedAt');
+    }
+    var identity = p.game.nbaGameId;
+    if (identity.status === 'OBSERVED') {
+      var nba = identity.sources.nba, espn = identity.sources.espn;
+      if (NBA_ID_PREFIX[identity.value.slice(0, 3)] !== p.game.competition) return fail('IDENTITY_COMPETITION_MISMATCH', 'package.game.nbaGameId.value');
+      if (NBA_GAME_PAGE.exec(nba.sourceRef)[1] !== identity.value) return fail('INVALID_IDENTITY_PROVENANCE', 'package.game.nbaGameId.sources.nba.sourceRef');
+      if (espn.sourceRef !== 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=' + p.evidence.receipt.requestedDate + '&limit=200') return fail('INVALID_IDENTITY_PROVENANCE', 'package.game.nbaGameId.sources.espn.sourceRef');
+      var idAt = epoch(identity.observedAt);
+      if (idAt !== Math.max(epoch(nba.observedAt), epoch(espn.observedAt))) return fail('INVALID_IDENTITY_CHRONOLOGY', 'package.game.nbaGameId.observedAt');
+      var cutoff = Math.min(lock, at, p.evidence.snapshot ? epoch(p.evidence.snapshot.capturedAt) : Infinity);
+      if (idAt >= cutoff) return fail('INVALID_IDENTITY_CHRONOLOGY', 'package.game.nbaGameId.observedAt');
     }
     return { ok: true, pkg: p };
   }
@@ -246,6 +294,12 @@
   }
 
   function reasonOf(m) { return { status: m.status, reason: m.reason }; }
+  function pinOf(s) { return { sourceRef: s.sourceRef, observedAt: s.observedAt, rawSha256: s.rawSha256 }; }
+  /* A known id carries its source pins for display; a missing id keeps its typed reason. */
+  function identityOf(m) {
+    if (m.status !== 'OBSERVED') return reasonOf(m);
+    return { status: m.status, value: m.value, observedAt: m.observedAt, sources: { nba: pinOf(m.sources.nba), espn: pinOf(m.sources.espn) } };
+  }
 
   /**
    * internalView(raw, now): what the internal inspector may show. There is no
@@ -262,7 +316,7 @@
       schema: p.schema, packageId: p.packageId, revision: p.revision, producerVersion: p.producerVersion,
       asOf: p.asOf, lockAt: p.lockAt, validUntil: p.validUntil, readState: r.state,
       game: {
-        canonicalId: p.game.canonicalId, espnGameId: p.game.espnGameId, nbaGameId: reasonOf(p.game.nbaGameId),
+        canonicalId: p.game.canonicalId, espnGameId: p.game.espnGameId, nbaGameId: identityOf(p.game.nbaGameId),
         competition: p.game.competition, tipoffAt: p.game.tipoffAt,
         away: { franchiseId: p.game.away.franchiseId, displayCode: p.game.away.displayCode },
         home: { franchiseId: p.game.home.franchiseId, displayCode: p.game.home.displayCode },
@@ -290,7 +344,7 @@
 
   /**
    * publicProjection(raw, now): the only door to the public reader. It returns
-   * null with the blockers; a v1 package never opens it. A refused package is null too.
+   * null with the blockers; a v1 or v2 package never opens it. A refused package is null too.
    */
   function publicProjection(raw, now) {
     var v = internalView(raw, now);
@@ -299,7 +353,8 @@
   }
 
   var api = {
-    SCHEMA: SCHEMA, PRODUCER: PRODUCER, READ_STATES: READ_STATES, CONSUMER_LIMITS: CONSUMER_LIMITS,
+    SCHEMA: SCHEMA, PRODUCER: PRODUCER, SCHEMA_V2: SCHEMA_V2, PRODUCER_V2: PRODUCER_V2,
+    READ_STATES: READ_STATES, CONSUMER_LIMITS: CONSUMER_LIMITS,
     validate: validate, readState: readState, select: select, fingerprintOf: fingerprintOf,
     internalView: internalView, publicProjection: publicProjection
   };
