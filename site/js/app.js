@@ -11,7 +11,9 @@
      fixture and schedule selections retain their provider and mode rules. */
   var owner = window.MOSPORT_OWNER_EDITION || null;
   function editionsAt(now) {
-    return owner ? owner.catalog.filter(function (item) { return Date.parse(item.availableAt) <= now; }) : [];
+    var config = window.MOSPORT_CONFIG;
+    var catalog = owner ? owner.catalog : config && config.mode === 'production' && config.editions;
+    return Array.isArray(catalog) ? catalog.filter(function (item) { return Date.parse(item.availableAt) <= now; }) : [];
   }
   if (!['schedule', 'issue', 'fixture'].some(function (key) { return q.has(key); })) {
     var editions = editionsAt(Date.now());
@@ -163,6 +165,19 @@
     var s = keep.toString();
     return s ? '?' + s : '';
   }
+  function moreMatchups(c) {
+    var others = c.editions.filter(function (edition) {
+      return !c.issue.schedule.some(function (game) { return game.gameId === edition.id; });
+    });
+    if (!others.length) return '';
+    var links = others.map(function (edition) {
+      var label = teamName(edition.away, 'nick') + ' @ ' + teamName(edition.home, 'nick');
+      if (!owner) label += ' · ' + T('taipei') + ' ' + fmt(edition.tipoff, 'Asia/Taipei',
+        { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+      return '<a class="pill" href="' + esc(c.href('match.html', { schedule: edition.id, game: edition.id })) + '">' + esc(label) + '</a>';
+    });
+    return '<section class="card"><h2>' + (state.lang === 'zh' ? '其他對戰' : 'More matchups') + '</h2>' + links.join(' ') + '</section>';
+  }
   function topbar(active) {
     return '<header class="topbar">' +
       '<a class="tb-brand" href="index.html' + keepQuery() + '"><mo-brand-logo tone="on-dark"></mo-brand-logo><span class="tb-name">MOSPORT</span></a>' +
@@ -201,6 +216,7 @@
       percentOf: function (g) { return g.hasRead && g.world ? g.world.percent : null; },
       onMagazine: function (g) { return !!(g && g.hasRead); }
     };
+    ctx.moreMatchups = owner && page.id !== 'schedule' ? '' : moreMatchups(ctx);
     document.getElementById('app').innerHTML = page.render(ctx) + noteHtml();
     if (window.MOSPORT_REFRESH_SLOTS) window.MOSPORT_REFRESH_SLOTS();
     if (page.after) page.after(ctx);

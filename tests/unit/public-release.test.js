@@ -167,6 +167,33 @@ test('M6 public build opens in English for a new visitor and keeps an explicit o
       assert.deepEqual(await read(url + (url.includes('?') ? '&' : '?') + 'lang=zh'), { lang: 'zh-Hant', mode: 'production', cjk: true }, url + ' ?lang=zh');
       assert.deepEqual(await read(url, 'zh'), { lang: 'zh-Hant', mode: 'production', cjk: true }, url + ' saved zh');
     }
+    const games = [
+      ['0022600064', 'MIA @ NYK', '08:00'],
+      ['0022600068', 'ATL @ BOS', '09:00'],
+      ['0022600071', 'LAL @ SAS', '10:30']
+    ];
+    for (const viewport of [{ width: 1366, height: 850 }, { width: 390, height: 844 }]) {
+      const ctx = await browser.newContext({ viewport });
+      const page = await ctx.newPage();
+      await page.clock.setFixedTime(new Date('2026-11-27T13:00:00Z'));
+      for (const entry of ['index.html', 'schedule.html']) {
+        for (const [id, matchup, time] of games) {
+          await page.goto(base + entry);
+          const link = page.locator('a[href*="schedule=' + id + '"][href*="game=' + id + '"]');
+          await link.waitFor({state:'visible'});
+          assert.ok((await link.innerText()).includes(time));
+          await link.click();
+          await page.getByRole('heading', {name:matchup, exact:true}).waitFor();
+          assert.equal(new URL(page.url()).searchParams.get('game'), id);
+          assert.equal(await page.locator('#m-final, .m-badges').count(), 0);
+        }
+      }
+      await page.clock.setFixedTime(new Date('2026-11-27T12:15:00Z'));
+      await page.goto(base + 'index.html');
+      await page.getByRole('link', {name:'Game details', exact:false}).first().waitFor();
+      assert.equal(await page.locator('a[href*="game=0022600064"]').count(), 0);
+      await ctx.close();
+    }
   } finally {
     await browser.close();
     server.close();

@@ -179,7 +179,7 @@ window.MOSPORT_PAGE = {
         '<div class="runhead"><span>MOSPORT · ' + esc(topic.line1 + ' ' + topic.line2) + '</span><span class="rh-right"><span>' + esc(issueLine) + '</span>' + pageNumber + '</span></div>' +
         '<div class="today-head"><h2 id="today-h" class="today-mast">' + esc(T(mast.mast)) + '</h2>' +
           '<div class="today-date">' + (date ? '<p class="td-d">' + esc(date) + '</p>' : '') + '<p class="td-s">' + esc(slate) + '</p></div></div>' +
-        stateNote + lead + games + stories + emptyMsg +
+        stateNote + lead + games + (c.moreMatchups || '') + stories + emptyMsg +
         '<footer class="pg-foot">' + (R.demo ? '<span>' + demo + ' ' + esc(T('demoNote').replace(/^DEMO · /, '')) + '</span>' : '<span>' + esc(B.slogan) + '</span>') +
           (savedGame ? '<a class="pill" href="schedule.html' + c.keepQuery() + '">' + esc(T('openSchedule')) + ' <span aria-hidden="true">→</span></a>' : '') + pageNumber + '</footer>' +
       '</section>';

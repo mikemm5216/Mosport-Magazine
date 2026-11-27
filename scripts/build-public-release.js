@@ -189,6 +189,11 @@ function officialGate() {
   if (schedule.contextSnapshot != null) throw Error('PRIVATE_SNAPSHOT_MUST_NOT_SHIP');
   if (result.receiptRef !== 'NBA-0022600051-R1' || result.awayScore !== 104 || result.homeScore !== 106)
     throw Error('UNEXPECTED_RESULT_RELEASE');
+  function navigationEntry(entry) {
+    const { gameId: id, away, home, tipoff } = entry.game;
+    return { id, away, home, tipoff, availableAt: entry.source.observedAt };
+  }
+  const editions = [navigationEntry(schedule)];
   const files = [];
   for (const id of FOLLOW_UP_GAME_IDS) {
     const schedulePath = `data/schedules/${id}.json`;
@@ -210,6 +215,7 @@ function officialGate() {
         Object.keys(entry.source).some(key => !['schema', 'id', 'kind', 'originalUrl', 'publisher', 'observedAt', 'rightsStatus', 'accessMethod', 'contentFingerprint', 'language', 'verificationState', 'demo'].includes(key)))
       throw Error('NON_PUBLIC_SCHEDULE_FIELDS: ' + id);
     files.push(schedulePath);
+    editions.push(navigationEntry(entry));
     if (!hasResult && !hasPin) continue;
     if (!hasResult) throw Error('OFFICIAL_FINAL_MISSING: ' + id);
     const final = JSON.parse(read(resultPath));
@@ -217,14 +223,14 @@ function officialGate() {
       throw Error('OFFICIAL_FINAL_REJECTED: ' + id);
     files.push(resultPath);
   }
-  return files;
+  return { files, editions };
 }
 function build(outDir) {
   const destination = path.resolve(outDir);
   if (destination === sourceRoot || destination === root || destination.startsWith(sourceRoot+path.sep))
     throw Error('UNSAFE_OUTPUT');
   if (fs.existsSync(destination)) throw Error('OUTPUT_MUST_NOT_EXIST');
-  const followUpFiles = officialGate();
+  const { files: followUpFiles, editions } = officialGate();
   const { cleaned, files: activeAssets } = cleanRegistry(JSON.parse(read('data/asset-registry.json')));
   const fonts = fs.readdirSync(path.join(sourceRoot, 'assets/fonts'))
     .filter(name => /^([a-z0-9-]+\.woff2|LICENSE-[A-Za-z0-9-]+\.txt)$/.test(name))
@@ -255,7 +261,7 @@ function build(outDir) {
     }
     put('data/asset-registry.json', Buffer.from(JSON.stringify(cleaned, null, 2)+'\n'));
     put('data/asset-registry.js', Buffer.from('/* M6 public-only registry (source: reviewed asset-registry.json) */\nwindow.MOSPORT_ASSET_REGISTRY = '+JSON.stringify(cleaned, null, 2)+';\n'));
-    put('js/production-config.js', Buffer.from('/* Static public build; no private owner manifest and no DEMO providers. */\nwindow.MOSPORT_CONFIG = { mode: "production", defaultLanguage: "en", assetRegistryUrl: null };\n'));
+    put('js/production-config.js', Buffer.from('/* Static public build; no private owner manifest and no DEMO providers. */\nwindow.MOSPORT_CONFIG = { mode: "production", defaultLanguage: "en", assetRegistryUrl: null, editions: ' + JSON.stringify(editions) + ' };\n'));
     put('.nojekyll', Buffer.alloc(0));
     const release = {
       schema: 'mosport-public-static@1',
