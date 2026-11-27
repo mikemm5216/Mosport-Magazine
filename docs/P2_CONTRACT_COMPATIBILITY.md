@@ -1,5 +1,45 @@
 # B-P2-01 — Beta-0 snapshot 接線與 Beta-1 後續契約
 
+## 2026-11-27 World package @2：已觀測 NBA game id（Level 1，待獨立 review）
+
+`site/js/contracts/world-a1.js` 現在同時接受 `mosport-a/world-analysis-package@1`
+（`world-package/1.0.0`）與 `@2`（`world-package/2.0.0`）。兩版共用同一個嚴格 shape；
+唯一差別是 @2 的 `game.nbaGameId` 多一個合法分支：
+
+```
+{ status: "OBSERVED", value: "002xxxxxxx", observedAt,
+  sources: { nba:  { sourceRef, observedAt, rawSha256 },
+             espn: { sourceRef, observedAt, rawSha256 } } }
+```
+
+原本的 `BLOCKED_MISSING · IDENTITY_UNRESOLVED` 分支在 @2 照舊；@1 仍拒絕任何已知 ID。
+
+B 對 OBSERVED 分支只檢查它能自己檢查的部分：
+
+- `value` 符合 A 官方 identity schema `^00[245]\d{7}$`，且前綴與 `game.competition` 一致：
+  `002` 例行賽、`004` 季後賽、`005` play-in。
+- `sources.nba.sourceRef` 是 `https://www.nba.com/game/`＋（可選 slug-）＋`value`，可選
+  `/box-score`；不得有 query、fragment、帳密或 port，且路徑中的 ID 必須等於 `value`。
+- `sources.espn.sourceRef` 必須正好是
+  `…/scoreboard?dates=<evidence.receipt.requestedDate>&limit=200`。這是 crosswalk 用的
+  請求，與 receipt 本身（無 `limit`）是不同的請求，兩者不可互換。
+- 三個時間都是 canonical UTC 毫秒；`observedAt` 必須等於兩個來源中較晚者，且嚴格早於
+  `min(lockAt, asOf, snapshot.capturedAt 若存在)`。
+- 未知欄位、錯誤版本字面值（@2 配 1.0.0、@1 配 2.0.0）與 @1 帶已知 ID 一律拒絕。
+  revision set 的規則不變：不同 asOf 的 @1／@2 可並存，同一 asOf 不同 fingerprint 仍拒絕。
+
+wire 不帶原始 bytes，所以 B **沒有**重驗 crosswalk 來源本身；`CONSUMER_LIMITS`
+（含 `IDENTITY_NOT_RESOLVED_BY_B`、`SOURCE_BYTES_NOT_AVAILABLE_TO_B`）保留。World 仍是
+`NOT_ISSUED`，機率／區間／verdict 為 null，`INTERNAL`、`publiclyEligible:false`、
+`rights:UNVERIFIED` 不變；`publicProjection` 對 @1 與 @2 都回傳 `game:null`。只有內部
+inspector（`site/internal/js/a-package.js`）以 textContent 顯示已知 ID 與兩個來源 pin；
+公開 provider、pipeline、gate 與頁面都未改。
+
+測試使用 A／B 共用的 synthetic @2 wire：由 A 既有 synthetic @1 範例只改 schema、
+producerVersion 與 `game.nbaGameId`（`0022700001`）後重新簽章，預期 fingerprint
+`69d17f21dbf354e47ed6f7b5631057a334e69a1038c58b4a34cfb88c9d06371b`，兩邊測試斷言相同。它不是
+真實 crosswalk，也不構成任何真實比賽的驗收。原 @1 fixture bytes 與其驗證不變。
+
 ## 2026-11-21 Beta-0：有效期上限、開賽後狀態、導讀獨立撤下（Level 1，待獨立 review）
 
 本任務須遵守 Issue #170 的 Capacity / Boundary / Level 規則與 Beta-0 範圍。
