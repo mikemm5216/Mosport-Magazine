@@ -26,16 +26,12 @@ window.MOSPORT_PAGE = {
         '<td>' + esc(c.tipShort(g)) + '</td><td>' + st + '</td><td>' + read + '</td></tr>';
     }).join('');
     var invalid = R.invalidGames ? '<p class="state-msg state-partial" role="status">' + esc(T('invalidGames', { n: R.invalidGames })) + '</p>' : '';
-    var otherEditions = (c.editions || []).filter(function (ed) { return !R.schedule.some(function (g) { return g.gameId === ed.id; }); });
-    var archive = otherEditions.length ? '<section class="card"><h2>' + (c.lang === 'zh' ? '其他對戰' : 'More matchups') + '</h2>' +
-      otherEditions.map(function (ed) { return '<a class="pill" href="' + c.href('match.html', { schedule: ed.id, game: ed.id }) + '">' +
-        esc(c.teamName(ed.away,'nick') + ' @ ' + c.teamName(ed.home,'nick')) + '</a>'; }).join(' ') + '</section>' : '';
     var table = rows
       ? '<div class="table-wrap"><table class="sch"><thead><tr><th>' + T('colMatch') + '</th><th>' + T('colTime') + '</th><th>' + T('colStatus') + '</th><th>' + T('colRead') + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>'
       : '<p class="today-empty">' + esc(T('scheduleEmpty')) + '</p>';
     return c.topbar + '<main class="sheet">' +
       '<header class="sheet-head"><p class="kicker">MOSPORT · ' + esc(I.scheduleOnly ? T('savedSchedule') : c.issueDate(I.date)) + (R.demo ? ' <span class="demo-badge">DEMO</span>' : '') + '</p><h1>' + T('scheduleTitle') + '</h1><p class="muted">' + T(I.scheduleOnly ? 'savedScheduleIntro' : 'scheduleIntro') + '</p></header>' +
       (R.status === 'STALE' ? c.stateMessage(R) : '') + invalid + table +
-    archive + '</main>';
+    (c.moreMatchups || '') + '</main>';
   }
 };
