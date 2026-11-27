@@ -276,7 +276,7 @@ test('the shared synthetic v2 wire has the agreed fingerprint and validates; v1 
 
 test('v1 and v2 version literals and identity branches cannot be swapped', () => {
   const v1Known = clone(SYN); v1Known.game.nbaGameId = clone(IDENTITY); resign(v1Known);
-  assert.deepEqual([W.validate(v1Known).code, W.validate(v1Known).path], ['WRONG_VALUE', 'package.game.nbaGameId.status']);
+  assert.deepEqual([W.validate(v1Known).code, W.validate(v1Known).path], ['UNKNOWN_FIELD', 'package.game.nbaGameId.observedAt']);
   const v2OldProducer = v2(IDENTITY); v2OldProducer.producerVersion = W.PRODUCER; resign(v2OldProducer);
   assert.equal(code(v2OldProducer), 'WRONG_VALUE');
   const v1NewProducer = resign(Object.assign(clone(SYN), { producerVersion: W.PRODUCER_V2 }));
