@@ -1343,7 +1343,7 @@ window.MOSPORT_ASSET_REGISTRY = {
   },
   "logos": {
     "brand-mark": {
-      "label": "MOSPORT monogram",
+      "label": "MOSPORT original brand mark",
       "placement": "top bar, mobile cover",
       "deliver": {
         "width": 512,
@@ -1352,18 +1352,18 @@ window.MOSPORT_ASSET_REGISTRY = {
           "svg",
           "png"
         ],
-        "expectedFile": "assets/brand/mosport-mark.svg"
+        "expectedFile": "assets/brand/mosport-original.png"
       },
       "fit": "contain",
       "fallback": {
         "kind": "text",
         "value": "M"
       },
-      "activeVersion": "draft-v1",
+      "activeVersion": "original-v1",
       "versions": [
         {
           "id": "draft-v1",
-          "status": "ACTIVE",
+          "status": "RETIRED",
           "file": "assets/brand/mosport-mark.svg",
           "format": "svg",
           "width": 120,
@@ -1393,6 +1393,40 @@ window.MOSPORT_ASSET_REGISTRY = {
             "addedAt": "2026-10-28T15:45:00+08:00",
             "approvedBy": null,
             "approvedAt": null
+          }
+        },
+        {
+          "id": "original-v1",
+          "status": "ACTIVE",
+          "file": "assets/brand/mosport-original.png",
+          "format": "png",
+          "width": 512,
+          "height": 512,
+          "sha256": "8dbf0914d60b4fb172fe63e6f4e3a8256149d977d911a221717d2979ea29a651",
+          "darkFile": null,
+          "crops": {},
+          "content": {
+            "kinds": [
+              "brand-mark"
+            ],
+            "containsText": true,
+            "containsLogo": true,
+            "containsPerson": false
+          },
+          "rights": {
+            "status": "OWNED",
+            "licence": "MOSPORT-owned brand artwork for MOSPORT editorial publishing",
+            "owner": "MOSPORT",
+            "source": "Original artwork from the owner’s Mosport Beta project",
+            "generator": null,
+            "generatorPrompt": null,
+            "attribution": null
+          },
+          "provenance": {
+            "addedBy": "MOSPORT-B engineering",
+            "addedAt": "2026-11-28T20:16:19+08:00",
+            "approvedBy": "MOSPORT Founder",
+            "approvedAt": "2026-11-28T20:16:19+08:00"
           }
         }
       ]

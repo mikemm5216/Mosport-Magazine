@@ -40,7 +40,7 @@ imitations of recognisable stars, team logos and text.
 
 | Slot | Deliver | Fit | Fallback |
 |---|---|---|---|
-| `brand-mark` (MOSPORT monogram) | 512 × 512 SVG or PNG | `contain` | Letter "M" in a rounded box |
+| `brand-mark` (original MOSPORT artwork) | 512 × 512 SVG or PNG | `contain` | Letter "M" in a rounded box |
 | `teamLogos.entries.<TRICODE>` | 80 × 80 transparent PNG; preserved original plus `assets/teams/normalized/nba/<code>.png` | `contain`, never cropped | Tricode on the team colour |
 
 Team-logo entries are empty until rights-cleared files exist (issue #5).
