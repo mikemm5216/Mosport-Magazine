@@ -1,5 +1,7 @@
 # Reader default zoom — Fit Page vs a readable default
 
+> **Superseded 2026-11-28** by Founder decision V3-01 (`docs/founder/2026-11-28-v3-direction/01_FOUNDER_DECISION_V3.md`): the reader shows no zoom controls and the layout adapts to the viewport without page scaling. This record is kept as history.
+
 Independent review, point 3. **Fit Width is now the default** after Founder delegated the P1 continuation to ChatGPT. Fit Page remains one click away.
 
 ## Measured (Chromium, real renders)
