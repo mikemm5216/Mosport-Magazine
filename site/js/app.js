@@ -307,7 +307,7 @@
     var m = data.model;
     return m && m.meta && m.meta.scheduleOnly && m.schedule && m.schedule[0] || null;
   }
-  function waiting() { var g = shownGame(); return !!(g && g.pastTipoff && !g.score && recheck.saved != null); }
+  function waiting() { var g = shownGame(); return !!(g && !g.seasonSchedule && g.pastTipoff && !g.score && recheck.saved != null); }
   function pageVisible() { return typeof document.visibilityState !== 'string' || document.visibilityState === 'visible'; }
   function armRecheck() {
     if (recheck.timer || recheck.busy || recheck.left <= 0 || !pageVisible() || !waiting() || typeof setTimeout !== 'function') return;

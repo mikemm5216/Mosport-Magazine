@@ -3,7 +3,8 @@
   'use strict';
   const p = new URLSearchParams(location.search);
   const requested = p.get('game');
-  const editions = root.MOSPORT_CONFIG.editions || [];
+  const config = root.MOSPORT_CONFIG;
+  const editions = [...(config.editions || []), ...(config.seasonEditions || [])];
   const taipeiDate = new Intl.DateTimeFormat('en-CA', { timeZone:'Asia/Taipei' });
   const dateKey = value => taipeiDate.format(new Date(value));
   const openedAt = Date.now();
@@ -68,6 +69,7 @@
   function status(c, g, stale) {
     if (stale) return tr(c, 'Schedule awaiting confirmation', '賽程待確認');
     if (c.isFinal(g)) return c.T('final');
+    if (g.historicalSchedule) return tr(c, 'Historical schedule · No verified score', '歷史賽程 · 尚無核實比分');
     if (g.pastTipoff) return tr(c, 'Awaiting verified result', '等待核實賽果');
     return c.statusLabel(g);
   }
@@ -75,7 +77,7 @@
     return '<header class="nav"><div class="nav-inner"><a href="' + link(c) + '" class="brand">' +
       '<mo-brand-logo tone="on-dark"></mo-brand-logo>MOSPORT</a><nav aria-label="' + c.esc(c.T('navLabel')) +
       '"><a href="' + link(c) + '"' + (detail ? '' : ' aria-current="page"') + '>' + c.T('today') +
-      '</a><a href="' + c.esc(c.href('schedule.html')) + '"' + (detail ? ' aria-current="page"' : '') + '>' + c.T('schedule') +
+      '</a><a href="' + link(c,{date}) + '#season-calendar">' + c.T('schedule') +
       '</a><a href="' + c.esc(c.href('review.html')) + '">' + c.T('review') + '</a></nav>' +
       '<div class="sports"><span>NBA</span><button type="button" data-act="note" data-note="note_sport">MLB <small>' + c.T('comingSoon') +
       '</small></button><button type="button" data-act="note" data-note="note_sport">CPBL <small>' + c.T('comingSoon') +
@@ -114,8 +116,23 @@
     dates.add(today);
     dates.add(date);
     const options = [...dates].sort().map(d => '<option value="' + d + '"' + (d === date ? ' selected' : '') + '>' + d + '</option>');
-    return '<div class="season-nav"><label>' + tr(c,'Game date (Taipei)','比賽日期（台北）') +
+    return '<div class="season-nav" id="season-calendar"><label>' + tr(c,'Game date (Taipei)','比賽日期（台北）') +
       ' <select data-reader-day>' + options.join('') + '</select></label></div>';
+  }
+
+  function cupSchedule(c, now) {
+    const pending = (config.pendingSchedule || []).filter(game => Date.parse(game.availableAt) <= Date.parse(now));
+    if (!pending.length) return '';
+    const heading = tr(c, 'NBA Cup matchups to be determined', 'NBA 盃待定對戰');
+    const cards = pending.map(game => {
+      const stage = game.stage === 'Semifinal' ? tr(c,'Semifinal','準決賽') : tr(c,'Championship','冠軍賽');
+      const time = game.tipoff ? day(c,game.tipoff) + ' · ' + clock(c,game.tipoff) + ' ' + c.T('taipei') :
+        game.leagueDay + ' ET · ' + tr(c,'Tip-off time to be determined','開球時間待定');
+      return '<a class="card" href="' + c.esc(game.url) + '"><div class="card-meta"><b>' + stage + '</b>' +
+        '<span>' + c.esc(time) + '</span></div><div class="card-foot">' + tr(c,'NBA schedule','NBA 官方賽程') + ' ↗</div></a>';
+    }).join('');
+    return '<section class="board" aria-labelledby="cup-pending"><div class="board-head"><h2 id="cup-pending">' +
+      heading + '</h2></div><div class="cards">' + cards + '</div></section>';
   }
 
   function today(c, games, date, currentDay, now) {
@@ -142,7 +159,7 @@
     return nav(c,false) + (games.length ? rail(c,games) : '') + '<main><section class="cover"><div class="cover-inner">' +
       mast + featured + '</div></section>' + calendar(c,date,currentDay,now) + '<section class="board"><div class="board-head">' +
       heading + filters + '</div><div class="cards">' + (cards.length ? listing.join('') : '<p role="status">' + message + '</p>') +
-      '</div></section></main>' + footer(c,games);
+      '</div></section>' + cupSchedule(c,now) + '</main>' + footer(c,games);
   }
 
   function match(c, entry, games, date) {
@@ -166,7 +183,7 @@
 
   root.MOSPORT_PAGE = {
     id: 'today',
-    defaultSchedule: () => defaultId,
+    defaultSchedule: () => activeId,
     render(c) {
       const now = new Date().toISOString();
       const currentDay = dateKey(now);
