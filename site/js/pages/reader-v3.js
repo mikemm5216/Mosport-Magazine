@@ -94,8 +94,9 @@
       (c.isFinal(g) || g.pastTipoff || stale ? status(c,g,stale) : clock(c,g.tipoff) + ' · ' + c.T('taipei')) + '</span>' +
       boardRow(c,g,'away',true) + boardRow(c,g,'home',true) + '</a>').join('') + '</div></div>';
   }
-  function source(c, record) {
-    return '<a class="source" href="' + c.esc(record.source.url) + '" target="_blank" rel="noopener noreferrer">NBA ↗</a> · ' +
+  function source(c, record, label) {
+    return '<a class="source" href="' + c.esc(record.source.url) + '" target="_blank" rel="noopener noreferrer">' +
+      c.esc(label || 'NBA') + ' ↗</a> · ' +
       '<time datetime="' + c.esc(record.source.observedAt) + '">' + c.esc(fmt(c,record.source.observedAt,{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})) +
       ' ' + c.T('taipei') + '</time>';
   }
@@ -162,6 +163,34 @@
       '</div></section>' + cupSchedule(c,now) + '</main>' + footer(c,games);
   }
 
+  function matchupBox(c, game) {
+    const box = game.box;
+    if (!box) return '';
+    const periodHeads = box.away.periods.map((_, i) => '<th scope="col">' +
+      (i < 4 ? 'Q' + (i+1) : 'OT' + (i > 4 ? i-3 : '')) + '</th>').join('');
+    const periodRows = ['away', 'home'].map(side => '<tr><th scope="row">' + c.esc(box[side].team) + '</th>' +
+      box[side].periods.map(points => '<td>' + points + '</td>').join('') + '<td>' +
+      (game.score[side] > game.score[side === 'away' ? 'home' : 'away'] ? '<strong>' + game.score[side] + '</strong>' : game.score[side]) + '</td></tr>').join('');
+    const shooting = ([made, attempted]) => made + '–' + attempted;
+    const metrics = [
+      ['fieldGoals', tr(c,'Field goals','投籃'), shooting],
+      ['threePointers', tr(c,'3-pointers','三分球'), shooting],
+      ['freeThrows', tr(c,'Free throws','罰球'), shooting],
+      ['rebounds', tr(c,'Rebounds','籃板'), String],
+      ['assists', tr(c,'Assists','助攻'), String]
+    ];
+    const metricRows = metrics.map(([key, label, format]) => '<tr><td>' + format(box.away[key]) +
+      '</td><th scope="row">' + label + '</th><td>' + format(box.home[key]) + '</td></tr>').join('');
+    return '<section class="match-box" aria-labelledby="box-heading"><h2 id="box-heading">' +
+      tr(c,'Box score','技術統計') + '</h2><div class="box-table-wrap"><table><caption>' + tr(c,'Quarter scores','逐節比分') +
+      '</caption><thead><tr><th scope="col">' + tr(c,'Team','球隊') + '</th>' + periodHeads + '<th scope="col">' +
+      tr(c,'Total','總分') + '</th></tr></thead><tbody>' + periodRows + '</tbody></table></div>' +
+      '<div class="box-table-wrap"><table><caption>' + tr(c,'Team comparison','球隊數據對照') + '</caption><thead><tr><th scope="col">' +
+      c.esc(box.away.team) + '</th><th scope="col">' + tr(c,'Stat','統計') + '</th><th scope="col">' + c.esc(box.home.team) +
+      '</th></tr></thead><tbody>' + metricRows + '</tbody></table></div><p class="box-source">' +
+      source(c,{source:{url:box.officialUrl,observedAt:box.observedAt}},tr(c,'Official NBA box score','NBA 官方技術統計')) + '</p></section>';
+  }
+
   function match(c, entry, games, date) {
     const g = entry.g;
     const others = games.filter(r => r.g.gameId !== g.gameId);
@@ -177,7 +206,8 @@
       others.map(({g:other}) => '<a href="' + pathTo(c,other.gameId) + '"><span>' + team(c,other.away) + ' @ ' +
         team(c,other.home) + '</span><b>' + (c.isFinal(other) ? other.score.away + '–' + other.score.home : clock(c,other.tipoff)) +
         ' →</b></a>').join('') + '</aside>' : '';
-    return nav(c,true) + rail(c,games,g.gameId) + '<main>' + hero + '<div class="match-content">' + details + side +
+    return nav(c,true) + rail(c,games,g.gameId) + '<main>' + hero + '<div class="match-content"><div class="match-primary">' +
+      matchupBox(c,g) + details + '</div>' + side +
       '</div></main>' + footer(c,[entry]);
   }
 

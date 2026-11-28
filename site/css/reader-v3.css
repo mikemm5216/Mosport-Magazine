@@ -76,7 +76,7 @@ mo-team-logo img,.mo-abbr {height:100%;width:100%;object-fit:contain}
 .filters button {border:1px solid var(--rule);border-radius:99px;background:var(--card);font-weight:650;padding:5px 13px}
 .filters button[aria-pressed="true"] {background:var(--ink);color:var(--card);border-color:var(--ink)}
 .cards {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.card,.facts,.others {background:var(--card);border:1px solid var(--rule);border-radius:10px}
+.card,.facts,.others,.match-box {background:var(--card);border:1px solid var(--rule);border-radius:10px}
 .card {padding:13px 17px 0;display:block;transition:border-color .15s ease}
 .card:hover,.others a:hover {border-color:var(--blue);color:var(--blue)}
 .card-meta {color:var(--ink2);margin-bottom:13px;flex-wrap:wrap;line-height:1.2}
@@ -99,11 +99,19 @@ mo-team-logo img,.mo-abbr {height:100%;width:100%;object-fit:contain}
 .tabs {background:var(--card);border-bottom:1px solid var(--rule)}
 .tabs span {display:block;padding-block:12px;font-weight:700}
 .match-content {display:grid;grid-template-columns:minmax(0,2fr) minmax(250px,.85fr);gap:19px;align-items:start;padding-block:23px 33px}
-.facts,.others {padding:18px 22px}
-.facts h2,.others h2 {font:700 25px var(--f-cond);margin-bottom:13px}
+.facts,.others,.match-box {padding:18px 22px}
+.facts h2,.others h2,.match-box h2 {font:700 25px var(--f-cond);margin-bottom:13px}
 .facts dl {display:grid;grid-template-columns:minmax(80px,.35fr) minmax(0,1fr);gap:0 12px}
 .facts dt,.facts dd {padding:8px 0;border-top:1px solid var(--rule);overflow-wrap:anywhere}
 .facts dt {color:var(--ink2)}
+.match-primary {min-width:0}
+.match-primary > * + * {margin-top:19px}
+.match-box .box-table-wrap {overflow-x:auto;margin-bottom:14px}
+.match-box table {width:100%;border-collapse:collapse;text-align:center;font-variant-numeric:tabular-nums}
+.match-box caption {text-align:left;font-weight:650;padding:0 0 5px}
+.match-box th,.match-box td {padding:7px 4px;border-top:1px solid var(--rule);white-space:nowrap}
+.match-box thead th {color:var(--ink2)}
+.match-box .box-source {font-size:.875em;color:var(--ink2)}
 .others a {display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 0;border-block-start:1px solid var(--rule);font-size:15px}
 .note {position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--card);padding:10px 14px;box-shadow:0 3px 15px #0003;border-radius:6px;z-index:5}
 @media(max-width:850px){

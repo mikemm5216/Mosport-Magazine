@@ -1,0 +1,161 @@
+{
+  "0022600064": {
+    "schema": "mosport-b/game-box@1",
+    "nbaGameId": "0022600064",
+    "receiptRef": "NBA-0022600064-R1",
+    "officialUrl": "https://www.nba.com/game/0022600064/box-score",
+    "observedAt": "2026-11-28T03:45:55.649Z",
+    "away": {
+      "team": "MIA",
+      "periods": [
+        31,
+        29,
+        26,
+        22
+      ],
+      "fieldGoals": [
+        39,
+        90
+      ],
+      "threePointers": [
+        11,
+        45
+      ],
+      "freeThrows": [
+        19,
+        27
+      ],
+      "rebounds": 43,
+      "assists": 26
+    },
+    "home": {
+      "team": "NYK",
+      "periods": [
+        21,
+        23,
+        35,
+        26
+      ],
+      "fieldGoals": [
+        37,
+        79
+      ],
+      "threePointers": [
+        8,
+        32
+      ],
+      "freeThrows": [
+        23,
+        30
+      ],
+      "rebounds": 42,
+      "assists": 29
+    }
+  },
+  "0022600068": {
+    "schema": "mosport-b/game-box@1",
+    "nbaGameId": "0022600068",
+    "receiptRef": "NBA-0022600068-R1",
+    "officialUrl": "https://www.nba.com/game/0022600068/box-score",
+    "observedAt": "2026-11-28T03:45:55.505Z",
+    "away": {
+      "team": "ATL",
+      "periods": [
+        14,
+        25,
+        31,
+        17
+      ],
+      "fieldGoals": [
+        30,
+        81
+      ],
+      "threePointers": [
+        11,
+        45
+      ],
+      "freeThrows": [
+        16,
+        20
+      ],
+      "rebounds": 37,
+      "assists": 21
+    },
+    "home": {
+      "team": "BOS",
+      "periods": [
+        29,
+        22,
+        18,
+        17
+      ],
+      "fieldGoals": [
+        32,
+        78
+      ],
+      "threePointers": [
+        11,
+        37
+      ],
+      "freeThrows": [
+        11,
+        16
+      ],
+      "rebounds": 51,
+      "assists": 14
+    }
+  },
+  "0022600071": {
+    "schema": "mosport-b/game-box@1",
+    "nbaGameId": "0022600071",
+    "receiptRef": "NBA-0022600071-R1",
+    "officialUrl": "https://www.nba.com/game/0022600071/box-score",
+    "observedAt": "2026-11-28T05:15:14.395Z",
+    "away": {
+      "team": "LAL",
+      "periods": [
+        27,
+        27,
+        14,
+        28
+      ],
+      "fieldGoals": [
+        37,
+        86
+      ],
+      "threePointers": [
+        12,
+        42
+      ],
+      "freeThrows": [
+        10,
+        14
+      ],
+      "rebounds": 52,
+      "assists": 19
+    },
+    "home": {
+      "team": "SAS",
+      "periods": [
+        14,
+        24,
+        30,
+        31
+      ],
+      "fieldGoals": [
+        40,
+        86
+      ],
+      "threePointers": [
+        10,
+        29
+      ],
+      "freeThrows": [
+        9,
+        16
+      ],
+      "rebounds": 56,
+      "assists": 23
+    }
+  }
+}

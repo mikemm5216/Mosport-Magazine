@@ -375,7 +375,8 @@
     for (;;) {
       var raw = saved == null ? saved : JSON.parse(saved);
       var now = nowFor(raw);
-      data.model = window.MOSPORT_PIPELINE.run(raw, { mode: window.MOSPORT_CONFIG.mode, now: now, result: extra.result, pins: window.MOSPORT_RESULT_PINS || {}, ownerEdition: owner }).model;
+      data.model = window.MOSPORT_PIPELINE.run(raw, { mode: window.MOSPORT_CONFIG.mode, now: now, result: extra.result,
+        pins: window.MOSPORT_RESULT_PINS || {}, gameBoxes: window.MOSPORT_CONFIG.gameBoxes, ownerEdition: owner }).model;
       render();
       var shown = shownGame();
       if (shown && shown.score && extra.result != null) recheck.verified = { id: shown.gameId, saved: saved, result: extra.result };

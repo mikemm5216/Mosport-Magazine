@@ -12,6 +12,8 @@ const { compileSeason } = require('../../scripts/release-nba-season.js');
 const C = require('../../site/js/contracts/contracts.js');
 const pipeline = require('../../site/js/data/pipeline.js');
 const catalog = require('../../site/data/nba-season-2026-27.json');
+const gameBoxes = require('../../site/data/nba-game-boxes.json');
+const resultPins = require('../../site/js/data/result-pins.js');
 const nbaTeams = new Set(Object.keys(require('../../site/data/asset-registry.json').teamLogos.entries));
 const releaseTime = '2026-11-28T11:30:00Z';
 const sha = x => crypto.createHash('sha256').update(x).digest('hex');
@@ -115,6 +117,30 @@ test('season publication rejects source, identity and time drift', () => {
   assert.equal(pipeline.run(withQuote, { mode: 'production', now: releaseTime }).model.status, 'INVALID');
   const unpinned = pipeline.run(entry, { mode: 'production', now: releaseTime, result: { awayScore: 999 } }).model;
   assert.equal(unpinned.schedule[0].score, null);
+});
+test('reduced NBA boxes require the same verified final and reconcile periods and shooting', () => {
+  for (const [id, box] of Object.entries(gameBoxes)) {
+    const entry = require('../../site/data/schedules/' + id + '.json');
+    const result = require('../../site/data/results/' + id + '.json');
+    const opts = { mode:'production', now:releaseTime, pins:resultPins, result, gameBoxes };
+    const game = overrides => pipeline.run(entry,{...opts,...overrides}).model.schedule[0];
+    assert.deepEqual(C.validateGameBox(box, result, releaseTime), []);
+    assert.deepEqual(game().box.away.periods, box.away.periods);
+    assert.equal(game({pins:{}}).box, undefined);
+    assert.equal(game({result:null}).box, undefined);
+    assert.equal(game({now:entry.game.tipoff}).box, undefined);
+    assert.equal(game({gameBoxes:{[id]:{ ...box, receiptRef:'OTHER' }}}).box, undefined);
+    assert.equal(game({gameBoxes:{[id]:{ ...box, officialUrl:'https://example.com/' }}}).box, undefined);
+    assert.equal(game({gameBoxes:{[id]:{ ...box, home:{...box.home, periods:[0,1,2,3]} }}}).box, undefined);
+    assert.equal(game({gameBoxes:{[id]:{ ...box, away:{...box.away, fieldGoals:[400,1]} }}}).box, undefined);
+    assert.equal(game({gameBoxes:{[id]:{ ...box, text:'Private notes' }}}).box, undefined);
+    const inheritedKeys = JSON.parse('{"__proto__":{"publication":"private"},"constructor":"private","toString":"private"}');
+    for (const invalid of [{...box,...inheritedKeys}, {...box,home:{...box.home,...inheritedKeys}}]) {
+      assert.ok(C.validateGameBox(invalid, result, releaseTime).some(problem => problem.code === 'UNKNOWN_FIELD'));
+      assert.equal(game({gameBoxes:{[id]:invalid}}).box, undefined);
+    }
+    assert.equal(game({gameBoxes:{[id]:{ ...box, receiptRef:'OTHER' }}}).score.home, result.homeScore);
+  }
 });
 test('Reader V3 homepage preview replaces only the homepage in the public manifest', () => withTemp(dir => {
   const standardDir = path.join(dir, 'standard');
@@ -293,6 +319,18 @@ test('M6 public build opens in English for a new visitor and keeps an explicit o
           assert.deepEqual(await page.locator('.duo-mid strong span').allTextContents(), score);
           const result = JSON.parse(fs.readFileSync(path.join(dest, 'data/results', id + '.json')));
           assert.equal(await page.locator('.facts a').getAttribute('href'), result.officialUrl);
+          const box = page.getByRole('region', { name:'Box score' });
+          const facts = gameBoxes[id];
+          assert.equal(await box.getByRole('table').count(), 2);
+          assert.deepEqual(await box.locator('table').first().locator('tbody td').allTextContents(),
+            [...facts.away.periods, result.awayScore, ...facts.home.periods, result.homeScore].map(String));
+          const comparison = box.locator('table').nth(1);
+          assert.deepEqual(await comparison.locator('thead th').allTextContents(), [result.away, 'Stat', result.home]);
+          assert.deepEqual(await comparison.locator('tbody th').allTextContents(),
+            ['Field goals', '3-pointers', 'Free throws', 'Rebounds', 'Assists']);
+          assert.deepEqual(await comparison.locator('tbody tr').first().locator('td').allTextContents(),
+            [facts.away.fieldGoals.join('–'), facts.home.fieldGoals.join('–')]);
+          assert.equal(await box.getByRole('link', { name:/Official NBA box score/ }).getAttribute('href'), facts.officialUrl);
           assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
           await page.locator('.match-meta a').click();
           await page.waitForFunction(() => document.querySelectorAll('.cards .card').length === 3);
@@ -320,6 +358,7 @@ test('M6 public build opens in English for a new visitor and keeps an explicit o
       assert.equal(await page.getByText(/12 Dec 2026 · 09:00 Taipei/).count(), 1);
       await page.goto(base + 'reader-v3.html?game=0022600065');
       await page.getByRole('heading', { name: 'Milwaukee Bucks @ Detroit Pistons', exact: true }).waitFor();
+      assert.equal(await page.getByRole('region', { name:'Box score' }).count(), 0);
       assert.equal(await page.locator('.duo-mid strong span').allTextContents().then(xs => xs.join('')), '08:30');
       assert.equal(await page.locator('.facts a').getAttribute('href'), 'https://www.nba.com/games?date=2026-11-27');
       assert.equal(await page.locator('.match-hero').getByText('Historical schedule · No verified score').count(), 1);

@@ -156,6 +156,15 @@ receipts. An independent agent review is not a GitHub APPROVED review unless an
 actual separate GitHub reviewer submitted it. Existing platform protections
 remain in force.
 
+## Codex and Claude review handoff
+
+For MOSPORT work, Codex sends its completed review to Claude. Claude sends its
+completed review or implementation back to Codex. Use the existing project
+conversation or PR and include the exact revision, verified findings, and any
+open item. The recipient responds with what they independently checked and any
+disagreement. Record actual replies and distinguish them from a pending handoff.
+Keep the existing independent-review and release requirements in force.
+
 ## Source of truth
 
 - Founder decisions: `docs/founder/2026-10-28-spec-lock/` (verbatim, hashed).
