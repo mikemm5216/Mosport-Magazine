@@ -4,25 +4,37 @@
   const p = new URLSearchParams(location.search);
   const requested = p.get('game');
   const editions = root.MOSPORT_CONFIG.editions || [];
-  const activeId = p.get('schedule') || (editions.some(e => e.id === requested) ? requested : editions[0]?.id);
+  const taipeiDate = new Intl.DateTimeFormat('en-CA', { timeZone:'Asia/Taipei' });
+  const dateKey = value => taipeiDate.format(new Date(value));
+  const openedAt = Date.now();
+  const viewedGame = editions.find(e => e.id === requested);
+  const dateParam = p.get('date');
+  const date = viewedGame ? dateKey(viewedGame.tipoff) : /^\d{4}-\d{2}-\d{2}$/.test(dateParam || '') &&
+    Number.isFinite(Date.parse(dateParam)) ? dateParam : dateKey(openedAt);
+  const dayEditions = editions.filter(e => dateKey(e.tipoff) === date);
+  const defaultId = dayEditions.find(e => Date.parse(e.availableAt) <= openedAt)?.id;
+  const activeId = p.get('schedule') || (viewedGame && Date.parse(viewedGame.availableAt) <= openedAt ? viewedGame.id : defaultId);
   const records = new Map();
   let filter = 'all';
   const zh = c => c.lang === 'zh';
   const tr = (c, en, tw) => zh(c) ? tw : en;
   const mark = (c, code, size) => '<mo-team-logo code="' + c.esc(code) + '" size="' + size + '"></mo-team-logo>';
   const route = 'reader-v3.html';
-  const link = (c, params) => c.esc(c.href(route, params));
+  const link = (c, params) => {
+    const url = new URL(c.href(route,params), location.href);
+    if (!params?.game) url.searchParams.delete('schedule');
+    return c.esc(route + url.search);
+  };
   const pathTo = (c, id) => link(c, { game: id, schedule: id });
-  const dateKey = value => new Intl.DateTimeFormat('en-CA', { timeZone:'Asia/Taipei' }).format(new Date(value));
   const team = (c, code) => c.esc(c.teamName(code, 'nick'));
   const fmt = (c, at, opts) => new Intl.DateTimeFormat(zh(c) ? 'zh-TW' : 'en-GB',
     Object.assign({ timeZone: 'Asia/Taipei', hourCycle: 'h23' }, opts)).format(new Date(at));
   const clock = (c, at) => fmt(c, at, { hour: '2-digit', minute: '2-digit' });
   const day = (c, at) => fmt(c, at, { month: 'short', day: 'numeric', year: 'numeric' });
-  // The shell owns the active game's fetch and timed recheck. Load just the other
-  // published editions through the same provider; they can never supply an unpinned final.
-  for (const {id} of editions) {
-    if (id === activeId || p.has('fixture') || p.has('issue')) continue;
+  // The shell owns the active game's fetch and timed recheck. The board reads
+  // only the other editions released for the selected Taipei date.
+  for (const {id, availableAt} of dayEditions) {
+    if (id === activeId || Date.parse(availableAt) > openedAt || p.has('fixture') || p.has('issue')) continue;
     const select = root.MOSPORT_PROVIDERS.select('schedule=' + id, root.MOSPORT_CONFIG);
     root.MOSPORT_PROVIDERS.load(select, (raw, extra) => {
       records.set(id, { raw, result: extra?.result });
@@ -36,8 +48,8 @@
     return { g, source: finalSource || g.source, stale: model.status === 'STALE' };
   }
 
-  function dayRecords(c, date, now) {
-    return editions.filter(e => dateKey(e.tipoff) === date && Date.parse(e.availableAt) <= Date.parse(now))
+  function dayRecords(c, now) {
+    return dayEditions.filter(e => Date.parse(e.availableAt) <= Date.parse(now))
       .map(({id}) => {
         if (id === activeId) return record(c.issue, id, c.finalSource);
         const capture = records.get(id);
@@ -154,15 +166,12 @@
 
   root.MOSPORT_PAGE = {
     id: 'today',
+    defaultSchedule: () => defaultId,
     render(c) {
       const now = new Date().toISOString();
       const currentDay = dateKey(now);
-      const dateParam = p.get('date');
-      const selected = editions.find(e => e.id === requested);
-      const date = selected ? dateKey(selected.tipoff) : /^\d{4}-\d{2}-\d{2}$/.test(dateParam || '') &&
-        Number.isFinite(Date.parse(dateParam)) ? dateParam : currentDay;
       if (p.has('fixture') || p.has('issue')) return nav(c,false) + c.stateMessage(c.issue,{ scheduleLink:false });
-      const games = dayRecords(c,date,now);
+      const games = dayRecords(c,now);
       if (!requested) return today(c,games,date,currentDay,now);
       const entry = games.find(r => r.g.gameId === requested);
       return entry ? match(c,entry,games,date) : nav(c,true) + '<main class="board"><p role="status">' +
