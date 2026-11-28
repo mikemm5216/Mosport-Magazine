@@ -26,7 +26,7 @@
   var clone = function (o) { return JSON.parse(JSON.stringify(o)); };
   var reg = clone(window.MOSPORT_ASSET_REGISTRY || { schemaVersion: 1, slots: {}, logos: {}, teamLogos: {}, renderPolicy: { prototype: { allowRights: [], allowStatus: [] }, production: { allowRights: [], allowStatus: [] } } });
 
-  if (/[?&]logoFail=1\b/.test(q)) {
+  if (cfg.mode === 'prototype' && /[?&]logoFail=1\b/.test(q)) {
     var broken = function (file) {
       return { id: 'test-missing', status: 'ACTIVE', file: file, format: 'png', width: 512, height: 512, sha256: '0'.repeat(64),
         content: { kinds: ['team-logo'], containsText: true, containsLogo: true, containsPerson: false },
@@ -34,7 +34,12 @@
     };
     reg.teamLogos.entries = reg.teamLogos.entries || {};
     ['GSW', 'LAL'].forEach(function (c) { reg.teamLogos.entries[c] = { activeVersion: 'test-missing', versions: [broken('assets/teams/nba/__missing__.png')] }; });
-    reg.logos['brand-mark'].versions[0].file = 'assets/brand/__missing__.svg';
+    var brand = reg.logos['brand-mark'];
+    var activeMark = brand && brand.versions.find(function (v) { return v.id === brand.activeVersion; });
+    if (activeMark) {
+      activeMark.file = 'assets/brand/__missing__.' + activeMark.format;
+      activeMark.darkFile = null;
+    }
   }
 
   window.MOSPORT_REG = reg;
