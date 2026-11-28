@@ -28,7 +28,7 @@ jobs:
       - name: Existing tests and M6 public release gate
         run: npm test
       - name: Build exact public-only Vercel artifact
-        run: node scripts/build-public-release.js dist-public
+        run: node scripts/build-public-release.js dist-public --reader-v3-home
       - name: Verify production artifact contains no private or unlicensed assets
         run: |
           test -f dist-public/index.html

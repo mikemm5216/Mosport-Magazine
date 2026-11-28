@@ -6,6 +6,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const { execFileSync } = require('node:child_process');
 const { build, ALLOW, validatePublicDependencies } = require('../../scripts/build-public-release.js');
 const sha = x => crypto.createHash('sha256').update(x).digest('hex');
 function walk(dir, base=dir) {
@@ -65,6 +66,23 @@ test('M6 production build publishes only allowlisted files, exact source and tru
   for(const rel of [...(fs.readFileSync(path.join(dest,'css/fonts.css'),'utf8')).matchAll(/url\('\.\.\/([^']+)'\)/g)].map(m=>m[1]))
     assert.ok(shipped.includes(rel),'font referenced by CSS missing '+rel);
   assert.ok(!shipped.includes('site/data/schedules/0022600274.json'));
+}));
+test('Reader V3 homepage preview replaces only the homepage in the public manifest', () => withTemp(dir => {
+  const standardDir = path.join(dir, 'standard');
+  const previewDir = path.join(dir, 'preview');
+  const standard = build(standardDir);
+  const builder = path.resolve(__dirname, '../../scripts/build-public-release.js');
+  execFileSync(process.execPath, [builder, previewDir, '--reader-v3-home']);
+  const preview = JSON.parse(fs.readFileSync(path.join(previewDir, 'public-release-manifest.json')));
+  assert.notEqual(standard.files['index.html'], standard.files['reader-v3.html']);
+  assert.deepEqual(preview, {
+    ...standard,
+    files: { ...standard.files, 'index.html': standard.files['reader-v3.html'] }
+  });
+  assert.deepEqual(
+    fs.readFileSync(path.join(previewDir, 'index.html')),
+    fs.readFileSync(path.join(standardDir, 'reader-v3.html'))
+  );
 }));
 test('M6 builder fails closed if output already exists or targets a repository source',()=>withTemp(dir => {
   const dest=path.join(dir,'public');fs.mkdirSync(dest);
@@ -265,7 +283,7 @@ test('M6 builder allows only the one Vercel analytics runtime path, nothing else
 });
 test('Vercel config redirects only the project vercel.app host to the one public origin',()=>{
   const cfg=JSON.parse(fs.readFileSync(path.join(__dirname,'../../vercel.json'),'utf8'));
-  assert.equal(cfg.buildCommand,'node scripts/build-public-release.js dist-public');
+  assert.equal(cfg.buildCommand,'node scripts/build-public-release.js dist-public --reader-v3-home');
   assert.equal(cfg.outputDirectory,'dist-public');
   assert.deepEqual(cfg.redirects,[{source:'/:path*',has:[{type:'host',value:'mosport-magazine\\.vercel\\.app'}],
     destination:'https://www.mosport.app/:path*',permanent:true}]);

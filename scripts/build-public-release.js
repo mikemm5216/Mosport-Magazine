@@ -5,6 +5,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const { parseArgs } = require('node:util');
 const root = path.resolve(__dirname, '..');
 const sourceRoot = path.join(root, 'site');
 const GAME_ID = '0022600051';
@@ -225,7 +226,7 @@ function officialGate() {
   }
   return { files, editions };
 }
-function build(outDir) {
+function build(outDir, { readerV3Home = false } = {}) {
   const destination = path.resolve(outDir);
   if (destination === sourceRoot || destination === root || destination.startsWith(sourceRoot+path.sep))
     throw Error('UNSAFE_OUTPUT');
@@ -242,8 +243,12 @@ function build(outDir) {
     'data/asset-registry.js', 'js/production-config.js', VERCEL_ANALYTICS_SCRIPT]);
   // A typo or injected HTML dependency must fail the Vercel build itself,
   // not merely a test the Vercel build may never run.
+  const publicPages = new Map();
   for (const file of sourceFiles.filter(rel => rel.endsWith('.html'))) {
-    validatePublicDependencies(publicHtml(read(file)), eligible);
+    const source = readerV3Home && file === 'index.html' ? 'reader-v3.html' : file;
+    const html = publicHtml(read(source));
+    validatePublicDependencies(html, eligible);
+    publicPages.set(file, Buffer.from(html));
   }
   fs.mkdirSync(path.dirname(destination), { recursive: true });
   const stage = fs.mkdtempSync(path.join(path.dirname(destination), '.mosport-public-'));
@@ -256,8 +261,7 @@ function build(outDir) {
       inventory[rel] = hash(bytes);
     }
     for (const rel of sourceFiles) {
-      const bytes = read(rel);
-      put(rel, rel.endsWith('.html') ? Buffer.from(publicHtml(bytes)) : bytes);
+      put(rel, publicPages.get(rel) ?? read(rel));
     }
     put('data/asset-registry.json', Buffer.from(JSON.stringify(cleaned, null, 2)+'\n'));
     put('data/asset-registry.js', Buffer.from('/* M6 public-only registry (source: reviewed asset-registry.json) */\nwindow.MOSPORT_ASSET_REGISTRY = '+JSON.stringify(cleaned, null, 2)+';\n'));
@@ -279,8 +283,13 @@ function build(outDir) {
 }
 if (require.main === module) {
   try {
-    const out = process.argv[2] || path.join(root, 'dist-public');
-    const x = build(out);
+    const { positionals, values } = parseArgs({
+      allowPositionals: true,
+      options: { 'reader-v3-home': { type: 'boolean' } }
+    });
+    if (positionals.length > 1) throw Error('EXPECTED_ONE_OUTPUT_DIRECTORY');
+    const out = positionals[0] || path.join(root, 'dist-public');
+    const x = build(out, { readerV3Home: values['reader-v3-home'] });
     console.log('PUBLIC_VERCEL_CANDIDATE_OK files='+Object.keys(x.files).length+' sha='+x.sourceCommit);
   } catch(e) { console.error('PUBLIC_VERCEL_BLOCKED: '+e.message); process.exitCode=1; }
 }
