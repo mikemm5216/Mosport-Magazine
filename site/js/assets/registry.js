@@ -52,7 +52,17 @@
   /* opts: { variant: 'desktop'|'mobile', theme: 'light'|'dark', mode: 'prototype'|'production', preview: bool }
    * preview (prototype only): show the newest CANDIDATE version of each slot, for Founder review
    * before a candidate is promoted to activeVersion. Production ignores preview. */
-  function pick(reg, s, opts, isArt) {
+  function editorialTeamMark(reg, v, code, opts) {
+    var approval = reg.teamLogos && reg.teamLogos.editorialPublication;
+    return opts.mode === 'production' && opts.editorialTeamIdentity === true && typeof code === 'string' &&
+      /^[A-Z]{3}$/.test(code) && approval && approval.scope === 'PUBLIC_MATCHUP_AND_SCHEDULE_IDENTIFICATION' &&
+      approval.digests && /^[0-9a-f]{64}$/.test(v.sha256) && approval.digests[code] === v.sha256 &&
+      v.id === 'editorial-identification-v1' && v.status === 'ACTIVE' && v.format === 'png' &&
+      v.width === 80 && v.height === 80 && !v.darkFile && v.file === 'assets/marks/nba/' + code.toLowerCase() + '.png' &&
+      v.rights && v.rights.status === 'UNVERIFIED';
+  }
+
+  function pick(reg, s, opts, isArt, teamCode) {
     opts = opts || {};
     var preview = isArt && !!opts.preview && opts.mode !== 'production' && reg.renderPolicy && reg.renderPolicy.preview;
     var policy = (reg.renderPolicy || {})[preview ? 'preview' : (opts.mode || 'prototype')] || { allowRights: [], allowStatus: [] };
@@ -65,7 +75,9 @@
     if (!activeId) return no('NO_ACTIVE_VERSION');
     if (!v) return no('ACTIVE_VERSION_MISSING');
     if (policy.allowStatus.indexOf(v.status) === -1) return no('STATUS_' + v.status + '_NOT_ALLOWED');
-    if (!v.rights || policy.allowRights.indexOf(v.rights.status) === -1) return no('RIGHTS_' + (v.rights && v.rights.status) + '_NOT_ALLOWED');
+    if ((!v.rights || policy.allowRights.indexOf(v.rights.status) === -1) && !editorialTeamMark(reg, v, teamCode, opts)) {
+      return no('RIGHTS_' + (v.rights && v.rights.status) + '_NOT_ALLOWED');
+    }
     if (s.deliver && s.deliver.formats && s.deliver.formats.indexOf(v.format) === -1) return no('FORMAT_NOT_ALLOWED');
     if (v.content && v.content.kinds && v.content.kinds.indexOf('athlete') !== -1) return no('ATHLETE_NOT_ALLOWED');
     if (isArt && v.content && (v.content.containsPerson || v.content.containsLogo || v.content.containsText)) return no('ART_CONTENT_NOT_ALLOWED');
@@ -92,7 +104,7 @@
     var tl = (reg && reg.teamLogos) || {};
     var entry = (tl.entries || {})[code];
     if (!entry) return { state: 'fallback', reason: 'NO_ENTRY', fallback: tl.fallback || { kind: 'tricode-badge' }, fit: tl.fit };
-    return pick(reg, Object.assign({ deliver: tl.deliver, fit: tl.fit, fallback: tl.fallback }, entry), opts, false);
+    return pick(reg, Object.assign({ deliver: tl.deliver, fit: tl.fit, fallback: tl.fallback }, entry), opts, false, code);
   }
   /* CSS background for a fallback, by theme. */
   function fallbackCss(fb, theme) {

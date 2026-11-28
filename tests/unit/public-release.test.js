@@ -7,14 +7,17 @@ const os = require('node:os');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { execFileSync } = require('node:child_process');
-const { build, ALLOW, validatePublicDependencies } = require('../../scripts/build-public-release.js');
+const { build, cleanRegistry, ALLOW, validatePublicDependencies } = require('../../scripts/build-public-release.js');
 const { compileSeason } = require('../../scripts/release-nba-season.js');
 const C = require('../../site/js/contracts/contracts.js');
+const Registry = require('../../site/js/assets/registry.js');
 const pipeline = require('../../site/js/data/pipeline.js');
 const catalog = require('../../site/data/nba-season-2026-27.json');
 const gameBoxes = require('../../site/data/nba-game-boxes.json');
 const resultPins = require('../../site/js/data/result-pins.js');
-const nbaTeams = new Set(Object.keys(require('../../site/data/asset-registry.json').teamLogos.entries));
+const sourceRegistry = require('../../site/data/asset-registry.json');
+const publicTeamApproval = require('../../site/data/team-logo-publication.json');
+const nbaTeams = new Set(Object.keys(sourceRegistry.teamLogos.entries));
 const releaseTime = '2026-11-28T11:30:00Z';
 const sha = x => crypto.createHash('sha256').update(x).digest('hex');
 function walk(dir, base=dir) {
@@ -40,7 +43,18 @@ test('M6 production build publishes only allowlisted files, exact source and tru
   assert.match(cfg,/mode:\s*["']production["']/);
   assert.match(cfg,/defaultLanguage:\s*["']en["']/);
   const registry=JSON.parse(fs.readFileSync(path.join(dest,'data/asset-registry.json')));
-  assert.deepEqual(registry.teamLogos.entries,{});
+  assert.deepEqual(Object.keys(registry.teamLogos.entries).sort(), [...nbaTeams].sort());
+  assert.equal(record.teamLogoCount, 30);
+  assert.equal(shipped.filter(file=>file.startsWith('assets/marks/nba/')).length, 30);
+  for (const [code, slot] of Object.entries(registry.teamLogos.entries)) {
+    const [mark] = slot.versions;
+    assert.equal(slot.versions.length, 1);
+    assert.equal(mark.file, 'assets/marks/nba/' + code.toLowerCase() + '.png');
+    assert.equal(mark.rights.status, 'UNVERIFIED');
+    assert.equal(record.files[mark.file], publicTeamApproval.teams[code].imageSha256);
+    assert.equal(Registry.resolveTeamLogo(registry, code, {mode:'production'}).state, 'fallback');
+    assert.equal(Registry.resolveTeamLogo(registry, code, {mode:'production',editorialTeamIdentity:true}).state, 'art');
+  }
   const brand = registry.logos['brand-mark'];
   assert.equal(brand.activeVersion, 'original-v1');
   assert.deepEqual(brand.versions.map(v=>v.file), ['assets/brand/mosport-original.png']);
@@ -81,6 +95,16 @@ test('M6 production build publishes only allowlisted files, exact source and tru
     assert.ok(shipped.includes(rel),'font referenced by CSS missing '+rel);
   assert.ok(!shipped.includes('site/data/schedules/0022600274.json'));
 }));
+test('only pinned editorial team identities are copied, and removing approval restores fallback', () => {
+  assert.throws(() => cleanRegistry(sourceRegistry, { ...publicTeamApproval, decision:'unrecorded' }), /TEAM_MARK_PUBLICATION_INVALID/);
+  assert.equal(cleanRegistry(sourceRegistry, { ...publicTeamApproval, enabled:false }).teamMarkFiles.size, 0);
+  const { BKN, ...teams } = publicTeamApproval.teams;
+  const { cleaned, teamMarkFiles } = cleanRegistry(sourceRegistry, { ...publicTeamApproval, teams });
+  assert.equal(teamMarkFiles.size, 29);
+  assert.equal(Registry.resolveTeamLogo(cleaned, 'BKN', {mode:'production',editorialTeamIdentity:true}).state, 'fallback');
+  assert.throws(() => cleanRegistry(sourceRegistry, { ...publicTeamApproval, teams:{...teams,BKN:{...BKN,imageSha256:'0'.repeat(64)}} }), /TEAM_MARK_PIN_MISMATCH/);
+  assert.throws(() => cleanRegistry(sourceRegistry, { ...publicTeamApproval, teams:{...teams,CPB:BKN} }), /TEAM_MARK_PIN_MISMATCH/);
+});
 test('the season catalog generates the full fact-only schedule without overwriting exact-game releases', () => withTemp(dir => {
   const dest = path.join(dir, 'season');
   const record = build(dest);
@@ -375,6 +399,11 @@ test('M6 public build opens in English for a new visitor and keeps an explicit o
         dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }));
         return document.querySelectorAll('script[src*="result-pins.js?recheck"]').length;
       }), 0);
+      await page.goto(base + 'reader-v3.html?date=2027-04-12&theme=dark');
+      await page.waitForFunction(() => Array.from(document.querySelectorAll('.cards a[href*="game="] mo-team-logo img'))
+        .filter(img => img.naturalWidth === 80 && img.naturalHeight === 80).length === 30);
+      assert.deepEqual((await page.locator('.cards a[href*="game="] mo-team-logo').evaluateAll(elements=>elements.map(el=>el.getAttribute('code')))).sort(), [...nbaTeams].sort());
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
       assert.deepEqual(errors, []);
       await ctx.close();
     }
