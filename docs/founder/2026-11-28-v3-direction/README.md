@@ -17,8 +17,9 @@ source, deployment or spend is authorised by this folder.
 - Designed with the Founder on 2026-11-28 in a private Claude design canvas and
   rendered to PNG in Chromium with the repository's own fonts
   (`site/assets/fonts`; CJK falls back to a system font).
-- **Team logos are replaced by neutral tricode placeholders**: no team mark is
-  committed while V3-09 is pending (`docs/LOGO_PROVENANCE_AUDIT.md`).
+- **Team logos are replaced by neutral tricode placeholders**: the Founder
+  released logo use on 2026-11-28 (V3-09), but wiring the files in is a separate
+  task, so no team mark is committed in this documentation change.
 - Scores, records and team stats in the images were captured on 2026-11-28
   12:31 (Taipei) from ESPN's public site API, which MOSPORT-A records as a
   provisional source. They only illustrate the slots. They are not product data,

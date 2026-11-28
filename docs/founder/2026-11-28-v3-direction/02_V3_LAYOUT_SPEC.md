@@ -15,7 +15,7 @@ content, an empty slot is removed from the DOM, and DEMO content is labelled.
 |---|---|---|
 | Top bar | MOSPORT mark and wordmark; Today, Schedule, Standings, Review, Coach Arena; sport switch NBA / MLB / CPBL; 繁中 / EN; light / dark | No zoom controls (V3-01). Standings and Coach Arena appear only when their page exists. Baseball shows an honest state (V3-08). |
 | Score rail | One chip per game of the day: status (LIVE + period and clock, Final, scheduled time), both teams with logo slot, score | Facts from MOSPORT-A only (V3-04). Scrolls sideways inside its own box; the page never scrolls sideways. |
-| Footer | Data source and capture time; logo status while V3-09 is pending | Always shows where the numbers came from. |
+| Footer | Data source and capture time | Always shows where the numbers came from. |
 
 ## 2. Today
 
@@ -55,6 +55,6 @@ time. Fields that are missing stay missing and their element is not rendered.
 3. Every number on screen traces to MOSPORT-A data with source and time; no
    DEMO content in production mode.
 4. No per-player stat line, no win percentage (V3-05, V3-06).
-5. Logos only after V3-09 is recorded; otherwise tricode fallback.
+5. Logos through `<mo-team-logo>` once the V3-09 registry entries land; tricode fallback for any team without one.
 6. Real browser screenshots at 1440, 1280 and 390 px, light and dark, are
    attached to the PR.
