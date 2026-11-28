@@ -1,0 +1,20 @@
+{
+  "schema": "mosport-b/game-result@1",
+  "nbaGameId": "0022600071",
+  "espnGameId": "401909333",
+  "away": "LAL",
+  "home": "SAS",
+  "awayScore": 96,
+  "homeScore": 99,
+  "status": "FINAL",
+  "officialUrl": "https://www.nba.com/game/lal-vs-sas-0022600071",
+  "confirmations": {
+    "nba": {
+      "observedAt": "2026-11-28T05:15:14.395Z"
+    },
+    "espn": {
+      "observedAt": "2026-11-28T05:15:18.737Z"
+    }
+  },
+  "receiptRef": "NBA-0022600071-R1"
+}

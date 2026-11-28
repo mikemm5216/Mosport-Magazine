@@ -1,7 +1,5 @@
 'use strict';
-/* B-P2-01b official result projection (mosport-b/game-result@1).
-   Positive cases use only the synthetic 0999 schedule fixture with a test pin.
-   Nothing here claims a real FINAL for 0022600051. */
+/* B-P2-01b official result projections (mosport-b/game-result@1). */
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -26,14 +24,21 @@ const run = (schedule, opts) => PL.run(clone(schedule), Object.assign({ mode: 'p
 const METHOD = /核對|雜湊|收據|釘選|驗證|receipt|sha|hash|pin|verified|ESPN|snapshot/i;
 
 const REAL = require('../../site/data/results/0022600051.json');
-test('production ships exactly one pinned result: 0022600051, matching its public projection', () => {
-  assert.deepEqual(Object.keys(PINS), ['0022600051']);
-  assert.ok(Object.isFrozen(PINS) && Object.isFrozen(PINS['0022600051']));
-  assert.deepEqual(fs.readdirSync(path.join(__dirname, '../../site/data/results')), ['0022600051.json']);
-  // B recomputes the digest itself; the projection carries no hash or eligibility field.
+test('production ships exactly the four pinned public result projections', () => {
+  const ids = ['0022600051', '0022600064', '0022600068', '0022600071'];
+  const dir = path.join(__dirname, '../../site/data/results');
+  assert.deepEqual(Object.keys(PINS), ids);
+  assert.ok(Object.isFrozen(PINS));
+  assert.deepEqual(fs.readdirSync(dir).sort(), ids.map(id => id + '.json'));
+  for (const id of ids) {
+    const projection = JSON.parse(fs.readFileSync(path.join(dir, id + '.json'), 'utf8'));
+    assert.ok(Object.isFrozen(PINS[id]));
+    assert.equal(projection.nbaGameId, id);
+    assert.equal(projection.receiptRef, 'NBA-' + id + '-R1');
+    assert.deepEqual(Object.keys(projection).sort(), ['away', 'awayScore', 'confirmations', 'espnGameId', 'home', 'homeScore', 'nbaGameId', 'officialUrl', 'receiptRef', 'schema', 'status']);
+    assert.deepEqual(PINS[id], pinFor(projection)[id]);
+  }
   assert.equal(C.sha256(C.canonical(REAL)), '370e676a592aa02547f5d7fd80e80d0f4156db9c02e5fb127f1160c8bfee864d');
-  assert.deepEqual(PINS['0022600051'], { digest: C.sha256(C.canonical(REAL)), receiptRef: 'NBA-0022600051-R1' });
-  assert.deepEqual(Object.keys(REAL).sort(), ['away', 'awayScore', 'confirmations', 'espnGameId', 'home', 'homeScore', 'nbaGameId', 'officialUrl', 'receiptRef', 'schema', 'status']);
 });
 
 test('real 0022600051 result: exact time boundary, FINAL after, #26 view before', () => {

@@ -6,6 +6,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const { execFileSync } = require('node:child_process');
 const { build, ALLOW, validatePublicDependencies } = require('../../scripts/build-public-release.js');
 const sha = x => crypto.createHash('sha256').update(x).digest('hex');
 function walk(dir, base=dir) {
@@ -65,6 +66,23 @@ test('M6 production build publishes only allowlisted files, exact source and tru
   for(const rel of [...(fs.readFileSync(path.join(dest,'css/fonts.css'),'utf8')).matchAll(/url\('\.\.\/([^']+)'\)/g)].map(m=>m[1]))
     assert.ok(shipped.includes(rel),'font referenced by CSS missing '+rel);
   assert.ok(!shipped.includes('site/data/schedules/0022600274.json'));
+}));
+test('Reader V3 homepage preview replaces only the homepage in the public manifest', () => withTemp(dir => {
+  const standardDir = path.join(dir, 'standard');
+  const previewDir = path.join(dir, 'preview');
+  const standard = build(standardDir);
+  const builder = path.resolve(__dirname, '../../scripts/build-public-release.js');
+  execFileSync(process.execPath, [builder, previewDir, '--reader-v3-home']);
+  const preview = JSON.parse(fs.readFileSync(path.join(previewDir, 'public-release-manifest.json')));
+  assert.notEqual(standard.files['index.html'], standard.files['reader-v3.html']);
+  assert.deepEqual(preview, {
+    ...standard,
+    files: { ...standard.files, 'index.html': standard.files['reader-v3.html'] }
+  });
+  assert.deepEqual(
+    fs.readFileSync(path.join(previewDir, 'index.html')),
+    fs.readFileSync(path.join(standardDir, 'reader-v3.html'))
+  );
 }));
 test('M6 builder fails closed if output already exists or targets a repository source',()=>withTemp(dir => {
   const dest=path.join(dir,'public');fs.mkdirSync(dest);
@@ -168,9 +186,9 @@ test('M6 public build opens in English for a new visitor and keeps an explicit o
       assert.deepEqual(await read(url, 'zh'), { lang: 'zh-Hant', mode: 'production', cjk: true }, url + ' saved zh');
     }
     const games = [
-      ['0022600064', 'MIA @ NYK', '08:00'],
-      ['0022600068', 'ATL @ BOS', '09:00'],
-      ['0022600071', 'LAL @ SAS', '10:30']
+      ['0022600064', 'MIA @ NYK', '08:00', ['108','105']],
+      ['0022600068', 'ATL @ BOS', '09:00', ['87','86']],
+      ['0022600071', 'LAL @ SAS', '10:30', ['96','99']]
     ];
     for (const viewport of [{ width: 1366, height: 850 }, { width: 390, height: 844 }]) {
       const ctx = await browser.newContext({ viewport });
@@ -194,6 +212,57 @@ test('M6 public build opens in English for a new visitor and keeps an explicit o
       assert.equal(await page.locator('a[href*="game=0022600064"]').count(), 0);
       await ctx.close();
     }
+    for (const width of [1440, 1280, 390]) {
+      const ctx = await browser.newContext({ viewport: { width, height: 850 } });
+      const page = await ctx.newPage();
+      const errors = [];
+      const scheduleRequests = [];
+      page.on('request', request => {
+        const rel = new URL(request.url()).pathname;
+        const schedule = /^\/data\/schedules\/(\d{10})\.json$/.exec(rel);
+        if (schedule) scheduleRequests.push(schedule[1]);
+      });
+      page.on('pageerror', error => errors.push(error.message));
+      for (const theme of ['light', 'dark']) {
+        // Final JSON is already in this artifact, but the reader must wait
+        // for each source's actual observation time to reveal it.
+        await page.clock.setFixedTime(new Date('2026-11-28T03:10:00Z'));
+        scheduleRequests.length = 0;
+        await page.goto(base + 'reader-v3.html?theme=' + theme);
+        await page.waitForFunction(() => document.querySelectorAll('.cards .card').length === 3);
+        assert.equal(await page.locator('.cards .pts').count(), 0);
+        assert.deepEqual(scheduleRequests.sort(), games.map(([id]) => id));
+        await page.clock.setFixedTime(new Date('2026-11-28T06:00:00Z'));
+        await page.reload();
+        await page.waitForFunction(() => document.querySelectorAll('.cards .pts').length === 6);
+        assert.equal(await page.getByText('Reader zoom', { exact: false }).count(), 0);
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+        for (const [id, , , score] of games) {
+          await page.locator('.cards a[href*="game=' + id + '"]').click();
+          await page.locator('.match-hero').waitFor();
+          await page.waitForFunction(() => document.querySelectorAll('.duo-mid strong span').length === 2);
+          assert.deepEqual(await page.locator('.duo-mid strong span').allTextContents(), score);
+          const result = JSON.parse(fs.readFileSync(path.join(dest, 'data/results', id + '.json')));
+          assert.equal(await page.locator('.facts a').getAttribute('href'), result.officialUrl);
+          assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+          await page.locator('.match-meta a').click();
+          await page.waitForFunction(() => document.querySelectorAll('.cards .card').length === 3);
+        }
+        scheduleRequests.length = 0;
+        await Promise.all([
+          page.waitForURL(url => url.searchParams.get('date') === '2026-11-21'),
+          page.locator('[data-reader-day]').selectOption('2026-11-21')
+        ]);
+        await page.locator('.cards .card').waitFor();
+        assert.deepEqual(scheduleRequests, ['0022600051']);
+        await page.locator('.cards .card').click();
+        await page.waitForFunction(() => document.querySelectorAll('.duo-mid strong span').length === 2);
+        assert.deepEqual(await page.locator('.duo-mid strong span').allTextContents(), ['104', '106']);
+        assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), theme);
+      }
+      assert.deepEqual(errors, []);
+      await ctx.close();
+    }
   } finally {
     await browser.close();
     server.close();
@@ -214,7 +283,7 @@ test('M6 builder allows only the one Vercel analytics runtime path, nothing else
 });
 test('Vercel config redirects only the project vercel.app host to the one public origin',()=>{
   const cfg=JSON.parse(fs.readFileSync(path.join(__dirname,'../../vercel.json'),'utf8'));
-  assert.equal(cfg.buildCommand,'node scripts/build-public-release.js dist-public');
+  assert.equal(cfg.buildCommand,'node scripts/build-public-release.js dist-public --reader-v3-home');
   assert.equal(cfg.outputDirectory,'dist-public');
   assert.deepEqual(cfg.redirects,[{source:'/:path*',has:[{type:'host',value:'mosport-magazine\\.vercel\\.app'}],
     destination:'https://www.mosport.app/:path*',permanent:true}]);

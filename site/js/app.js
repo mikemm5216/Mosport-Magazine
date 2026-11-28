@@ -20,7 +20,10 @@
     var requested = q.get('game'), listed = editions.some(function (item) { return item.id === requested; });
     /* An owner-edition practice link opens its own saved game; the public site ignores it. */
     var practice = owner && q.get('practice') === '1' && /^\d{10}$/.test(requested || '');
-    q.set('schedule', listed || practice ? requested : editions.length ? editions[0].id : '0022600051');
+    var pageDefault = window.MOSPORT_PAGE.defaultSchedule;
+    var first = pageDefault ? pageDefault() : editions.length ? editions[0].id : '0022600051';
+    var selected = listed || practice ? requested : first;
+    if (selected) q.set('schedule', selected);
   }
   var store = {
     get: function (k) { try { return localStorage.getItem('mosport.' + k); } catch (e) { return null; } },
@@ -209,14 +212,17 @@
     var ctx = {
       lang: state.lang, theme: state.theme, T: T, esc: esc, teamName: teamName, tipLine: tipLine, tipShort: tipShort, tipDate: tipDate, tipDay: tipDay,
       issueDate: issueDate, issueDateLong: issueDateLong, issue: model, meta: model.meta,
+      finalSource: model.reason === 'FINAL' && extra.result ? {
+        url: extra.result.officialUrl, observedAt: extra.result.confirmations.nba.observedAt
+      } : null,
       stateMessage: stateMessage, sourceNote: sourceNote, pregameRecord: pregameRecord, statusLabel: statusLabel, tipoffNotice: tipoffNotice, finalLine: finalLine, isFinal: isFinal,
       href: function (path, extra) { var k = new URLSearchParams(keepQuery().slice(1)); Object.keys(extra || {}).forEach(function (x) { k.set(x, extra[x]); }); var s = k.toString(); return path + (s ? '?' + s : ''); },
       editions: model.meta && model.meta.scheduleOnly ? editionsAt(Date.now()) : [],
+      get moreMatchups() { return owner && page.id !== 'schedule' ? '' : moreMatchups(this); },
       topbar: topbar(page.id), navLinks: navLinks, sportButtons: sportButtons, utilButtons: utilButtons, keepQuery: keepQuery,
       percentOf: function (g) { return g.hasRead && g.world ? g.world.percent : null; },
       onMagazine: function (g) { return !!(g && g.hasRead); }
     };
-    ctx.moreMatchups = owner && page.id !== 'schedule' ? '' : moreMatchups(ctx);
     document.getElementById('app').innerHTML = page.render(ctx) + noteHtml();
     if (window.MOSPORT_REFRESH_SLOTS) window.MOSPORT_REFRESH_SLOTS();
     if (page.after) page.after(ctx);

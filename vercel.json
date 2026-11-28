@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "node scripts/build-public-release.js dist-public",
+  "buildCommand": "node scripts/build-public-release.js dist-public --reader-v3-home",
   "outputDirectory": "dist-public",
   "framework": null,
   "redirects": [

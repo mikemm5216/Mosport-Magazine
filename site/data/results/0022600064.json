@@ -1,0 +1,20 @@
+{
+  "schema": "mosport-b/game-result@1",
+  "nbaGameId": "0022600064",
+  "espnGameId": "401909326",
+  "away": "MIA",
+  "home": "NYK",
+  "awayScore": 108,
+  "homeScore": 105,
+  "status": "FINAL",
+  "officialUrl": "https://www.nba.com/game/mia-vs-nyk-0022600064",
+  "confirmations": {
+    "nba": {
+      "observedAt": "2026-11-28T03:45:55.649Z"
+    },
+    "espn": {
+      "observedAt": "2026-11-28T03:35:55.956Z"
+    }
+  },
+  "receiptRef": "NBA-0022600064-R1"
+}

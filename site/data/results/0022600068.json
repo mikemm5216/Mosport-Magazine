@@ -1,0 +1,20 @@
+{
+  "schema": "mosport-b/game-result@1",
+  "nbaGameId": "0022600068",
+  "espnGameId": "401909330",
+  "away": "ATL",
+  "home": "BOS",
+  "awayScore": 87,
+  "homeScore": 86,
+  "status": "FINAL",
+  "officialUrl": "https://www.nba.com/game/atl-vs-bos-0022600068",
+  "confirmations": {
+    "nba": {
+      "observedAt": "2026-11-28T03:45:55.505Z"
+    },
+    "espn": {
+      "observedAt": "2026-11-28T03:35:55.956Z"
+    }
+  },
+  "receiptRef": "NBA-0022600068-R1"
+}
