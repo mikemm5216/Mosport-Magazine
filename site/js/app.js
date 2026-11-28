@@ -209,6 +209,9 @@
     var ctx = {
       lang: state.lang, theme: state.theme, T: T, esc: esc, teamName: teamName, tipLine: tipLine, tipShort: tipShort, tipDate: tipDate, tipDay: tipDay,
       issueDate: issueDate, issueDateLong: issueDateLong, issue: model, meta: model.meta,
+      finalSource: model.reason === 'FINAL' && extra.result ? {
+        url: extra.result.officialUrl, observedAt: extra.result.confirmations.nba.observedAt
+      } : null,
       stateMessage: stateMessage, sourceNote: sourceNote, pregameRecord: pregameRecord, statusLabel: statusLabel, tipoffNotice: tipoffNotice, finalLine: finalLine, isFinal: isFinal,
       href: function (path, extra) { var k = new URLSearchParams(keepQuery().slice(1)); Object.keys(extra || {}).forEach(function (x) { k.set(x, extra[x]); }); var s = k.toString(); return path + (s ? '?' + s : ''); },
       editions: model.meta && model.meta.scheduleOnly ? editionsAt(Date.now()) : [],

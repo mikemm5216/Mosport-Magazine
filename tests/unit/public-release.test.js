@@ -194,6 +194,37 @@ test('M6 public build opens in English for a new visitor and keeps an explicit o
       assert.equal(await page.locator('a[href*="game=0022600064"]').count(), 0);
       await ctx.close();
     }
+    for (const width of [1440, 1280, 390]) {
+      const ctx = await browser.newContext({ viewport: { width, height: 850 } });
+      const page = await ctx.newPage();
+      const errors = [];
+      page.on('pageerror', error => errors.push(error.message));
+      await page.clock.setFixedTime(new Date('2026-11-28T06:00:00Z'));
+      for (const theme of ['light', 'dark']) {
+        await page.goto(base + 'reader-v3.html?theme=' + theme);
+        await page.waitForFunction(() => document.querySelectorAll('.cards .card').length === 3);
+        assert.equal(await page.locator('.cards .pts').count(), 0);
+        assert.equal(await page.getByText('Reader zoom', { exact: false }).count(), 0);
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+        for (const [id] of games) {
+          await page.locator('.cards a[href*="game=' + id + '"]').click();
+          await page.locator('.match-hero').waitFor();
+          assert.equal(await page.locator('.duo-mid strong span').count(), 1);
+          const capture = JSON.parse(fs.readFileSync(path.join(dest, 'data/schedules', id + '.json')));
+          assert.equal(await page.locator('.facts a').getAttribute('href'), capture.source.originalUrl);
+          assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+          await page.locator('.match-meta a').click();
+          await page.waitForFunction(() => document.querySelectorAll('.cards .card').length === 3);
+        }
+        await page.locator('[data-reader-day]').selectOption('2026-11-21');
+        await page.locator('.cards .card').click();
+        await page.waitForFunction(() => document.querySelectorAll('.duo-mid strong span').length === 2);
+        assert.deepEqual(await page.locator('.duo-mid strong span').allTextContents(), ['104', '106']);
+        assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), theme);
+      }
+      assert.deepEqual(errors, []);
+      await ctx.close();
+    }
   } finally {
     await browser.close();
     server.close();

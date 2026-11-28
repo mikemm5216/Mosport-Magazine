@@ -10,12 +10,12 @@ const sourceRoot = path.join(root, 'site');
 const GAME_ID = '0022600051';
 const FOLLOW_UP_GAME_IDS = ['0022600064', '0022600068', '0022600071'];
 const ALLOW = [
-  'index.html', 'schedule.html', 'match.html', 'review.html',
-  'css/fonts.css', 'css/tokens.css', 'css/components.css', 'css/home.css', 'css/pages.css',
+  'index.html', 'schedule.html', 'match.html', 'review.html', 'reader-v3.html',
+  'css/fonts.css', 'css/tokens.css', 'css/components.css', 'css/home.css', 'css/pages.css', 'css/reader-v3.css',
   'js/teams.nba.js', 'js/assets/registry.js', 'js/assets/loader.js',
   'js/components.js', 'js/i18n.js', 'js/contracts/contracts.js',
   'js/editorial/eligibility.js', 'js/reader.js',
-  'js/pages/home.js', 'js/pages/schedule.js', 'js/pages/match.js', 'js/pages/review.js',
+  'js/pages/home.js', 'js/pages/schedule.js', 'js/pages/match.js', 'js/pages/review.js', 'js/pages/reader-v3.js',
   'js/data/result-pins.js', 'js/data/pipeline.js', 'js/data/pregame-edition.js',
   'js/data/providers.js', 'js/app.js',
   `data/schedules/${GAME_ID}.json`, `data/results/${GAME_ID}.json`
@@ -45,7 +45,7 @@ function stripPrivateSourceLinks(value) {
   delete value.sourceUrl;
   for (const child of Object.values(value)) stripPrivateSourceLinks(child);
 }
-// The public pages are four tiny HTML shells we author; the renderer builds the
+// The public pages are tiny HTML shells we author; the renderer builds the
 // rest in JS from allowlisted files. So the shells are held to a strict grammar
 // instead of being parsed generally: only the tags and attributes they use, only
 // <!doctype html> and unambiguous comments, end tags exactly '</name>', no stray
