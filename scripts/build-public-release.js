@@ -164,7 +164,7 @@ function cleanRegistry(reg) {
 }
 // Fetched from Vercel at runtime, never shipped in the artifact or its manifest.
 const VERCEL_ANALYTICS_SCRIPT = '_vercel/insights/script.js';
-function publicHtml(bytes) {
+function publicHtml(bytes, brandIcon) {
   let html = bytes.toString('utf8');
   html = html.replace(/<script\s+src="js\/fixtures\/[^"]+"><\/script>\s*/g, '');
   if (/js\/fixtures\//.test(html) || /owner-edition\.js/.test(html)) throw Error('UNSAFE_HTML_SCRIPT');
@@ -177,6 +177,11 @@ function publicHtml(bytes) {
   // so the relative form passes the strict dependency gate unchanged. Production only.
   const bodyEnd = '</body>';
   if (html.split(bodyEnd).length !== 2) throw Error('PUBLIC_HTML_BODY_END_MISSING');
+  if (brandIcon) {
+    const icon = '<link rel="icon" href="assets/brand/mosport-mark.svg">';
+    if (html.split(icon).length !== 2) throw Error('PUBLIC_BRAND_ICON_ANCHOR_MISSING');
+    html = html.replace(icon, '<link rel="icon" href="' + brandIcon + '">');
+  }
   html = html.replace(bodyEnd, '<script src="' + VERCEL_ANALYTICS_SCRIPT + '"></script>\n' + bodyEnd);
   return html.replace(anchor, '<script src="js/production-config.js"></script>\n' + anchor);
 }
@@ -255,9 +260,10 @@ function build(outDir, { readerV3Home = false } = {}) {
   // A typo or injected HTML dependency must fail the Vercel build itself,
   // not merely a test the Vercel build may never run.
   const publicPages = new Map();
+  const brandIcon = cleaned.logos['brand-mark']?.versions[0]?.file;
   for (const file of sourceFiles.filter(rel => rel.endsWith('.html'))) {
     const source = readerV3Home && file === 'index.html' ? 'reader-v3.html' : file;
-    const html = publicHtml(read(source));
+    const html = publicHtml(read(source), brandIcon);
     validatePublicDependencies(html, eligible);
     publicPages.set(file, Buffer.from(html));
   }

@@ -41,6 +41,11 @@ test('M6 production build publishes only allowlisted files, exact source and tru
   assert.match(cfg,/defaultLanguage:\s*["']en["']/);
   const registry=JSON.parse(fs.readFileSync(path.join(dest,'data/asset-registry.json')));
   assert.deepEqual(registry.teamLogos.entries,{});
+  const brand = registry.logos['brand-mark'];
+  assert.equal(brand.activeVersion, 'original-v1');
+  assert.deepEqual(brand.versions.map(v=>v.file), ['assets/brand/mosport-original.png']);
+  assert.equal(record.files[brand.versions[0].file], brand.versions[0].sha256);
+  assert.equal(record.files['assets/brand/mosport-mark.svg'], undefined);
   // sourceUrl contains founder-linked Drive provenance; never include in public output.
   assert.doesNotMatch(JSON.stringify(registry), /"sourceUrl"\s*:/);
   assert.doesNotMatch(fs.readFileSync(path.join(dest,'data/asset-registry.js'),'utf8'), /"sourceUrl"\s*:/);
@@ -56,6 +61,7 @@ test('M6 production build publishes only allowlisted files, exact source and tru
   for(const file of ['index.html','schedule.html','match.html','review.html']) {
     const html=fs.readFileSync(path.join(dest,file),'utf8');
     assert.match(html, /<html lang="en"/, file+' should be English-first');
+    assert.ok(html.includes('<link rel="icon" href="assets/brand/mosport-original.png">'), file+' original favicon');
     assert.ok(!/js\/fixtures\//.test(html));
     assert.ok(!/owner-edition\.js/.test(html));
     assert.ok(html.indexOf('js/production-config.js')<html.indexOf('js/assets/loader.js'));
@@ -304,6 +310,9 @@ test('M6 public build opens in English for a new visitor and keeps an explicit o
         await page.clock.setFixedTime(new Date('2026-11-28T03:10:00Z'));
         scheduleRequests.length = 0;
         await page.goto(base + 'reader-v3.html?theme=' + theme);
+        await page.waitForFunction(() => document.querySelector('mo-brand-logo img')?.naturalWidth === 512);
+        assert.equal(await page.locator('mo-brand-logo').getAttribute('data-version'), 'original-v1');
+        assert.equal(await page.locator('mo-brand-logo').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(255, 255, 255)');
         await page.waitForFunction(() => document.querySelectorAll('.cards .card').length === 3);
         assert.equal(await page.locator('.cards .pts').count(), 0);
         assert.deepEqual(scheduleRequests.sort(), games.map(([id]) => id));
