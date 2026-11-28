@@ -114,7 +114,14 @@
     }
     game.source = publicSource(raw.source);
     game.pastTipoff = pastTipoff;
-    if (result) { game.status = 'FINAL'; game.score = { away: result.awayScore, home: result.homeScore }; }
+    if (result) {
+      game.status = 'FINAL';
+      game.score = { away: result.awayScore, home: result.homeScore };
+      var box = opts.gameBoxes && opts.gameBoxes[game.gameId];
+      if (box && !C.validateGameBox(box, result, opts.now).length) {
+        game.box = pick(box, ['away', 'home', 'officialUrl', 'observedAt']);
+      }
+    }
     game.pregameSnapshot = null;
     /* Curated official matchup facts may appear before a public World release;
        they are suppressed before observation, after tip-off and on expired saved

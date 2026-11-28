@@ -196,6 +196,7 @@ function officialGate() {
     return { id, away, home, tipoff, availableAt: entry.source.observedAt };
   }
   const editions = [navigationEntry(schedule)];
+  const verifiedFinals = new Map([[GAME_ID, result]]);
   const files = [];
   for (const id of FOLLOW_UP_GAME_IDS) {
     const schedulePath = `data/schedules/${id}.json`;
@@ -223,16 +224,22 @@ function officialGate() {
     const final = JSON.parse(read(resultPath));
     if (C.validateGameResult(final, entry, pins[id], now).length)
       throw Error('OFFICIAL_FINAL_REJECTED: ' + id);
+    verifiedFinals.set(id, final);
     files.push(resultPath);
   }
-  return { files, editions };
+  const gameBoxes = JSON.parse(read('data/nba-game-boxes.json'));
+  if (!gameBoxes || typeof gameBoxes !== 'object' || Array.isArray(gameBoxes)) throw Error('NBA_GAME_BOX_INDEX_INVALID');
+  for (const [id, box] of Object.entries(gameBoxes)) {
+    if (C.validateGameBox(box, verifiedFinals.get(id), now).length) throw Error('NBA_GAME_BOX_REJECTED: ' + id);
+  }
+  return { files, editions, gameBoxes };
 }
 function build(outDir, { readerV3Home = false } = {}) {
   const destination = path.resolve(outDir);
   if (destination === sourceRoot || destination === root || destination.startsWith(sourceRoot+path.sep))
     throw Error('UNSAFE_OUTPUT');
   if (fs.existsSync(destination)) throw Error('OUTPUT_MUST_NOT_EXIST');
-  const { files: followUpFiles, editions } = officialGate();
+  const { files: followUpFiles, editions, gameBoxes } = officialGate();
   const registry = JSON.parse(read('data/asset-registry.json'));
   const { cleaned, files: activeAssets } = cleanRegistry(registry);
   const season = compileSeason(JSON.parse(read('data/nba-season-2026-27.json')), editions,
@@ -271,7 +278,8 @@ function build(outDir, { readerV3Home = false } = {}) {
     put('data/asset-registry.json', Buffer.from(JSON.stringify(cleaned, null, 2)+'\n'));
     put('data/asset-registry.js', Buffer.from('/* M6 public-only registry (source: reviewed asset-registry.json) */\nwindow.MOSPORT_ASSET_REGISTRY = '+JSON.stringify(cleaned, null, 2)+';\n'));
     put('js/production-config.js', Buffer.from('/* Static public build; no private owner manifest and no DEMO providers. */\nwindow.MOSPORT_CONFIG = { mode: "production", defaultLanguage: "en", assetRegistryUrl: null, editions: ' + JSON.stringify(editions) +
-      ', seasonEditions: ' + JSON.stringify(season.seasonEditions) + ', pendingSchedule: ' + JSON.stringify(season.pending) + ' };\n'));
+      ', seasonEditions: ' + JSON.stringify(season.seasonEditions) + ', pendingSchedule: ' + JSON.stringify(season.pending) +
+      ', gameBoxes: ' + JSON.stringify(gameBoxes) + ' };\n'));
     put('.nojekyll', Buffer.alloc(0));
     const release = {
       schema: 'mosport-public-static@1',

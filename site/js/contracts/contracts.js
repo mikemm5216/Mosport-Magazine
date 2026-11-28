@@ -29,7 +29,8 @@
     game: 'mosport-b/prototype-game@0',
     schedule: 'mosport-b/schedule-entry@1',
     seasonSchedule: 'mosport-b/season-schedule-entry@1',
-    gameResult: 'mosport-b/game-result@1'
+    gameResult: 'mosport-b/game-result@1',
+    gameBox: 'mosport-b/game-box@1'
   };
 
   var ENUM = {
@@ -183,8 +184,12 @@
    */
   function checkShape(obj, shape, path, out) {
     if (!typeOk(obj, 'object')) { out.push(P('WRONG_TYPE', path, 'expected object')); return; }
-    Object.keys(obj).forEach(function (k) { if (!shape[k]) out.push(P('UNKNOWN_FIELD', path + '.' + k)); });
-    Object.keys(shape).forEach(function (k) { checkValue(obj[k], k in obj, shape[k], path + '.' + k, out); });
+    Object.keys(obj).forEach(function (k) {
+      if (!Object.prototype.hasOwnProperty.call(shape, k)) out.push(P('UNKNOWN_FIELD', path + '.' + k));
+    });
+    Object.keys(shape).forEach(function (k) {
+      checkValue(obj[k], Object.prototype.hasOwnProperty.call(obj, k), shape[k], path + '.' + k, out);
+    });
   }
   function checkValue(v, present, r, path, out) {
     if (!present || v === undefined) { if (r.req) out.push(P('MISSING_FIELD', path)); return; }
@@ -440,6 +445,22 @@
     } },
     receiptRef: Object.assign({ req: true }, idRule)
   };
+  var boxStat = { t: 'int', req: true, min: 0, max: 400 };
+  var boxShooting = { t: 'array', req: true, minItems: 2, maxItems: 2, items: boxStat };
+  var boxTeam = { t: 'object', req: true, shape: {
+    team: Object.assign({ req: true }, teamRule),
+    periods: { t: 'array', req: true, minItems: 4, maxItems: 12, items: boxStat },
+    fieldGoals: boxShooting, threePointers: boxShooting, freeThrows: boxShooting,
+    rebounds: boxStat, assists: boxStat
+  } };
+  SHAPES.gameBox = {
+    schema: { t: 'string', req: true, enum: [SCHEMAS.gameBox] },
+    nbaGameId: SHAPES.gameResult.nbaGameId,
+    receiptRef: SHAPES.gameResult.receiptRef,
+    officialUrl: SHAPES.gameResult.officialUrl,
+    observedAt: { t: 'string', req: true, time: true },
+    away: boxTeam, home: boxTeam
+  };
   var CONTEXT_SHAPE = {
     nbaGameId: { t: 'string', req: true, re: /^\d{10}$/ },
     gameId: { t: 'string', req: true, re: /^\d{9}$/ },
@@ -564,6 +585,36 @@
     });
     if (!pin) out.push(P('RESULT_UNPINNED', 'result'));
     else if (pin.digest !== sha256(canonical(r)) || pin.receiptRef !== r.receiptRef) out.push(P('RESULT_PIN_MISMATCH', 'result'));
+    return out;
+  }
+
+  /* The caller must first validate the exact game result against its reviewed pin. */
+  function validateGameBox(box, result, now) {
+    if (!typeOk(box, 'object')) return [P('GAME_BOX_ABSENT', 'gameBox')];
+    var out = [];
+    checkShape(box, SHAPES.gameBox, 'gameBox', out);
+    if (out.length) return out;
+    if (!result || !result.confirmations || !result.confirmations.nba || box.nbaGameId !== result.nbaGameId ||
+        box.receiptRef !== result.receiptRef || box.away.team !== result.away || box.home.team !== result.home) {
+      return [P('GAME_BOX_RESULT_MISMATCH', 'gameBox')];
+    }
+    if (box.officialUrl !== 'https://www.nba.com/game/' + box.nbaGameId + '/box-score' ||
+        box.observedAt !== result.confirmations.nba.observedAt || !Number.isFinite(parseInstant(now)) ||
+        parseInstant(box.observedAt) > parseInstant(now)) out.push(P('GAME_BOX_SOURCE_MISMATCH', 'gameBox.officialUrl'));
+    if (box.away.periods.length !== box.home.periods.length) out.push(P('GAME_BOX_PERIOD_MISMATCH', 'gameBox'));
+    ['away', 'home'].forEach(function (side) {
+      var team = box[side];
+      var points = result[side + 'Score'];
+      if (team.periods.reduce(function (sum, n) { return sum + n; }, 0) !== points) {
+        out.push(P('GAME_BOX_PERIOD_MISMATCH', 'gameBox.' + side + '.periods'));
+      }
+      var fg = team.fieldGoals, three = team.threePointers, ft = team.freeThrows;
+      if ([fg, three, ft].some(function (record) { return record[0] > record[1]; }) ||
+          three[0] > fg[0] || three[1] - three[0] > fg[1] - fg[0] ||
+          2 * fg[0] + three[0] + ft[0] !== points) {
+        out.push(P('GAME_BOX_SHOOTING_MISMATCH', 'gameBox.' + side));
+      }
+    });
     return out;
   }
 
@@ -747,7 +798,8 @@
     parseInstant: parseInstant, isDate: isDate, canonical: canonical, sha256: sha256,
     contentHash: contentHash, publicationHash: publicationHash, safeUrl: safeUrl,
     validateRecord: validateRecord, validateIssue: validateIssue, effectiveSourceStates: effectiveSourceStates,
-    validateSchedule: validateSchedule, validateScheduleEditorial: validateScheduleEditorial, validateGameResult: validateGameResult, validateContextSnapshot: validateContextSnapshot
+    validateSchedule: validateSchedule, validateScheduleEditorial: validateScheduleEditorial, validateGameResult: validateGameResult,
+    validateGameBox: validateGameBox, validateContextSnapshot: validateContextSnapshot
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.MOSPORT_CONTRACTS = api;
