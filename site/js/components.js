@@ -88,7 +88,10 @@
       var team = window.MOSPORT_TEAMS && window.MOSPORT_TEAMS.get(code);
       var canon = team ? team.code : code;
       this.style.setProperty('--logo-default', (SIZES[this.getAttribute('size') || 'md'] || 52) + 'px');
-      var res = R().resolveTeamLogo(REG(), canon, opts());
+      var o = opts();
+      var page = window.MOSPORT_PAGE;
+      o.editorialTeamIdentity = !!page && ['today', 'match', 'schedule'].includes(page.id);
+      var res = R().resolveTeamLogo(REG(), canon, o);
       tag(this, 'team-logo:' + canon, res);
       var name = team ? (lang() === 'zh' ? team.city.zh + team.name.zh : team.city.en + ' ' + team.name.en) : code;
       if (res.state === 'art') {

@@ -145,13 +145,59 @@ function validatePublicDependencies(html, eligible) {
     }
   }
 }
-function cleanRegistry(reg) {
+function publicTeamMarks(reg, publication) {
+  if (publication.schema !== 'mosport-nba-team-mark-publication@1' || typeof publication.enabled !== 'boolean' ||
+      publication.approvedBy !== 'MOSPORT Founder' || publication.decision !== '核准公開只作球隊識別' ||
+      publication.scope !== 'PUBLIC_MATCHUP_AND_SCHEDULE_IDENTIFICATION' || publication.thirdPartyRights !== 'UNVERIFIED' ||
+      !/^Mosport-Terminal@[0-9a-f]{40}$/.test(publication.sourceRevision) ||
+      !publication.teams || typeof publication.teams !== 'object' || Array.isArray(publication.teams)) {
+    throw Error('TEAM_MARK_PUBLICATION_INVALID');
+  }
+  const entries = {};
+  const files = new Map();
+  const digests = {};
+  if (!publication.enabled) return { entries, files, digests };
+  for (const [code, pin] of Object.entries(publication.teams)) {
+    if (!/^[A-Z]{3}$/.test(code)) throw Error('TEAM_MARK_CODE_INVALID: ' + code);
+    const slot = reg.teamLogos.entries[code];
+    const version = slot?.versions.find(v => v.id === slot.activeVersion);
+    const name = code.toLowerCase() + '.png';
+    const source = 'https://github.com/mikemm5216/' + publication.sourceRevision.replace('@','/blob/') + '/frontend/public/logos/nba/' + name;
+    if (!version || version.id !== 'normalized-80-v1' || version.status !== 'ACTIVE' || version.darkFile ||
+        version.width !== 80 || version.height !== 80 || version.format !== 'png' || version.rights.status !== 'UNVERIFIED' ||
+        version.content.containsPerson || !version.content.kinds.includes('team-logo') || version.content.kinds.includes('athlete') ||
+        version.file !== 'assets/teams/normalized/nba/' + name || version.normalization.sourceFile !== 'assets/teams/nba/' + name ||
+        version.sha256 !== pin.imageSha256 || version.normalization.sourceSha256 !== pin.sourceSha256 ||
+        version.rights.source !== source) {
+      throw Error('TEAM_MARK_PIN_MISMATCH: ' + code);
+    }
+    const bytes = read(version.file);
+    if (hash(bytes) !== pin.imageSha256 || hash(read(version.normalization.sourceFile)) !== pin.sourceSha256 ||
+        bytes.subarray(0, 8).toString('hex') !== '89504e470d0a1a0a' || bytes.readUInt32BE(16) !== 80 || bytes.readUInt32BE(20) !== 80) {
+      throw Error('TEAM_MARK_BYTES_MISMATCH: ' + code);
+    }
+    const file = 'assets/marks/nba/' + name;
+    const id = 'editorial-identification-v1';
+    files.set(file, bytes);
+    digests[code] = pin.imageSha256;
+    entries[code] = { activeVersion: id, versions: [{
+      id, status: 'ACTIVE', file, format: 'png', width: 80, height: 80, sha256: pin.imageSha256,
+      content: { kinds: ['team-logo'], containsLogo: true, containsPerson: false },
+      rights: { status: 'UNVERIFIED' }, provenance: { publication: publication.schema }
+    }] };
+  }
+  return { entries, files, digests };
+}
+
+function cleanRegistry(reg, publication) {
   const assets = new Set();
   const cleaned = JSON.parse(JSON.stringify(reg));
   for (const [key,slot] of Object.entries(reg.slots || {})) cleaned.slots[key] = cleanSlot(slot, true, assets);
   for (const [key,slot] of Object.entries(reg.logos || {})) cleaned.logos[key] = cleanSlot(slot, false, assets);
-  /* All 30 currently registered NBA logo versions are rights=UNVERIFIED. */
-  cleaned.teamLogos.entries = {};
+  const marks = publicTeamMarks(reg, publication);
+  cleaned.teamLogos.entries = marks.entries;
+  cleaned.teamLogos.editorialPublication = { scope: publication.scope, digests: marks.digests };
+  cleaned.teamLogos.note = 'Only the roster in the reviewed editorial identification publication can display.';
   // The public registry must not expose founder-owned Drive/source URLs.
   stripPrivateSourceLinks(cleaned);
   const files = [...assets].sort();
@@ -160,7 +206,7 @@ function cleanRegistry(reg) {
       throw Error('ASSET_NOT_ALLOWLISTED: '+rel);
     read(rel); // fail before writing any stage file if a selected asset is absent
   }
-  return { cleaned, files };
+  return { cleaned, files, teamMarkFiles: marks.files };
 }
 // Fetched from Vercel at runtime, never shipped in the artifact or its manifest.
 const VERCEL_ANALYTICS_SCRIPT = '_vercel/insights/script.js';
@@ -246,7 +292,8 @@ function build(outDir, { readerV3Home = false } = {}) {
   if (fs.existsSync(destination)) throw Error('OUTPUT_MUST_NOT_EXIST');
   const { files: followUpFiles, editions, gameBoxes } = officialGate();
   const registry = JSON.parse(read('data/asset-registry.json'));
-  const { cleaned, files: activeAssets } = cleanRegistry(registry);
+  const publication = JSON.parse(read('data/team-logo-publication.json'));
+  const { cleaned, files: activeAssets, teamMarkFiles } = cleanRegistry(registry, publication);
   const season = compileSeason(JSON.parse(read('data/nba-season-2026-27.json')), editions,
     new Set(Object.keys(registry.teamLogos.entries)), new Date().toISOString());
   const fonts = fs.readdirSync(path.join(sourceRoot, 'assets/fonts'))
@@ -281,6 +328,7 @@ function build(outDir, { readerV3Home = false } = {}) {
       put(rel, publicPages.get(rel) ?? read(rel));
     }
     for (const [rel, bytes] of season.files) put(rel, bytes);
+    for (const [rel, bytes] of teamMarkFiles) put(rel, bytes);
     put('data/asset-registry.json', Buffer.from(JSON.stringify(cleaned, null, 2)+'\n'));
     put('data/asset-registry.js', Buffer.from('/* M6 public-only registry (source: reviewed asset-registry.json) */\nwindow.MOSPORT_ASSET_REGISTRY = '+JSON.stringify(cleaned, null, 2)+';\n'));
     put('js/production-config.js', Buffer.from('/* Static public build; no private owner manifest and no DEMO providers. */\nwindow.MOSPORT_CONFIG = { mode: "production", defaultLanguage: "en", assetRegistryUrl: null, editions: ' + JSON.stringify(editions) +
@@ -293,7 +341,8 @@ function build(outDir, { readerV3Home = false } = {}) {
       publicGameId: GAME_ID,
       resultReceipt: 'NBA-0022600051-R1',
       gameMode: 'production',
-      teamLogos: 'abbreviation-fallback-until-rights-cleared',
+      teamLogos: 'editorial-team-identification',
+      teamLogoCount: teamMarkFiles.size,
       files: Object.fromEntries(Object.entries(inventory).sort(([a],[b]) => a.localeCompare(b)))
     };
     put('public-release-manifest.json', Buffer.from(JSON.stringify(release,null,2)+'\n'));
