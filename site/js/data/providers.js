@@ -53,11 +53,13 @@
     fetch(sel.url, { credentials: 'same-origin', cache: 'no-store' })
       .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function (j) {
-        if (sel.kind === 'schedule' && (!j || j.schema !== root.MOSPORT_CONTRACTS.SCHEMAS.schedule || !j.game || j.game.gameId !== sel.name)) { done({ __loadError: 'SCHEDULE_ID_MISMATCH' }); return; }
         if (sel.kind !== 'schedule') { done(j); return; }
+        var schemas = root.MOSPORT_CONTRACTS.SCHEMAS;
+        if (!j || (j.schema !== schemas.schedule && j.schema !== schemas.seasonSchedule) || !j.game || j.game.gameId !== sel.name) { done({ __loadError: 'SCHEDULE_ID_MISMATCH' }); return; }
         /* The schedule renders at once. A result is requested only for a pinned game and,
            if it arrives, the page re-renders; a slow, missing or failed result changes nothing. */
         done(j, { result: null });
+        if (j.schema === schemas.seasonSchedule) return;
         var pins = root.MOSPORT_RESULT_PINS || {};
         if (!Object.prototype.hasOwnProperty.call(pins, sel.name)) return;
         fetch('data/results/' + sel.name + '.json', { credentials: 'same-origin', cache: 'no-store' })

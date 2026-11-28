@@ -6,6 +6,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { parseArgs } = require('node:util');
+const { compileSeason } = require('./release-nba-season.js');
 const root = path.resolve(__dirname, '..');
 const sourceRoot = path.join(root, 'site');
 const GAME_ID = '0022600051';
@@ -232,7 +233,10 @@ function build(outDir, { readerV3Home = false } = {}) {
     throw Error('UNSAFE_OUTPUT');
   if (fs.existsSync(destination)) throw Error('OUTPUT_MUST_NOT_EXIST');
   const { files: followUpFiles, editions } = officialGate();
-  const { cleaned, files: activeAssets } = cleanRegistry(JSON.parse(read('data/asset-registry.json')));
+  const registry = JSON.parse(read('data/asset-registry.json'));
+  const { cleaned, files: activeAssets } = cleanRegistry(registry);
+  const season = compileSeason(JSON.parse(read('data/nba-season-2026-27.json')), editions,
+    new Set(Object.keys(registry.teamLogos.entries)), new Date().toISOString());
   const fonts = fs.readdirSync(path.join(sourceRoot, 'assets/fonts'))
     .filter(name => /^([a-z0-9-]+\.woff2|LICENSE-[A-Za-z0-9-]+\.txt)$/.test(name))
     .map(name => 'assets/fonts/'+name).sort();
@@ -263,9 +267,11 @@ function build(outDir, { readerV3Home = false } = {}) {
     for (const rel of sourceFiles) {
       put(rel, publicPages.get(rel) ?? read(rel));
     }
+    for (const [rel, bytes] of season.files) put(rel, bytes);
     put('data/asset-registry.json', Buffer.from(JSON.stringify(cleaned, null, 2)+'\n'));
     put('data/asset-registry.js', Buffer.from('/* M6 public-only registry (source: reviewed asset-registry.json) */\nwindow.MOSPORT_ASSET_REGISTRY = '+JSON.stringify(cleaned, null, 2)+';\n'));
-    put('js/production-config.js', Buffer.from('/* Static public build; no private owner manifest and no DEMO providers. */\nwindow.MOSPORT_CONFIG = { mode: "production", defaultLanguage: "en", assetRegistryUrl: null, editions: ' + JSON.stringify(editions) + ' };\n'));
+    put('js/production-config.js', Buffer.from('/* Static public build; no private owner manifest and no DEMO providers. */\nwindow.MOSPORT_CONFIG = { mode: "production", defaultLanguage: "en", assetRegistryUrl: null, editions: ' + JSON.stringify(editions) +
+      ', seasonEditions: ' + JSON.stringify(season.seasonEditions) + ', pendingSchedule: ' + JSON.stringify(season.pending) + ' };\n'));
     put('.nojekyll', Buffer.alloc(0));
     const release = {
       schema: 'mosport-public-static@1',

@@ -89,24 +89,29 @@
     diag.fatal = C.validateSchedule(raw, opts);
     if (diag.fatal.length) return { model: emptyModel('INVALID', diag.fatal[0].code), diagnostics: diag };
     var now = C.parseInstant(opts.now);
+    var season = raw.schema === C.SCHEMAS.seasonSchedule;
     /* The clock alone proves only that the scheduled tip-off has passed. It never
        claims LIVE, FINAL or a score; an observed status from the source replaces this. */
     var tipoff = C.parseInstant(raw.game.tipoff), validUntil = C.parseInstant(raw.validUntil);
     /* An official FINAL is shown only from a B-pinned, A-verified result projection;
        anything else (absent, wrong game, timing, one source, unpinned, altered) is ignored. */
     var result = null;
-    if (opts.result != null) {
+    if (!season && opts.result != null) {
       var rp = C.validateGameResult(opts.result, raw, (opts.pins || {})[raw.game.gameId] || null, opts.now);
       if (rp.length) { diag.problems = diag.problems.concat(rp); diag.excluded.push({ slot: 'result', id: raw.game.gameId, reason: rp[0].code }); }
       else result = opts.result;
     }
-    /* Only an observation still valid at tipoff can say the scheduled time has passed;
-       one that expired earlier stays expired history across tipoff. */
-    var pastTipoff = !result && raw.game.status === 'SCHEDULED' && now >= tipoff && validUntil >= tipoff;
-    var stale = !result && !pastTipoff && now >= validUntil;
+    /* A curated pregame observation must still be valid at tipoff. A season listing
+       permits the reader to show its recorded time as a schedule fact after tipoff. */
+    var pastTipoff = !result && raw.game.status === 'SCHEDULED' && now >= tipoff && (season || validUntil >= tipoff);
+    var stale = !season && !result && !pastTipoff && now >= validUntil;
     var model = emptyModel(stale ? 'STALE' : 'SCHEDULE_ONLY', stale ? 'SCHEDULE_EXPIRED' : result ? 'FINAL' : pastTipoff ? 'PAST_TIPOFF' : null);
     model.meta = { scheduleOnly: true, observedAt: raw.source.observedAt, validUntil: raw.validUntil };
     var game = publicGame(raw.game, false);
+    if (season) {
+      game.seasonSchedule = true;
+      game.historicalSchedule = C.parseInstant(raw.source.observedAt) >= tipoff;
+    }
     game.source = publicSource(raw.source);
     game.pastTipoff = pastTipoff;
     if (result) { game.status = 'FINAL'; game.score = { away: result.awayScore, home: result.homeScore }; }
@@ -141,7 +146,7 @@
         else diag.excluded.push({ slot: 'pregameSnapshot', id: raw.game.gameId, reason: release.reason });
       }
     }
-    if (opts.ownerEdition && pregame) game.analysis = pregame.editionGame(opts.ownerEdition, raw, result, opts.now);
+    if (!season && opts.ownerEdition && pregame) game.analysis = pregame.editionGame(opts.ownerEdition, raw, result, opts.now);
     model.schedule = [game];
     return { model: model, diagnostics: diag };
   }
@@ -158,7 +163,7 @@
     if (raw.mode === 'DEMO' && mode !== 'prototype') return { model: emptyModel('REFUSED', 'DEMO_IN_PRODUCTION'), diagnostics: diag };
     if (isNaN(C.parseInstant(opts.now))) return { model: emptyModel('INVALID', 'NO_CLOCK'), diagnostics: Object.assign(diag, { fatal: [{ code: 'NO_CLOCK', path: 'opts.now' }] }) };
 
-    if (raw.schema === C.SCHEMAS.schedule) return scheduleModel(raw, opts, diag);
+    if (raw.schema === C.SCHEMAS.schedule || raw.schema === C.SCHEMAS.seasonSchedule) return scheduleModel(raw, opts, diag);
 
     var v = C.validateIssue(raw, { mode: mode });
     diag.fatal = v.fatal; diag.problems = v.problems;

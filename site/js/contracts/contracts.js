@@ -28,6 +28,7 @@
     publication: 'mosport-b/publication-receipt@1',
     game: 'mosport-b/prototype-game@0',
     schedule: 'mosport-b/schedule-entry@1',
+    seasonSchedule: 'mosport-b/season-schedule-entry@1',
     gameResult: 'mosport-b/game-result@1'
   };
 
@@ -391,6 +392,15 @@
     editorial: { t: 'object', nul: true },
     contextSnapshot: { t: 'object', nul: true }
   };
+  SHAPES.seasonSchedule = {
+    schema: SHAPES.schedule.schema,
+    mode: SHAPES.schedule.mode,
+    game: SHAPES.schedule.game,
+    source: { t: 'object', req: true, shape: Object.fromEntries([
+      'schema', 'id', 'kind', 'originalUrl', 'publisher', 'observedAt', 'rightsStatus',
+      'accessMethod', 'contentFingerprint', 'language', 'verificationState', 'demo'
+    ].map(function (key) { return [key, SHAPES.source[key]]; })) }
+  };
   /* Fact-only, official NBA Cup rematch angle. This is editorial evidence, never a World read. */
   SHAPES.scheduleEditorial = {
     schema: { t: 'string', req: true, enum: ['mosport-b/schedule-editorial@1'] },
@@ -470,11 +480,19 @@
     return out;
   }
 
+  var leagueDate = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' });
+  function seasonSourceMatches(url, tipoff) {
+    return /^https:\/\/www\.nba\.com\/[a-z]+\/schedule$/.test(url) ||
+      url === 'https://www.nba.com/games?date=' + leagueDate.format(new Date(tipoff));
+  }
+
   function validateSchedule(entry, opts) {
     opts = opts || {};
     var out = [];
-    if (!typeOk(entry, 'object') || entry.schema !== SCHEMAS.schedule) return [P('SCHEMA_UNSUPPORTED', 'schedule.schema')];
-    checkShape(entry, SHAPES.schedule, 'schedule', out);
+    if (!typeOk(entry, 'object')) return [P('SCHEMA_UNSUPPORTED', 'schedule.schema')];
+    var season = entry.schema === SCHEMAS.seasonSchedule;
+    if (!season && entry.schema !== SCHEMAS.schedule) return [P('SCHEMA_UNSUPPORTED', 'schedule.schema')];
+    checkShape(entry, season ? SHAPES.seasonSchedule : SHAPES.schedule, 'schedule', out);
     if (out.length) return out;
     out = validateRecord('source', entry.source, 'schedule.source');
     if (out.length) return out;
@@ -482,8 +500,14 @@
     if (g.away === g.home) out.push(P('BAD_FORMAT', 'schedule.game.home'));
     var url = 'https://www.nba.com/game/' + g.away.toLowerCase() + '-vs-' + g.home.toLowerCase() + '-' + g.gameId;
     if (source.contentFingerprint !== sha256(canonical({ game: g, originalUrl: source.originalUrl, observedAt: source.observedAt }))) out.push(P('HASH_MISMATCH', 'schedule.source.contentFingerprint'));
-    if (source.originalUrl !== url || source.publisher !== 'NBA' || source.kind !== 'OFFICIAL_FACT' || source.accessMethod !== 'OFFICIAL_PAGE') out.push(P('SCHEDULE_SOURCE_MISMATCH', 'schedule.source'));
+    var sourceMatches = season ? seasonSourceMatches(source.originalUrl, g.tipoff) : source.originalUrl === url;
+    if (!sourceMatches || source.publisher !== 'NBA' || source.kind !== 'OFFICIAL_FACT' || source.accessMethod !== 'OFFICIAL_PAGE') out.push(P('SCHEDULE_SOURCE_MISMATCH', 'schedule.source'));
     if (source.demo || source.verificationState !== 'CONFIRMED' || ['OWNED', 'LICENSED', 'PERMITTED_QUOTE', 'LINK_ONLY'].indexOf(source.rightsStatus) === -1) out.push(P('SCHEDULE_SOURCE_UNVERIFIED', 'schedule.source'));
+    if (season) {
+      if (!/^00[26]\d{7}$/.test(g.gameId) || g.status !== 'SCHEDULED' || source.rightsStatus !== 'LINK_ONLY') out.push(P('SEASON_SCHEDULE_FACT_ONLY', 'schedule'));
+      if (isNaN(parseInstant(opts.now)) || parseInstant(source.observedAt) > parseInstant(opts.now)) out.push(P('BAD_TIME', 'schedule.source.observedAt'));
+      return out;
+    }
     if (parseInstant(entry.validUntil) <= parseInstant(source.observedAt) || isNaN(parseInstant(opts.now)) || parseInstant(source.observedAt) > parseInstant(opts.now)) out.push(P('BAD_TIME', 'schedule.source.observedAt'));
     /* A saved schedule observation is valid at the latest until the scheduled tip-off. */
     if (parseInstant(entry.validUntil) > parseInstant(g.tipoff)) out.push(P('BAD_TIME', 'schedule.validUntil', 'after scheduled tipoff'));

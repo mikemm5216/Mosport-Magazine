@@ -8,6 +8,12 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { execFileSync } = require('node:child_process');
 const { build, ALLOW, validatePublicDependencies } = require('../../scripts/build-public-release.js');
+const { compileSeason } = require('../../scripts/release-nba-season.js');
+const C = require('../../site/js/contracts/contracts.js');
+const pipeline = require('../../site/js/data/pipeline.js');
+const catalog = require('../../site/data/nba-season-2026-27.json');
+const nbaTeams = new Set(Object.keys(require('../../site/data/asset-registry.json').teamLogos.entries));
+const releaseTime = '2026-11-28T11:30:00Z';
 const sha = x => crypto.createHash('sha256').update(x).digest('hex');
 function walk(dir, base=dir) {
   return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e => e.isDirectory()
@@ -67,6 +73,49 @@ test('M6 production build publishes only allowlisted files, exact source and tru
     assert.ok(shipped.includes(rel),'font referenced by CSS missing '+rel);
   assert.ok(!shipped.includes('site/data/schedules/0022600274.json'));
 }));
+test('the season catalog generates the full fact-only schedule without overwriting exact-game releases', () => withTemp(dir => {
+  const dest = path.join(dir, 'season');
+  const record = build(dest);
+  const scheduled = Object.keys(record.files).filter(file => /^data\/schedules\/\d{10}\.json$/.test(file));
+  assert.equal(scheduled.length, 1204);
+  assert.equal(Object.keys(record.files).filter(file => file.startsWith('data/results/')).length, 4);
+  assert.equal(nbaTeams.size, 30);
+  assert.ok(!record.files['data/nba-season-2026-27.json']);
+  const readGame = id => JSON.parse(fs.readFileSync(path.join(dest, 'data/schedules', id + '.json')));
+  const first = readGame('0022600001');
+  assert.equal(first.schema, C.SCHEMAS.seasonSchedule);
+  assert.equal(first.source.originalUrl, 'https://www.nba.com/pistons/schedule');
+  const historical = pipeline.run(first, { mode: 'production', now: releaseTime }).model;
+  assert.equal(historical.schedule[0].historicalSchedule, true);
+  assert.equal(historical.schedule[0].score, null);
+  assert.equal(historical.schedule[0].pregameSnapshot, null);
+  assert.equal(readGame('0022600064').schema, C.SCHEMAS.schedule);
+  for (const [id] of catalog.pending) assert.ok(!record.files['data/schedules/' + id + '.json']);
+}));
+test('season publication rejects source, identity and time drift', () => {
+  const first = catalog.games[0];
+  const data = { ...catalog, games: [first], pending: [] };
+  const run = (input, editions = []) => compileSeason(input, editions, nbaTeams, releaseTime);
+  const good = run(data);
+  assert.equal(good.files.size, 1);
+  const sourceIndex = first[4];
+  for (const url of ['https://sports.example.com/schedule', 'https://www.nba.com/games?date=2026-10-21']) {
+    const sources = catalog.sources.slice();
+    sources[sourceIndex] = { ...sources[sourceIndex], url };
+    assert.throws(() => run({ ...data, sources }), /SCHEDULE_SOURCE_MISMATCH/);
+  }
+  assert.throws(() => run({ ...data, games: [first, first] }), /NBA_SEASON_DUPLICATE/);
+  assert.throws(() => run(data, [{ id: first[0], away: 'CHA', home: first[2], tipoff: first[3] }]), /NBA_SEASON_RELEASE_CONFLICT/);
+  assert.throws(() => run({ ...data, pending: [['0062600001', 'Championship', '2026-12-09', '2026-12-12T01:00:00Z', sourceIndex]] }), /NBA_SEASON_PENDING_INVALID/);
+  const entry = JSON.parse(good.files.values().next().value);
+  assert.equal(pipeline.run(entry, { mode: 'production', now: '2026-10-20T14:00:00Z' }).model.status, 'INVALID');
+  const privateField = { ...entry, contextSnapshot: {} };
+  assert.equal(pipeline.run(privateField, { mode: 'production', now: releaseTime }).model.status, 'INVALID');
+  const withQuote = { ...entry, source: { ...entry.source, quotedSpan: 'unapproved excerpt' } };
+  assert.equal(pipeline.run(withQuote, { mode: 'production', now: releaseTime }).model.status, 'INVALID');
+  const unpinned = pipeline.run(entry, { mode: 'production', now: releaseTime, result: { awayScore: 999 } }).model;
+  assert.equal(unpinned.schedule[0].score, null);
+});
 test('Reader V3 homepage preview replaces only the homepage in the public manifest', () => withTemp(dir => {
   const standardDir = path.join(dir, 'standard');
   const previewDir = path.join(dir, 'preview');
@@ -260,6 +309,24 @@ test('M6 public build opens in English for a new visitor and keeps an explicit o
         assert.deepEqual(await page.locator('.duo-mid strong span').allTextContents(), ['104', '106']);
         assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), theme);
       }
+      await page.clock.setFixedTime(new Date(releaseTime));
+      scheduleRequests.length = 0;
+      await page.goto(base + 'reader-v3.html?date=2026-11-28');
+      await page.waitForFunction(() => document.querySelectorAll('.cards .card[href*="game="]').length === 11);
+      assert.equal(new Set(scheduleRequests).size, 11);
+      assert.equal(await page.locator('.board .card[href*="game="] .pts').count(), 6);
+      assert.equal(await page.locator('[aria-labelledby="cup-pending"] .card').count(), 3);
+      assert.equal(await page.getByText('2026-12-08 ET · Tip-off time to be determined').count(), 2);
+      assert.equal(await page.getByText(/12 Dec 2026 · 09:00 Taipei/).count(), 1);
+      await page.goto(base + 'reader-v3.html?game=0022600065');
+      await page.getByRole('heading', { name: 'Milwaukee Bucks @ Detroit Pistons', exact: true }).waitFor();
+      assert.equal(await page.locator('.duo-mid strong span').allTextContents().then(xs => xs.join('')), '08:30');
+      assert.equal(await page.locator('.facts a').getAttribute('href'), 'https://www.nba.com/games?date=2026-11-27');
+      assert.equal(await page.locator('.match-hero').getByText('Historical schedule · No verified score').count(), 1);
+      assert.equal(await page.evaluate(() => {
+        dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }));
+        return document.querySelectorAll('script[src*="result-pins.js?recheck"]').length;
+      }), 0);
       assert.deepEqual(errors, []);
       await ctx.close();
     }
